@@ -1,0 +1,2 @@
+*ligne A
+*ligne B
