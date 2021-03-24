@@ -1,5 +1,2 @@
-<<<<<<< HEAD
-dim
-=======
+dim-correia
 Emeline Maugez emelinemaugez
->>>>>>> branch 'master' of https://github.com/dim-correia/CACAO2021
