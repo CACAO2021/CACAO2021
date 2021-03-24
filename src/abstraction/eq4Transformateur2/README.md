@@ -1,2 +1,3 @@
 Romaric MOYEUVRE, Romaric-Moyeuvre
-Antoine Ramires, AntRam-collab
+Antoine RAMIRES, AntRam-collab
+Antoine CORRE, AntoineC-GIT
