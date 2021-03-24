@@ -1,7 +1,9 @@
-<<<<<<< HEAD
+
 POIRIS Paul - ppoiris
-=======
+
+Louis Le Bras louis-le-bras
+
 Arthur Lemerle arthurlemgit
+
 TAVOLACCI Alban - Alb1x
 
->>>>>>> refs/remotes/origin/master
