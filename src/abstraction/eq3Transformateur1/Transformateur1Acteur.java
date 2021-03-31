@@ -24,7 +24,7 @@ public class Transformateur1Acteur implements IActeur {
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Eticao est un transformateur qui prone l'utilisation de cacao éthique.";
 	}
 
 	public Color getColor() {
