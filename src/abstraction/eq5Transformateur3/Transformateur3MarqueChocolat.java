@@ -4,7 +4,7 @@ import java.util.List;
 
 import abstraction.fourni.IMarqueChocolat;
 
-public class Trandformateur3MarqueChocolat implements IMarqueChocolat {
+public class Transformateur3MarqueChocolat implements IMarqueChocolat {
 
 	@Override
 	public List<String> getMarquesChocolat() {
