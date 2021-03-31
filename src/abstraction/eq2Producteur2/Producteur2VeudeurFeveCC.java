@@ -4,13 +4,14 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Beurre;
+import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
 
 	@Override
 	public boolean peutVendre(Object produit) {
-		if (produit instanceof Feve || produit instanceof Beurre) {
+		if (produit instanceof Feve || produit.equals(Categorie.POUDRE )) {
 			return true;
 		}else {
 		return false;
@@ -19,14 +20,26 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 
 	@Override
 	public boolean vend(Object produit) {
-		// TODO Auto-generated method stub
+		if (produit instanceof Feve) {
+			return true;
+		}else if (produit.equals(Categorie.POUDRE )) {
+			return true;
+		}
+		else {
 		return false;
+		}
 	}
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
+		if(true) { 
+			Echeancier ech = ;
+			return ech;
+		}else if() {
+			
+		}else { //on ne souhaite pas vendeur donc on retourne null
 		return null;
+		}
 	}
 
 	@Override
