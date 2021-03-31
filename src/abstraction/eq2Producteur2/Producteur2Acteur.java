@@ -19,7 +19,7 @@ public class Producteur2Acteur implements IActeur {
 	}
 	
 	public String getNom() {
-		return "EQ2";
+		return "Baratao";
 	}
 
 	public String getDescription() {
