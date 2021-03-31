@@ -29,8 +29,12 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 
 	@Override
 	public boolean vend(Object produit) {
-		// TODO Auto-generated method stub
-		return false;
+		if ((stock.getValeur() != 0) 
+			&& (this.peutVendre(produit))){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
