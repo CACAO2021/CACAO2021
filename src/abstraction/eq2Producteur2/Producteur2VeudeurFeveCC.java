@@ -6,6 +6,7 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Beurre;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq2Producteur2.*;
 
 public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
 
@@ -50,7 +51,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		// première proposition de prix
-		double prix = contrat.getQuantiteTotale() * 
+		double prix = contrat.getQuantiteTotale() * Producteur2Valeurs.PRIX_ESPERE_FEVE;
 		return 0;
 	}
 
