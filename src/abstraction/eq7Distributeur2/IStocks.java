@@ -13,5 +13,4 @@ public interface IStocks {
 	
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque ,double quantité );
 		
-
 }
