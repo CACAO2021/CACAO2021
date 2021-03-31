@@ -17,7 +17,7 @@ public class Distributeur1Acteur implements IActeur {
 	}
 	public String getNom() {
 
-		return "Cacaocaisse";
+		return "CacaocaisseE";
 	}
 
 	public String getDescription() {
