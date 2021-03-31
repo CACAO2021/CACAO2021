@@ -38,7 +38,10 @@ public class Transformateur1Acteur implements IActeur {
 	
 
 	public void next() {
+		
+	
 	}
+	
 	
 	public List<String> getNomsFilieresProposees() {
 		return new ArrayList<String>();
