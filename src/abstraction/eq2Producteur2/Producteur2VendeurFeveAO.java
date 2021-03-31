@@ -11,7 +11,7 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur2VendeurFeveAO extends Producteur2VeudeurFeveCC implements IVendeurFevesAO {
+public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
 
 	@Override
 	public double proposerPrix(OffreAchatFeves oa) {
