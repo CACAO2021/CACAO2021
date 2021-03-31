@@ -17,7 +17,7 @@ public class Distributeur2Acteur implements IActeur {
 	}
 
 	public String getNom() {
-		return "Wonka & Sons";
+		return "EQ7";
 	}
 
 	public String getDescription() {
