@@ -33,7 +33,9 @@ public class Distributeur1Acteur implements IActeur {
 	}
 
 	public void next() {
-		//
+		// créer un contrat cadre qui mettra à jour la banque
+		// mettre à jour les stocks en fonction du contrat cadre
+		// simuler la vente => comprendre le client
 	}
 
 	
