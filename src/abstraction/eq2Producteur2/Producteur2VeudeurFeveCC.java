@@ -35,9 +35,10 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	@Override
 	//Dim 
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		if(true) { // on est daccord avec l'échéancier
+		boolean cond = true;
+		if(cond) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
-		}else if(true) { // on propose une nouvelle valeur
+		}else if(cond) { // on propose une nouvelle valeur
 			Echeancier e = contrat.getEcheancier();
 			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5);// on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
 			return e;	
@@ -49,6 +50,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		// première proposition de prix
+		double prix = contrat.getQuantiteTotale() * 
 		return 0;
 	}
 
