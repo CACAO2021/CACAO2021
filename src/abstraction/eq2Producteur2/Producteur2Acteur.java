@@ -11,10 +11,8 @@ import abstraction.fourni.Variable;
 
 public class Producteur2Acteur implements IActeur {
 	protected int cryptogramme;
-	protected Variable stockFeves;
 
 	public Producteur2Acteur() {
-		this.stockFeves=new Variable(getNom()+" stock feves", this, 0, 100000, 10000);
 	}
 
 	public void initialiser() {
@@ -79,14 +77,5 @@ public class Producteur2Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
-	
-	// repond a l'appel d'offre
-	public double proposerPrix(int OAch) {
-		double prix;
-		prix = 2.0;
-		return prix;
-	}
-	
-	//
 
 }
