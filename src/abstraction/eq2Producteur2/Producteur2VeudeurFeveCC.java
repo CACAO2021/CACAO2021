@@ -6,6 +6,10 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Beurre;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.contratsCadres.ContratCadre;
+
+import java.util.List;
+
 import abstraction.eq2Producteur2.*;
 
 public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
@@ -49,16 +53,24 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	}
 
 	@Override
+	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		// première proposition de prix
-		double prix = contrat.getQuantiteTotale() * Producteur2Valeurs.PRIX_ESPERE_FEVE;
-		return 0;
+		double prix = Producteur2Valeurs.PRIX_ESPERE_FEVE;
+		return prix;
 	}
 
 	@Override
-	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+	//Dim
+public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+		boolean cond = true;
+		if (cond) {// on est ok
+			return contrat.getPrix();
+		} else if(cond){ // on propose une nvlle valeur
+			return 2;
+		}else { // on annule
+			return -2;
+		}
 	}
 
 	@Override
