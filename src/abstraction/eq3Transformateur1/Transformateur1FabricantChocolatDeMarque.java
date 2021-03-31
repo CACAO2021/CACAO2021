@@ -11,23 +11,27 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Transformateur1FabricantChocolatDeMarque implements IFabricantChocolatDeMarque {
+	
+	private String nom;
+	private String description;
+	private Color color;
 
 	@Override
 	public String getNom() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.nom;
 	}
 
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.description;
 	}
 
 	@Override
 	public Color getColor() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.color;
 	}
 
 	@Override
