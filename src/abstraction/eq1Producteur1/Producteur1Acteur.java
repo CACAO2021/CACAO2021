@@ -23,7 +23,7 @@ public class Producteur1Acteur implements IActeur {
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Producteur Ghanao";
 	}
 
 	public Color getColor() {
