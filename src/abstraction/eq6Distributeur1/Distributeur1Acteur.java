@@ -33,6 +33,7 @@ public class Distributeur1Acteur implements IActeur {
 	}
 
 	public void next() {
+		//
 	}
 
 	
