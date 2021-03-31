@@ -56,17 +56,40 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 			return false;
 		}
 	}
-
+	
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	/** 
+	* @author Alban
+	* Trouver un prix pour la poudre
+	*/
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		Object produit = contrat.getProduit();
+		double prix= 0;
+		if (produit instanceof Feve) {
+			if ((Feve)produit==Feve.FEVE_MOYENNE_EQUITABLE) {
+				prix=2150;
+			}
+			if ((Feve)produit==Feve.FEVE_MOYENNE) {
+				prix=1700;
+			}
+			if ((Feve)produit==Feve.FEVE_BASSE) {
+				prix=1520;
+			}
+		}
+		if (produit instanceof Chocolat) {
+			if ((Chocolat)produit==Chocolat.POUDRE_MOYENNE_EQUITABLE) {
+				prix=0;
+			}
+			if ((Chocolat)produit==Chocolat.POUDRE_MOYENNE) {
+				prix=0;
+			}
+		}
+		return prix;
 	}
 
 	@Override
