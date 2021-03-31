@@ -16,7 +16,7 @@ public class Transformateur3Acteur implements IActeur {
 	public Transformateur3Acteur() {
 	}
 	public String getNom() {
-		return "Côte d'IMT";
+		return "EQ5";
 	}
 
 	public String getDescription() {
