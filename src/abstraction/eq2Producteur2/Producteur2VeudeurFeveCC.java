@@ -3,13 +3,18 @@ package abstraction.eq2Producteur2;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.eq8Romu.produits.Beurre;
+import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
 
 	@Override
 	public boolean peutVendre(Object produit) {
-		// TODO Auto-generated method stub
+		if (produit instanceof Feve || produit instanceof Beurre) {
+			return true;
+		}else {
 		return false;
+		}
 	}
 
 	@Override
