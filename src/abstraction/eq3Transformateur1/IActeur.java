@@ -5,4 +5,5 @@ public interface IActeur {
 	public List<Variable> getIndicateurs();
 	public List<Variable> getParametres();
 	public List<Journal> getJourneaux();
+	public void initialiser();
 }
