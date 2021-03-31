@@ -17,11 +17,11 @@ public class Distributeur2Acteur implements IActeur {
 	}
 
 	public String getNom() {
-		return "EQ7";
+		return "Wonka & Sons";
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Nous sommes Wonka & Sons, fort d'une experience de 50 années, nous sommes les leaders dans les produits de luxe";
 	}
 
 	public Color getColor() {
