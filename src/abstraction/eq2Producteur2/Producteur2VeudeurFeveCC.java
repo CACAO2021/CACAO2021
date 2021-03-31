@@ -10,6 +10,7 @@ import abstraction.eq8Romu.produits.Feve;
 public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
 
 	@Override
+	//Dim
 	public boolean peutVendre(Object produit) {
 		if (produit instanceof Feve || produit.equals(Categorie.POUDRE )) {
 			return true;
@@ -19,6 +20,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	}
 
 	@Override
+	//Dim
 	public boolean vend(Object produit) {
 		if (produit instanceof Feve) {
 			return true;
@@ -31,6 +33,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	}
 
 	@Override
+	//Dim
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		if(true) { 
 			Echeancier ech = ;
