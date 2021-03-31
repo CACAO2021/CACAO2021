@@ -10,6 +10,7 @@ import abstraction.eq8Romu.produits.Feve;
 public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
 
 	@Override
+	//Dim
 	public boolean peutVendre(Object produit) {
 		if (produit instanceof Feve || produit.equals(Categorie.POUDRE )) {
 			return true;
@@ -19,6 +20,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	}
 
 	@Override
+	//Dim
 	public boolean vend(Object produit) {
 		if (produit instanceof Feve) {
 			return true;
@@ -31,12 +33,14 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	}
 
 	@Override
+	//Dim 
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		if(true) { 
-			Echeancier ech = ;
-			return ech;
-		}else if() {
-			
+		if(true) { // on est daccord avec l'échéancier
+			return contrat.getEcheancier();
+		}else if(true) { // on propose une nouvelle valeur
+			Echeancier e = contrat.getEcheancier();
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5);// on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
+			return e;	
 		}else { //on ne souhaite pas vendeur donc on retourne null
 		return null;
 		}
@@ -44,7 +48,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
+		// première proposition de prix
 		return 0;
 	}
 
