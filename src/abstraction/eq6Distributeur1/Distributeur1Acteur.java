@@ -16,11 +16,12 @@ public class Distributeur1Acteur implements IActeur {
 	public Distributeur1Acteur() {
 	}
 	public String getNom() {
-		return "jjj";
+
+		return "Cacaocaisse";
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "CacaoCaisse est un distributeur de type grande surface, il achète le chocolat aux transformateurs et le revend au client final.";
 	}
 
 	public Color getColor() {
