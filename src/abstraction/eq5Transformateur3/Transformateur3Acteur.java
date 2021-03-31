@@ -20,7 +20,7 @@ public class Transformateur3Acteur implements IActeur {
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Fiers de notre nom “Côte d’IMT”, inspiré de la grande marque de chocolat créée en Belgique Côte d’Or, nous souhaitons être principalement connus pour nos produits de qualité supérieure";
 	}
 
 	public Color getColor() {
