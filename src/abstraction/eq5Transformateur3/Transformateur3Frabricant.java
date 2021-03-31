@@ -21,7 +21,7 @@ public class Transformateur3Frabricant implements IFabricantChocolatDeMarque {
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
-		return null;
+		return "côte d'imt";
 	}
 
 	@Override
