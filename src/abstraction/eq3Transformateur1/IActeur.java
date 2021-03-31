@@ -6,4 +6,7 @@ public interface IActeur {
 	public List<Variable> getParametres();
 	public List<Journal> getJourneaux();
 	public void initialiser();
+	public String getNom();
+	public String getDescription();
+	public Color getColor();
 }
