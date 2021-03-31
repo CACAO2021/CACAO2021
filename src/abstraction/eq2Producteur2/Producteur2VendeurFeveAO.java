@@ -12,11 +12,16 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
-
+	public double prixMinVenteAuKilo = 2.0;
 	@Override
 	public double proposerPrix(OffreAchatFeves oa) {
-		// TODO Auto-generated method stub
-		return 0;
+	if ((this.pasEnFaillite())) {
+		//Condition à revoir pasEnFaillite à changer ou à écrire?
+		return prixMinVenteAuKilo;
+	}
+	else {
+		return 0.0;
+	}
 	}
 
 	@Override
