@@ -10,7 +10,7 @@ import abstraction.fourni.IFabricantChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Transformateur3Frabricant implements IFabricantChocolatDeMarque {
+public class Transformateur3Fabricant implements IFabricantChocolatDeMarque {
 
 	@Override
 	public String getNom() {
