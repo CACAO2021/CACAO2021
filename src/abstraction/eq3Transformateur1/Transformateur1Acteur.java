@@ -12,7 +12,8 @@ import abstraction.fourni.Variable;
 public class Transformateur1Acteur implements IActeur {
 	
 	protected int cryptogramme;
-
+	
+}
 	public Transformateur1Acteur() {
 	}
 
@@ -45,10 +46,14 @@ public class Transformateur1Acteur implements IActeur {
 	}
 
 	public Filiere getFiliere(String nom) {
-		return null;
+		for(String nomFiliere : this.getNomsFilieresProposees()) {
+			if (nomFiliere.equals(nom)) {
+				return null;
+			}
 	}
 	
-	public List<Variable> getIndicateurs() {
+	public List<Variable> getIndicateurs() {;
+	
 		List<Variable> res=new ArrayList<Variable>();
 		return res;
 	}
