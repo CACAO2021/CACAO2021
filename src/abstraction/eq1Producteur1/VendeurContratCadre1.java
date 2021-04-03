@@ -17,8 +17,8 @@ import abstraction.fourni.Variable;
 
 public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurContratCadre{
 	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
+	private static double PRIX_PALIER_F_E = 1990; // prix minimal défini par Max Havelaar pour garantir que la fève est équitable
 	protected int numero;
-	protected Variable stock;
 	protected Integer cryptogramme;
 	protected Object produit;
 	protected Journal journal;
@@ -64,7 +64,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	}
 
 	/** 
-	* @author Alban
+	* @author Alb1x
 	* Trouver un prix pour la poudre
 	*/
 	public double propositionPrix(ExemplaireContratCadre contrat) {
@@ -92,10 +92,23 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		return prix;
 	}
 
-	@Override
+	/**
+	 * @author Alb1x
+	 * La méthode contrat cadre ne concerne que les fèves équitables
+	 * On essaye de couper la poire en deux si le prix précedent ne convient pas.
+	 * Si le nouveau prix est au dessus du seuil requis alors on le propose
+	 * sinon on fait la moyenne du prix proposé et du prix seuil.
+	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		List<Double> liste_prix = contrat.getListePrix();
+		int n = liste_prix.size();
+		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
+		if (moyenne>VendeurContratCadre1.PRIX_PALIER_F_E) {
+			return moyenne;
+		}
+		else {
+			return (liste_prix.get(n-2)+VendeurContratCadre1.PRIX_PALIER_F_E)/2;
+		}
 	}
 
 	@Override

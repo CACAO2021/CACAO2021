@@ -11,11 +11,13 @@ import abstraction.fourni.Variable;
 
 public class Producteur1Acteur implements IActeur {
 	protected int cryptogramme;
+	protected Stock stock;
 
 	public Producteur1Acteur() {
 	}
 
 	public void initialiser() {
+		this.stock = new Stock(0);
 	}
 	
 	public String getNom() {
