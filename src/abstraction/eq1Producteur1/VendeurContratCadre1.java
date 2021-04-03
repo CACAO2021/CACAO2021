@@ -46,8 +46,12 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		}
 		
 	}
-
 	@Override
+	public boolean vend(Object produit) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	/** à revoir
 	public boolean vend(Object produit) {
 		if ((stock.getQuantite() != 0) 
 			&& (this.peutVendre(produit))){
@@ -56,6 +60,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 			return false;
 		}
 	}
+	*/
 	
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
@@ -122,5 +127,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 
 }
