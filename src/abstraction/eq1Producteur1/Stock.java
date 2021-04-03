@@ -5,11 +5,11 @@ public class Stock {
 	public Stock(double quantite) {
 		this.quantite=quantite;
 	}
-	private double getQuantite() {
+	public double getQuantite() {
 		return quantite;
 	}
 	
-	private void setQuantite(double d) {
+	public void setQuantite(double d) {
 		this.quantite=d;
 	}
 	
