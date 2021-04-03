@@ -49,7 +49,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 
 	@Override
 	public boolean vend(Object produit) {
-		if ((stock.getValeur() != 0) 
+		if ((stock.getQuantite() != 0) 
 			&& (this.peutVendre(produit))){
 			return true;
 		} else {
