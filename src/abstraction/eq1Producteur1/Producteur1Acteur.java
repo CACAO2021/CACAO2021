@@ -2,6 +2,7 @@ package abstraction.eq1Producteur1;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import abstraction.fourni.Filiere;
@@ -11,13 +12,28 @@ import abstraction.fourni.Variable;
 
 public class Producteur1Acteur implements IActeur {
 	protected int cryptogramme;
-	protected Stock stock;
+	protected Stock stock_F_M_E;
+	protected Stock stock_F_M;
+	protected Stock stock_F_B;
+	protected Stock stock_P_M_E;
+	protected Stock stock_P_M;
+	protected HashMap<String, Stock> stocks;
 
 	public Producteur1Acteur() {
 	}
 
 	public void initialiser() {
-		this.stock = new Stock(0);
+		this.stock_F_M_E = new Stock(0);
+		this.stock_F_M = new Stock(0);
+		this.stock_F_B = new Stock(0);
+		this.stock_P_M_E = new Stock(0);
+		this.stock_P_M = new Stock(0);
+		this.stocks = new HashMap<String, Stock>();
+		this.stocks.put("F_M_E", stock_F_M_E);
+		this.stocks.put("F_M", stock_F_M);
+		this.stocks.put("F_B", stock_F_B);
+		this.stocks.put("P_M_E", stock_P_M_E);
+		this.stocks.put("P_M", stock_P_M);
 	}
 	
 	public String getNom() {
