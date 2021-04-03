@@ -12,7 +12,7 @@ import java.util.List;
 
 import abstraction.eq2Producteur2.*;
 
-public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVendeurContratCadre {
+public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVendeurContratCadre {
 
 	@Override
 	//Dim
@@ -28,28 +28,40 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 	//Dim
 	public boolean vend(Object produit) {
 		if (produit instanceof Feve) {
+			// vérifier qtt
 			return true;
 		}else if (produit.equals(Categorie.POUDRE )) {
+			//vérifier qtt
 			return true;
 		}
 		else {
 		return false;
 		}
 	}
+	
+	//Dim
+	/**
+	 * vérifie si le prix proposé pour la premiere reponse est acceptable 
+	 */
+	public static boolean estAcceptable(double i1, double i2, double dif) {
+		return (i1 > i2 - dif);
+	}
+	
 
 	@Override
 	//Dim 
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		boolean cond = true;
+		boolean cond = estAcceptable(contrat.getListePrix().get(contrat.getListePrix().size()) , Producteur2Valeurs.PRIX_ESPERE_FEVE, Producteur2Valeurs.DIFF_ACCEPTEE);
 		if(cond) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
-		}else if(cond) { // on propose une nouvelle valeur
+		}else { // on propose une nouvelle valeur
 			Echeancier e = contrat.getEcheancier();
-			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5);// on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
-			return e;	
-		}else { //on ne souhaite pas vendeur donc on retourne null
-		return null;
-		}
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5); // on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
+			if(cond) {
+				return e;
+			} else { //on ne souhaite pas vendeur donc on retourne null
+			return null;
+		}}
 	}
 
 	@Override
@@ -62,7 +74,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Acteur implements IVend
 
 	@Override
 	//Dim
-public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 		boolean cond = true;
 		if (cond) {// on est ok
 			return contrat.getPrix();
@@ -74,15 +86,23 @@ public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 	}
 
 	@Override
+	//Dim
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("youpi un contrat");
+		// garder en mémoire la production future
+		contrat.getQuantiteTotale();
 	}
 
 	@Override
+	// Dim
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		double stock = 0;
+		if (stock >= quantite ) {
+			// maj stock a faire ici
+			return quantite;
+		}else {
+			return stock;
+		}
 	}
 
 }

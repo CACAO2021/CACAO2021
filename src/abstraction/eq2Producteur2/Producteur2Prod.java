@@ -2,7 +2,7 @@ package abstraction.eq2Producteur2;
 
 //Emeline
 
-public class Producteur2Prod extends Producteur2Acteur {
+public class Producteur2Prod extends Producteur2Stockage {
 	private int arbre_plante;
 	private int duree_de_vie;
 	private double pourcent_haute_bio_equitable;
