@@ -23,6 +23,11 @@ public class Producteur1Acteur implements IActeur {
 	}
 
 	public void initialiser() {
+		this.init_stocks();
+		
+	}
+	
+	private void init_stocks() {
 		this.stock_F_M_E = new Stock(0);
 		this.stock_F_M = new Stock(0);
 		this.stock_F_B = new Stock(0);
@@ -35,7 +40,6 @@ public class Producteur1Acteur implements IActeur {
 		this.stocks.put("P_M_E", stock_P_M_E);
 		this.stocks.put("P_M", stock_P_M);
 	}
-	
 	public String getNom() {
 		return "EQ1";
 	}
