@@ -3,7 +3,9 @@ package abstraction.eq3Transformateur1;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -11,7 +13,13 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
-	protected int cryptogramme;
+	
+	private int numero;
+	private Variable totalStocksFeves;
+	protected Map<Feve, Double> stocksFeves;
+	protected Integer cryptogramme;
+	protected Journal journal;
+	
 
 	public Transformateur1Acteur() {
 	}
