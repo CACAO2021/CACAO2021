@@ -24,6 +24,8 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	protected Journal journal;
 	protected SuperviseurVentesContratCadre supCCadre;
 	private Stock stock;
+	protected List<ExemplaireContratCadre> mesCC;
+	
 
 	/**
 	 * @author lebra
@@ -53,19 +55,14 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 * A ajouter ? on accepte de vendre uniquement aux acheteurs réguliers (-> fidélisation)
 	 */
 	public boolean vend(Object produit) {
-		if ((stock.getQuantite() > 0) 
-			&& (this.peutVendre(produit))){
-			return true;
-		} else {
-			return false;
-		}
+		return  ((stock.getQuantite() > 0) && (this.peutVendre(produit)));
 	}
 	
 	/**
 	 * @author arthurlem
-	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie,
+	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie, ou "pas assez";
 	 * propose un nouvel échéancier avec des quantités plus "raisonnables" de notre stock, en accord avec notre stratégie.
-	 * Si les quantités totales sont les bonnes, on essaie de vendre "plus" au début pour éviter d'accumuler du stock.
+	 * Si les quantités totales sont grosso modo ce qu'on a prévu de vendre, on essaie de vendre "plus" au début pour éviter d'accumuler du stock.
 	 * 
 	 * 
 	 */
@@ -76,15 +73,15 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
-				double random = Math.random()/2;
-				int step_milieu =contrat.getEcheancier().getNbEcheances()/2;
+				double random = Math.random()/3;
+				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
 				 Echeancier e = new Echeancier (contrat.getEcheancier());
 				 int i;
 				 for (i=e.getStepDebut(); i<step_milieu; i++) {
 					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
 				 }
-				 for (i=step_milieu; i<e.getStepFin(); i++) {
+				 for (i=step_milieu; i<=e.getStepFin(); i++) {
 					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
 				 }
 				return e;
@@ -95,20 +92,41 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
-				double random = Math.random()/2;
-				int step_milieu =contrat.getEcheancier().getNbEcheances()/2;
+				double random = Math.random()/3;
+				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
 				 Echeancier e = new Echeancier (contrat.getEcheancier());
 				 int i;
 				 for (i=e.getStepDebut(); i<step_milieu; i++) {
 					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
 				 }
-				 for (i=step_milieu; i<e.getStepFin(); i++) {
+				 for (i=step_milieu; i<=e.getStepFin(); i++) {
 					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
 				 }
 				return e;
 			}
-		} else {
+		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
+			if (contrat.getEcheancier().getQuantiteTotale() <=  0.60*stock.getQuantite() ) {
+				double nvlleqte = 0.8*stock.getQuantite();
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+				return e;
+			} else {
+				double random = Math.random()/3;
+				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
+				 Echeancier e = new Echeancier (contrat.getEcheancier());
+				 int i;
+				 for (i=e.getStepDebut(); i<step_milieu; i++) {
+					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
+				 }
+				 for (i=step_milieu; i<=e.getStepFin(); i++) {
+					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
+				 }
+				return e;
+			}
+			
+		}
+		else {
 			return null;
 		}
 	}
@@ -163,8 +181,8 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		
+		this.mesCC.add(contrat);
+
 	}
 
 	@Override
