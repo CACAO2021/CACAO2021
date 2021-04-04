@@ -17,16 +17,24 @@ public class Producteur1Acteur implements IActeur {
 	protected Stock stock_F_B;
 	protected Stock stock_P_M_E;
 	protected Stock stock_P_M;
-	protected HashMap<String, Stock> stocks;
+	protected HashMap<String, Stock> stocks; //dictionnaire qui contient tous nos stocks.
+	protected int step_actuel;
+	protected List<Boolean> historique_AO; //historique des appels d'offre acceptés.
 
 	public Producteur1Acteur() {
+		this.init_stocks();
+		this.step_actuel = 0;
+		this.historique_AO  = new ArrayList<Boolean>();
+		
 	}
 
 	public void initialiser() {
-		this.init_stocks();
-		
 	}
-	
+	/**
+	 * @author Alb1x
+	 * On crée un stock pour chaque chose que l'on produit.
+	 * On range ensuite les stock dans un dictionnaire stocks.
+	 */
 	private void init_stocks() {
 		this.stock_F_M_E = new Stock(0);
 		this.stock_F_M = new Stock(0);
@@ -40,6 +48,16 @@ public class Producteur1Acteur implements IActeur {
 		this.stocks.put("P_M_E", stock_P_M_E);
 		this.stocks.put("P_M", stock_P_M);
 	}
+	
+	private void stepSuivant() {
+		this.step_actuel += 1;
+	}
+	
+	private void majHist_AO() {
+		
+		this.historique_AO.add(false);
+	}
+	
 	public String getNom() {
 		return "EQ1";
 	}
@@ -59,6 +77,7 @@ public class Producteur1Acteur implements IActeur {
 	
 
 	public void next() {
+		this.stepSuivant();
 	}
 	
 	public List<String> getNomsFilieresProposees() {
