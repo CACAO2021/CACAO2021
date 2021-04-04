@@ -3,21 +3,14 @@ package abstraction.eq2Producteur2;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
-import abstraction.eq8Romu.produits.Beurre;
-import abstraction.eq8Romu.produits.Categorie;
-import abstraction.eq8Romu.produits.Feve;
-import abstraction.eq8Romu.contratsCadres.ContratCadre;
 
-import java.util.List;
-
-import abstraction.eq2Producteur2.*;
 
 public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVendeurContratCadre {
 
 	@Override
 	//Dim
 	public boolean peutVendre(Object produit) {
-		if (produit instanceof Feve || produit.equals(Categorie.POUDRE )) {
+		if (estFeve(produit) || estPoudre(produit)) {
 			return true;
 		}else {
 		return false;
@@ -27,16 +20,8 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	@Override
 	//Dim
 	public boolean vend(Object produit) {
-		if (produit instanceof Feve) {
-			// vérifier qtt
-			return true;
-		}else if (produit.equals(Categorie.POUDRE )) {
-			//vérifier qtt
-			return true;
-		}
-		else {
-		return false;
-		}
+		double stock = qttTotale(produit);
+		return stock>0;
 	}
 	
 	//Dim
@@ -51,13 +36,17 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	@Override
 	//Dim 
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		boolean cond = estAcceptable(contrat.getListePrix().get(contrat.getListePrix().size()) , Producteur2Valeurs.PRIX_ESPERE_FEVE, Producteur2Valeurs.DIFF_ACCEPTEE);
+		boolean cond = estAcceptable(contrat.getListePrix().get(contrat.getListePrix().size()) , PRIX_ESPERE_FEVE, DIFF_ACCEPTEE);
 		if(cond) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur
 			Echeancier e = contrat.getEcheancier();
-			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5); // on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
+			// comparer au cout de production des ressources vendues ( ne pas vendre a perte + payer correctement les producteurs)
+			// prendre en compte le nombre de step ou lon na pas vendu et notre tresorerie
+			// prendre en compte le prix minima accepte
+			double min = PRIX_MIN_ACCEPTEE;
 			if(cond) {
+				e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5); // on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
 				return e;
 			} else { //on ne souhaite pas vendeur donc on retourne null
 			return null;
