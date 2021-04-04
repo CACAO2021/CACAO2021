@@ -28,15 +28,40 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	/**
 	 * vérifie si le prix proposé pour la premiere reponse est acceptable 
 	 */
-	public static boolean estAcceptable(double i1, double i2, double dif) {
+	public static boolean estAcceptable(double i1, Object produit) {
+		double i2 = prixEspere(produit);
+		double dif = difAcceptee(produit);
 		return (i1 > i2 - dif);
+	}
+	
+	public static double prixEspere(Object produit) {
+		if(estFeveHBE(produit)) {
+			return PRIX_ESPERE_FEVE_HBE;
+		} else if(estFeveHE(produit)) {
+			return PRIX_ESPERE_FEVE_HE;
+		} // a finir
+	}
+	public static double minAcceptee(Object produit) {
+		if(estFeveHBE(produit)) {
+			return PRIX_MIN_ACCEPTEE_FEVE_HBE;
+		} else if(estFeveHE(produit)) {
+			return PRIX_MIN_ACCEPTEE_FEVE_HE;
+		} // a finir
+	}
+	public static double difAcceptee(Object produit) {
+		if(estFeveHBE(produit)) {
+			return DIF_ACCEPTEE_FEVE_HBE;
+		} else if(estFeveHE(produit)) {
+			return DIF_ACCEPTEE_FEVE_HE;
+		} // a finir
 	}
 	
 
 	@Override
 	//Dim 
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		boolean cond = estAcceptable(contrat.getListePrix().get(contrat.getListePrix().size()) , PRIX_ESPERE_FEVE, DIFF_ACCEPTEE);
+		Object produit = contrat.getProduit();		
+		boolean cond = estAcceptable(contrat.getPrix() , produit);
 		if(cond) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur
@@ -44,7 +69,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 			// comparer au cout de production des ressources vendues ( ne pas vendre a perte + payer correctement les producteurs)
 			// prendre en compte le nombre de step ou lon na pas vendu et notre tresorerie
 			// prendre en compte le prix minima accepte
-			double min = PRIX_MIN_ACCEPTEE;
+			double min = minAcceptee(produit);
 			if(cond) {
 				e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5); // on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
 				return e;
@@ -56,8 +81,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	@Override
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		// première proposition de prix
-		double prix = Producteur2Valeurs.PRIX_ESPERE_FEVE;
+		double prix = prixEspere(contrat.getProduit());
 		return prix;
 	}
 
@@ -88,6 +112,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 		double stock = 0;
 		if (stock >= quantite ) {
 			// maj stock a faire ici
+			// ecouler en priorite les stocks ancien
 			return quantite;
 		}else {
 			return stock;

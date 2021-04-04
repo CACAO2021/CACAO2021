@@ -4,30 +4,49 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs {
+	
 	// partie stockage
-	protected static double QTT_FEVE_DEPART = 0;
+	
+	protected static double QTT_FEVE_HBE_DEPART = 0;
+	protected static double QTT_FEVE_HE_DEPART = 0;
+	protected static double QTT_FEVE_ME_DEPART = 0;
+	protected static double QTT_FEVE_M_DEPART = 0;
+	protected static double QTT_FEVE_B_DEPART = 0;
+	
 	protected static double QTT_POUDRE_DEPART = 0;
 	
+	
 	// partie vente des fèves
-	protected static double PRIX_ESPERE_FEVE = 3.0;
-	protected static double DIFF_ACCEPTEE = 1.0;
-	protected static double PRIX_MIN_ACCEPTEE = 1.0;
+	
+	protected static double PRIX_ESPERE_FEVE_HBE = 3.0;
+	protected static double PRIX_ESPERE_FEVE_HE = 3.0;
+	protected static double PRIX_ESPERE_FEVE_ME = 3.0;
+	protected static double PRIX_ESPERE_FEVE_M = 3.0;
+	protected static double PRIX_ESPERE_FEVE_B = 3.0;
+	
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_HBE = 1.0;
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_HE = 3.0;
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_ME = 3.0;
+	protected static double PRIX_MIN_ACCEPTEEE_FEVE_M = 3.0;
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_B = 3.0;
+	
+	protected static double DIF_ACCEPTEE_FEVE_HBE = 1.0;
+	protected static double DIF_ACCEPTEE_FEVE_HE = 1.0;
+	// a finir
+	
 	
 	// verification du type de produit
-	/*
-	 * vérifie si produit est feve
-	 */
-	public static boolean estFeve(Object produit) {
-		return produit instanceof Feve;
-	}
 	
-	/*
-	 * vérifie si le produit est de la poudre
-	 */
-	public static boolean estPoudre(Object produit) {
-		return produit.equals(Categorie.POUDRE);
-	}
+	public static boolean estFeveHBE(Object produit) {return produit.equals(Feve.FEVE_HAUTE_BIO_EQUITABLE);}
+	public static boolean estFeveHE(Object produit) {return produit.equals(Feve.FEVE_HAUTE_EQUITABLE);}
+	public static boolean estFeveME(Object produit) {return produit.equals(Feve.FEVE_MOYENNE_EQUITABLE);}
+	public static boolean estFeveM(Object produit) {return produit.equals(Feve.FEVE_MOYENNE);}
+	public static boolean estFeveB(Object produit) {return produit.equals(Feve.FEVE_BASSE);}
 	
-
+	public static boolean estFeve(Object produit) {return estFeveHBE(produit) && estFeveHE(produit)
+			&& estFeveME(produit) && estFeveM(produit) && estFeveB(produit);}
+	
+	public static boolean estPoudre(Object produit) { return produit.equals(Categorie.POUDRE);}
+	
 
 }
