@@ -13,6 +13,7 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
+
 	
 	private int numero;
 	private Variable totalStocksFeves;
@@ -47,7 +48,6 @@ public class Transformateur1Acteur implements IActeur {
 
 	public void next() {
 		
-	
 	}
 	
 	
@@ -89,4 +89,11 @@ public class Transformateur1Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
+	
+
+
+	
+	
+	
+	
 }

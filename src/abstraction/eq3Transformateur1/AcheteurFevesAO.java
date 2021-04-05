@@ -10,6 +10,11 @@ import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Journal;
 
 public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurFevesAO {
+	
+	
+	private static double QUANTITE_MIN_FEVE = 100.0;
+	private static double QUANTITE_MAX_FEVE = 1000.0;
+
 
 	private Feve feve;
 	private double prixMax;
@@ -22,12 +27,24 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 		this.qMin = qMin;
 		this.qMax = qMax;
 	}
-
+	
+	
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		if (superviseur!=null) { // Personne ne peut creer un second Superviseur --> il s'agit bien de l'unique superviseur et on peut lui faire confiance
 			return cryptogramme;
 		}
 		return Integer.valueOf(0);
+	}
+	
+	// Renvoie le stock actuel de ce type de feve
+	private double getStockActuelFeve(NosFeves feve) {
+		return this.stocksFeves.get(feve);
+	}
+	
+	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
+	private boolean notEnought(NosFeves f) {
+		return (getStockActuelFeve(f) <= QUANTITE_MAX_FEVE);
+		
 	}
 
 	public OffreAchatFeves getOffreAchat() {
