@@ -122,10 +122,28 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		
 	}
 
-	@Override
+	/**
+	 * @author lebra
+	 *  faut verifier si ça marche bien car j'ai créé un getContratCadre
+	 *  voir si q correspond bien à la quantité qu'il faut livrer
+	 *  et si les méthodes employées sont bien ce qu'on nous demande
+	 */
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (!(contrat.getProduit().equals(produit))) {
+			return 0;
+		}
+		double q = contrat.getQuantiteALivrerAuStep();
+		if (quantite <= q) {
+			contrat.getContratCadre().livrer(quantite);
+			return (quantite);
+		}
+		else {
+			contrat.getContratCadre().livrer(q);
+			contrat.getContratCadre().penaliteLivraison();
+			contrat.getContratCadre().penalitePaiement();
+			return q;
+		}
+		
 	}
 
 	
