@@ -4,9 +4,11 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs {
+	public Producteur2Valeurs() {super();}
+	
 	
 	// partie stockage
-	
+
 	protected static double QTT_FEVE_HBE_DEPART = 0;
 	protected static double QTT_FEVE_HE_DEPART = 0;
 	protected static double QTT_FEVE_ME_DEPART = 0;
@@ -33,6 +35,18 @@ public class Producteur2Valeurs {
 	protected static double DIF_ACCEPTEE_FEVE_HBE = 1.0;
 	protected static double DIF_ACCEPTEE_FEVE_HE = 1.0;
 	// a finir
+	
+	
+	// partie production
+	protected int ARBRE_DEBUT_HBE = 0;
+	protected int ARBRE_DEBUT_HE = 0;
+	//a finir
+	
+	protected int ARBRE_TPS_VIE_HBE = 0;
+	protected int ARBRE_TPS_VIE_HE = 0;
+	
+	protected int PROD_HBE = 0;
+	protected int PROD_HE = 0;
 	
 	
 	// verification du type de produit

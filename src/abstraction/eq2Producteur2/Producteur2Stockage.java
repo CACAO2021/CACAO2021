@@ -13,7 +13,8 @@ public class Producteur2Stockage extends Producteur2Transfo {
 	 * @param stockPoudre
 	 */
 	public Producteur2Stockage() {
-		// a modifier en prenant en compte le fait que le stocke de depart n'est pas entierement creer au step 0 mais aussi a des steps anterieurs
+		super();
+		// a modifier en prenant en compte le fait que le stock de depart n'est pas entierement creer au step 0 mais aussi a des steps anterieurs (pour plus tard)
 		this.stockFeveHBE = new LinkedList<Stock>();
 		this.stockFeveHBE.add(new Stock(QTT_FEVE_HBE_DEPART, 0));
 		// fr les autres feves
@@ -67,6 +68,11 @@ public class Producteur2Stockage extends Producteur2Transfo {
 			System.out.println("erreur");
 		}
 		
+	}
+	
+	public void verifPeremption() {
+		LinkedList<Stock> feveHBE = getStockFeveHBE();
+		return;
 	}
 
 }

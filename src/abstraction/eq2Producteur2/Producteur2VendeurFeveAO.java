@@ -7,6 +7,10 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 
 public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
 
+	public Producteur2VendeurFeveAO() {
+		super();
+	}
+
 	@Override
 	public double proposerPrix(OffreAchatFeves oa) {
 		// TODO Auto-generated method stub

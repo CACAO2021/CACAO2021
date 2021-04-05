@@ -13,7 +13,7 @@ public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
-		new Producteur2Stockage(); // initialise le stockage
+		super();
 	}
 
 	public void initialiser() {
@@ -38,10 +38,7 @@ public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	
 
 	public void next() {
-		// verifier peremption stock
-		// produire nvl feves
-		// transfo
-		// renouvellment arbre
+		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public List<String> getNomsFilieresProposees() {
