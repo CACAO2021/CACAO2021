@@ -4,6 +4,7 @@ import java.util.List;
 
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 
 public class Distributeur2 extends Distributeur2Acteur implements IDistributeurChocolatDeMarque  {
@@ -14,8 +15,8 @@ public class Distributeur2 extends Distributeur2Acteur implements IDistributeurC
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
-		// TODO Auto-generated method stub
-		return null;
+		// A CHANGER
+		return Filiere.LA_FILIERE.getChocolatsProduits();
 	}
 
 	@Override
