@@ -4,11 +4,12 @@ import java.util.HashMap;
 
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 public class Stocks implements IStocks{
 	
-	private HashMap<Chocolat, Variable> stocksParChocolat; //Stocks de chocolat par type
+	//private HashMap<Chocolat, Variable> stocksParChocolat; //Stocks de chocolat par type
 	private HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
 	private HashMap<Integer, HashMap<ChocolatDeMarque, Variable>> nouveauChocoParEtape; //Historique des chocolats reçus à chaque étape par marque
 	private HashMap<ChocolatDeMarque, Variable> chocolatRecuEtape; // Chocolat recu à chaque étape
@@ -17,51 +18,38 @@ public class Stocks implements IStocks{
 
 	public Stocks(Distributeur2 acteur) {
 		this.acteur = acteur;
-		stocksParChocolat = new HashMap<Chocolat,Variable>();
+		//stocksParChocolat = new HashMap<Chocolat,Variable>();
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
 		chocolatRecuEtape = new HashMap<ChocolatDeMarque, Variable>();
-		for(Chocolat chocolat : acteur.chocolatPropose) {
-			stocksParChocolat.put(chocolat, new Variable("quantite de " + chocolat.name(),acteur,0 ));
-		
-		//initialiser les chocolats recus et par marque.
-
-			
-		}
-	}
-
-	@Override
-	public void initialiser() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public double getStockChocolat(Chocolat chocolat) {
-		// TODO Auto-generated method stub
-		return 0;
+		//for(Chocolat chocolat : acteur.chocolatPropose) {
+			//stocksParChocolat.put(chocolat, new Variable("quantite de " + chocolat.name(),acteur,0 ));
+	//}
+		for (ChocolatDeMarque chocoDeMarq : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			stocksParMarque.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name(),acteur,0));
+		}		
 	}
 
 
 	@Override
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.stocksParMarque.get(chocolatDeMarque).getValeur();
 	}
 
 
 	@Override
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double quantité) {
-		// TODO Auto-generated method stub
+		this.stocksParMarque.get(chocolatDeMarque).ajouter(acteur, quantité);
+		stocksParMarque.put(chocolatDeMarque, this.stocksParMarque.get(chocolatDeMarque));
+		
 		
 	}
 
 
 	@Override
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double quantité) {
-		// TODO Auto-generated method stub
-		
+		this.stocksParMarque.get(chocolatDeMarque).ajouter(acteur, - quantité);
+		stocksParMarque.put(chocolatDeMarque, this.stocksParMarque.get(chocolatDeMarque));
 	}
 
 
@@ -73,7 +61,14 @@ public class Stocks implements IStocks{
 
 
 	@Override
-	public void getFraisStockage() {
+	public void getCoutStockage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void initialiser() {
 		// TODO Auto-generated method stub
 		
 	}

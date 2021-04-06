@@ -7,8 +7,6 @@ public interface IStocks {
 	
 	public void initialiser();
 	
-	public  double getStockChocolat(Chocolat chocolat);
-	
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque);
 	
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque ,double quantité );
@@ -17,7 +15,7 @@ public interface IStocks {
 	
 	public void jeterChocolatPerime();
 	
-	public void getFraisStockage();
+	public void getCoutStockage();
 	
 	
 	
