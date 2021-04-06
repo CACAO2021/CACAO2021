@@ -21,7 +21,9 @@ public class Test {
 		
 		hashmap1.put(Chocolat.CONFISERIE_BASSE,  13.0);
 		System.out.println(hashmap1.entrySet());
-		
+		hashmap1.put(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE, 40.0);
+		System.out.println(hashmap1.entrySet());
+		System.out.println(hashmap1.get(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE));
 		//Chocolat.CONFISERIE_BASSE, 13
 		
 		

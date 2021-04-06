@@ -5,6 +5,8 @@ import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public interface IStocks {
 	
+	public void initialiser();
+	
 	public  double getStockChocolat(Chocolat chocolat);
 	
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque);
@@ -12,5 +14,13 @@ public interface IStocks {
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque ,double quantité );
 	
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque ,double quantité );
+	
+	public void jeterChocolatPerime();
+	
+	public void getFraisStockage();
+	
+	
+	
+	
 		
 }
