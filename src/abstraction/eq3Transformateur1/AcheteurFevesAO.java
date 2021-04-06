@@ -1,5 +1,6 @@
 package abstraction.eq3Transformateur1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
@@ -7,18 +8,22 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Journal;
 
 public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurFevesAO {
 	
 	
-	private static double QUANTITE_MIN_FEVE = 100.0;
-	private static double QUANTITE_MAX_FEVE = 1000.0;
-
-
 	private Feve feve;
 	private double prixMax;
 	private double qMin, qMax;
+
+	private static double QUANTITE_MIN_FEVE = 100.0;
+	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;
+
+	private static ArrayList<Feve> list = new ArrayList<Feve>();
+
+
 
 	public AcheteurFevesAO(Feve feve, double prixMax, double qMin, double qMax) {
 		super();
@@ -37,15 +42,16 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	}
 	
 	// Renvoie le stock actuel de ce type de feve
-	private double getStockActuelFeve(NosFeves feve) {
+	private double getStockActuelFeve(Feve feve) {
 		return this.stocksFeves.get(feve);
 	}
 	
 	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
-	private boolean notEnought(NosFeves f) {
+	private boolean notEnought(Feve f) {
 		return (getStockActuelFeve(f) <= QUANTITE_MAX_FEVE);
 		
 	}
+	
 
 	public OffreAchatFeves getOffreAchat() {
 		OffreAchatFeves result = new OffreAchatFeves(this, feve, qMin+(Math.random()*(qMax-qMin)));
