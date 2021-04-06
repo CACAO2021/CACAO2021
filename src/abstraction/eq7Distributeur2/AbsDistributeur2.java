@@ -3,9 +3,11 @@ package abstraction.eq7Distributeur2;
 import java.util.ArrayList;
 
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public abstract class AbsDistributeur2 {
 	
+	// Liste des Chocolats que nous proposons aux clients finaux
 	public ArrayList<Chocolat> chocolatPropose;
 
 	public AbsDistributeur2() {
@@ -22,13 +24,16 @@ public abstract class AbsDistributeur2 {
 		chocolatPropose.add(Chocolat.POUDRE_HAUTE_EQUITABLE);
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE_EQUITABLE);
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE);
+	}
+	
+	//public ArrayList<ChocolatDeMarque> chocolatdeMarquePropose(){
 		
+		
+	//}
+	
 		
 
-		// Liste des Chocolats que nous proposons aux clients finaux
 		
-		
-		
-	}
+	
 
 }
