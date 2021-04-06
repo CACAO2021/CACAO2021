@@ -8,14 +8,14 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 
 
 public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVendeurContratCadre {
-		protected LinkedList<ExemplaireContratCadre> mesContrats;
+		protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
 	 * @param mesContrats
 	 */
 	public Producteur2VeudeurFeveCC() {
 		super();
-		this.mesContrats = new LinkedList<ExemplaireContratCadre>();
+		this.mesContratsCC = new LinkedList<ExemplaireContratCadre>();
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	//Dim
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		// maj var mesContrats
-		this.mesContrats.add(contrat);
+		this.mesContratsCC.add(contrat);
 		System.out.println("youpi un contrat");
 		// garder en mémoire la production future a assumer
 		contrat.getQuantiteTotale(); // va falloir produire ca
