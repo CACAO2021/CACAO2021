@@ -12,15 +12,13 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Transformateur3Fabricant implements IFabricantChocolatDeMarque {
-	private ChocolatDeMarque choco_quali;
 	private ChocolatDeMarque choco;
 	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
 	protected int numero;
 	protected Integer cryptogramme;
 	
-	public Transformateur3Fabricant(ChocolatDeMarque choco, ChocolatDeMarque choco_quali) {
+	public Transformateur3Fabricant(ChocolatDeMarque choco) {
 		this.choco=choco;
-		this.choco_quali=choco_quali;
 		NB_INSTANCES++;
 		this.numero=NB_INSTANCES;
 		
@@ -108,7 +106,6 @@ public class Transformateur3Fabricant implements IFabricantChocolatDeMarque {
 	public List<ChocolatDeMarque> getChocolatsProduits() {
 		List<ChocolatDeMarque>produits=new ArrayList<ChocolatDeMarque>();
 		produits.add(this.choco);
-		produits.add(this.choco_quali);
 		return produits;
 	}
 
