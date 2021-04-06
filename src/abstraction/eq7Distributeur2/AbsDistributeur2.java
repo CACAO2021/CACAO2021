@@ -26,11 +26,6 @@ public abstract class AbsDistributeur2 {
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE);
 	}
 	
-	//public ArrayList<ChocolatDeMarque> chocolatdeMarquePropose(){
-		
-		
-	//}
-	
 		
 
 		
