@@ -68,7 +68,9 @@ public class Transformateur1Acteur implements IActeur {
 	}
 
 	public Filiere getFiliere(String nom) {
-		return null;
+		switch (nom) {
+		default : return null;
+		}
 	}
 	
 	public List<Variable> getIndicateurs() {

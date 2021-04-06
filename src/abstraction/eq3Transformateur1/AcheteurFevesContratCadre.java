@@ -27,13 +27,12 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 	}
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		if (Math.random()<0.1) {
-			return contrat.getEcheancier(); // on ne cherche pas a negocier sur le previsionnel de livraison
-		} else {//dans 90% des cas on fait une contreproposition pour l'echeancier
-			Echeancier e = contrat.getEcheancier();
-			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5);// on souhaite livrer 2.5 fois plus lors de la 1ere livraison... un choix arbitraire, juste pour l'exemple...
-			return e;
+		// Si l'echeancier est juste plus lons de 1 step on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
+		if(contrat.getEcheanciers().get(0).getNbEcheances()==contrat.getEcheancier().getNbEcheances() || contrat.getEcheanciers().get(0).getNbEcheances()==contrat.getEcheancier().getNbEcheances() +1 ) {
+			return contrat.getEcheancier();
+			
 		}
+		return null;
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {

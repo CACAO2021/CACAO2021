@@ -52,9 +52,10 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 		
 	}
 	
+	
 
 	public OffreAchatFeves getOffreAchat() {
-		OffreAchatFeves result = new OffreAchatFeves(this, feve, qMin+(Math.random()*(qMax-qMin)));
+		OffreAchatFeves result = new OffreAchatFeves(this, feve.FEVE_MOYENNE, qMin+(Math.random()*(qMax-qMin)));
 		if (Math.random()<0.5) { // une chance sur 2
 			this.journal.ajouter("Offre d'achat = "+result);
 			return result;
@@ -63,6 +64,7 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 			return null;
 		}
 	}
+	
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
 		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
