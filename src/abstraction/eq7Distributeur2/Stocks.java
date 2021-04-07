@@ -35,10 +35,12 @@ public class Stocks implements IStocks{
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
 		chocolatRecuEtape = new HashMap<ChocolatDeMarque, Variable>();
 		initialisationJournalStocks();
-		for (ChocolatDeMarque chocoDeMarq : Filiere.LA_FILIERE.getChocolatsProduits()) {
+		if (acteur.getCatalogue()!= null) {
+		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
 			stocksParMarque.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name()+ " en Stock", acteur,0));
 			journalStocks.ajouter(Journal.texteColore(metaColor, Color.BLACK,"[CRÉATION] Création d'un stock pour le " + chocoDeMarq + "."));
 			chocolatRecuEtape.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name() + "Recu",acteur,0));
+		}
 		}		
 	}
 	
