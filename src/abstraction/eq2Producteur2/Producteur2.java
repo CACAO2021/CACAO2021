@@ -8,11 +8,11 @@ public class Producteur2 extends Producteur2Banque  {
 	}
 	
 	public void initialiser() {
-		//initJournaux();
+		initJournaux();
 	}
 	
 	public void next() {
-		//majJournaux();
+		majJournaux();
 		verifPeremption();
 		prod();
 		transfo();
