@@ -9,7 +9,9 @@ import abstraction.eq8Romu.produits.Feve;
 public class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesHBE;
 	private LinkedList<Stock> arbrePlantesHE;
-	// a finir
+	private LinkedList<Stock> arbrePlantesME;
+	private LinkedList<Stock> arbrePlantesM;
+	private LinkedList<Stock> arbrePlantesB;
 	private LinkedList<Object> listeProd;
 	
 	public Producteur2Prod() {
@@ -19,21 +21,44 @@ public class Producteur2Prod extends Producteur2Stockage {
 		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
 		this.arbrePlantesHE = new LinkedList<Stock>();
 		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
-		// a finir
+		this.arbrePlantesME = new LinkedList<Stock>();
+		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
+		this.arbrePlantesM = new LinkedList<Stock>();
+		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
+		this.arbrePlantesB = new LinkedList<Stock>();
+		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 		this.listeProd = new LinkedList<Object>();
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		}
 	
 	public double qttArbre(Object produit) {
-		if (estFeveHBE(produit)) {
-			double nb = 0;
+		double nb = 0;
+		if (estFeveHBE(produit)) {			
 			for (Stock s : this.arbrePlantesHBE) {
 				nb += s.getQtt();
 			}
-			return nb;
-			// finir les autres types d arbre
+		}else if (estFeveHE(produit)) {
+			for (Stock s : this.arbrePlantesHE) {
+				nb += s.getQtt();
 			}
-		return 0;
+		}else if (estFeveHE(produit)) {
+			for (Stock s : this.arbrePlantesHE) {
+				nb += s.getQtt();
+			}
+		}else if (estFeveME(produit)) {
+			for (Stock s : this.arbrePlantesME) {
+				nb += s.getQtt();
+			}
+		}else if (estFeveM(produit)) {
+			for (Stock s : this.arbrePlantesM) {
+				nb += s.getQtt();
+			}
+		}else if (estFeveB(produit)) {
+			for (Stock s : this.arbrePlantesB) {
+				nb += s.getQtt();
+			}
+		}		
+		return nb;
 		}
 
 
