@@ -2,16 +2,13 @@ package abstraction.eq4Transformateur2;
 
 public class Stock extends Transformateur2Acteur {
 	
-	private double stock_feve_basse;
-	private double stock_feve_moyenne;
-	private double stock_tablette_basse;
-	private double stock_tablette_moyenne;
-	private double stock_confiserie_basse;
-	private double stock_confiserie_moyenne;
 	
+	public Stock() {
+		super();
+	}
 	
 	public double Stock_feve_total() {
-		return this.stock_feve_basse + this.stock_feve_moyenne;
+		return this.stock_feve_basse + this.stock_feve_moyenne;	
 	}
 	public double Stock_tablette_total() {
 		return this.stock_tablette_basse + this.stock_tablette_moyenne;
@@ -19,7 +16,7 @@ public class Stock extends Transformateur2Acteur {
 	public double Stock_confiserie_total() {
 		return this.stock_confiserie_basse + this.stock_confiserie_moyenne;
 	}
-	public double stock_choco_total() {
+	public double Stock_choco_total() {
 		return this.Stock_tablette_total()+this.Stock_confiserie_total();
 	}
 	

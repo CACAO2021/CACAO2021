@@ -14,6 +14,12 @@ public class Transformateur2Acteur implements IActeur {
 	
 	protected int cryptogramme;
 	protected Journal journal;
+	protected double stock_feve_basse;
+	protected double stock_feve_moyenne;
+	protected double stock_tablette_basse;
+	protected double stock_tablette_moyenne;
+	protected double stock_confiserie_basse;
+	protected double stock_confiserie_moyenne;
 
 	public Transformateur2Acteur() {
 	}
@@ -39,7 +45,12 @@ public class Transformateur2Acteur implements IActeur {
 	}
 	
 	public void next() {
-		//à remplir
+		getIndicateurs().get(0).setValeur(this, stock_feve_basse);
+		getIndicateurs().get(1).setValeur(this, stock_feve_moyenne);
+		getIndicateurs().get(2).setValeur(this, stock_tablette_basse);
+		getIndicateurs().get(3).setValeur(this, stock_tablette_moyenne);
+		getIndicateurs().get(4).setValeur(this, stock_confiserie_basse);
+		getIndicateurs().get(5).setValeur(this, stock_confiserie_moyenne);
 	}
 	
 	public List<String> getNomsFilieresProposees() {
@@ -53,7 +64,12 @@ public class Transformateur2Acteur implements IActeur {
 	public List<Variable> getIndicateurs() {
 		// on choisit les indicateurs qui nous seront donnés lors de la simu
 		List<Variable> res=new ArrayList<Variable>();
-		//res.add(e);
+		res.add(new Variable("STOCK_FEVE_BASSE", this, 0, 100000, 0));
+		res.add(new Variable("STOCK_FEVE_MOYENNE", this, 0, 100000, 0));
+		res.add(new Variable("STOCK_TABLETTE_BASSE", this, 0, 100000, 0));
+		res.add(new Variable("STOCK_TABLETTE_MOYENNE", this, 0, 100000, 0));
+		res.add(new Variable("STOCK_CONFISERIE_BASSE", this, 0, 100000, 0));
+		res.add(new Variable("STOCK_CONFISERIE_MOYENNE", this, 0, 100000, 0));
 		return res;
 	}
 	
