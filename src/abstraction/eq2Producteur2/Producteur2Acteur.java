@@ -9,7 +9,11 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
+<<<<<<< HEAD
 public class Producteur2Acteur implements IActeur {
+=======
+public abstract class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
+>>>>>>> branch 'master' of https://github.com/CACAO2021/CACAO2021
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
@@ -77,5 +81,7 @@ public class Producteur2Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
+	
+	public abstract void perdreArgent(double montant) ;
 
 }
