@@ -9,15 +9,18 @@ import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
+import abstraction.fourni.IFabricantChocolatDeMarque;
+import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque {
+public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque,IFabricantChocolatDeMarque,IMarqueChocolat {
 	
 	protected int cryptogramme;
 	protected Stocks stocks;
 	protected Journal journal;
 	protected List<ChocolatDeMarque> catalogue;
+	private ChocolatDeMarque chocoProduit;
 	
 	
 
@@ -25,6 +28,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.stocks = new Stocks((Distributeur2)this);
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		initialisationJournaux();
+		this.chocoProduit = new ChocolatDeMarque()
 		
 		
 	}
@@ -141,6 +145,20 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<String> getMarquesChocolat() {
+		List<String> marquesProposes = new ArrayList<String>();
+		marquesProposes.add("Wonka & Sons");
+		return marquesProposes;
+	}
+
+	@Override
+	public List<ChocolatDeMarque> getChocolatsProduits() {
+		List<ChocolatDeMarque> marquesProposes = new ArrayList<ChocolatDeMarque>();
+		marquesProposes.add(this.chocoProduit);
+		return null;
 	}
 
 }
