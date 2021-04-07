@@ -17,9 +17,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected int cryptogramme;
 	protected Stocks stocks;
 	protected Journal journal;
-	
-	
-
+		
 	public Distributeur2Acteur() {
 		this.stocks = new Stocks(this);
 		initialisationJournaux();
