@@ -15,7 +15,7 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
-
+	protected int cryptogramme;
 	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
 	private int numero;
 	private Variable totalStocksFeves;
@@ -28,6 +28,7 @@ public class Transformateur1Acteur implements IActeur {
 	
 	public static double STOCK_MAX = 10000000000.0;
 
+>>>>>>> branch 'master' of https://github.com/paulgiraudIMT/CACAO2021
 	public Transformateur1Acteur() {
 		
 		this.totalStocksFeves=new Variable(getNom()+" total stocks feves", this, 50);
@@ -73,12 +74,20 @@ public class Transformateur1Acteur implements IActeur {
 	}
 
 	public Filiere getFiliere(String nom) {
+<<<<<<< HEAD
+		for(String nomFiliere : this.getNomsFilieresProposees()) {
+			if (nomFiliere.equals(nom)) {
+				return null;
+			}
+=======
 		switch (nom) {
 		default : return null;
 		}
+>>>>>>> branch 'master' of https://github.com/paulgiraudIMT/CACAO2021
 	}
 	
-	public List<Variable> getIndicateurs() {
+	public List<Variable> getIndicateurs() {;
+	
 		List<Variable> res=new ArrayList<Variable>();
 		return res;
 	}
