@@ -31,13 +31,13 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	else if (feveachetee==Feve.FEVE_HAUTE_EQUITABLE) {
 		return PRIX_ESPERE_FEVE_HE;
 	}
-	else if (feveachetee==FEVE_MOYENNE_EQUITABLE) {
+	else if (feveachetee==Feve.FEVE_MOYENNE_EQUITABLE) {
 		return PRIX_ESPERE_FEVE_ME;
 	}
-	else if (feveachetee==FEVE_MOYENNE) {
+	else if (feveachetee==Feve.FEVE_MOYENNE) {
 		return PRIX_ESPERE_FEVE_M;
 	}
-	else if (feveachetee==FEVE_BASSE) {
+	else if (feveachetee==Feve.FEVE_BASSE) {
 		return PRIX_ESPERE_FEVE_B;
 	}
 	else {
