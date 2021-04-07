@@ -19,6 +19,9 @@ public class Stock extends Transformateur1Acteur {
 	private double stockFeveHauteBio;
 	private double stockFeveHauteEquitable;
 	private double stockFeveMoyenneEquitable;
+	private double stockChocolatHautBio ;
+	private double stockChocolatHautEquitable;
+	private double stockChocolatMoyenEquitable;
 	
 	private static double stockInitialFeve = 100.0 ;
 	private static double stockInitialChocolat= 100.0;
@@ -38,5 +41,6 @@ public class Stock extends Transformateur1Acteur {
 		}
 		
 	}
+	
 	
 }
