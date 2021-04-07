@@ -83,6 +83,7 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
 		this.journalVendeur.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		
 	}
 
 	//	public double proposerAchat(LotCacaoCriee lot) {

@@ -3,7 +3,9 @@ package abstraction.eq3Transformateur1;
 import java.util.HashMap;
 import java.util.Map;
 
+import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
 
 import java.util.List;
@@ -30,9 +32,9 @@ public class Stock extends Transformateur1Acteur {
 		this.stockFeveMoyenneEquitable = this.stocksFeves.get(Feve.FEVE_MOYENNE_EQUITABLE);
 	}
 	
-	public void setStock() {
-		for (int i=0; i< this.stocksFeves.size(); i++) {
-			
+	public void setStock(PropositionVenteFevesAO proposition) {
+		for (int i=0; i<this.stocksFeves.size(); i++) {
+			stocksFeves.put(stocksFeves.get(i), stocksFeves.get(stocksFeves.get(i))+proposition.getQuantiteKg());
 		}
 		
 	}
