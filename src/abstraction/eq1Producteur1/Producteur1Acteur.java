@@ -36,6 +36,7 @@ public class Producteur1Acteur implements IActeur {
 	}
 
 	public void initialiser() {
+		this.journaux.addJournal(3);
 
 	}
 	/**
@@ -135,8 +136,7 @@ public class Producteur1Acteur implements IActeur {
 	}
 
 	public List<Journal> getJournaux() {
-		List<Journal> res=new ArrayList<Journal>();
-		return res;
+		return journaux.getJournaux();
 	}
 
 	public void notificationFaillite(IActeur acteur) {
