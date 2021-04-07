@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import abstraction.eq8Romu.produits.Chocolat;
-import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public abstract class AbsDistributeur2 {
 	

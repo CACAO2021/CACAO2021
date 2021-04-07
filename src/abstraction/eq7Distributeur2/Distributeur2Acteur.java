@@ -5,49 +5,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.eq8Romu.clients.ClientFinal;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
+import abstraction.fourni.IFabricantChocolatDeMarque;
+import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque {
+public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque,IFabricantChocolatDeMarque,IMarqueChocolat {
 	
 	protected int cryptogramme;
 	protected Stocks stocks;
-	protected Journal journalActivités, journalVentes, journalStocks, journalAchats;
+
+	protected Journal journalTransactions, journalVentes, journalStocks, journalAchats, journalCatalogue, journal;
+
 	protected List<ChocolatDeMarque> catalogue;
+
 	protected List<Variable> indicateurs;
 	protected List<Variable> parametres;
+
+	private ChocolatDeMarque chocoProduit;
+	
 	
 
 	public Distributeur2Acteur() {
-		this.stocks = new Stocks(this);
 		catalogue = new ArrayList<ChocolatDeMarque>();
+		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
+
 		
 		
 		
 	}
 	
 	public void initialisationJournaux() {
-		journalActivités = new Journal(getNom() + " : Informations générales", this);
-		journalActivités.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
-		journalActivités.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
-		journalActivités.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
+
+		journalTransactions = new Journal(getNom() + " : Relevé de compte", this);
+		journalTransactions.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Regsitre des opérations bancaires"));
+		journalTransactions.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte toutes les oprérations de l'acteur"));
 		
 		journalVentes = new Journal(getNom() + " : Registre des ventes", this);
 		journalVentes.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des ventes"));
 		journalVentes.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les ventes de produits"));
 		
-		journalStocks = new Journal(getNom() + " : Registre des stocks", this);
-		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des stocks"));
-		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant l'état des stocks"));
 		
 		journalAchats = new Journal(getNom() + " : Registre des achats", this);
 		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des acahats"));
 		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
+		
+		journal = new Journal(getNom() + " : Informations générales", this);
+		journal.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
+		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
+		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
+		
+		journalCatalogue = new Journal(getNom() + " : Catalogue", this);
+		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
+		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
+		
+		journalStocks= new Journal("Stocks", (IActeur)this);
+		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
+		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
+
 	}
 
 	
@@ -67,15 +88,23 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void initialiser() {
 		for (ChocolatDeMarque CDM : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			catalogue.add(CDM);
+		journalCatalogue.ajouter(Journal.texteColore(behaviorColor, Color.BLACK , CDM.getMarque()));
+		
 		}
+
 		Filiere.LA_FILIERE.getBanque().creerCompte(this);
 		
+
+		this.stocks = new Stocks((Distributeur2)this);
+
 		
 		
 		
 	}
 
 	public void next() {
+		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
+		
 	}
 
 	
@@ -103,12 +132,16 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
+
 		List<Journal> journaux = new ArrayList<Journal>();
-		journaux.add(journalActivités);
+		journaux.add(journalTransactions);
 		journaux.add(journalVentes);
 		journaux.add(journalStocks);
 		journaux.add(journalAchats);
+		journaux.add(journal);
+		journaux.add(journalCatalogue);
 		return journaux;
+
 	}
 
 	public void setCryptogramme(Integer crypto) {
@@ -117,15 +150,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void notificationFaillite(IActeur acteur) {
-		journalActivités.ajouter(descriptionColor, Color.BLUE, "Attention " + acteur.getNom() + " est out");
+		journalTransactions.ajouter(descriptionColor, Color.BLUE, "Attention " + acteur.getNom() + " est out");
 	}
 
 	public void notificationOperationBancaire(double montant) {
 		if (montant>0) {
-			journalActivités.ajouter(descriptionColor, Color.GREEN, "Vous avez reçu un virement de " + montant);
+			journalTransactions.ajouter(descriptionColor, Color.GREEN, "Vous avez reçu un virement de " + montant);
 		}
 		else {
-			journalActivités.ajouter(descriptionColor, Color.RED, "Votre compte vient d'être débité de" + montant); }
+			journalTransactions.ajouter(descriptionColor, Color.RED, "Votre compte vient d'être débité de" + montant); }
 	}
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
@@ -165,6 +198,20 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<String> getMarquesChocolat() {
+		List<String> marquesProposes = new ArrayList<String>();
+		marquesProposes.add(this.chocoProduit.getMarque());
+		return marquesProposes;
+	}
+
+	@Override
+	public List<ChocolatDeMarque> getChocolatsProduits() {
+		List<ChocolatDeMarque> choco = new ArrayList<ChocolatDeMarque>();
+		choco.add(this.chocoProduit);
+		return choco;
 	}
 
 }
