@@ -15,6 +15,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	private LinkedList<Stock> stockPoudreM; 
 	
 	protected Variable stockFHBE;
+	// a faire sur les autres
 	
 	//Dim
 	/**
@@ -52,7 +53,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {
 				stock += s.getQtt();
-				stockFHBE = new Variable("stock feve HBE", this, stock);
+				stockFHBE.setValeur(this, stock);
 			}
 		}else if (estFeveHE(produit)) {			
 			for (Stock s : this.stockFeveHE) {
@@ -89,7 +90,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		if (estFeveHBE(produit)) {
 			this.stockFeveHBE.add(s);
 			// finir tous les types de feve
+		} else if (estFeveHE(produit)) {
+			this.stockFeveHBE.add(s);
 		}else if (estPoudre(produit)) {
+			System.out.println("ok");
 			this.stockPoudreHE.add(s);
 		}else {
 			System.out.println("erreur");

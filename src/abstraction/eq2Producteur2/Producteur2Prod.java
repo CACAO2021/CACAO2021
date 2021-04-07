@@ -13,7 +13,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesME;
 	private LinkedList<Stock> arbrePlantesM;
 	private LinkedList<Stock> arbrePlantesB;
-	private LinkedList<Object> listeProd;
+	private LinkedList<Feve> listeProd;
 	
 	public Producteur2Prod() {
 		super();
@@ -29,7 +29,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.arbrePlantesB = new LinkedList<Stock>();
 		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 		
-		this.listeProd = new LinkedList<Object>();
+		this.listeProd = new LinkedList<Feve>();
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
