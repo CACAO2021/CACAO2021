@@ -1,45 +1,69 @@
 package abstraction.eq2Producteur2;
 
+import java.util.LinkedList;
+
+import abstraction.eq8Romu.produits.Feve;
+
 //Emeline
 
-public class Producteur2Prod extends Producteur2Acteur {
-	private int arbre_plante;
-	private int duree_de_vie;
+public class Producteur2Prod extends Producteur2Stockage {
+	private LinkedList<Stock> arbrePlantesHBE;
+	private LinkedList<Stock> arbrePlantesHE;
+	// a finir
+	private LinkedList<Object> listeProd;
 	
+	public Producteur2Prod() {
+		super();
+		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
+		this.arbrePlantesHBE = new LinkedList<Stock>();
+		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
+		this.arbrePlantesHE = new LinkedList<Stock>();
+		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
+		// a finir
+		this.listeProd = new LinkedList<Object>();
+		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		}
 	
-	public Producteur2Prod(int arbre_plante, int duree_de_vie) {
-		this.arbre_plante=arbre_plante;
-		this.duree_de_vie=duree_de_vie;
-	}
+	public double qttArbre(Object produit) {
+		if (estFeveHBE(produit)) {
+			double nb = 0;
+			for (Stock s : this.arbrePlantesHBE) {
+				nb += s.getQtt();
+			}
+			return nb;
+			// finir les autres types d arbre
+			}
+		return 0;
+		}
 
-	/**
-	 * @return the arbre_plante
-	 */
-	public int getArbre_plante() {
-		return arbre_plante;
-	}
 
-	/**
-	 * @param arbre_plante the arbre_plante to set
-	 */
-	public void setArbre_plante(int arbre_plante) {
-		this.arbre_plante = arbre_plante;
-	}
-
-	/**
-	 * @return the duree_de_vie
-	 */
-	public int getDuree_de_vie() {
-		return duree_de_vie;
-	}
-
-	/**
-	 * @param duree_de_vie the duree_de_vie to set
-	 */
-	public void setDuree_de_vie(int duree_de_vie) {
-		this.duree_de_vie = duree_de_vie;
+	public void prod() {
+		for (Object p : listeProd) {
+			double qtt = prodParStep(p);
+			addStock(qtt, p);
+		}		
+		}
+	
+	public void renouvellement() {
+		//  a faire plus tard 
 	}
 	
+	private double prodParStep(Object p) {
+		// prod en fonction de la qtt darbre plante
+		return qttArbre(p) * prodParArbre(p);
+	}
+
+	private double prodParArbre(Object p) {
+		if(estFeveHBE(p)) {
+			return PROD_HBE;
+		} else if(estFeveHE(p)) {
+			return PROD_HE;
+		} // a finir
+		else { // un produit que l'on ne vend pas
+			return 0;
+		}
+	}
+		
 	
 	
 
