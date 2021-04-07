@@ -17,6 +17,7 @@ public class Vendeur extends Distributeur1Acteur implements IDistributeurChocola
 	@Override
 	public double prix(ChocolatDeMarque choco) {
 		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
