@@ -33,11 +33,11 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
 		//chocolatRecuEtape = new HashMap<ChocolatDeMarque, Variable>();		
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
-			stocksParMarque.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name()+ " en Stock", acteur,0));
+			stocksParMarque.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name()+ " [W&S]", acteur,0));
 			acteur.journalStocks.ajouter(Journal.texteColore(metaColor, Color.BLACK,"[CRÉATION] Création d'un stock pour le " + chocoDeMarq + "."));
 			//chocolatRecuEtape.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name() + "Recu",acteur,0));
 			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
-			Init.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name()+ " en Stock", acteur,0));
+			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name()+ " [W&S]", acteur,0));
 			nouveauChocoParEtape.put(0, Init);
 		}
 	}		
@@ -46,7 +46,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
 			int etape = Filiere.LA_FILIERE.getEtape();
 			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
-			Init.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name()+ " en Stock", acteur,0));
+			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name()+ " [W&S]", acteur,0));
 			nouveauChocoParEtape.put(etape, Init);
 			
 		}

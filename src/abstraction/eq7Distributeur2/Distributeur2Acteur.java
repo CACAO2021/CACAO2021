@@ -128,9 +128,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
 		List<Variable> res=new ArrayList<Variable>();
-		//for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
-			//res.add(var);
-		//}
+		for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
+			res.add(var);
+		}
 		return res;
 	}
 
