@@ -22,10 +22,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	@Override
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
-			return 0;
+			return prix.get(choco);
 		}
-		// TODO Auto-generated method stub
-		//// a revoir 
 		return 0;
 	}
 

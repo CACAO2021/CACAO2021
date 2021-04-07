@@ -12,13 +12,13 @@ public class Stocks extends Distributeur1Acteur{
 	
 	
 	protected Map<ChocolatDeMarque, Variable> stock;
-	protected Map<ChocolatDeMarque, Variable> prix;
+	protected Map<ChocolatDeMarque, Double> prix;
 
 
 	
 	public Stocks() {
 		this.stock=new HashMap<ChocolatDeMarque, Variable>();
-		this.prix=new HashMap<ChocolatDeMarque, Variable>();
+		this.prix=new HashMap<ChocolatDeMarque, Double>();
 	}
 	
 	public void ajouterStock(Object produit, double quantite) {
