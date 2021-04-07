@@ -19,6 +19,7 @@ public class Producteur1Acteur implements IActeur {
 	private Stock stock_F_B;
 	private Stock stock_P_M_E;
 	private Stock stock_P_M;
+	private Transformation transformation;
 	protected HashMap<Object, Stock> stocks; //dictionnaire qui contient tous nos stocks.
 	protected int step_actuel;
 	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
@@ -31,6 +32,7 @@ public class Producteur1Acteur implements IActeur {
 		this.init_historiques();
 		this.step_actuel = 0;
 		this.journaux = new JournauxEq1();
+		this.transformation = new Transformation();
 		
 
 	}
@@ -115,7 +117,8 @@ public class Producteur1Acteur implements IActeur {
 		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
-		this.perteargent(500); //Coûts fixes
+		this.perteargent(500);//Coûts fixes
+		this.transformation.Transformation_Feve();
 	}
 
 	public List<String> getNomsFilieresProposees() {
