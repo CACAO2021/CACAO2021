@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
 //Antoine C
@@ -38,8 +39,8 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	}
 	
 	public void next() {
-		getIndicateurs().get(0).setValeur(this, stock_feve_basse);
-		getIndicateurs().get(1).setValeur(this, stock_feve_moyenne);
+		getIndicateurs().get(0).setValeur(this, stock_feve.get_stock(Feve.FEVE_BASSE));
+		getIndicateurs().get(1).setValeur(this, stock_feve.get_stock(Feve.FEVE_MOYENNE));
 		getIndicateurs().get(2).setValeur(this, stock_tablette_basse);
 		getIndicateurs().get(3).setValeur(this, stock_tablette_moyenne);
 		getIndicateurs().get(4).setValeur(this, stock_confiserie_basse);
