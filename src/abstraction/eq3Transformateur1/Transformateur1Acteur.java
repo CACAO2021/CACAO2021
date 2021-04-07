@@ -2,8 +2,12 @@ package abstraction.eq3Transformateur1;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -11,9 +15,26 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
-	protected int cryptogramme;
+
+	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
+	private int numero;
+	private Variable totalStocksFeves;
+	protected Map<Feve, Double> stocksFeves;
+	protected Integer cryptogramme;
+	protected Journal journal;
+
+	public static double STOCK_MAX = 10000000000.0;
 
 	public Transformateur1Acteur() {
+		
+		NB_INSTANCES++;
+		this.numero=NB_INSTANCES;
+		this.totalStocksFeves=new Variable(getNom()+" total stocks feves", this, 50);
+		stocksFeves=new HashMap<Feve, Double>();
+		for (Feve feve : Feve.values()) {
+			stocksFeves.put(feve, 0.0);
+		}
+		this.journal = new Journal(this.getNom()+" activites", this);
 	}
 
 	public void initialiser() {
@@ -39,7 +60,6 @@ public class Transformateur1Acteur implements IActeur {
 
 	public void next() {
 		
-	
 	}
 	
 	
@@ -55,7 +75,9 @@ public class Transformateur1Acteur implements IActeur {
 	}
 
 	public Filiere getFiliere(String nom) {
-		return null;
+		switch (nom) {
+		default : return null;
+		}
 	}
 	
 	public List<Variable> getIndicateurs() {
@@ -88,4 +110,11 @@ public class Transformateur1Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
+	
+
+
+	
+	
+	
+	
 }
