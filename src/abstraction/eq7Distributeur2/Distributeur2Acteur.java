@@ -99,7 +99,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte
 		
 
-		this.stocks = new Stocks();
+		this.stocks = new Stocks((Distributeur2)this);
 		this.achat = new Achat((Distributeur2)this);
 
 		
