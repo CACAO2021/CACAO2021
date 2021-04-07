@@ -19,7 +19,8 @@ public class Producteur2Valeurs {
 	protected static double QTT_FEVE_M_DEPART = QTT_FEVE_TOTALE*0.4833333;
 	protected static double QTT_FEVE_B_DEPART = QTT_FEVE_TOTALE*0.483333;
 	
-	protected static double QTT_POUDRE_DEPART = 0;
+	protected static double QTT_POUDRE_HE_DEPART = 0;
+	protected static double QTT_POUDRE_M_DEPART = 0;
 	
 	
 	// partie vente des fèves par kilo en euros

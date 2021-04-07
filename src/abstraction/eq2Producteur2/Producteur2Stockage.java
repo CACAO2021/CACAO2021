@@ -3,6 +3,7 @@ package abstraction.eq2Producteur2;
 import java.util.LinkedList;
 
 import abstraction.fourni.Filiere;
+import abstraction.fourni.Variable;
 
 public class Producteur2Stockage extends Producteur2Transfo {
 	private LinkedList<Stock> stockFeveHBE;
@@ -12,6 +13,8 @@ public class Producteur2Stockage extends Producteur2Transfo {
 	private LinkedList<Stock> stockFeveB; 
 	private LinkedList<Stock> stockPoudreHE;
 	private LinkedList<Stock> stockPoudreM; 
+	
+	protected Variable stockFHBE;
 	
 	//Dim
 	/**
@@ -47,6 +50,7 @@ public class Producteur2Stockage extends Producteur2Transfo {
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {
 				stock += s.getQtt();
+				stockFHBE = new Variable("stock feve HBE", null, stock);
 			}
 		}else if (estFeveHE(produit)) {			
 			for (Stock s : this.stockFeveHE) {
@@ -92,7 +96,7 @@ public class Producteur2Stockage extends Producteur2Transfo {
 	}
 	
 	public void verifPeremption() {
-		LinkedList<Stock> feveHBE = getStockFeveHBE();
+		LinkedList<Stock> feveHBE = stockFeveHBE;
 		return;
 	}
 
