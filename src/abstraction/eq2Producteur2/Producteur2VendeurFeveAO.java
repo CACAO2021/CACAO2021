@@ -27,8 +27,8 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-	Feve feveachetee=oa.getFeve();
-	int nbOffres=nbOffres.get(acheteurs.get(acheteurCourant);
+		/**Feve feveachetee=oa.getFeve();
+	int nbOffres=nbOffres.get(acheteurs.get(acheteurCourant));
 	
 	if ((feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_BIO_EQUITABLE)>oa.getQuantiteKG())) {
 		return PRIX_ESPERE_FEVE_HBE;
@@ -47,7 +47,8 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	}
 	else {
 		return 0.0;
-	}
+	}*/
+		return 0;
 	}
 	
 /**	@author Maxime Boillot
