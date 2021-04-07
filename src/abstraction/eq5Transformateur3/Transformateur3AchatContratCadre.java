@@ -11,14 +11,18 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Transformateur3AchatContratCadre implements IAcheteurContratCadre {
+public class Transformateur3AchatContratCadre extends Transformateur3Acteur implements IAcheteurContratCadre {
 	
 	public Echeancier contrePropositionDeLAcheteur1(ExemplaireContratCadre contrat) {
 		List<Echeancier> precedentesPropositions = contrat.getEcheanciers();
 		Echeancier dernierEcheancier = contrat.getEcheancier();
+		int stepDebut = dernierEcheancier.getStepDebut();
+		int nbStep = dernierEcheancier.getNbEcheances();
+		double quantiteParStep = dernierEcheancier.getQuantite(stepDebut);
+		int stepCourant = Filiere.LA_FILIERE.getEtape();
 		if () {
 			return null;
-		} else if () {
+		} else if ((nbStep>12) || (quantiteParStep<)) {
 			return dernierEcheancier;
 		} else {
 			return new Echeancier(stepDebut, nbStep, quantiteParStep);
@@ -28,14 +32,12 @@ public class Transformateur3AchatContratCadre implements IAcheteurContratCadre {
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		List<Double> precedentesPropositions = contrat.getListePrix();
 		Double dernierPrix = contrat.getPrix();
-		if (dernierPrix>) {
+		if (dernierPrix>1000) {
 			return -1;
-		} else if(dernierPrix<=){
-			return dernierPrix;
 		} else {
-			return (1+%)*dernierPrix;
-		}
-	}
+			return dernierPrix;
+		} 
+	}	
 	
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		
