@@ -11,9 +11,7 @@ import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Vendeur implements IDistributeurChocolatDeMarque, IActeur{
-	public Journal journalV;
-
+public class Vendeur extends Distributeur2Acteur implements IDistributeurChocolatDeMarque, IActeur{
 	@Override
 	public List<String> getNomsFilieresProposees() {
 		// TODO Auto-generated method stub
