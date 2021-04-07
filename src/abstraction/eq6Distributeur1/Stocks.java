@@ -43,7 +43,7 @@ public class Stocks extends Distributeur1Acteur{
 	}
 	
 	public void ajouterStock(Object produit, double quantite) {
-		//à completer
+		//A completer
 	}
 	
 
