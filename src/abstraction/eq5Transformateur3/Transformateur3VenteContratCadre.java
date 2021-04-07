@@ -12,8 +12,6 @@ import abstraction.fourni.Journal;
 //Léna
 
 public class Transformateur3VenteContratCadre extends Transformateur3Stock implements IVendeurContratCadre{
-	private Journal j = new Journal("ContratCadreVente", this);
-	
 	
 	public boolean peutVendre(Object produit) {
 		if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
@@ -53,7 +51,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Stock imple
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		this.j.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
+		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
 	}
 		
 	

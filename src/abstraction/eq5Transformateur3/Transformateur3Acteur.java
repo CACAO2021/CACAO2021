@@ -14,7 +14,7 @@ public class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre;
+	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
 		this.nom = "Côte d'IMT";
