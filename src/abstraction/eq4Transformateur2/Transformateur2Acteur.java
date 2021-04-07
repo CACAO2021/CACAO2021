@@ -8,14 +8,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
-import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
-import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
-import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
-import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 
-public class Transformateur2Acteur {
+public class Transformateur2Acteur implements IActeur {
 	
 	protected int cryptogramme;
 
@@ -84,7 +79,7 @@ public class Transformateur2Acteur {
 	
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
-		return Filiere.LA_FILIERE.getBanque().getSolde(this), this.cryptogramme);
+		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
 
 }
