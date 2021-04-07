@@ -24,11 +24,14 @@ public class Producteur1Acteur implements IActeur {
 	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
 	private List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
 	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
+	protected JournauxEq1 journaux;
 	
 	public Producteur1Acteur() {
 		this.init_stocks();
 		this.init_historiques();
 		this.step_actuel = 0;
+		this.journaux = new JournauxEq1();
+		
 
 	}
 
