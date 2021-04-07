@@ -2,7 +2,7 @@ package abstraction.eq7Distributeur2;
 
 import java.util.HashMap;
 
-import abstraction.eq8Romu.produits.Chocolat;
+
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
@@ -10,14 +10,14 @@ import abstraction.fourni.Variable;
 public class Stocks implements IStocks{
 	
 	//private HashMap<Chocolat, Variable> stocksParChocolat; //Stocks de chocolat par type
-	private HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
-	private HashMap<Integer, HashMap<ChocolatDeMarque, Variable>> nouveauChocoParEtape; //Historique des chocolats reçus à chaque étape par marque
-	private HashMap<ChocolatDeMarque, Variable> chocolatRecuEtape; // Chocolat recu à chaque étape
+	protected HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
+	protected HashMap<Integer, HashMap<ChocolatDeMarque, Variable>> nouveauChocoParEtape; //Historique des chocolats reçus à chaque étape par marque
+	protected HashMap<ChocolatDeMarque, Variable> chocolatRecuEtape; // Chocolat recu à chaque étape
 	private Distributeur2 acteur;
 	
 
-	public Stocks(Distributeur2 acteur) {
-		this.acteur = acteur;
+	public Stocks(Distributeur2Acteur acteur) {
+		this.acteur = (Distributeur2) acteur;
 		//stocksParChocolat = new HashMap<Chocolat,Variable>();
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();

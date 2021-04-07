@@ -1,6 +1,6 @@
 package abstraction.eq7Distributeur2;
 
-import abstraction.eq8Romu.produits.Chocolat;
+
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public interface IStocks {
