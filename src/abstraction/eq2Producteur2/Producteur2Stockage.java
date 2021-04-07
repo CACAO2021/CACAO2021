@@ -2,10 +2,16 @@ package abstraction.eq2Producteur2;
 
 import java.util.LinkedList;
 
+import abstraction.fourni.Filiere;
+
 public class Producteur2Stockage extends Producteur2Transfo {
-	private LinkedList<Stock> stockFeveHBE; 
-	// fr les autres types
-	private LinkedList<Stock> stockPoudre;
+	private LinkedList<Stock> stockFeveHBE;
+	private LinkedList<Stock> stockFeveHE; 
+	private LinkedList<Stock> stockFeveME;
+	private LinkedList<Stock> stockFeveM;
+	private LinkedList<Stock> stockFeveB; 
+	private LinkedList<Stock> stockPoudreHE;
+	private LinkedList<Stock> stockPoudreM; 
 	
 	//Dim
 	/**
@@ -17,18 +23,19 @@ public class Producteur2Stockage extends Producteur2Transfo {
 		// a modifier en prenant en compte le fait que le stock de depart n'est pas entierement creer au step 0 mais aussi a des steps anterieurs (pour plus tard)
 		this.stockFeveHBE = new LinkedList<Stock>();
 		this.stockFeveHBE.add(new Stock(QTT_FEVE_HBE_DEPART, 0));
-		// fr les autres feves
-		this.stockPoudre = new LinkedList<Stock>();
-		this.stockPoudre.add(new Stock(QTT_POUDRE_DEPART, 0));
-	}
-
-
-	public LinkedList<Stock> getStockFeveHBE() {
-		return stockFeveHBE;
-	}
-	// fr les autres types
-	public LinkedList<Stock> getStockPoudre() {
-		return stockPoudre;
+		this.stockFeveHE = new LinkedList<Stock>();
+		this.stockFeveHE.add(new Stock(QTT_FEVE_HE_DEPART, 0));
+		this.stockFeveME = new LinkedList<Stock>();
+		this.stockFeveME.add(new Stock(QTT_FEVE_ME_DEPART, 0));
+		this.stockFeveM = new LinkedList<Stock>();
+		this.stockFeveM.add(new Stock(QTT_FEVE_M_DEPART, 0));
+		this.stockFeveB = new LinkedList<Stock>();
+		this.stockFeveB.add(new Stock(QTT_FEVE_B_DEPART, 0));
+		
+		this.stockPoudreHE = new LinkedList<Stock>();
+		this.stockPoudreHE.add(new Stock(QTT_POUDRE_HE_DEPART, 0));
+		this.stockPoudreM = new LinkedList<Stock>();
+		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
 	}
 	
 	//Dim
@@ -36,34 +43,48 @@ public class Producteur2Stockage extends Producteur2Transfo {
 	 * retourne la quantité de stock disponible totale d'un produit 
 	 */
 	public double qttTotale(Object produit) {
-		if (estFeveHBE(produit)) {
-			double stock = 0;
-			for (Stock s : this.getStockFeveHBE()) {
+		double stock = 0;
+		if (estFeveHBE(produit)) {			
+			for (Stock s : this.stockFeveHBE) {
 				stock += s.getQtt();
 			}
-			return stock;
-			// finir les autres types de feve
-		}else if (estPoudre(produit)) {
-			double stock = 0;
-			for (Stock s : this.getStockPoudre()) {
+		}else if (estFeveHE(produit)) {			
+			for (Stock s : this.stockFeveHE) {
 				stock += s.getQtt();
 			}
-			return stock;
+		}else if (estFeveME(produit)) {			
+			for (Stock s : this.stockFeveME) {
+				stock += s.getQtt();
+			}
+		}else if (estFeveM(produit)) {			
+			for (Stock s : this.stockFeveM) {
+				stock += s.getQtt();
+			}
+		}else if (estFeveB(produit)) {			
+			for (Stock s : this.stockFeveB) {
+				stock += s.getQtt();
+			}
+		}else if (estPoudreHE(produit)) {
+			for (Stock s : this.stockPoudreHE) {
+				stock += s.getQtt();
+			}
+		}else if (estPoudreM(produit)) {
+			for (Stock s : this.stockPoudreM) {
+				stock += s.getQtt();
+			}
 		}
-		else {// si on ne vend pas le produit on retourne 0
-		return 0;
-		}
+		return stock;
 	}
 	
 	//Dim
 	public void addStock(double qtt, Object produit) {
-		int step = 0; // trouver comment obtenir le step actuel
+		int step = Filiere.LA_FILIERE.getEtape();
 		Stock s = new Stock(qtt, step);
 		if (estFeveHBE(produit)) {
-			this.getStockFeveHBE().add(s);
+			this.stockFeveHBE.add(s);
 			// finir tous les types de feve
 		}else if (estPoudre(produit)) {
-			this.getStockPoudre().add(s);
+			this.stockPoudreHE.add(s);
 		}else {
 			System.out.println("erreur");
 		}

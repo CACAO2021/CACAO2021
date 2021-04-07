@@ -9,7 +9,7 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
+public class Producteur2Acteur extends Producteur2Journaux implements IActeur {
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
