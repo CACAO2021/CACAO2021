@@ -6,7 +6,7 @@ import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 
-public class Vendeur extends Distributeur1Acteur implements IDistributeurChocolatDeMarque{
+public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
