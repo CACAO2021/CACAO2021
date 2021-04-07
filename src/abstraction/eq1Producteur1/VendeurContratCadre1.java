@@ -27,8 +27,8 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return null;
+		List<double> A = getListePrix(contrat);
+		return A;
 	}
 
 	@Override
