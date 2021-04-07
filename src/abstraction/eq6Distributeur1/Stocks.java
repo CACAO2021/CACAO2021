@@ -20,7 +20,7 @@ public class Stocks extends Distributeur1Acteur{
 	}
 	
 	public void ajouterStock(Object produit, double quantite) {
-		//A completer
+		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
 	}
 	
 
