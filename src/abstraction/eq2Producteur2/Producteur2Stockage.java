@@ -15,7 +15,13 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	private LinkedList<Stock> stockPoudreM; 
 	
 	protected Variable stockFHBE;
-	// a faire sur les autres
+	protected Variable stockFHE;
+	protected Variable stockFME;
+	protected Variable stockFM;
+	protected Variable stockFB;
+	protected Variable stockPHE;
+	protected Variable stockPM;
+
 	
 	//Dim
 	/**
@@ -42,13 +48,35 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
 		
 		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
+		stockFHE = new Variable("stock feve HBE", this, QTT_FEVE_HE_DEPART);
+		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
 	}
 	
 	//Dim
 	/*
 	 * retourne la quantité de stock disponible totale d'un produit 
 	 */
-	public double qttTotale(Object produit) {
+	public Variable qttTotale(Object produit) {
+		if (estFeveHBE(produit)) {			
+			return stockFHBE;
+		} else if (estFeveHE(produit)) {			
+			return stockFHE;
+		}else if (estFeveME(produit)) {			
+			return stockFME;
+		}else if (estFeveM(produit)) {			
+			return stockFM;
+		}else if (estFeveB(produit)) {			
+			return stockFB;
+		}else if (estPoudreHE(produit)) {
+			return stockPHE;
+		}else if (estPoudreM(produit)) {
+			return stockPM;
+		} else {
+			return new Variable("?", this, 0);
+		}
+	}
+	
+	public void majStock() {
 		double stock = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {
@@ -80,7 +108,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				stock += s.getQtt();
 			}
 		}
-		return stock;
 	}
 	
 	//Dim
@@ -89,12 +116,18 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		Stock s = new Stock(qtt, step);
 		if (estFeveHBE(produit)) {
 			this.stockFeveHBE.add(s);
-			// finir tous les types de feve
 		} else if (estFeveHE(produit)) {
-			this.stockFeveHBE.add(s);
-		}else if (estPoudre(produit)) {
-			System.out.println("ok");
+			this.stockFeveHE.add(s);
+		}else if (estFeveME(produit)) {
+			this.stockFeveME.add(s);
+		}else if (estFeveM(produit)) {
+			this.stockFeveM.add(s);
+		}else if (estFeveB(produit)) {
+			this.stockFeveB.add(s);
+		}else if (estPoudreHE(produit)) {
 			this.stockPoudreHE.add(s);
+		}else if (estPoudreM(produit)) {
+			this.stockPoudreM.add(s);
 		}else {
 			System.out.println("erreur");
 		}
