@@ -193,8 +193,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
-		// TODO Auto-generated method stub
-		
+		journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));		
 	}
 
 	@Override
