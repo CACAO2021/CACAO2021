@@ -50,7 +50,7 @@ public class Producteur2Stockage extends Producteur2Transfo {
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {
 				stock += s.getQtt();
-				stockFHBE = new Variable("stock feve HBE", null, stock);
+				stockFHBE = new Variable("stock feve HBE", this, stock);
 			}
 		}else if (estFeveHE(produit)) {			
 			for (Stock s : this.stockFeveHE) {

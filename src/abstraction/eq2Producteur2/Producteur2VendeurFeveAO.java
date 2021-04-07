@@ -7,10 +7,10 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
 
-	public double prixMinVenteAuKilo = 2.0;
 	protected LinkedList<ExemplaireContratCadre> mesContratsAO;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
@@ -24,9 +24,21 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-	if (this.getStockFeveHBE()>=oa.getQuantiteKG()) {
-	//Revoir la condition ci-dessus, implémenter stock
-		return prixMinVenteAuKilo;
+		Feve feveachetee=oa.getFeve();
+	if (feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_HBE;
+	}
+	else if (feveachetee==Feve.FEVE_HAUTE_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_HE;
+	}
+	else if (feveachetee==FEVE_MOYENNE_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_ME;
+	}
+	else if (feveachetee==FEVE_MOYENNE) {
+		return PRIX_ESPERE_FEVE_M;
+	}
+	else if (feveachetee==FEVE_BASSE) {
+		return PRIX_ESPERE_FEVE_B;
 	}
 	else {
 		return 0.0;
