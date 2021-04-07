@@ -24,7 +24,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		if(choco!=null) {
 			return prix.get(choco);
 		}
-		;
+		return 0;
 	}
 
 	@Override
