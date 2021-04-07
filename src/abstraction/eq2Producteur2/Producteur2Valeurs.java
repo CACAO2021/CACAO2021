@@ -1,6 +1,8 @@
 package abstraction.eq2Producteur2;
 
+
 import abstraction.eq8Romu.produits.Categorie;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs {
@@ -59,7 +61,11 @@ public class Producteur2Valeurs {
 	
 	public static boolean estFeve(Object produit) {return produit instanceof Feve;}
 	
-	public static boolean estPoudre(Object produit) { return produit.equals(Categorie.POUDRE);}
+	public static boolean estPoudreHE(Object produit) {return produit.equals(Chocolat.POUDRE_HAUTE_EQUITABLE);}
+	public static boolean estPoudreM(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE);}
+	
+	
+	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
 
 }
