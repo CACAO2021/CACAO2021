@@ -7,6 +7,7 @@ import java.util.HashMap;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Chocolat;
 
+
 public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
