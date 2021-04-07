@@ -12,15 +12,19 @@ import abstraction.fourni.Variable;
 public class Transformateur3Acteur implements IActeur {
 	
 	protected int cryptogramme;
+	private String nom;
+	private String description;
 
 	public Transformateur3Acteur() {
+		this.nom = "Côte d'IMT";
+		this.description = "Côte d'IMT, chocolatier de qualité";
 	}
 	public String getNom() {
-		return "EQ5";
+		return this.nom;
 	}
 
 	public String getDescription() {
-		return "Fiers de notre nom “Côte d’IMT”, inspiré de la grande marque de chocolat créée en Belgique Côte d’Or, nous souhaitons être principalement connus pour nos produits de qualité supérieure";
+		return "Côte d'IMT"
 	}
 
 	public Color getColor() {
