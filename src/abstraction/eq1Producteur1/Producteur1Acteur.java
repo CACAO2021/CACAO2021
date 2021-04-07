@@ -167,6 +167,8 @@ public class Producteur1Acteur implements IActeur {
 	 * Pour les coûts fixes et de transformation
 	 */
 	protected void perteargent(double quantite) {
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		if (quantite>0) {
+			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		}
 	}
-}
+} 
