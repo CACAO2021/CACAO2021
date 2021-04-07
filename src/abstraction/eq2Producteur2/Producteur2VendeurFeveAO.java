@@ -24,7 +24,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-	if (stock>=oa.getQuantiteKG()) {
+	if (this.getStockFeveHBE()>=oa.getQuantiteKG()) {
 	//Revoir la condition ci-dessus, implémenter stock
 		return prixMinVenteAuKilo;
 	}
