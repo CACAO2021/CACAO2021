@@ -26,6 +26,14 @@ public class Transformateur1Acteur implements IActeur {
 	protected Journal journalStock;
 	protected Journal journalTransformation;
 	
+	protected static double PRIX_ESPERE_FEVE_HE = 3.0;
+	protected static double PRIX_ESPERE_FEVE_HB = 3.0;
+	protected static double PRIX_ESPERE_FEVE_ME = 3.0;
+	
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_HB=2.0;
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_HE=2.0;
+	protected static double PRIX_MIN_ACCEPTEE_FEVE_ME=2.0;
+	
 	public static double STOCK_MAX = 10000000000.0;
 
 	public Transformateur1Acteur() {

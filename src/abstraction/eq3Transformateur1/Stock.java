@@ -31,7 +31,9 @@ public class Stock extends Transformateur1Acteur {
 	}
 	
 	public void setStock() {
-		
+		for (int i=0; i< this.stocksFeves.size(); i++) {
+			
+		}
 		
 	}
 	
