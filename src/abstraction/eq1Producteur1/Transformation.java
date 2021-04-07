@@ -12,7 +12,6 @@ import abstraction.eq8Romu.produits.Feve;
 public class Transformation extends Producteur1Acteur {
 	
 	public Transformation() {
-		
 	}
 	
 	public void Transformation_Feve_Quantite (Feve f,double quantite) {

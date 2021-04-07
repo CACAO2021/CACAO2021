@@ -32,13 +32,13 @@ public class Producteur1Acteur implements IActeur {
 		this.init_historiques();
 		this.step_actuel = 0;
 		this.journaux = new JournauxEq1();
-		this.transformation = new Transformation();
 		
 
 	}
 
 	public void initialiser() {
 		this.journaux.addJournal(3);
+		transformation = new Transformation();
 
 	}
 	/**
