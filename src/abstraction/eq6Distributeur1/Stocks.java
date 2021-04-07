@@ -1,30 +1,30 @@
 package abstraction.eq6Distributeur1;
 
-public class Stocks {
+public class Stocks extends Distributeur1Acteur{
 	
-	private int TABLETTE_HAUTE_BIO_EQUITABLE;
-	private int TABLETTE_HAUTE_BIO;
-	private int TABLETTE_HAUTE_EQUITABLE;
-	//private int TABLETTE_HAUTE;
-	private int TABLETTE_MOYENNE_EQUITABLE;
-	private int TABLETTE_MOYENNE;
-	private int TABLETTE_BASSE;
+	protected int TABLETTE_HAUTE_BIO_EQUITABLE;
+	protected int TABLETTE_HAUTE_BIO;
+	protected int TABLETTE_HAUTE_EQUITABLE;
+	//protected int TABLETTE_HAUTE;
+	protected int TABLETTE_MOYENNE_EQUITABLE;
+	protected int TABLETTE_MOYENNE;
+	protected int TABLETTE_BASSE;
 	
-	private int CONFISERIE_HAUTE_BIO_EQUITABLE;
-	//private int CONFISERIE_HAUTE_BIO;
-	private int CONFISERIE_HAUTE_EQUITABLE;
-	//private int CONFISERIE_HAUTE;
-	private int CONFISERIE_MOYENNE_EQUITABLE;
-	private int CONFISERIE_MOYENNE;
-	private int CONFISERIE_BASSE;
+	protected int CONFISERIE_HAUTE_BIO_EQUITABLE;
+	//protected int CONFISERIE_HAUTE_BIO;
+	protected int CONFISERIE_HAUTE_EQUITABLE;
+	//protected int CONFISERIE_HAUTE;
+	protected int CONFISERIE_MOYENNE_EQUITABLE;
+	protected int CONFISERIE_MOYENNE;
+	protected int CONFISERIE_BASSE;
 	
-	private int POUDRE_HAUTE_BIO_EQUITABLE;
-	//private int POUDRE_HAUTE_BIO;
-	//private int POUDRE_HAUTE_EQUITABLE;
-	//private int POUDRE_HAUTE;
-	private int POUDRE_MOYENNE_EQUITABLE;
-	private int POUDRE_MOYENNE;
-	private int POUDRE_BASSE;
+	protected int POUDRE_HAUTE_BIO_EQUITABLE;
+	//protected int POUDRE_HAUTE_BIO;
+	//protected int POUDRE_HAUTE_EQUITABLE;
+	//protected int POUDRE_HAUTE;
+	protected int POUDRE_MOYENNE_EQUITABLE;
+	protected int POUDRE_MOYENNE;
+	protected int POUDRE_BASSE;
 
 	
 	public Stocks() {
