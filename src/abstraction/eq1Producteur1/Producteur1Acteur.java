@@ -13,16 +13,16 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Producteur1Acteur implements IActeur {
-	protected int cryptogramme;
-	protected Stock stock_F_M_E;
-	protected Stock stock_F_M;
-	protected Stock stock_F_B;
-	protected Stock stock_P_M_E;
-	protected Stock stock_P_M;
+	private int cryptogramme;
+	private Stock stock_F_M_E;
+	private Stock stock_F_M;
+	private Stock stock_F_B;
+	private Stock stock_P_M_E;
+	private Stock stock_P_M;
 	protected HashMap<Object, Stock> stocks; //dictionnaire qui contient tous nos stocks.
 	protected int step_actuel;
-	protected List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
-	protected List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
+	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
+	private List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
 	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
 	
 	public Producteur1Acteur() {
