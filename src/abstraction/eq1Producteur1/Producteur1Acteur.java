@@ -27,7 +27,7 @@ public class Producteur1Acteur implements IActeur {
 	protected JournauxEq1 journaux;
 	
 	public Producteur1Acteur() {
-		this.init_stocks();
+		this.init_stocks(this);
 		this.init_historiques();
 		this.step_actuel = 0;
 		this.journaux = new JournauxEq1();
@@ -44,12 +44,12 @@ public class Producteur1Acteur implements IActeur {
 	 * On crée un stock pour chaque chose que l'on produit.
 	 * On range ensuite les stock dans un dictionnaire stocks.
 	 */
-	private void init_stocks() {
-		this.stock_F_M_E = new Stock(0); //stock que l'on possède au départ
-		this.stock_F_M = new Stock(0);
-		this.stock_F_B = new Stock(0);
-		this.stock_P_M_E = new Stock(0);
-		this.stock_P_M = new Stock(0);
+	private void init_stocks(IActeur a) {
+		this.stock_F_M_E = new Stock("Stock F_M_E",0, a); //stock que l'on possède au départ
+		this.stock_F_M = new Stock("Stock F_M",0, a);
+		this.stock_F_B = new Stock("Stock F_B",0, a);
+		this.stock_P_M_E = new Stock("Stock P_M_E",0, a);
+		this.stock_P_M = new Stock("Stock P_M",0, a);
 		this.stocks = new HashMap<Object, Stock>();
 		this.stocks.put(Feve.FEVE_MOYENNE_EQUITABLE, stock_F_M_E);
 		this.stocks.put(Feve.FEVE_MOYENNE, stock_F_M);
@@ -84,12 +84,13 @@ public class Producteur1Acteur implements IActeur {
 		this.historique_AO_F_M.add(new VenteAO());
 		this.historique_AO_F_B.add(new VenteAO());
 	}
-	
+	/**
+	 * @author Alb1x
+	 */
 	private void produireFeve() {
-		//TODO Ajouter la quantité que l'on produit de chaque type de fève a chaque step.
-		this.stocks.get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(0);
-		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(0);
-		this.stocks.get(Feve.FEVE_BASSE).addQuantite(0);
+		this.stocks.get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
+		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(67500000);
+		this.stocks.get(Feve.FEVE_BASSE).addQuantite(60000000);
 	}
 
 	public String getNom() {
@@ -127,6 +128,9 @@ public class Producteur1Acteur implements IActeur {
 
 	public List<Variable> getIndicateurs() {
 		List<Variable> res=new ArrayList<Variable>();
+		for (Stock stck : stocks.values()) { //On ajoute les valeurs des stocks.
+			res.add(stck.getVariable());
+		}
 		return res;
 	}
 
