@@ -5,7 +5,6 @@ import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public interface IStocks {
 	
-	public void initialiser();
 	
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque);
 	
