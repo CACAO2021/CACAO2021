@@ -16,7 +16,7 @@ public class MarqueTransformateur1 implements IMarqueChocolat {
 	
 //Pour l'instant on ne modélise qu'avec 1 seul produit par marque.
 	// constructeur
-	public MarqueTransformateur1(){
+	public MarqueTransformateur1() {
 		this.Marques = new ArrayList<String>() ;
 		this.Marques.add("Milieu de gamme Ethicao");
 		this.Marques.add("Haut de gamme Ethicao");
@@ -36,7 +36,7 @@ public class MarqueTransformateur1 implements IMarqueChocolat {
 		return null;
 	}
 	// renvoie une liste de tous les produits existants
-	public List<Chocolat> Produits() {
+	public List<Chocolat> getProduits() {
 		List<Chocolat> L = new ArrayList<Chocolat>();
 		for(int j=0; j<this.MProduits.size(); j++) {
 			L.add(this.MProduits.get(j));
