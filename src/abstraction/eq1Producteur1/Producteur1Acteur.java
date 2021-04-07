@@ -35,6 +35,9 @@ public class Producteur1Acteur implements IActeur {
 		
 
 	}
+	public Journal getJournal(int i) {
+		return journaux.getJournal(i);
+	}
 
 	public void initialiser() {
 		this.journaux.addJournal(3);
