@@ -6,7 +6,6 @@ import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
-import abstraction.eq8Romu.produits.Gamme;
 import abstraction.eq8Romu.produits.Feve;
 
 public class AcheteurFevesA0eq4 extends Transformateur2Acteur implements IAcheteurFevesAO {
@@ -14,7 +13,7 @@ public class AcheteurFevesA0eq4 extends Transformateur2Acteur implements IAchete
 
 	@Override
 	public OffreAchatFeves getOffreAchat() {
-		return OffreAchatFeves(getNom(), Feve(Gamme.BASSE, false, false), 1000);
+		return new OffreAchatFeves(this, Feve.FEVE_BASSE, (double) 1000);
 	}
 
 	@Override
