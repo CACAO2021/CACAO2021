@@ -11,24 +11,26 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 	
 	public Transformateur3Stock() {
 		HashMap<Chocolat, Variable> enStock = new HashMap<Chocolat, Variable>();
-		Variable value_Tablette_Haute_Bio_Equitable = new Variable("Quantite disponible", new Transformateur3(), 5000);
-		Variable value_Tablette_moyenne = new Variable("Quantite disponible", new Transformateur3(), 5000);
-		Variable value_Confiserie_moyenne = new Variable("Quantite disponible", new Transformateur3(), 5000);
+		Variable value_Tablette_Haute_Bio_Equitable = new Variable("Quantite disponible", this, 5000);
+		Variable value_Tablette_moyenne = new Variable("Quantite disponible", this, 5000);
+		Variable value_Confiserie_moyenne = new Variable("Quantite disponible", this, 5000);
 		enStock.put(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, value_Tablette_Haute_Bio_Equitable);
 		enStock.put(Chocolat.TABLETTE_MOYENNE, value_Tablette_moyenne);
 		enStock.put(Chocolat.CONFISERIE_MOYENNE, value_Confiserie_moyenne);
 	}
 	
 	public void ajouter(Chocolat chocolat, double delta) {
-		IActeur acteur = new Transformateur3();
 		Variable variable = this.getChocolats().get(chocolat);
-		variable.ajouter(acteur, delta);		
+		variable.ajouter(this, delta);		
+		this.JournalAjoutStock.ajouter("Ajout de "+delta+"kg de "+chocolat);
 	}
 	
 	public void retirer(Chocolat chocolat, double delta) {
-		IActeur acteur = new Transformateur3();
 		Variable variable = this.getChocolats().get(chocolat);
-		variable.retirer(acteur, delta);
+		if(variable.getValeur()>=delta) {
+			variable.retirer(this, delta);
+		}
+		this.JournalRetraitStock.ajouter("Retrait de "+delta+"kg de "+chocolat);
 	}
 
 	public HashMap<Chocolat, Variable> getChocolats() {
