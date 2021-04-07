@@ -23,7 +23,6 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	protected Object produit;
 	protected Journal journal;
 	protected SuperviseurVentesContratCadre supCCadre;
-	private Stock stock;
 	protected List<ExemplaireContratCadre> mesCC;
 	
 
@@ -55,7 +54,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 */
 
 	public boolean vend(Object produit){
-	return  ((stock.getQuantite() > 0) && (this.peutVendre(produit)));
+	return  ((stocks.get(produit).getQuantite() > 0) && (this.peutVendre(produit)));
 }
 		
 
@@ -70,8 +69,8 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 */
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.25*stock_F_M_E.getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.05*stock_F_M_E.getQuantite()) {
-				double nvlleqte = 0.15*stock_F_M_E.getQuantite();
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.25*stocks.get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.05*stocks.get(contrat.getProduit()).getQuantite()) {
+				double nvlleqte = 0.15*stocks.get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
@@ -89,8 +88,8 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 				return e;
 			} 
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*stock_P_M_E.getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *stock_P_M_E.getQuantite()) {
-				double nvlleqte = 0.2*stock_P_M_E.getQuantite();
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*stocks.get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *stocks.get(contrat.getProduit()).getQuantite()) {
+				double nvlleqte = 0.2*stocks.get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
@@ -108,8 +107,8 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 				return e;
 			}
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.60*stock_P_M.getQuantite()/contrat.getEcheancier().getNbEcheances() ) {
-				double nvlleqte = 0.8*stock_P_M.getQuantite();
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.60*stocks.get(contrat.getProduit()).getQuantite()/contrat.getEcheancier().getNbEcheances() ) {
+				double nvlleqte = 0.8*stocks.get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
@@ -136,6 +135,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	/** 
 	* @author Alb1x
 	* Trouver un prix pour la poudre
+	* Pour l'instant on n'en produit pas
 	*/
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		Object produit = contrat.getProduit();
@@ -143,12 +143,6 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		if (produit instanceof Feve) {
 			if ((Feve)produit==Feve.FEVE_MOYENNE_EQUITABLE) {
 				prix=2150;
-			}
-			if ((Feve)produit==Feve.FEVE_MOYENNE) {
-				prix=1700;
-			}
-			if ((Feve)produit==Feve.FEVE_BASSE) {
-				prix=1520;
 			}
 		}
 		if (produit instanceof Chocolat) {
@@ -194,21 +188,21 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 */
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		if ((produit instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE))) {
-			double livre = Math.min(stock_F_M_E.getQuantite(), quantite);
+			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
-				stock_F_M_E.removeQuantite(livre);
+				stocks.get(produit).removeQuantite(livre);
 				}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
-			double livre = Math.min(stock_P_M_E.getQuantite(), quantite);
+			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
-				stock_P_M_E.removeQuantite(livre);
+				stocks.get(produit).removeQuantite(livre);
 			}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
-			double livre = Math.min(stock_P_M.getQuantite(), quantite);
+			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
-				stock_P_M.removeQuantite(livre);
+				stocks.get(produit).removeQuantite(livre);
 			}
 			return livre;
 		}

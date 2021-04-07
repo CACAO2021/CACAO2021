@@ -13,18 +13,18 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Producteur1Acteur implements IActeur {
-	protected int cryptogramme;
-	protected Stock stock_F_M_E;
-	protected Stock stock_F_M;
-	protected Stock stock_F_B;
-	protected Stock stock_P_M_E;
-	protected Stock stock_P_M;
+	private int cryptogramme;
+	private Stock stock_F_M_E;
+	private Stock stock_F_M;
+	private Stock stock_F_B;
+	private Stock stock_P_M_E;
+	private Stock stock_P_M;
 	protected HashMap<Object, Stock> stocks; //dictionnaire qui contient tous nos stocks.
 	protected int step_actuel;
-	protected List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
-	protected List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
+	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
+	private List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
 	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
-
+	
 	public Producteur1Acteur() {
 		this.init_stocks();
 		this.init_historiques();
@@ -41,7 +41,7 @@ public class Producteur1Acteur implements IActeur {
 	 * On range ensuite les stock dans un dictionnaire stocks.
 	 */
 	private void init_stocks() {
-		this.stock_F_M_E = new Stock(0);
+		this.stock_F_M_E = new Stock(0); //stock que l'on possède au départ
 		this.stock_F_M = new Stock(0);
 		this.stock_F_B = new Stock(0);
 		this.stock_P_M_E = new Stock(0);
@@ -61,6 +61,7 @@ public class Producteur1Acteur implements IActeur {
 	private void init_historiques() {
 		this.historique_AO_F_M  = new ArrayList<VenteAO>();
 		this.historique_AO_F_B  = new ArrayList<VenteAO>();
+		this.historiques = new HashMap<Feve,List<VenteAO>>();
 		this.historiques.put(Feve.FEVE_MOYENNE, this.historique_AO_F_M);
 		this.historiques.put(Feve.FEVE_BASSE, historique_AO_F_B);
 	}
@@ -78,6 +79,13 @@ public class Producteur1Acteur implements IActeur {
 	private void majHist_AO() {
 		this.historique_AO_F_M.add(new VenteAO());
 		this.historique_AO_F_B.add(new VenteAO());
+	}
+	
+	private void produireFeve() {
+		//TODO Ajouter la quantité que l'on produit de chaque type de fève a chaque step.
+		this.stocks.get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(0);
+		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(0);
+		this.stocks.get(Feve.FEVE_BASSE).addQuantite(0);
 	}
 
 	public String getNom() {
@@ -101,6 +109,7 @@ public class Producteur1Acteur implements IActeur {
 	public void next() {
 		this.stepSuivant();
 		this.majHist_AO();
+		this.produireFeve();
 	}
 
 	public List<String> getNomsFilieresProposees() {
