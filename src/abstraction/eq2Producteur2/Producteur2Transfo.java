@@ -8,7 +8,7 @@ import abstraction.eq2Producteur2.Producteur2Prod;
 
 // Elo
 
-public class Producteur2Transfo extends Producteur2Prod {
+public abstract class Producteur2Transfo extends Producteur2Prod {
 	private LinkedList<Stock> FevesHEtransformees;
 	private LinkedList<Stock> FevesMtransformees;
 	private LinkedList<Stock> FevesMEtransformees;

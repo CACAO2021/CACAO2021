@@ -7,7 +7,7 @@ import abstraction.fourni.Filiere;
 
 //Emeline
 
-public class Producteur2Prod extends Producteur2Stockage {
+public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesHBE;
 	private LinkedList<Stock> arbrePlantesHE;
 	private LinkedList<Stock> arbrePlantesME;

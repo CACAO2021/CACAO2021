@@ -136,6 +136,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 		// garder en mémoire la production future a assumer
 		contrat.getQuantiteTotale(); // va falloir produire ca
 		contrat.getEcheancier().getStepFin(); // dernier step ou on doit fournir
+		this.JournalVente.ajouter("nouvelle vente avec " + contrat.getAcheteur());
 	}
 
 	@Override

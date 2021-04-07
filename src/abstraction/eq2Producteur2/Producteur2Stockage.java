@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
-public class Producteur2Stockage extends Producteur2Journaux {
+public abstract class Producteur2Stockage extends Producteur2Journaux {
 	private LinkedList<Stock> stockFeveHBE;
 	private LinkedList<Stock> stockFeveHE; 
 	private LinkedList<Stock> stockFeveME;
@@ -101,5 +101,8 @@ public class Producteur2Stockage extends Producteur2Journaux {
 		LinkedList<Stock> feveHBE = stockFeveHBE;
 		return;
 	}
+
+	@Override
+	public abstract void perdreArgent(double montant) ;
 
 }
