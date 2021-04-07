@@ -27,17 +27,18 @@ public class Stocks implements IStocks{
 		public Color peremptionColor = Color.MAGENTA;
 	
 
-	public Stocks(Distributeur2Acteur acteur) {
+	public Stocks(Distributeur2 acteur) {
 		this.acteur = (Distributeur2) acteur;
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
-		chocolatRecuEtape = new HashMap<ChocolatDeMarque, Variable>();
+		chocolatRecuEtape = new HashMap<ChocolatDeMarque, Variable>();		
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
 			stocksParMarque.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name()+ " en Stock", acteur,0));
 			acteur.journalStocks.ajouter(Journal.texteColore(metaColor, Color.BLACK,"[CRÉATION] Création d'un stock pour le " + chocoDeMarq + "."));
 			chocolatRecuEtape.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name() + "Recu",acteur,0));
+		}
 		}		
-	}
+	
 
 
 	@Override
@@ -51,7 +52,7 @@ public class Stocks implements IStocks{
 		//stocksParMarque.put(chocolatDeMarque, this.stocksParMarque.get(chocolatDeMarque));
 		acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, Journal.doubleSur(quantite,2) + " de " + chocolatDeMarque.name() + " (nouveau stock : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
 		int etape = Filiere.LA_FILIERE.getEtape();
-		
+
 		nouveauChocoParEtape.get(etape).get(chocolatDeMarque).ajouter(acteur, quantite);
 		//nouveauChocoParEtape.get(etape).put(chocolatDeMarque,this.nouveauChocoParEtape.get(etape).get(chocolatDeMarque));
 		

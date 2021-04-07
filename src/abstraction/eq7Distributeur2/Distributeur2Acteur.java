@@ -35,9 +35,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
-
-		
-		
 		
 	}
 	public int getCryptogramme() {
@@ -204,8 +201,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
-		// TODO Auto-generated method stub
-		
+		journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));		
 	}
 
 	@Override
