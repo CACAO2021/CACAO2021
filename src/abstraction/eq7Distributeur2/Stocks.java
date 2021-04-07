@@ -9,7 +9,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Stocks implements IStocks{
+public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	//private HashMap<Chocolat, Variable> stocksParChocolat; //Stocks de chocolat par type
 	protected HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
@@ -28,7 +28,7 @@ public class Stocks implements IStocks{
 	
 
 	public Stocks(Distributeur2 acteur) {
-		this.acteur = (Distributeur2) acteur;
+		this.acteur = acteur;
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
 		//chocolatRecuEtape = new HashMap<ChocolatDeMarque, Variable>();		

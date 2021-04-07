@@ -30,7 +30,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	
 
-	public Achat(Distributeur2Acteur wonka) {
+	public Achat(Distributeur2 wonka) {
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();
 		this.quantiteLimite =  10; //arbitrairement choisie : pas descendre en dessous de cette quantité pour n'importe quel produit
@@ -56,7 +56,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//}
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
-		for(ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
+		for(ChocolatDeMarque choco : this.getCatalogue()) {
 			if(stocks.getStockChocolatDeMarque(choco) <= quantiteLimite) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax - stocks.getStockChocolatDeMarque(choco)));
 			}
@@ -68,7 +68,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
-		for(ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits() ) {
+		for(ChocolatDeMarque choco : this.getCatalogue() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) supCCadre.getVendeurs(choco);
 			int i = (int) (Math.random()*vendeurs.size()) ;
 			IVendeurContratCadre vendeur = vendeurs.get(i);
