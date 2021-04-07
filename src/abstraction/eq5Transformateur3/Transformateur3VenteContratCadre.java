@@ -60,8 +60,11 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		double livre = Math.min(s.getChocolats().get(produit).getValeur(), quantite);
+		if (livre>0.0) {
+			s.retirer(s.getChocolats().get(produit));
+		}
+		return livre;
 	}
 	
 

@@ -12,8 +12,17 @@ import abstraction.fourni.Variable;
 public class Transformateur3Acteur implements IActeur {
 	
 	protected int cryptogramme;
+	private String nom;
+	private String description;
+	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre;
 
-	@Override
+	public Transformateur3Acteur() {
+		this.nom = "Côte d'IMT";
+		this.description = "Côte d'IMT, chocolatier de qualité";
+		this.JournalAjoutStock = new Journal(this.getNom()+" ajout dans le stock", this);
+		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
+	}
+
 	public String getNom() {
 		// TODO Auto-generated method stub
 		return null;
@@ -21,6 +30,7 @@ public class Transformateur3Acteur implements IActeur {
 
 	@Override
 	public String getDescription() {
+
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -64,6 +74,9 @@ public class Transformateur3Acteur implements IActeur {
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
+		res.add(this.JournalAjoutStock);
+		res.add(this.JournalRetraitStock);
+		res.add(this.JournalAchatContratCadre);
 		return res;
 	}
 
