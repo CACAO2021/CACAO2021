@@ -16,9 +16,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	
 	protected int cryptogramme;
 	protected Stocks stocks;
-	protected Journal journal;
+	protected Journal journalActivités, journalVentes, journalStocks, journalAchats;
 	protected List<ChocolatDeMarque> catalogue;
-	
+	protected List<Variable> indicateurs;
+	protected List<Variable> parametres;
 	
 
 	public Distributeur2Acteur() {
@@ -27,13 +28,26 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		initialisationJournaux();
 		
 		
+		
 	}
 	
 	public void initialisationJournaux() {
-		journal = new Journal(getNom() + " : Informations générales", this);
-		journal.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
-		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
-		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
+		journalActivités = new Journal(getNom() + " : Informations générales", this);
+		journalActivités.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
+		journalActivités.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
+		journalActivités.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
+		
+		journalVentes = new Journal(getNom() + " : Registre des ventes", this);
+		journalVentes.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des ventes"));
+		journalVentes.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les ventes de produits"));
+		
+		journalStocks = new Journal(getNom() + " : Registre des stocks", this);
+		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des stocks"));
+		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant l'état des stocks"));
+		
+		journalAchats = new Journal(getNom() + " : Registre des achats", this);
+		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des acahats"));
+		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
 	}
 
 	
@@ -54,6 +68,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		for (ChocolatDeMarque CDM : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			catalogue.add(CDM);
 		}
+		Filiere.LA_FILIERE.getBanque().creerCompte(this);
+		
+		
 		
 		
 	}
@@ -81,14 +98,17 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
-		List<Variable> res=new ArrayList<Variable>();
-		return res;
+		return this.parametres;
 	}
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
-		List<Journal> res=new ArrayList<Journal>();
-		return res;
+		List<Journal> journaux = new ArrayList<Journal>();
+		journaux.add(journalActivités);
+		journaux.add(journalVentes);
+		journaux.add(journalStocks);
+		journaux.add(journalAchats);
+		return journaux;
 	}
 
 	public void setCryptogramme(Integer crypto) {
@@ -97,9 +117,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void notificationFaillite(IActeur acteur) {
+		journalActivités.ajouter(descriptionColor, Color.BLUE, "Attention " + acteur.getNom() + " est out");
 	}
 
 	public void notificationOperationBancaire(double montant) {
+		if (montant>0) {
+			journalActivités.ajouter(descriptionColor, Color.GREEN, "Vous avez reçu un virement de " + montant);
+		}
+		else {
+			journalActivités.ajouter(descriptionColor, Color.RED, "Votre compte vient d'être débité de" + montant); }
 	}
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
