@@ -96,7 +96,7 @@ public class Producteur2Valeurs {
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
 	// partie transformation
-	protected double coefHE = 0.4; //(à déterminer)
+	protected double coefHE = 0.4; //(à affiner)
 	protected double coefM = 0.4;
 	protected double coefME = 0.4;
 	
