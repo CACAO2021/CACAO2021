@@ -10,7 +10,6 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 
 public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
 
-	public double prixMinVenteAuKilo = 2.0;
 	protected LinkedList<ExemplaireContratCadre> mesContratsAO;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
@@ -24,9 +23,18 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-	if (this.getStockFeveHBE()>=oa.getQuantiteKG()) {
-	//Revoir la condition ci-dessus, implémenter stock
-		return prixMinVenteAuKilo;
+		Feve feveachetee=oa.getFeve();
+	if (feveachetee==FEVE_HAUTE_BIO_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_HBE;
+	}
+	else if (feveachetee==FEVE_HAUTE_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_HE;
+	}
+	if (feveachetee==FEVE_MOYENNE_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_ME;
+	}
+	if (feveachetee==FEVE_HAUTE_BIO_EQUITABLE) {
+		return PRIX_ESPERE_FEVE_HBE;
 	}
 	else {
 		return 0.0;
