@@ -22,6 +22,7 @@ public class Stocks extends Distributeur1Acteur{
 	}
 	
 	public void ajouterStock(Object produit, double quantite) {
+		//peut-etre que caster produit en ChocolatDeMarque va faire une erreur, il faudrait mettre des verifications ou le caster avant d'utiliser cette methode
 		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
 	}
 	
