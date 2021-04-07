@@ -9,7 +9,7 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 
-public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
+public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
 	protected LinkedList<ExemplaireContratCadre> mesContratsAO;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;

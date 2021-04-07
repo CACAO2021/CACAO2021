@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
-public class Producteur2Stockage extends Producteur2Transfo {
+public class Producteur2Stockage extends Producteur2Journaux {
 	private LinkedList<Stock> stockFeveHBE;
 	private LinkedList<Stock> stockFeveHE; 
 	private LinkedList<Stock> stockFeveME;

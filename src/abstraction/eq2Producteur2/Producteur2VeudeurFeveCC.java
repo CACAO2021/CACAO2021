@@ -7,7 +7,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 
 
-public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVendeurContratCadre {
+public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 		protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
