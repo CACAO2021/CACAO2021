@@ -12,7 +12,7 @@ import abstraction.fourni.Filiere;
 
 //Antoine C
 
-public class Transformateur2Acteur implements IActeur {
+public class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
 	
 	protected int cryptogramme;
 	protected Journal journal;

@@ -2,9 +2,9 @@ package abstraction.eq4Transformateur2;
 
 //Antoine R
 
-public class Stock extends Transformateur2Acteur {
+public class Transformateur2Stock extends Transformateur2Acteur {
 	
-	public Stock() {
+	public Transformateur2Stock() {
 		super();
 	}
 	
