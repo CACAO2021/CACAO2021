@@ -26,16 +26,6 @@ public class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalVente.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");	
 	}
 	
-	public List<Variable> getIndicateurs() {
-		List<Variable> res=new ArrayList<Variable>();
-		return res;
-	}
-	
-	public List<Variable> getParametres() {
-		List<Variable> res=new ArrayList<Variable>();
-		return res; 
-	}
-
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
 		res.add(JournalProd);

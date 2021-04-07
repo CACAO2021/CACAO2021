@@ -49,6 +49,13 @@ public class Producteur2Valeurs {
 	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;
 	
 	
+	protected static double COUT_PRODUCTION_FEVE_B = 1.4;
+	protected static double COUT_PRODUCTION_FEVE_M = 2.3;
+	protected static double COUT_PRODUCTION_FEVE_ME = PRIX_MIN_ACCEPTEE_FEVE_M*1.2;
+	protected static double COUT_PRODUCTION_FEVE_HE = 3.7;
+	protected static double COUT_PRODUCTION_FEVE_HBE = PRIX_MIN_ACCEPTEE_FEVE_HE*1.2;
+	
+	
 	// partie production
 	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/6;
 	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/6;
@@ -83,9 +90,22 @@ public class Producteur2Valeurs {
 	
 	public static boolean estPoudreHE(Object produit) {return produit.equals(Chocolat.POUDRE_HAUTE_EQUITABLE);}
 	public static boolean estPoudreM(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE);}
+	public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
 	
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
+	// partie transformation
+	protected double coefHE = 1; //(à déterminer)
+	protected double coefM = 1;
+	protected double coefME = 1;
+	
+	protected int qteParStepHE = 1; //quantité que l'on peut transformer en un step
+	protected int qteParStepM = 1;
+	protected int qteParStepME = 1;
+	
+	protected double prixHEparKilo = 1; // coût de transformation d'un kilo de fèves en poudre
+	protected double prixMparKilo = 1;
+	protected double prixMEparKilo = 1;
 
 }

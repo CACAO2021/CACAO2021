@@ -39,6 +39,8 @@ public class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreHE.add(new Stock(QTT_POUDRE_HE_DEPART, 0));
 		this.stockPoudreM = new LinkedList<Stock>();
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
+		
+		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
 	}
 	
 	//Dim

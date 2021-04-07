@@ -3,7 +3,8 @@ package abstraction.eq2Producteur2;
 import java.util.LinkedList;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Beurre;
-import abstraction.eq2Producteur2.Producteur2Stockage;
+import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq2Producteur2.Producteur2Prod;
 
 // Elo
 
@@ -17,11 +18,11 @@ public class Producteur2Transfo extends Producteur2Prod {
 	public Producteur2Transfo() {
 		super();
 		this.FevesHEtransformees = new LinkedList<Stock>();
-		this.FevesHEtransformees.add(new Stock(TRANSFO_DEBUT_HE, 0));
+		this.FevesHEtransformees.add(new Stock(0.1*prodParStep(Feve.FEVE_HAUTE_EQUITABLE), 0));
 		this.FevesMtransformees = new LinkedList<Stock>();
-		this.FevesMtransformees.add(new Stock(TRANSFO_DEBUT_M, 0));
+		this.FevesMtransformees.add(new Stock(0.1*prodParStep(Feve.FEVE_MOYENNE), 0));
 		this.FevesMEtransformees = new LinkedList<Stock>();
-		this.FevesMEtransformees.add(new Stock(TRANSFO_DEBUT_ME, 0));
+		this.FevesMEtransformees.add(new Stock(0*prodParStep(Feve.FEVE_MOYENNE_EQUITABLE), 0));
 		
 		this.listeTransfo = new LinkedList<Object>();
 		this.listeTransfo.add(Beurre.BEURRE_HAUTE_EQUITABLE);
@@ -66,5 +67,28 @@ public class Producteur2Transfo extends Producteur2Prod {
 	public double prodParStep(Object produit) {
 		return qteFeves(produit)*coef(produit);
 	}
+	
+	public int tempsTransf(Object produit) {
+		if (estPoudreHE(produit)) {
+			return (int)(prodParStep(produit)/qteParStepHE);
+		} else if (estPoudreM(produit)){
+			return (int)(prodParStep(produit)/qteParStepM);
+		} else if (estPoudreME(produit)){
+			return (int)(prodParStep(produit)/qteParStepME);
+		} return 0;
+	}
+	
+	public double coutTransf(Object produit) {
+		if (estPoudreHE(produit)) {
+			return prodParStep(produit)*prixHEparKilo;
+		} else if (estPoudreM(produit)) {
+			return prodParStep(produit)*prixMparKilo;
+		} else if (estPoudreME(produit)) {
+			return prodParStep(produit)*prixMEparKilo;
+		} return 0;
+	}
 
 }
+
+// public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
+
