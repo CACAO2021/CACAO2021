@@ -11,12 +11,14 @@ import abstraction.fourni.Variable;
 public class Stocks extends Distributeur1Acteur{
 	
 	
-	protected Map<ChocolatDeMarque, Variable> stock; 
+	protected Map<ChocolatDeMarque, Variable> stock;
+	protected Map<ChocolatDeMarque, Variable> prix;
 
 
 	
 	public Stocks() {
 		this.stock=new HashMap<ChocolatDeMarque, Variable>();
+		this.prix=new HashMap<ChocolatDeMarque, Variable>();
 	}
 	
 	public void ajouterStock(Object produit, double quantite) {
