@@ -13,6 +13,7 @@ import abstraction.fourni.Filiere;
 public class Transformateur2Acteur implements IActeur {
 	
 	protected int cryptogramme;
+	protected Journal journal;
 
 	public Transformateur2Acteur() {
 	}
@@ -52,6 +53,7 @@ public class Transformateur2Acteur implements IActeur {
 	public List<Variable> getIndicateurs() {
 		// on choisit les indicateurs qui nous seront donnés lors de la simu
 		List<Variable> res=new ArrayList<Variable>();
+		//res.add(e);
 		return res;
 	}
 	

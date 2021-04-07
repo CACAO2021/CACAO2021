@@ -18,7 +18,7 @@ public class AcheteurFevesA0eq4 extends Transformateur2Acteur implements IAchete
 
 	@Override
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		//notifier que les vendeurs ne veulent pas de nous
+		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 
 	@Override
