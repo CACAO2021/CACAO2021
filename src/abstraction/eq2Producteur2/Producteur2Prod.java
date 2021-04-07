@@ -27,8 +27,13 @@ public class Producteur2Prod extends Producteur2Stockage {
 		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
 		this.arbrePlantesB = new LinkedList<Stock>();
 		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
+		
 		this.listeProd = new LinkedList<Object>();
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE);
+		this.listeProd.add(Feve.FEVE_BASSE);
 		}
 	
 	public double qttArbre(Object produit) { // ok 
@@ -83,8 +88,13 @@ public class Producteur2Prod extends Producteur2Stockage {
 			return PROD_HBE;
 		} else if(estFeveHE(p)) {
 			return PROD_HE;
-		} // a finir
-		else { // un produit que l'on ne vend pas
+		} else if(estFeveME(p)) {
+			return PROD_ME;
+		} else if(estFeveM(p)) {
+			return PROD_M;
+		}else if(estFeveB(p)) {
+			return PROD_B;
+		} else { // un produit que l'on ne vend pas
 			return 0;
 		}
 	}
