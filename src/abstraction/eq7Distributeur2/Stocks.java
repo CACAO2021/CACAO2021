@@ -40,7 +40,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			Init.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name()+ " en Stock", acteur,0));
 			nouveauChocoParEtape.put(0, Init);
 		}
-		}		
+	}		
 	
 	public void initialiserChqEtape() {
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {

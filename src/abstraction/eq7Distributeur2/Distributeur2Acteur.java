@@ -24,7 +24,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	protected Journal journalTransactions, journalVentes, journalStocks, journalAchats, journalCatalogue, journal;
 
-	protected List<ChocolatDeMarque> catalogue;
 
 	protected List<Variable> indicateurs;
 	protected List<Variable> parametres;
@@ -90,10 +89,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void initialiser() {
-		for (ChocolatDeMarque CDM : Filiere.LA_FILIERE.getChocolatsProduits()) {
-			catalogue.add(CDM);
-		journalCatalogue.ajouter(Journal.texteColore(behaviorColor, Color.BLACK , CDM.getMarque()));
 		
+		this.initialiserCatalogue();
+		for (ChocolatDeMarque CDM : this.catalogue) {
+		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
 		}
 
 		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte

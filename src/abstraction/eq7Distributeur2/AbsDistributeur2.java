@@ -2,13 +2,18 @@ package abstraction.eq7Distributeur2;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.fourni.Filiere;
+import abstraction.fourni.Journal;
 
 public abstract class AbsDistributeur2 {
 	
 	// Liste des Chocolats que nous proposons aux clients finaux
 	public ArrayList<Chocolat> chocolatPropose;
+	public List<ChocolatDeMarque> catalogue;
 
 	public AbsDistributeur2() {
 		chocolatPropose = new ArrayList<Chocolat>();
@@ -34,6 +39,18 @@ public abstract class AbsDistributeur2 {
 		public Color warningColor = Color.ORANGE;
 		public Color behaviorColor = Color.BLUE;
 	
+		public void initialiserCatalogue() {
+			
+			for(Chocolat nosChocolats : this.chocolatPropose) {
+				for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
+					if(chocolatDeLaFiliere.getChocolat().equals(nosChocolats)) {
+						catalogue.add(chocolatDeLaFiliere);
+					}
+				}
+				
+			}
+			
+		}
 		
 
 		
