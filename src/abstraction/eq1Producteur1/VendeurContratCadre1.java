@@ -48,7 +48,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		
 	}
 	/**
-	 * @author arthurlem
+	 * @author arthurlemgit
 	 * Dans un premier temps, on accepte de vendre par CC dès lors qu'on a du produit (donc que notre stock>0)
 	 * A ajouter ? on accepte de vendre uniquement aux acheteurs réguliers (-> fidélisation)
 	 */
@@ -60,7 +60,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 
 	
 	/**
-	 * @author arthurlem
+	 * @author arthurlemgit
 	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie, ou "pas assez";
 	 * propose un nouvel échéancier avec des quantités plus "raisonnables" de notre stock, en accord avec notre stratégie.
 	 * Si les quantités totales sont grosso modo ce qu'on a prévu de vendre, on essaie de vendre "plus" au début pour éviter d'accumuler du stock.
@@ -182,7 +182,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	}
 
 	/**
-	 * @author arthurlem
+	 * @author arthurlemgit
 	 * Retourne la quantité de produit livré et met à jour le stock, selon le type de produit.
 	 * On livre ici systématiquement la quantité maximale qu'on puisse. 
 	 */

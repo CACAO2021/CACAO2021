@@ -115,7 +115,7 @@ public class Producteur1Acteur implements IActeur {
 		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),10 );
+		this.perteargent(500); //Coûts fixes
 	}
 
 	public List<String> getNomsFilieresProposees() {
@@ -157,5 +157,13 @@ public class Producteur1Acteur implements IActeur {
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
+	}
+	
+	/**
+	 * @author arthurlemgit
+	 * Pour les coûts fixes et de transformation
+	 */
+	protected void perteargent(double quantite) {
+		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
 	}
 }
