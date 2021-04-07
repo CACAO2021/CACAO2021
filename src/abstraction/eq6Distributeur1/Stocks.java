@@ -12,7 +12,26 @@ public class Stocks extends Distributeur1Acteur{
 	
 	
 	protected Map<ChocolatDeMarque, Variable> stock; 
+
+
 	
+	public Stocks() {
+		this.stock=new HashMap<ChocolatDeMarque, Variable>();
+	}
+	
+	public void ajouterStock(Object produit, double quantite) {
+		//A completer
+	}
+	
+
+	
+	
+	/*
+	 * En fait on achète que les marques des transformateurs donc pas besoin de specifer leur qualite, bio, etc,
+	 * tout ça est compris dans l'objet ChocolatDeMarque (pour voir comment il est défini la raccourci c'est ctl+click sur ChocolatDeMarque)
+	 * Il faudra juste reflechir a comment initialiser la Map qui definit tout ça vu qu'on connait pas les noms
+	 * des marques à l'avance a priori
+	 * 
 	protected int TABLETTE_HAUTE_BIO_EQUITABLE;
 	protected int TABLETTE_HAUTE_BIO;
 	protected int TABLETTE_HAUTE_EQUITABLE;
@@ -35,18 +54,7 @@ public class Stocks extends Distributeur1Acteur{
 	//protected int POUDRE_HAUTE;
 	protected int POUDRE_MOYENNE_EQUITABLE;
 	protected int POUDRE_MOYENNE;
-	protected int POUDRE_BASSE;
-
-	
-	public Stocks() {
-		this.stock=new HashMap<ChocolatDeMarque, Variable>();
-	}
-	
-	public void ajouterStock(Object produit, double quantite) {
-		//A completer
-	}
-	
-
+	protected int POUDRE_BASSE;*/
 	
 
 }
