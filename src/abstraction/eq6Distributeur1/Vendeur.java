@@ -1,24 +1,31 @@
 package abstraction.eq6Distributeur1;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
+	
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
-		LinkedList linkedlist = new LinkedList();
-		
-		return null;
+		Set<ChocolatDeMarque> Catalogue = stock.keySet();
+		List<ChocolatDeMarque> c = new ArrayList<>(Catalogue);
+		return c;
 	}
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
+		if(choco!=null) {
+			return 
+		}
 		// TODO Auto-generated method stub
-		
+		//// a revoir 
 		return 0;
 	}
 
