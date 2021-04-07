@@ -1,7 +1,11 @@
 package abstraction.eq2Producteur2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Variable;
 
 public class Producteur2Journaux extends Producteur2Acteur {
 	protected Journal JournalProd, JournalVente;
@@ -22,6 +26,22 @@ public class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalVente.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");	
 	}
 	
+	public List<Variable> getIndicateurs() {
+		List<Variable> res=new ArrayList<Variable>();
+		return res;
+	}
+	
+	public List<Variable> getParametres() {
+		List<Variable> res=new ArrayList<Variable>();
+		return res; 
+	}
+
+	public List<Journal> getJournaux() {
+		List<Journal> res=new ArrayList<Journal>();
+		res.add(JournalProd);
+		res.add(JournalVente);
+		return res;
+	}
 
 
 }

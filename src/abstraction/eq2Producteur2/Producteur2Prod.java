@@ -3,6 +3,7 @@ package abstraction.eq2Producteur2;
 import java.util.LinkedList;
 
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 
 //Emeline
 
@@ -71,6 +72,7 @@ public class Producteur2Prod extends Producteur2Stockage {
 		for (Object p : listeProd) {
 			double qtt = prodParStep(p);
 			addStock(qtt, p);
+			JournalProd.ajouter(""+ p +" "+qtt);	
 		}		
 		}
 	
