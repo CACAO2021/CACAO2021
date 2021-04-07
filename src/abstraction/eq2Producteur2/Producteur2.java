@@ -12,11 +12,11 @@ public class Producteur2 extends Producteur2VeudeurFeveCC  {
 	}
 	
 	public void next() {
+		majJournaux();
 		verifPeremption();
 		prod();
 		transfo();
 		renouvellement();
-		coutTotDuStep(); 
-		majJournaux();
+		coutTotDuStep();		
 	}
 }

@@ -3,7 +3,7 @@ package abstraction.eq2Producteur2;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 
-public class Producteur2Journaux extends Producteur2Valeurs {
+public class Producteur2Journaux extends Producteur2Acteur {
 	protected Journal JournalProd, JournalVente;
 
 	public Producteur2Journaux() {

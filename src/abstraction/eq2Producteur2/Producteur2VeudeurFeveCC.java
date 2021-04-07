@@ -78,16 +78,6 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-<<<<<<< HEAD
-		Echeancier ech =contrat ;
-		if(ech==null) { 
-			return null;
-		}else if (ech!=contrat.getEcheancier()) {
-			
-		}else { //on ne souhaite pas vendeur donc on retourne null
-		return null;
-		}
-=======
 		Object produit = contrat.getProduit();	
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
 		double qttDispo = qttTotale(produit);
@@ -105,19 +95,14 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 			} else { //on ne souhaite pas vendeur donc on retourne null
 			return null;
 		}}
->>>>>>> branch 'master' of https://github.com/dim-correia/CACAO2021
+
 	}
 
 	@Override
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		return 0;
-=======
 		double prix = prixEspere(contrat.getProduit());
 		return prix;
->>>>>>> branch 'master' of https://github.com/dim-correia/CACAO2021
 	}
 
 	@Override
