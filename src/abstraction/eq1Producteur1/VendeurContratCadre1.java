@@ -208,6 +208,4 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		}
 		return 0; 
 	}
-
-
 }
