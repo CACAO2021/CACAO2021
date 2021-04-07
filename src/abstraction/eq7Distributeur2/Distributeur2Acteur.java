@@ -35,6 +35,8 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
+		parametres = new ArrayList<Variable>();
+		indicateurs = new ArrayList<Variable>();
 		
 	}
 	public int getCryptogramme() {
@@ -65,7 +67,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
 		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
 		
-		journalStocks= new Journal("Stocks", (IActeur)this);
+		journalStocks= new Journal(getNom() + " : Registre des Stocks", (IActeur)this);
 		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
 		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 
@@ -92,7 +94,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		}
 
-		Filiere.LA_FILIERE.getBanque().creerCompte(this);
+		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte
 		
 
 		this.stocks = new Stocks((Distributeur2)this);
