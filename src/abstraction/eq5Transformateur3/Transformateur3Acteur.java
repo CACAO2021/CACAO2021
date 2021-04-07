@@ -15,7 +15,7 @@ public class Transformateur3Acteur implements IActeur {
 	private String nom;
 	private String description;
 	protected Variable prix_max_fèves;
-	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre;
+	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
 		this.nom = "Côte d'IMT";
@@ -25,14 +25,20 @@ public class Transformateur3Acteur implements IActeur {
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
 	}
+
 	public String getNom() {
-		return this.nom;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
 	public String getDescription() {
-		return "Côte d'IMT";
-	}
 
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	public Color getColor() {
 		return new Color(233, 30, 99);
 	}
@@ -75,6 +81,7 @@ public class Transformateur3Acteur implements IActeur {
 		res.add(this.JournalAjoutStock);
 		res.add(this.JournalRetraitStock);
 		res.add(this.JournalAchatContratCadre);
+		res.add(this.JournalVenteContratCadre);
 		return res;
 	}
 
@@ -92,6 +99,7 @@ public class Transformateur3Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
+
 
 }
 

@@ -8,7 +8,10 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.Journal;
 
-public class Transformateur3VenteContratCadre extends Transformateur3Acteur implements IVendeurContratCadre{
+
+//Léna
+
+public class Transformateur3VenteContratCadre extends Transformateur3Stock implements IVendeurContratCadre{
 	
 	public boolean peutVendre(Object produit) {
 		if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
@@ -18,15 +21,16 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 
 	@Override
 	public boolean vend(Object produit) {
-		
-		// TODO Auto-generated method stub
-		return false;
+		if (this.getChocolats().get(produit).getValeur()>0) {
+			return true;}
+		else { return false;}
+
 	}
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) || contrat.getProduit().equals(Chocolat.TABLETTE_MOYENNE) || contrat.getProduit().equals(Chocolat.CONFISERIE_MOYENNE)) {
-			if (contrat.getEcheancier().getQuantiteTotale()<500) { //quantité demandée inférieure au stock
+			if (contrat.getEcheancier().getQuantiteTotale() <= this.getChocolats().get(contrat.getProduit()).getValeur()) {
 				return contrat.getEcheancier(); } 
 			else { 
 				return null; } }
@@ -47,13 +51,16 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
 	}
-		
 	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		double livre = Math.min(this.getChocolats().get(produit).getValeur(), quantite);
+		if (livre>0.0) {
+			this.retirer((Chocolat)produit, livre);
+		}
+		return livre;
 	}
 	
 
