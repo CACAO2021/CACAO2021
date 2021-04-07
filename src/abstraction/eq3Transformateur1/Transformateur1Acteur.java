@@ -45,11 +45,11 @@ public class Transformateur1Acteur implements IActeur {
 	}
 	
 	public String getNom() {
-		return "EQ3";
+		return "Eticao";
 	}
 
 	public String getDescription() {
-		return "Eticao est un transformateur qui prone l'utilisation de cacao éthique.";
+		return "Eticao est un transformateur qui prône l'utilisation de cacao éthique";
 	}
 
 	public Color getColor() {
@@ -68,7 +68,8 @@ public class Transformateur1Acteur implements IActeur {
 	
 	
 	public List<String> getNomsFilieresProposees() {
-		return new ArrayList<String>();
+		ArrayList<String> res=  new ArrayList<String>();
+		return  res ;
 	}
 
 	public Filiere getFiliere(String nom) {

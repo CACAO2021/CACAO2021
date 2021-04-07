@@ -1,6 +1,7 @@
 package abstraction.eq3Transformateur1;
 
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
@@ -48,7 +49,8 @@ public class Transformateur1FabricantChocolatDeMarque implements IFabricantChoco
 
 	@Override
 	public List<String> getNomsFilieresProposees() {
-		// TODO Auto-generated method stub
+		List<String> res =  new LinkedList<String>();
+		
 		return null;
 	}
 
