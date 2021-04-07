@@ -38,7 +38,7 @@ public class Producteur2Valeurs {
 	
 	
 	// partie production
-	protected int ARBRE_DEBUT_HBE = 0;
+	protected int ARBRE_DEBUT_HBE = 5;
 	protected int ARBRE_DEBUT_HE = 0;
 	//a finir
 	

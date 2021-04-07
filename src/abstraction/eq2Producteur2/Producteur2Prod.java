@@ -2,21 +2,26 @@ package abstraction.eq2Producteur2;
 
 import java.util.LinkedList;
 
+import abstraction.eq8Romu.produits.Feve;
+
 //Emeline
 
 public class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesHBE;
 	private LinkedList<Stock> arbrePlantesHE;
 	// a finir
-	private static Object[] listeProd;
+	private LinkedList<Object> listeProd;
 	
 	public Producteur2Prod() {
 		super();
+		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
 		this.arbrePlantesHBE = new LinkedList<Stock>();
 		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
 		this.arbrePlantesHE = new LinkedList<Stock>();
 		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
 		// a finir
+		this.listeProd = new LinkedList<Object>();
+		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		}
 	
 	public double qttArbre(Object produit) {
@@ -35,8 +40,7 @@ public class Producteur2Prod extends Producteur2Stockage {
 	public void prod() {
 		for (Object p : listeProd) {
 			double qtt = prodParStep(p);
-			Object produit = 0;
-			addStock(qtt, produit);
+			addStock(qtt, p);
 		}		
 		}
 	

@@ -17,6 +17,7 @@ public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	}
 
 	public void initialiser() {
+		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public String getNom() {
