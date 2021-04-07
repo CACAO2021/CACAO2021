@@ -96,9 +96,9 @@ public class Producteur1Acteur implements IActeur {
 		this.stocks.get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
 		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(67500000);
 		this.stocks.get(Feve.FEVE_BASSE).addQuantite(60000000);
-		this.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
-		this.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
-		this.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
+		this.journaux.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
+		this.journaux.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
+		this.journaux.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
 	}
 	
 	private void init_journaux() {
