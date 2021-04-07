@@ -80,7 +80,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	public void next() {
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
-		this.
+		//this.
 	}
 
 	
