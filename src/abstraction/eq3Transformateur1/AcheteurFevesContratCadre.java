@@ -30,8 +30,8 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 	}
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		// Si l'echeancier est juste plus lons de 1 step on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		if(contrat.getEcheanciers().get(0).getNbEcheances()==contrat.getEcheancier().getNbEcheances() || contrat.getEcheanciers().get(0).getNbEcheances()==contrat.getEcheancier().getNbEcheances() +1 ) {
+		// Si l'echeancier est juste plus lons de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
+		if( contrat.getEcheanciers().get(0).getNbEcheances() >= 3 && contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
 		}
