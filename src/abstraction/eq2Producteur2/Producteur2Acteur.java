@@ -9,21 +9,19 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-<<<<<<< HEAD
-public class Producteur2Acteur implements IActeur {
-=======
 public abstract class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
->>>>>>> branch 'master' of https://github.com/CACAO2021/CACAO2021
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
+		super();
 	}
 
 	public void initialiser() {
+		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public String getNom() {
-		return "EQ2";
+		return "Baratao";
 	}
 
 	public String getDescription() {
@@ -41,6 +39,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	
 
 	public void next() {
+		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public List<String> getNomsFilieresProposees() {
