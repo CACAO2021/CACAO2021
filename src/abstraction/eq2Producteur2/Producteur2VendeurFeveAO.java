@@ -34,6 +34,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	}
 /**	@author Maxime Boillot
 	 
+	 
 	 */
 	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
 		mesContratsAORefuses.add(proposition);
