@@ -99,7 +99,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte
 		
 
-		this.stocks = new Stocks((Distributeur2)this);
+		this.stocks = new Stocks();
 		this.achat = new Achat((Distributeur2)this);
 
 		
@@ -111,7 +111,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.stocks.initialiserChqEtape();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 2);
+		if (Filiere.LA_FILIERE.getEtape()!=0) {
 		this.achat.next();
+		}
 		//this.
 	}
 
