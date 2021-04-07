@@ -10,6 +10,8 @@ import java.util.List;
 
 import abstraction.fourni.Filiere;
 
+//Antoine C
+
 public class Transformateur2Acteur implements IActeur {
 	
 	protected int cryptogramme;

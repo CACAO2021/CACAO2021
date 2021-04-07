@@ -1,14 +1,15 @@
 package abstraction.eq4Transformateur2;
 
+//Antoine R
+
 public class Stock extends Transformateur2Acteur {
-	
 	
 	public Stock() {
 		super();
 	}
 	
 	public double Stock_feve_total() {
-		return this.stock_feve_basse + this.stock_feve_moyenne;	
+		return super.stock_feve_basse + this.stock_feve_moyenne;	
 	}
 	public double Stock_tablette_total() {
 		return this.stock_tablette_basse + this.stock_tablette_moyenne;

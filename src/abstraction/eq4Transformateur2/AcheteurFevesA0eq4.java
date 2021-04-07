@@ -9,6 +9,8 @@ import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq4Transformateur2.Stock;
 
+//Antoine C
+
 public class AcheteurFevesA0eq4 extends Transformateur2Acteur implements IAcheteurFevesAO {
 
 
