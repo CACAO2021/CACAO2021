@@ -1,14 +1,16 @@
 package abstraction.eq6Distributeur1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
+import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Variable;
 
-public class Stocks extends Distributeur1Acteur{
+public class Stocks extends Distributeur1Acteur implements IMarqueChocolat{
 	
 	
 	protected Map<ChocolatDeMarque, Variable> stock;
@@ -24,6 +26,13 @@ public class Stocks extends Distributeur1Acteur{
 	public void ajouterStock(Object produit, double quantite) {
 		//peut-etre que caster produit en ChocolatDeMarque va faire une erreur, il faudrait mettre des verifications ou le caster avant d'utiliser cette methode
 		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
+	}
+
+	@Override
+	public List<String> getMarquesChocolat() {
+		List marque = new ArrayList<String>();
+		marque.add("CacaoCaisse");
+		return marque;
 	}
 	
 
