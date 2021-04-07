@@ -9,28 +9,42 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 
 public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
+
+	public double prixMinVenteAuKilo = 2.0;
 	protected LinkedList<ExemplaireContratCadre> mesContratsAO;
+	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
+	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
 
 	public Producteur2VendeurFeveAO() {
 		super();
 		this.mesContratsAO = new LinkedList<ExemplaireContratCadre>();
 	}
 
-	@Override
+	/**	@author Maxime Boillot
+	 
+	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-		// TODO Auto-generated method stub
-		return 0;
+	if (this.getStockFeveHBE()>=oa.getQuantiteKG()) {
+	//Revoir la condition ci-dessus, implémenter stock
+		return prixMinVenteAuKilo;
 	}
-
-	@Override
+	else {
+		return 0.0;
+	}
+	}
+/**	@author Maxime Boillot
+	 
+	 
+	 */
 	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
-		// TODO Auto-generated method stub
-		
+		this.mesContratsAORefuses.add(proposition);
 	}
 
-	@Override
+	/**	@author Maxime Boillot
+	 
+	 */
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		// TODO Auto-generated method stub
+		this.mesContratsAOAcceptes.add(proposition);
 		
 	}
 	
