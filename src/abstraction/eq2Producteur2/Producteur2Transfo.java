@@ -3,6 +3,7 @@ package abstraction.eq2Producteur2;
 import java.util.LinkedList;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Beurre;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq2Producteur2.Producteur2Prod;
 
 // Elo
@@ -63,18 +64,31 @@ public class Producteur2Transfo extends Producteur2Prod {
 		} return 0;
 	}
 	
-	public int temps(Object produit) {
-		if (estPoudreHE(produit)) {
-			return coefHE;
-		} else if (estPoudreM(produit)) {
-			return coefM;
-		} else if (estPoudreME(produit)) {
-			return coefME;
-		} return 0;
-	}
-	
 	public double prodParStep(Object produit) {
 		return qteFeves(produit)*coef(produit);
 	}
+	
+	public int tempsTransf(Object produit) {
+		if (estPoudreHE(produit)) {
+			return (int)(prodParStep(produit)/qteParStepHE);
+		} else if (estPoudreM(produit)){
+			return (int)(prodParStep(produit)/qteParStepM);
+		} else if (estPoudreME(produit)){
+			return (int)(prodParStep(produit)/qteParStepME);
+		} return 0;
+	}
+	
+	public double coutTransf(Object produit) {
+		if (estPoudreHE(produit)) {
+			return prodParStep(produit)*prixHEparKilo;
+		} else if (estPoudreM(produit)) {
+			return prodParStep(produit)*prixMparKilo;
+		} else if (estPoudreME(produit)) {
+			return prodParStep(produit)*prixMEparKilo;
+		} return 0;
+	}
 
 }
+
+// public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
+

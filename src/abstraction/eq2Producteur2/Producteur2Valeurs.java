@@ -90,9 +90,22 @@ public class Producteur2Valeurs {
 	
 	public static boolean estPoudreHE(Object produit) {return produit.equals(Chocolat.POUDRE_HAUTE_EQUITABLE);}
 	public static boolean estPoudreM(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE);}
+	public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
 	
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
+	// partie transformation
+	protected double coefHE = 1; //(à déterminer)
+	protected double coefM = 1;
+	protected double coefME = 1;
+	
+	protected int qteParStepHE = 1; //quantité que l'on peut transformer en un step
+	protected int qteParStepM = 1;
+	protected int qteParStepME = 1;
+	
+	protected double prixHEparKilo = 1; // coût de transformation d'un kilo de fèves en poudre
+	protected double prixMparKilo = 1;
+	protected double prixMEparKilo = 1;
 
 }
