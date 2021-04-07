@@ -2,6 +2,7 @@ package abstraction.eq4Transformateur2;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
+
 //Antoine R
 
 public class Transformateur2Stock extends Transformateur2Acteur {
