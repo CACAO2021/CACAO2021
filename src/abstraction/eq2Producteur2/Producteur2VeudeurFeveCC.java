@@ -22,8 +22,6 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	@Override
 	//Dim
 	public boolean peutVendre(Object produit) {
-		System.out.println("prod");
-		System.out.println(produit);
 		if (estFeve(produit) || estPoudre(produit)) {
 			return true;
 		}else {
@@ -34,7 +32,6 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	@Override
 	//Dim
 	public boolean vend(Object produit) {
-		System.out.println(produit);
 		double stock = qttTotale(produit);
 		return stock>0;
 	}

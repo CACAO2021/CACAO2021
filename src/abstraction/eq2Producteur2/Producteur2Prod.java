@@ -31,7 +31,7 @@ public class Producteur2Prod extends Producteur2Stockage {
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		}
 	
-	public double qttArbre(Object produit) {
+	public double qttArbre(Object produit) { // ok 
 		double nb = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.arbrePlantesHBE) {
