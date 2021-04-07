@@ -17,12 +17,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected int cryptogramme;
 	protected Stocks stocks;
 	protected Journal journal;
+	protected List<ChocolatDeMarque> catalogue;
 	
 	
 
 	public Distributeur2Acteur() {
 		this.stocks = new Stocks(this);
+		catalogue = new ArrayList<ChocolatDeMarque>();
 		initialisationJournaux();
+		
 		
 	}
 	
@@ -48,6 +51,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void initialiser() {
+		for (ChocolatDeMarque CDM : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			catalogue.add(CDM);
+		}
+		
+		
 	}
 
 	public void next() {
@@ -100,8 +108,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.catalogue;
 	}
 
 	@Override
