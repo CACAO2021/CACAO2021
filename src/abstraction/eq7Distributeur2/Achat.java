@@ -65,7 +65,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 		//si la quantité proposée par le vendeur est inférieure à la quantité voulue
 		if(e.getQuantiteTotale()<besoinsChoco.get(contrat.getProduit()).getValeur()) {
-			e.set(0, e.getQuantite(0)+(besoinsChoco.get(contrat.getProduit()).getValeur()-e.getQuantiteTotale()));
+			e.set(e.getStepDebut(), e.getQuantite(0)+(besoinsChoco.get(contrat.getProduit()).getValeur()-e.getQuantiteTotale()));
 			return e;
 		}
 		else { return e;
