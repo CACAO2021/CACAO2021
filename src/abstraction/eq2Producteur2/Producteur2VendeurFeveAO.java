@@ -14,9 +14,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	protected LinkedList<ExemplaireContratCadre> mesContratsAO;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
-/**	@author Maxime Boillot
- 
- */
+
 	public Producteur2VendeurFeveAO() {
 		super();
 		this.mesContratsAO = new LinkedList<ExemplaireContratCadre>();
