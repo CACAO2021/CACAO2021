@@ -65,12 +65,6 @@ public class Transformateur1Acteur implements IActeur {
 	
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> res=  new ArrayList<String>();
-		res.add("tablette millieu de gamme éthique");
-		res.add("tablette haut de gamme éthique");
-		res.add("tablette millieu de gamme bio");
-		res.add("tablette haut de gamme bio");
-		res.add("poudre de cacao");
-		res.add("confiseries");
 		return  res ;
 	}
 
