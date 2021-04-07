@@ -14,7 +14,7 @@ import abstraction.fourni.Filiere;
 
 //Antoine C
 
-public class Transformateur2Acteur extends Transformateur2Stock implements IActeur {
+public class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
 
 	public Transformateur2Acteur() {
 	}
@@ -40,12 +40,12 @@ public class Transformateur2Acteur extends Transformateur2Stock implements IActe
 	}
 	
 	public void next() {
-		getIndicateurs().get(0).setValeur(this, get_stock(Feve.FEVE_BASSE));
-		getIndicateurs().get(1).setValeur(this, get_stock(Feve.FEVE_MOYENNE));
-		getIndicateurs().get(2).setValeur(this, get_stock(Chocolat.TABLETTE_BASSE));
-		getIndicateurs().get(3).setValeur(this, get_stock(Chocolat.TABLETTE_MOYENNE));
-		getIndicateurs().get(4).setValeur(this, get_stock(Chocolat.CONFISERIE_BASSE));
-		getIndicateurs().get(5).setValeur(this, get_stock(Chocolat.CONFISERIE_MOYENNE));
+		getIndicateurs().get(0).setValeur(this, stock_feve.get(Feve.FEVE_BASSE));
+		getIndicateurs().get(1).setValeur(this, stock_feve.get(Feve.FEVE_MOYENNE));
+		getIndicateurs().get(2).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_BASSE));
+		getIndicateurs().get(3).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
+		getIndicateurs().get(4).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
+		getIndicateurs().get(5).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
 	}
 	
 	public List<String> getNomsFilieresProposees() {
