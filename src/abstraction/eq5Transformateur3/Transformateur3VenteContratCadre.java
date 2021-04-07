@@ -8,7 +8,13 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.Journal;
 
+
+//Léna
+
 public class Transformateur3VenteContratCadre extends Transformateur3Acteur implements IVendeurContratCadre{
+	private Journal j = new Journal("ContratCadreVente", this);
+	private Transformateur3Stock s = new Transformateur3Stock();
+	
 	
 	public boolean peutVendre(Object produit) {
 		if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
@@ -18,15 +24,16 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 
 	@Override
 	public boolean vend(Object produit) {
-		
-		// TODO Auto-generated method stub
-		return false;
+		if (s.getChocolats().get(produit).getValeur()>0) {
+			return true;}
+		else { return false;}
+
 	}
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) || contrat.getProduit().equals(Chocolat.TABLETTE_MOYENNE) || contrat.getProduit().equals(Chocolat.CONFISERIE_MOYENNE)) {
-			if (contrat.getEcheancier().getQuantiteTotale()<500) { //quantité demandée inférieure au stock
+			if (contrat.getEcheancier().getQuantiteTotale() <= s.getChocolats().get(contrat.getProduit()).getValeur()) {
 				return contrat.getEcheancier(); } 
 			else { 
 				return null; } }
@@ -47,6 +54,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		this.j.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
 	}
 		
 	

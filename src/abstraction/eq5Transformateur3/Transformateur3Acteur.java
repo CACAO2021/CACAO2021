@@ -12,21 +12,20 @@ import abstraction.fourni.Variable;
 public class Transformateur3Acteur implements IActeur {
 	
 	protected int cryptogramme;
-	private String nom;
-	private String description;
 
-	public Transformateur3Acteur() {
-		this.nom = "Côte d'IMT";
-		this.description = "Côte d'IMT, chocolatier de qualité";
-	}
+	@Override
 	public String getNom() {
-		return this.nom;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
 	public String getDescription() {
-		return "Côte d'IMT"
+		// TODO Auto-generated method stub
+		return null;
 	}
-
+	
+	
 	public Color getColor() {
 		return new Color(233, 30, 99);
 	}
@@ -82,6 +81,7 @@ public class Transformateur3Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
+
 
 }
 
