@@ -7,6 +7,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVendeurFevesAO {
 
@@ -24,17 +25,20 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
 		Feve feveachetee=oa.getFeve();
-	if (feveachetee==FEVE_HAUTE_BIO_EQUITABLE) {
+	if (feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 		return PRIX_ESPERE_FEVE_HBE;
 	}
-	else if (feveachetee==FEVE_HAUTE_EQUITABLE) {
+	else if (feveachetee==Feve.FEVE_HAUTE_EQUITABLE) {
 		return PRIX_ESPERE_FEVE_HE;
 	}
-	if (feveachetee==FEVE_MOYENNE_EQUITABLE) {
+	else if (feveachetee==FEVE_MOYENNE_EQUITABLE) {
 		return PRIX_ESPERE_FEVE_ME;
 	}
-	if (feveachetee==FEVE_HAUTE_BIO_EQUITABLE) {
-		return PRIX_ESPERE_FEVE_HBE;
+	else if (feveachetee==FEVE_MOYENNE) {
+		return PRIX_ESPERE_FEVE_M;
+	}
+	else if (feveachetee==FEVE_BASSE) {
+		return PRIX_ESPERE_FEVE_B;
 	}
 	else {
 		return 0.0;
