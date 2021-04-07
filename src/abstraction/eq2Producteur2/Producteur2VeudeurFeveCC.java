@@ -7,7 +7,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 
 
-public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVendeurContratCadre {
+public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 		protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
@@ -20,10 +20,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	}
 
 	@Override
-	//Dim
 	public boolean peutVendre(Object produit) {
-		System.out.println("prod");
-		System.out.println(produit);
 		if (estFeve(produit) || estPoudre(produit)) {
 			return true;
 		}else {
@@ -32,10 +29,8 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	}
 
 	@Override
-	//Dim
 	public boolean vend(Object produit) {
-		System.out.println(produit);
-		double stock = qttTotale(produit);
+		double stock = qttTotale(produit).getValeur();
 		return stock>0;
 	}
 	
@@ -82,11 +77,10 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 	
 
 	@Override
-	//Dim 
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		Object produit = contrat.getProduit();	
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-		double qttDispo = qttTotale(produit);
+		double qttDispo = qttTotale(produit).getValeur();
 		boolean qtt = qttDemandee < qttDispo;
 		//cond sur nos capacite de prod et les contrats deja en cours
 		boolean cond = qtt;
@@ -101,6 +95,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 			} else { //on ne souhaite pas vendeur donc on retourne null
 			return null;
 		}}
+
 	}
 
 	@Override
@@ -141,6 +136,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2Banque implements IVend
 		// garder en mémoire la production future a assumer
 		contrat.getQuantiteTotale(); // va falloir produire ca
 		contrat.getEcheancier().getStepFin(); // dernier step ou on doit fournir
+		this.JournalVente.ajouter("nouvelle vente avec " + contrat.getAcheteur());
 	}
 
 	@Override
