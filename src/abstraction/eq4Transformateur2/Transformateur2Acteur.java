@@ -8,9 +8,14 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
+import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
+import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 
-public class Transformateur2Acteur implements IActeur {
+public class Transformateur2Acteur {
 	
 	protected int cryptogramme;
 
@@ -25,7 +30,7 @@ public class Transformateur2Acteur implements IActeur {
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Boni Suci est une entreprise indépendante spécialisée dans la transformation du chocolat. Chez Boni Suci, la satisfaction du client est notre maître mot. Niente braccia niente ciocolati, Boni Suci";
 	}
 
 	public Color getColor() {
@@ -38,10 +43,12 @@ public class Transformateur2Acteur implements IActeur {
 	}
 	
 	public void next() {
+		//à remplir
 	}
 	
 	public List<String> getNomsFilieresProposees() {
 		return new ArrayList<String>();
+		//jsp ce qu'on met là
 	}
 
 	public Filiere getFiliere(String nom) {
@@ -72,11 +79,12 @@ public class Transformateur2Acteur implements IActeur {
 	}
 	
 	public void notificationOperationBancaire(double montant) {
+		
 	}
 	
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
-		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
+		return Filiere.LA_FILIERE.getBanque().getSolde(this), this.cryptogramme);
 	}
 
 }
