@@ -152,7 +152,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	@Override
 	public List<String> getMarquesChocolat() {
 		List<String> marquesProposes = new ArrayList<String>();
-		marquesProposes.add(this.);
+		marquesProposes.add(this.chocoProduit.getMarque());
 		return marquesProposes;
 	}
 
