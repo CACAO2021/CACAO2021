@@ -43,7 +43,6 @@ public class Transformateur2Acteur implements IActeur {
 	
 	public List<String> getNomsFilieresProposees() {
 		return new ArrayList<String>();
-		//jsp ce qu'on met là
 	}
 
 	public Filiere getFiliere(String nom) {
@@ -51,16 +50,19 @@ public class Transformateur2Acteur implements IActeur {
 	}
 	
 	public List<Variable> getIndicateurs() {
+		// on choisit les indicateurs qui nous seront donnés lors de la simu
 		List<Variable> res=new ArrayList<Variable>();
 		return res;
 	}
 	
 	public List<Variable> getParametres() {
+		// on choisit les paramètres qui seront pris en compte à l'initialisation de la filière
 		List<Variable> res=new ArrayList<Variable>();
 		return res; 
 	}
 
 	public List<Journal> getJournaux() {
+		// pas très utile à notre stade
 		List<Journal> res=new ArrayList<Journal>();
 		return res;
 	}
@@ -74,7 +76,7 @@ public class Transformateur2Acteur implements IActeur {
 	}
 	
 	public void notificationOperationBancaire(double montant) {
-		
+		//notifie
 	}
 	
 	// Renvoie le solde actuel de l'acteur
