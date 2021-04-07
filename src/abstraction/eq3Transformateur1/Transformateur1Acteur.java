@@ -21,20 +21,24 @@ public class Transformateur1Acteur implements IActeur {
 	private Variable totalStocksFeves;
 	protected Map<Feve, Double> stocksFeves;
 	protected Integer cryptogramme;
-	protected Journal journal;
-
+	protected Journal journalAcheteur;
+	protected Journal journalVendeur;
+	protected Journal journalStock;
+	protected Journal journalTransformation;
+	
 	public static double STOCK_MAX = 10000000000.0;
 
 	public Transformateur1Acteur() {
 		
-		NB_INSTANCES++;
-		this.numero=NB_INSTANCES;
 		this.totalStocksFeves=new Variable(getNom()+" total stocks feves", this, 50);
 		stocksFeves=new HashMap<Feve, Double>();
 		for (Feve feve : Feve.values()) {
 			stocksFeves.put(feve, 0.0);
 		}
-		this.journal = new Journal(this.getNom()+" activites", this);
+		this.journalAcheteur = new Journal(this.getNom()+" achat", this);
+		this.journalVendeur = new Journal(this.getNom()+" vente ", this);
+		this.journalStock = new Journal(this.getNom()+" stock ", this);
+		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
 	}
 
 	public void initialiser() {
@@ -86,6 +90,10 @@ public class Transformateur1Acteur implements IActeur {
 
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
+		res.add(this.journalAcheteur);
+		res.add(this.journalVendeur);
+		res.add(this.journalTransformation);
+		res.add(this.journalStock);
 		return res;
 	}
 

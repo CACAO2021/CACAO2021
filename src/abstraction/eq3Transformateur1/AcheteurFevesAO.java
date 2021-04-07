@@ -57,17 +57,17 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	public OffreAchatFeves getOffreAchat() {
 		OffreAchatFeves result = new OffreAchatFeves(this, feve.FEVE_MOYENNE, qMin+(Math.random()*(qMax-qMin)));
 		if (Math.random()<0.5) { // une chance sur 2
-			this.journal.ajouter("Offre d'achat = "+result);
+			this.journalAcheteur.ajouter("Offre d'achat = "+result);
 			return result;
 		} else {
-			this.journal.ajouter("pas d'offre d'achat");
+			this.journalAcheteur.ajouter("pas d'offre d'achat");
 			return null;
 		}
 	}
 	
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
+		this.journalAcheteur.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
@@ -82,7 +82,7 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		this.journal.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		this.journalVendeur.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
 	}
 
 	//	public double proposerAchat(LotCacaoCriee lot) {

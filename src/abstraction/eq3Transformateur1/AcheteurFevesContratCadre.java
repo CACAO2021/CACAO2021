@@ -9,6 +9,7 @@ import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
 
 
@@ -53,14 +54,15 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		this.mesContratEnTantQuAcheteur.removeAll(contratsObsoletes);
 		
 		// Proposition d'un nouveau contrat a tous les vendeurs possibles
-		/*
+	
 		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 			if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-				Filiere.LA_FILIERE.getSuperviseurContratCadre().demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme);
+				supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
 			}
-		}*/
+		}
+		
 		// OU proposition d'un contrat a un des vendeurs choisi aleatoirement
-		List<IVendeurContratCadre> vendeurs = supCCadre.getVendeurs(produit);
+		/*List<IVendeurContratCadre> vendeurs = supCCadre.getVendeurs(produit);
 		if (vendeurs.contains(this)) {
 			vendeurs.remove(this);
 		}
@@ -73,11 +75,11 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		if (vendeur!=null) {
 			supCCadre.demande((IAcheteurContratCadre)this, vendeur, produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme,false);
 		}
+		*/
 	}
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		stock.ajouter(this,  quantite);
 	}
-
 
 }
