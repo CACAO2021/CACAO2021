@@ -19,6 +19,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected int cryptogramme;
 	protected Stocks stocks;
 	protected Journal journal;
+
 	protected List<ChocolatDeMarque> catalogue;
 	private ChocolatDeMarque chocoProduit;
 	

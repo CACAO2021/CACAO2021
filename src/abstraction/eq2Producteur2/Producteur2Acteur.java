@@ -9,19 +9,17 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
+public class Producteur2Acteur implements IActeur {
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
-		super();
 	}
 
 	public void initialiser() {
-		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public String getNom() {
-		return "Baratao";
+		return "EQ2";
 	}
 
 	public String getDescription() {
@@ -39,7 +37,6 @@ public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	
 
 	public void next() {
-		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public List<String> getNomsFilieresProposees() {
