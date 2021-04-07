@@ -14,8 +14,11 @@ public class Stock extends Transformateur1Acteur {
 	private Transformateur1Acteur eticao;
 	private List<Variable> indicteurs;
 	protected Map<Feve, Double> stocksFeves;
+	private double stockFeveBio;
 	
 	public Stock() { 
 		super();
+		this.stockFeveBio = this.stocksFeves.get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 	}
+	
 }
