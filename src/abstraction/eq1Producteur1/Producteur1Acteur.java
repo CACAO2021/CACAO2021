@@ -94,6 +94,10 @@ public class Producteur1Acteur implements IActeur {
 		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(67500000);
 		this.stocks.get(Feve.FEVE_BASSE).addQuantite(60000000);
 	}
+	
+	protected HashMap<Object, Stock> getStocks() {
+		return stocks;
+	}
 
 	public String getNom() {
 		return "EQ1";
@@ -118,7 +122,7 @@ public class Producteur1Acteur implements IActeur {
 		this.majHist_AO();
 		this.produireFeve();
 		this.perteargent(500);//Coûts fixes
-		this.transformation.Transformation_Feve();
+		this.transformation.Transformation_Feve(this);
 	}
 
 	public List<String> getNomsFilieresProposees() {
