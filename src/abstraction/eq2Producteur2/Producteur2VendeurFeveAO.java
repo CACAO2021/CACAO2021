@@ -24,8 +24,9 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-		Feve feveachetee=oa.getFeve();
-	if (feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+	Feve feveachetee=oa.getFeve();
+	
+	if ((feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE)&&(stockFeveHBE.qttTotale())) {
 		return PRIX_ESPERE_FEVE_HBE;
 	}
 	else if (feveachetee==Feve.FEVE_HAUTE_EQUITABLE) {
@@ -40,6 +41,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Acteur implements IVend
 	else if (feveachetee==Feve.FEVE_BASSE) {
 		return PRIX_ESPERE_FEVE_B;
 	}
+	
 	else {
 		return 0.0;
 	}
