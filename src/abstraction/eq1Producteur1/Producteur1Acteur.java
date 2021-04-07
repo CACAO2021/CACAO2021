@@ -19,6 +19,7 @@ public class Producteur1Acteur implements IActeur {
 	private Stock stock_F_B;
 	private Stock stock_P_M_E;
 	private Stock stock_P_M;
+	private Transformation transformation;
 	protected HashMap<Object, Stock> stocks; //dictionnaire qui contient tous nos stocks.
 	protected int step_actuel;
 	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
@@ -37,6 +38,7 @@ public class Producteur1Acteur implements IActeur {
 
 	public void initialiser() {
 		this.journaux.addJournal(3);
+		transformation = new Transformation();
 
 	}
 	/**
@@ -92,6 +94,10 @@ public class Producteur1Acteur implements IActeur {
 		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(67500000);
 		this.stocks.get(Feve.FEVE_BASSE).addQuantite(60000000);
 	}
+	
+	protected HashMap<Object, Stock> getStocks() {
+		return stocks;
+	}
 
 	public String getNom() {
 		return "EQ1";
@@ -115,7 +121,8 @@ public class Producteur1Acteur implements IActeur {
 		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
-		this.perteargent(500); //Coûts fixes
+		this.perteargent(500);//Coûts fixes
+		this.transformation.Transformation_Feve(this);
 	}
 
 	public List<String> getNomsFilieresProposees() {
@@ -164,6 +171,8 @@ public class Producteur1Acteur implements IActeur {
 	 * Pour les coûts fixes et de transformation
 	 */
 	protected void perteargent(double quantite) {
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		if (quantite>0) {
+			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		}
 	}
-}
+} 
