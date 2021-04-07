@@ -29,7 +29,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.stocks = new Stocks((Distributeur2)this);
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		initialisationJournaux();
-		this.chocoProduit = new ChocolatDeMarque()
+		this.chocoProduit = new ChocolatDeMarque();
 		
 		
 	}

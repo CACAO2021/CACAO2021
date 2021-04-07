@@ -11,7 +11,8 @@ import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Vendeur  extends Distri implements IDistributeurChocolatDeMarque, IActeur{
+public class Vendeur implements IDistributeurChocolatDeMarque, IActeur{
+	public Journal journalV;
 
 	@Override
 	public List<String> getNomsFilieresProposees() {
@@ -63,7 +64,6 @@ public class Vendeur  extends Distri implements IDistributeurChocolatDeMarque, I
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -95,6 +95,36 @@ public class Vendeur  extends Distri implements IDistributeurChocolatDeMarque, I
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		// Notifie quand le rayon est vide 	
 		Journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));
+	}
+
+	@Override
+	public String getNom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void initialiser() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void next() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
