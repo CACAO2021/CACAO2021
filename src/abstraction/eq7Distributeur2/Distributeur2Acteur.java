@@ -20,6 +20,8 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected int cryptogramme;
 	protected Stocks stocks;
 	protected Journal journal;
+	protected Journal journalCatalogue;
+	protected Journal journalStocks;
 
 	protected List<ChocolatDeMarque> catalogue;
 	private ChocolatDeMarque chocoProduit;
@@ -27,10 +29,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	
 
 	public Distributeur2Acteur() {
-		this.stocks = new Stocks((Distributeur2)this);
 		catalogue = new ArrayList<ChocolatDeMarque>();
-		initialisationJournaux();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
+		initialisationJournaux();
+
 		
 		
 	}
@@ -40,6 +42,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journal.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
 		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
 		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
+		
+		journalCatalogue = new Journal(getNom() + " : Catalogue", this);
+		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
+		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
+		
+		journalStocks= new Journal("Stocks", (IActeur)this);
+		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
+		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 	}
 
 	
@@ -59,7 +69,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void initialiser() {
 		for (ChocolatDeMarque CDM : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			catalogue.add(CDM);
+		journalCatalogue.ajouter(Journal.texteColore(behaviorColor, Color.BLACK , CDM.getMarque()));
+		
 		}
+		this.stocks = new Stocks((Distributeur2)this);
+		
 		
 		
 	}
@@ -95,7 +109,8 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
 		res.add(this.journal);
-		res.add(this.stocks.journalStocks);
+		res.add(this.journalStocks);
+		res.add(this.journalCatalogue);
 		return res;
 	}
 
@@ -158,9 +173,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public List<ChocolatDeMarque> getChocolatsProduits() {
-		List<ChocolatDeMarque> marquesProposes = new ArrayList<ChocolatDeMarque>();
-		marquesProposes.add(this.chocoProduit);
-		return null;
+		List<ChocolatDeMarque> choco = new ArrayList<ChocolatDeMarque>();
+		choco.add(this.chocoProduit);
+		return choco;
 	}
 
 }
