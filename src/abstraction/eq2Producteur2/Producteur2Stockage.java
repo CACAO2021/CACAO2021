@@ -48,8 +48,13 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
 		
 		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
-		stockFHE = new Variable("stock feve HBE", this, QTT_FEVE_HE_DEPART);
-		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
+		stockFHE = new Variable("stock feve HE", this, QTT_FEVE_HE_DEPART);
+		stockFME = new Variable("stock feve ME", this, QTT_FEVE_ME_DEPART);
+		stockFM = new Variable("stock feve M", this, QTT_FEVE_M_DEPART);
+		stockFB = new Variable("stock feve B", this, QTT_FEVE_B_DEPART);
+		
+		stockPHE = new Variable("stock poudre HE", this, QTT_POUDRE_HE_DEPART);
+		stockPM = new Variable("stock poudre B", this, QTT_POUDRE_M_DEPART);
 	}
 	
 	//Dim
@@ -76,7 +81,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}
 	}
 	
-	public void majStock() {
+	public void majStock(Object produit) {
 		double stock = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {

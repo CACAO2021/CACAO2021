@@ -74,6 +74,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			addStock(qtt, p);
 			JournalProd.ajouter(""+ p +" "+qtt);	
 			coutProd(qtt, p);
+			majStock(p);
 		}		
 		}
 	
