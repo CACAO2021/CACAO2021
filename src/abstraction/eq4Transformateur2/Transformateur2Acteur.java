@@ -13,15 +13,6 @@ import abstraction.fourni.Filiere;
 //Antoine C
 
 public class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
-	
-	protected int cryptogramme;
-	protected Journal journal;
-	protected double stock_feve_basse;
-	protected double stock_feve_moyenne;
-	protected double stock_tablette_basse;
-	protected double stock_tablette_moyenne;
-	protected double stock_confiserie_basse;
-	protected double stock_confiserie_moyenne;
 
 	public Transformateur2Acteur() {
 	}
