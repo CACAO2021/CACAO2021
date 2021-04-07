@@ -22,13 +22,13 @@ public class Test {
 		HashMap<Integer, HashMap<String, Variable>> hashmap1 = new HashMap<Integer, HashMap<String, Variable> >();
 		HashMap<String,Variable> test = new HashMap<String,Variable>();
 		IActeur act = new Transformateur2();
-		test.put("TEST1", new Variable("test", act));
-		hashmap1.put(0, test);
+		//test.put("TEST1", new Variable("test", act));
+		//hashmap1.put(0, test);
 		
-		System.out.println(hashmap1.toString());
-		System.out.println(hashmap1.get(0).get("TEST1").getValeur());
-		hashmap1.get(0).get("TEST1").ajouter(act, 3);
-		System.out.println(hashmap1.get(0).get("TEST1").getValeur());
+		//System.out.println(hashmap1.toString());
+		//System.out.println(hashmap1.get(0).get("TEST1").getValeur());
+		//hashmap1.get(0).get("TEST1").ajouter(act, 3);
+		//System.out.println(hashmap1.get(0).get("TEST1").getValeur());
 		//Chocolat.CONFISERIE_BASSE, 13
 		
 		

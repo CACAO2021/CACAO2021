@@ -9,17 +9,19 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur2Acteur implements IActeur {
+public abstract class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
+		super();
 	}
 
 	public void initialiser() {
+		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public String getNom() {
-		return "EQ2";
+		return "Baratao";
 	}
 
 	public String getDescription() {
@@ -37,6 +39,7 @@ public class Producteur2Acteur implements IActeur {
 	
 
 	public void next() {
+		// override en producteur2, ne rien ecrire ici
 	}
 	
 	public List<String> getNomsFilieresProposees() {
@@ -77,5 +80,7 @@ public class Producteur2Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
+	
+	public abstract void perdreArgent(double montant) ;
 
 }

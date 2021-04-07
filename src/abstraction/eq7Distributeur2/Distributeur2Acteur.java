@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstraction.eq1Producteur1.Stock;
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
@@ -35,6 +36,8 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
+		parametres = new ArrayList<Variable>();
+		indicateurs = new ArrayList<Variable>();
 		
 	}
 	public int getCryptogramme() {
@@ -65,7 +68,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
 		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
 		
-		journalStocks= new Journal("Stocks", (IActeur)this);
+		journalStocks= new Journal(getNom() + " : Registre des Stocks", (IActeur)this);
 		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
 		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 
@@ -92,7 +95,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		}
 
-		Filiere.LA_FILIERE.getBanque().creerCompte(this);
+		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte
 		
 
 		this.stocks = new Stocks((Distributeur2)this);
@@ -103,7 +106,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void next() {
+		this.stocks.initialiserChqEtape();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
+		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 2);
 		//this.
 	}
 
@@ -121,7 +126,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
-		List<Variable> res = new ArrayList<Variable>();
+		List<Variable> res=new ArrayList<Variable>();
+		//for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
+			//res.add(var);
+		//}
 		return res;
 	}
 
