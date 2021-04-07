@@ -1,5 +1,6 @@
 package abstraction.eq7Distributeur2;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import abstraction.eq8Romu.produits.Chocolat;
@@ -25,6 +26,14 @@ public abstract class AbsDistributeur2 {
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE_EQUITABLE);
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE);
 	}
+	
+	// Couleurs d'arrière-plan pour les messages des journaux
+		public Color titleColor = Color.BLACK;
+		public Color alertColor = Color.RED;
+		public Color descriptionColor = Color.YELLOW;
+		public Color positiveColor = Color.GREEN;
+		public Color warningColor = Color.ORANGE;
+		public Color behaviorColor = Color.BLUE;
 	
 		
 
