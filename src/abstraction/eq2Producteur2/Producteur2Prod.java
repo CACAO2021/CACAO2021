@@ -73,9 +73,31 @@ public class Producteur2Prod extends Producteur2Stockage {
 			double qtt = prodParStep(p);
 			addStock(qtt, p);
 			JournalProd.ajouter(""+ p +" "+qtt);	
+			coutProd(qtt, p);
 		}		
 		}
 	
+	private void coutProd(double qtt, Object p) {
+		double cout = coutProdUnitaire(p) * qtt;
+		perdreArgent(cout);
+	}
+	
+	private double coutProdUnitaire(Object p) { // a faire 
+		if(estFeveHBE(p)) {
+			return COUT_PRODUCTION_FEVE_HBE;
+		} else if(estFeveHE(p)) {
+			return PROD_HE;
+		} else if(estFeveME(p)) {
+			return PROD_ME;
+		} else if(estFeveM(p)) {
+			return PROD_M;
+		}else if(estFeveB(p)) {
+			return PROD_B;
+		} else { // un produit que l'on ne vend pas
+			return 0;
+		}
+	}
+
 	public void renouvellement() {
 		//  a faire plus tard 
 	}
