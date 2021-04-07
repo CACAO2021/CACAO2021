@@ -6,15 +6,15 @@ import java.util.List;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 //Manuelo
-public class Transformateur3AchatContratCadre extends Transformateur3Acteur implements IAcheteurContratCadre {
-	
-	private static double prix_max=1000;
+public class Transformateur3AchatContratCadre extends Transformateur3Stock implements IAcheteurContratCadre {
 	
 	public Echeancier contrePropositionDeLAcheteur1(ExemplaireContratCadre contrat) {
 		List<Echeancier> precedentesPropositions = contrat.getEcheanciers();
@@ -23,19 +23,18 @@ public class Transformateur3AchatContratCadre extends Transformateur3Acteur impl
 		int nbStep = dernierEcheancier.getNbEcheances();
 		double quantiteParStep = dernierEcheancier.getQuantite(stepDebut);
 		int stepCourant = Filiere.LA_FILIERE.getEtape();
-		if () {
+		
+		if ((nbStep>12) || (quantiteParStep>=1000)) {
 			return null;
-		} else if ((nbStep>12) || (quantiteParStep<)) {
+		} else{
 			return dernierEcheancier;
-		} else {
-			return new Echeancier(stepDebut, nbStep, quantiteParStep);
-		}
+		} 
 	}
 	
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		List<Double> precedentesPropositions = contrat.getListePrix();
 		Double dernierPrix = contrat.getPrix();
-		if (dernierPrix>this.prix_max) {
+		if (dernierPrix>this.prix_max_fèves.getValeur()) {
 			return -1;
 		} else {
 			return dernierPrix;
@@ -43,7 +42,7 @@ public class Transformateur3AchatContratCadre extends Transformateur3Acteur impl
 	}	
 	
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		
+		this.ajouter((Feve)produit, quantite);
 	}
 
 	@Override
