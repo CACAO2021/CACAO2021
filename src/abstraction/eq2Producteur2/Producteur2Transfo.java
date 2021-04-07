@@ -3,12 +3,10 @@ package abstraction.eq2Producteur2;
 import java.util.LinkedList;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Beurre;
-import abstraction.eq8Romu.produits.Chocolat;
-import abstraction.eq2Producteur2.Producteur2Prod;
 
 // Elo
 
-public abstract class Producteur2Transfo extends Producteur2Prod {
+public class Producteur2Transfo extends Producteur2Prod {
 	private LinkedList<Stock> FevesHEtransformees;
 	private LinkedList<Stock> FevesMtransformees;
 	private LinkedList<Stock> FevesMEtransformees;
@@ -88,7 +86,11 @@ public abstract class Producteur2Transfo extends Producteur2Prod {
 		} return 0;
 	}
 
-}
+	@Override
+	public void perdreArgent(double montant) {
+		// TODO Auto-generated method stub
+		
+	}
 
-// public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
+}
 

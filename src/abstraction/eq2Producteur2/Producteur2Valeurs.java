@@ -96,9 +96,9 @@ public class Producteur2Valeurs {
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
 	// partie transformation
-	protected double coefHE = 1; //(à déterminer)
-	protected double coefM = 1;
-	protected double coefME = 1;
+	protected double coefHE = 0.4; //(à déterminer)
+	protected double coefM = 0.4;
+	protected double coefME = 0.4;
 	
 	protected int qteParStepHE = 1; //quantité que l'on peut transformer en un step
 	protected int qteParStepM = 1;
