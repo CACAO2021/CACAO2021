@@ -14,7 +14,7 @@ import abstraction.fourni.Filiere;
 
 //Antoine C
 
-public abstract class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
+public class Transformateur2Acteur extends Transformateur2Stock implements IActeur {
 
 	public Transformateur2Acteur() {
 	}
@@ -38,8 +38,6 @@ public abstract class Transformateur2Acteur extends Transformateur2Valeurs imple
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
 	}
-	
-	public abstract double get_stock(Object o);
 	
 	public void next() {
 		getIndicateurs().get(0).setValeur(this, get_stock(Feve.FEVE_BASSE));

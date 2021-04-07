@@ -5,7 +5,7 @@ import abstraction.eq8Romu.produits.Feve;
 
 //Antoine R
 
-public class Transformateur2Stock extends Transformateur2Acteur {
+public class Transformateur2Stock extends Transformateur2Production {
 	
 	public Transformateur2Stock() {
 		super();

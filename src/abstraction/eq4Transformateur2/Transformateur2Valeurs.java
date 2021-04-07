@@ -21,5 +21,10 @@ public class Transformateur2Valeurs {
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
 	
+	//Production
+	
+	protected static double charges_fixes;
+	
+	
 	
 }
