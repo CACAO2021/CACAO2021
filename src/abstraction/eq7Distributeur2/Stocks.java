@@ -29,7 +29,7 @@ public class Stocks implements IStocks{
 		public Color peremptionColor = Color.MAGENTA;
 	
 
-	public Stocks(Distributeur2Acteur acteur) {
+	public Stocks(Distributeur2 acteur) {
 		this.acteur = (Distributeur2) acteur;
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();

@@ -22,7 +22,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	
 
 	public Distributeur2Acteur() {
-		this.stocks = new Stocks(this);
+		this.stocks = new Stocks((Distributeur2)this);
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		initialisationJournaux();
 		
@@ -88,6 +88,8 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
 		List<Journal> res=new ArrayList<Journal>();
+		res.add(this.journal);
+		res.add(this.stocks.journalStocks);
 		return res;
 	}
 
