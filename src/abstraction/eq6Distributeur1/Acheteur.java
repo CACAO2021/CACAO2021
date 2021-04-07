@@ -8,19 +8,21 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return null;
+		
+			Echeancier e = contrat.getEcheancier();
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2);// on propose d'acheter 2 fois plus si le vendeur n'est pas content. A modifier par la suite
+			return e;
+		
 	}
 
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
-		return 0;
+		return contrat.getPrix()*0.95; //On baisse un peu le prix si le vendeur n'est pas content. A modifier par la suite
 	}
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// TODO Auto-generated method stub
+		stock.ajouter(this,  quantite);
 		
 	}
 
