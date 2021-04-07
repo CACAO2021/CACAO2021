@@ -1,6 +1,17 @@
 package abstraction.eq6Distributeur1;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.fourni.IDistributeurChocolatDeMarque;
+import abstraction.fourni.Variable;
+
 public class Stocks extends Distributeur1Acteur{
+	
+	
+	protected Map<ChocolatDeMarque, Variable> stock; 
 	
 	protected int TABLETTE_HAUTE_BIO_EQUITABLE;
 	protected int TABLETTE_HAUTE_BIO;
@@ -28,24 +39,12 @@ public class Stocks extends Distributeur1Acteur{
 
 	
 	public Stocks() {
-		TABLETTE_HAUTE_BIO_EQUITABLE = 0;
-		TABLETTE_HAUTE_BIO = 0;
-		TABLETTE_HAUTE_EQUITABLE = 0;
-		TABLETTE_MOYENNE_EQUITABLE = 0;
-		TABLETTE_MOYENNE = 0;
-		TABLETTE_BASSE = 0;
-		CONFISERIE_HAUTE_BIO_EQUITABLE = 0;
-		CONFISERIE_HAUTE_EQUITABLE = 0;
-		CONFISERIE_MOYENNE_EQUITABLE = 0;
-		CONFISERIE_MOYENNE = 0;
-		CONFISERIE_BASSE = 0;
-		POUDRE_HAUTE_BIO_EQUITABLE = 0;
-		POUDRE_MOYENNE_EQUITABLE = 0;
-		POUDRE_MOYENNE = 0;
-		POUDRE_BASSE = 0;
+		this.stock=new HashMap<ChocolatDeMarque, Variable>();
 	}
 	
-	
+	public void ajouterStock(Object produit, double quantite) {
+		//à completer
+	}
 	
 
 	

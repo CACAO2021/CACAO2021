@@ -22,7 +22,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		stock.ajouter(this,  quantite);
+		ajouterStock(produit, quantite);
 		
 	}
 
