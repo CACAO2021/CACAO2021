@@ -55,14 +55,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 	//besoin d'une fonction du stock qui indique la quantité disponible
 	// pour l'instant on ne prend pas en compte les potentiels autres contrats qui partagent des echeanciers
-		if(FONCTIONDUSTOCK<quantite) {
-			Stock.VIDER();
-			return FONCTIONDUSTOCK;
-		}
-		else {
-			Stock.RETIRERQUANTITE(quantite);
-			return quantite;
-		}
+		return 0.0;
 	}
 	
 	

@@ -61,14 +61,13 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		
 		// Proposition d'un nouveau contrat a tous les vendeurs possibles
 	
-		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-			for (Feve feve : this.nosFevesCC()) {
-				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-					supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
+		for  (Feve feve : this.nosFevesCC()) {
+			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve)) {
+					supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, this.getQuantiteStep(feve)), cryptogramme, false);
 				}
 			}
 		}
-		
 	}
 	
 	public ArrayList<Feve> nosFevesCC() {
@@ -76,25 +75,15 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		list.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		list.add(Feve.FEVE_HAUTE_EQUITABLE);
 		list.add(Feve.FEVE_MOYENNE_EQUITABLE);
+		list.add(Feve.FEVE_MOYENNE);
 		return list;
 		
 	}
+	
+	public double getQuantiteStep(Feve feve) {
+		return 5.0;
+	}
 		
-		// OU proposition d'un contrat a un des vendeurs choisi aleatoirement
-		/*List<IVendeurContratCadre> vendeurs = supCCadre.getVendeurs(produit);
-		if (vendeurs.contains(this)) {
-			vendeurs.remove(this);
-		}
-		IVendeurContratCadre vendeur = null;
-		if (vendeurs.size()==1) {
-			vendeur=vendeurs.get(0);
-		} else if (vendeurs.size()>1) {
-			vendeur = vendeurs.get((int)( Math.random()*vendeurs.size()));
-		}
-		if (vendeur!=null) {
-			supCCadre.demande((IAcheteurContratCadre)this, vendeur, produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme,false);
-		}
-		*/
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		stock.ajouter(this,  quantite);
