@@ -7,6 +7,7 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq4Transformateur2.Stock;
 
 public class AcheteurFevesA0eq4 extends Transformateur2Acteur implements IAcheteurFevesAO {
 
