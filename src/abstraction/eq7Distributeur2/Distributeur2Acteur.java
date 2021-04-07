@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstraction.eq1Producteur1.Stock;
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
@@ -105,7 +106,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void next() {
+		this.stocks.initialiserChqEtape();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
+		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 2);
 		//this.
 	}
 
@@ -123,7 +126,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
-		List<Variable> res = new ArrayList<Variable>();
+		List<Variable> res=new ArrayList<Variable>();
+		//for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
+			//res.add(var);
+		//}
 		return res;
 	}
 
