@@ -110,6 +110,7 @@ public class Producteur1Acteur implements IActeur {
 		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
+		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),10 );
 	}
 
 	public List<String> getNomsFilieresProposees() {
