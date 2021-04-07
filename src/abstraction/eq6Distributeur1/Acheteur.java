@@ -3,9 +3,14 @@ package abstraction.eq6Distributeur1;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.fourni.Journal;
 
 public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
+	
+	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
+	
+	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		
@@ -23,6 +28,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		ajouterStock(produit, quantite);
+		JournalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
 		
 	}
 
