@@ -53,7 +53,6 @@ public class Transformateur3VenteContratCadre extends Transformateur3Stock imple
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
 	}
-		
 	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
