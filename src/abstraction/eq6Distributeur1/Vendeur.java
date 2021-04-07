@@ -10,7 +10,8 @@ public class Vendeur extends Distributeur1Acteur implements IDistributeurChocola
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
-		// TODO Auto-generated method stub
+		LinkedList linkedlist = new LinkedList();
+		
 		return null;
 	}
 
