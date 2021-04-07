@@ -92,7 +92,7 @@ public class Vendeur extends Distributeur2Acteur implements IDistributeurChocola
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		// Notifie quand le rayon est vide 	
-		Journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));
+		journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));
 	}
 
 	@Override
