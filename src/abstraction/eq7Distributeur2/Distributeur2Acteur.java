@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.eq8Romu.clients.ClientFinal;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
@@ -29,7 +30,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.stocks = new Stocks((Distributeur2)this);
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		initialisationJournaux();
-		this.chocoProduit = new ChocolatDeMarque()
+		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		
 		
 	}
@@ -151,7 +152,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	@Override
 	public List<String> getMarquesChocolat() {
 		List<String> marquesProposes = new ArrayList<String>();
-		marquesProposes.add("Wonka & Sons");
+		marquesProposes.add(this.);
 		return marquesProposes;
 	}
 
