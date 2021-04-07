@@ -25,11 +25,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public Achat(Distributeur2Acteur wonka) {
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();
-		this.quantiteLimite =  10;
-		this.quantiteMax = 40;
+		this.quantiteLimite =  10; //arbitrairement choisie : pas descendre en dessous de cette quantité pour n'importe quel produit
+		this.quantiteMax = 40;//arbitrairement choisie : quantité max pour limiter les coûts de stockage
 		this.supCCadre = (SuperviseurVentesContratCadre) Filiere.LA_FILIERE.getActeur("supCCadre");
 	}
 	public void majDemande() {
+		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		for(ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			if(stocks.getStockChocolatDeMarque(choco) <= quantiteLimite) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax - stocks.getStockChocolatDeMarque(choco)));
@@ -40,7 +41,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}		
 	}
 	
-	//cherche un nouveau contrat : peu importe le chocolat, et peu importe la quantité pour l'instant
+	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) supCCadre.getVendeurs(choco);
@@ -52,16 +53,39 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		return null;
+		Echeancier e = contrat.getEcheancier();
+		if(e.getNbEcheances()>=10) { //si l'échéancier est réparti sur plus de 10 étapes : trop long (arbitraire)
+			//on rajoute à l'étape 0 toutes les quantités qui auraient du être livrées après l'étape 10
+			e.set(e.getStepDebut(), e.getQuantiteAPartirDe(10)+e.getQuantite(0));
+			for(int i=10; i<e.getNbEcheances(); i++) {
+				//pour chaque étape au dessus de 10, on met quantité = 0
+				e.set(i, 0);
+			}
+			return e;
+		}
+		//si la quantité proposée par le vendeur est inférieure à la quantité voulue
+		if(e.getQuantiteTotale()<besoinsChoco.get(contrat.getProduit()).getValeur()) {
+			e.set(0, e.getQuantite(0)+(besoinsChoco.get(contrat.getProduit()).getValeur()-e.getQuantiteTotale()));
+			return e;
+		}
+		else { return e;
+		}
 	}
 
 	
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		return 0;
+		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
+		if(wonka.getAutorisationTransaction(prix)) {
+			return contrat.getPrix();
+		}
+		else {
+			return contrat.getPrix()*0.90;
+		}
 	}
 
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
+		
 		
 		
 	}

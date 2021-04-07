@@ -167,6 +167,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
+	
+	//A coder: doit dire si quand le compte est débité d'un tel montant, le solde total sera supérieur au solde critique (Martin) 
+	public boolean getAutorisationTransaction(double prix) {
+		return true;
+	}
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
@@ -216,5 +221,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		choco.add(this.chocoProduit);
 		return choco;
 	}
+	
 
 }
