@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
-public class Producteur2Stockage extends Producteur2Journaux {
+public abstract class Producteur2Stockage extends Producteur2Journaux {
 	private LinkedList<Stock> stockFeveHBE;
 	private LinkedList<Stock> stockFeveHE; 
 	private LinkedList<Stock> stockFeveME;
@@ -15,6 +15,13 @@ public class Producteur2Stockage extends Producteur2Journaux {
 	private LinkedList<Stock> stockPoudreM; 
 	
 	protected Variable stockFHBE;
+	protected Variable stockFHE;
+	protected Variable stockFME;
+	protected Variable stockFM;
+	protected Variable stockFB;
+	protected Variable stockPHE;
+	protected Variable stockPM;
+
 	
 	//Dim
 	/**
@@ -41,18 +48,45 @@ public class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
 		
 		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
+		stockFHE = new Variable("stock feve HE", this, QTT_FEVE_HE_DEPART);
+		stockFME = new Variable("stock feve ME", this, QTT_FEVE_ME_DEPART);
+		stockFM = new Variable("stock feve M", this, QTT_FEVE_M_DEPART);
+		stockFB = new Variable("stock feve B", this, QTT_FEVE_B_DEPART);
+		
+		stockPHE = new Variable("stock poudre HE", this, QTT_POUDRE_HE_DEPART);
+		stockPM = new Variable("stock poudre B", this, QTT_POUDRE_M_DEPART);
 	}
 	
 	//Dim
 	/*
 	 * retourne la quantité de stock disponible totale d'un produit 
 	 */
-	public double qttTotale(Object produit) {
+	public Variable qttTotale(Object produit) {
+		if (estFeveHBE(produit)) {			
+			return stockFHBE;
+		} else if (estFeveHE(produit)) {			
+			return stockFHE;
+		}else if (estFeveME(produit)) {			
+			return stockFME;
+		}else if (estFeveM(produit)) {			
+			return stockFM;
+		}else if (estFeveB(produit)) {			
+			return stockFB;
+		}else if (estPoudreHE(produit)) {
+			return stockPHE;
+		}else if (estPoudreM(produit)) {
+			return stockPM;
+		} else {
+			return new Variable("?", this, 0);
+		}
+	}
+	
+	public void majStock(Object produit) {
 		double stock = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {
 				stock += s.getQtt();
-				stockFHBE = new Variable("stock feve HBE", this, stock);
+				stockFHBE.setValeur(this, stock);
 			}
 		}else if (estFeveHE(produit)) {			
 			for (Stock s : this.stockFeveHE) {
@@ -79,7 +113,6 @@ public class Producteur2Stockage extends Producteur2Journaux {
 				stock += s.getQtt();
 			}
 		}
-		return stock;
 	}
 	
 	//Dim
@@ -88,9 +121,18 @@ public class Producteur2Stockage extends Producteur2Journaux {
 		Stock s = new Stock(qtt, step);
 		if (estFeveHBE(produit)) {
 			this.stockFeveHBE.add(s);
-			// finir tous les types de feve
-		}else if (estPoudre(produit)) {
+		} else if (estFeveHE(produit)) {
+			this.stockFeveHE.add(s);
+		}else if (estFeveME(produit)) {
+			this.stockFeveME.add(s);
+		}else if (estFeveM(produit)) {
+			this.stockFeveM.add(s);
+		}else if (estFeveB(produit)) {
+			this.stockFeveB.add(s);
+		}else if (estPoudreHE(produit)) {
 			this.stockPoudreHE.add(s);
+		}else if (estPoudreM(produit)) {
+			this.stockPoudreM.add(s);
 		}else {
 			System.out.println("erreur");
 		}
@@ -101,5 +143,8 @@ public class Producteur2Stockage extends Producteur2Journaux {
 		LinkedList<Stock> feveHBE = stockFeveHBE;
 		return;
 	}
+
+	@Override
+	public abstract void perdreArgent(double montant) ;
 
 }

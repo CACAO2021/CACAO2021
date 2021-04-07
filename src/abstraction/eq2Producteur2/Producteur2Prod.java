@@ -7,13 +7,13 @@ import abstraction.fourni.Filiere;
 
 //Emeline
 
-public class Producteur2Prod extends Producteur2Stockage {
+public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesHBE;
 	private LinkedList<Stock> arbrePlantesHE;
 	private LinkedList<Stock> arbrePlantesME;
 	private LinkedList<Stock> arbrePlantesM;
 	private LinkedList<Stock> arbrePlantesB;
-	private LinkedList<Object> listeProd;
+	private LinkedList<Feve> listeProd;
 	
 	public Producteur2Prod() {
 		super();
@@ -29,7 +29,7 @@ public class Producteur2Prod extends Producteur2Stockage {
 		this.arbrePlantesB = new LinkedList<Stock>();
 		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 		
-		this.listeProd = new LinkedList<Object>();
+		this.listeProd = new LinkedList<Feve>();
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
@@ -73,9 +73,32 @@ public class Producteur2Prod extends Producteur2Stockage {
 			double qtt = prodParStep(p);
 			addStock(qtt, p);
 			JournalProd.ajouter(""+ p +" "+qtt);	
+			coutProd(qtt, p);
+			majStock(p);
 		}		
 		}
 	
+	private void coutProd(double qtt, Object p) {
+		double cout = coutProdUnitaire(p) * qtt;
+		perdreArgent(cout);
+	}
+	
+	private double coutProdUnitaire(Object p) { // a faire 
+		if(estFeveHBE(p)) {
+			return COUT_PRODUCTION_FEVE_HBE;
+		} else if(estFeveHE(p)) {
+			return PROD_HE;
+		} else if(estFeveME(p)) {
+			return PROD_ME;
+		} else if(estFeveM(p)) {
+			return PROD_M;
+		}else if(estFeveB(p)) {
+			return PROD_B;
+		} else { // un produit que l'on ne vend pas
+			return 0;
+		}
+	}
+
 	public void renouvellement() {
 		//  a faire plus tard 
 	}

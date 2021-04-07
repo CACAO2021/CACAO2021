@@ -30,7 +30,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 
 	@Override
 	public boolean vend(Object produit) {
-		double stock = qttTotale(produit);
+		double stock = qttTotale(produit).getValeur();
 		return stock>0;
 	}
 	
@@ -80,7 +80,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		Object produit = contrat.getProduit();	
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-		double qttDispo = qttTotale(produit);
+		double qttDispo = qttTotale(produit).getValeur();
 		boolean qtt = qttDemandee < qttDispo;
 		//cond sur nos capacite de prod et les contrats deja en cours
 		boolean cond = qtt;
@@ -136,6 +136,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 		// garder en mémoire la production future a assumer
 		contrat.getQuantiteTotale(); // va falloir produire ca
 		contrat.getEcheancier().getStepFin(); // dernier step ou on doit fournir
+		this.JournalVente.ajouter("nouvelle vente avec " + contrat.getAcheteur());
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur2Journaux extends Producteur2Acteur {
+public abstract class Producteur2Journaux extends Producteur2Acteur {
 	protected Journal JournalProd, JournalVente;
 
 	public Producteur2Journaux() {
@@ -32,6 +32,9 @@ public class Producteur2Journaux extends Producteur2Acteur {
 		res.add(JournalVente);
 		return res;
 	}
+
+	@Override
+	public abstract void perdreArgent(double montant);
 
 
 }
