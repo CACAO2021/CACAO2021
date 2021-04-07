@@ -96,6 +96,7 @@ public class Transformateur1Acteur implements IActeur {
 		res.add(this.journalStock);
 		return res;
 	}
+	
 
 	public void notificationFaillite(IActeur acteur) {
 		if (this==acteur) {

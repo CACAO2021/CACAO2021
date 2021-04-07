@@ -1,5 +1,6 @@
 package abstraction.eq3Transformateur1;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
@@ -37,10 +39,14 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		if (Math.random()<0.1) {
-			return contrat.getPrix(); // on ne cherche pas a negocier dans 10% des cas
-		} else {//dans 90% des cas on fait une contreproposition differente
-			return contrat.getPrix()*0.95;// 5% de moins.
+		//Si le prix est augmenté de 2% max on accepete
+		if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.02) {
+			return contrat.getPrix();
+		} else if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.025 ){ // Si on nous propose une augmentation max de 2,5% on re-propose 2% sinon on refuse
+			return contrat.getListePrix().get(0)*1.02;
+		} else {
+			return 0.0;
+
 		}
 	}
 	public void next() {
@@ -56,10 +62,23 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		// Proposition d'un nouveau contrat a tous les vendeurs possibles
 	
 		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-			if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-				supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
+			for (Feve feve : this.nosFevesCC()) {
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
+					supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
+				}
 			}
 		}
+		
+	}
+	
+	public ArrayList<Feve> nosFevesCC() {
+		ArrayList<Feve> list = new ArrayList<Feve>();
+		list.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		list.add(Feve.FEVE_HAUTE_EQUITABLE);
+		list.add(Feve.FEVE_MOYENNE_EQUITABLE);
+		return list;
+		
+	}
 		
 		// OU proposition d'un contrat a un des vendeurs choisi aleatoirement
 		/*List<IVendeurContratCadre> vendeurs = supCCadre.getVendeurs(produit);
@@ -76,7 +95,6 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 			supCCadre.demande((IAcheteurContratCadre)this, vendeur, produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme,false);
 		}
 		*/
-	}
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		stock.ajouter(this,  quantite);
