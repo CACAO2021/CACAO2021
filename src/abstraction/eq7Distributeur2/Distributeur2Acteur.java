@@ -16,7 +16,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	
 	protected int cryptogramme;
 	protected Stocks stocks;
-	protected Journal journalStocks;
+	protected Journal journal;
 	
 	
 
@@ -27,9 +27,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 	
 	public void initialisationJournaux() {
-		journalStocks = new Journal(getNom() + " : Stocks", this);
-		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
-		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
+		journal= new Journal(getNom() + " : Infos générales", this);
+		journal.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
+		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
+		
+		journal = new Journal(getNom() + " : Informations générales", this);
+		journal.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
+		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
+		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
 	}
 
 	
