@@ -19,6 +19,8 @@ public class Transformateur3Acteur implements IActeur {
 	public Transformateur3Acteur() {
 		this.nom = "Côte d'IMT";
 		this.description = "Côte d'IMT, chocolatier de qualité";
+		this.JournalAjoutStock = new Journal(this.getNom()+" ajout dans le stock", this);
+		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
 	}
 	public String getNom() {
 		return this.nom;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.IActeur;
+import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Transformateur3Stock extends Transformateur3Acteur {
@@ -22,7 +23,7 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 	public void ajouter(Chocolat chocolat, double delta) {
 		Variable variable = this.getChocolats().get(chocolat);
 		variable.ajouter(this, delta);		
-		this.JournalAjoutStock.ajouter("Ajout de "+delta+"kg de "+chocolat);
+		this.JournalAjoutStock.ajouter("Ajout de "+delta+"kg de "+chocolat.toString());
 	}
 	
 	public void retirer(Chocolat chocolat, double delta) {
@@ -30,7 +31,7 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 		if(variable.getValeur()>=delta) {
 			variable.retirer(this, delta);
 		}
-		this.JournalRetraitStock.ajouter("Retrait de "+delta+"kg de "+chocolat);
+		this.JournalRetraitStock.ajouter("Retrait de "+delta+"kg de "+chocolat.toString());
 	}
 
 	public HashMap<Chocolat, Variable> getChocolats() {
