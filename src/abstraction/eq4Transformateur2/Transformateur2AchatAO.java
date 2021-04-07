@@ -1,5 +1,6 @@
 package abstraction.eq4Transformateur2;
 
+import java.awt.Color;
 import java.util.List;
 
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
@@ -7,10 +8,14 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
+import abstraction.fourni.Journal;
+import abstraction.fourni.Variable;
 
 //Antoine C
 
-public class Transformateur2AchatAO extends Transformateur2Stock implements IAcheteurFevesAO {
+public class Transformateur2AchatAO extends Transformateur2 implements IAcheteurFevesAO {
 
 
 	@Override
@@ -46,9 +51,5 @@ public class Transformateur2AchatAO extends Transformateur2Stock implements IAch
 		double quantite = proposition.getOffreAchateFeves().getQuantiteKG();
 		Feve feve = proposition.getFeve();
 		add_stock(feve, quantite);
-		
 	}
-
-	
-	
 }
