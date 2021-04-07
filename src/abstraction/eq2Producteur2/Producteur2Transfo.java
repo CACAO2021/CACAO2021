@@ -30,7 +30,12 @@ public class Producteur2Transfo extends Producteur2Prod {
 	}
 	
 	public void transfo() {
-		// a faire
+		for (Object p : listeTransfo) {
+			double qtt = prodParStep(p);
+			addStock(qtt, p);
+			JournalProd.ajouter(""+ p +" "+qtt);	
+			coutTransfo(p);
+		}
 	}
 	
 	public double qteFeves(Object produit) {
@@ -76,7 +81,7 @@ public class Producteur2Transfo extends Producteur2Prod {
 		} return 0;
 	}
 	
-	public double coutTransf(Object produit) {
+	public double coutTransfo(Object produit) {
 		if (estPoudreHE(produit)) {
 			return prodParStep(produit)*prixHEparKilo;
 		} else if (estPoudreM(produit)) {
