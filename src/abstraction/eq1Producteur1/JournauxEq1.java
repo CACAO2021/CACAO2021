@@ -3,6 +3,7 @@ package abstraction.eq1Producteur1;
 import java.util.ArrayList;
 
 import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 /**
  * @author arthurlemgit
@@ -25,9 +26,9 @@ public class JournauxEq1 {
 		return this.journaux.get(i);
 	}
 	
-	public void addJournal(int n) {
+	public void addJournal(int n, IActeur a) {
 		for (int i=0; i<n; i++) {
-			Journal journal = new Journal(""+this.journaux.size()+1, Filiere.LA_FILIERE.getActeur("EQ1"));
+			Journal journal = new Journal(""+this.journaux.size()+1, a);
 			this.journaux.add(journal);
 		}
 	}
