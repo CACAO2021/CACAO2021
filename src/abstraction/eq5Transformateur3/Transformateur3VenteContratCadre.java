@@ -11,9 +11,8 @@ import abstraction.fourni.Journal;
 
 //Léna
 
-public class Transformateur3VenteContratCadre extends Transformateur3Acteur implements IVendeurContratCadre{
+public class Transformateur3VenteContratCadre extends Transformateur3Stock implements IVendeurContratCadre{
 	private Journal j = new Journal("ContratCadreVente", this);
-	private Transformateur3Stock s = new Transformateur3Stock();
 	
 	
 	public boolean peutVendre(Object produit) {
@@ -24,7 +23,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 
 	@Override
 	public boolean vend(Object produit) {
-		if (s.getChocolats().get(produit).getValeur()>0) {
+		if (this.getChocolats().get(produit).getValeur()>0) {
 			return true;}
 		else { return false;}
 
@@ -33,7 +32,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) || contrat.getProduit().equals(Chocolat.TABLETTE_MOYENNE) || contrat.getProduit().equals(Chocolat.CONFISERIE_MOYENNE)) {
-			if (contrat.getEcheancier().getQuantiteTotale() <= s.getChocolats().get(contrat.getProduit()).getValeur()) {
+			if (contrat.getEcheancier().getQuantiteTotale() <= this.getChocolats().get(contrat.getProduit()).getValeur()) {
 				return contrat.getEcheancier(); } 
 			else { 
 				return null; } }
@@ -60,9 +59,9 @@ public class Transformateur3VenteContratCadre extends Transformateur3Acteur impl
 	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		double livre = Math.min(s.getChocolats().get(produit).getValeur(), quantite);
+		double livre = Math.min(this.getChocolats().get(produit).getValeur(), quantite);
 		if (livre>0.0) {
-			s.retirer(s.getChocolats().get(produit));
+			this.retirer((Chocolat)produit, livre);
 		}
 		return livre;
 	}
