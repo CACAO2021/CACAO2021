@@ -2,10 +2,13 @@ package abstraction.eq5Transformateur3;
 
 import java.util.HashMap;
 
+
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
+
+//Manuelo
 
 public class Transformateur3Stock extends Transformateur3Acteur {
 	protected HashMap<Chocolat, Variable> chocolats;

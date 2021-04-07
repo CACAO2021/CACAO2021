@@ -11,7 +11,10 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
+//Manuelo
 public class Transformateur3AchatContratCadre extends Transformateur3Acteur implements IAcheteurContratCadre {
+	
+	private static double prix_max=1000;
 	
 	public Echeancier contrePropositionDeLAcheteur1(ExemplaireContratCadre contrat) {
 		List<Echeancier> precedentesPropositions = contrat.getEcheanciers();
@@ -32,7 +35,7 @@ public class Transformateur3AchatContratCadre extends Transformateur3Acteur impl
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		List<Double> precedentesPropositions = contrat.getListePrix();
 		Double dernierPrix = contrat.getPrix();
-		if (dernierPrix>1000) {
+		if (dernierPrix>this.prix_max) {
 			return -1;
 		} else {
 			return dernierPrix;
