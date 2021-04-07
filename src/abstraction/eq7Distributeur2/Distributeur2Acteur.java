@@ -28,6 +28,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		
 	}
+	public int getCryptogramme() {
+		return this.cryptogramme;
+	}
 	
 	public void initialisationJournaux() {
 		journal = new Journal(getNom() + " : Informations générales", this);
