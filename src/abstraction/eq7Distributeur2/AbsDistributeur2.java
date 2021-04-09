@@ -40,10 +40,9 @@ public abstract class AbsDistributeur2 {
 		public Color behaviorColor = Color.BLUE;
 	
 		public void initialiserCatalogue() {
-			
 			for(Chocolat nosChocolats : this.chocolatPropose) {
 				for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
-					if(chocolatDeLaFiliere.getChocolat().equals(nosChocolats)) {
+					if(chocolatDeLaFiliere.getChocolat().toString().equals(nosChocolats.name())) {
 						catalogue.add(chocolatDeLaFiliere);
 					}
 				}

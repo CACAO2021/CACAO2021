@@ -46,29 +46,29 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	
 	public void initialisationJournaux() {
 
-		journalTransactions = new Journal(getNom() + " : Relevé de compte", this);
+		journalTransactions = new Journal("Relevé de compte [W&S]", this);
 		journalTransactions.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Regsitre des opérations bancaires"));
 		journalTransactions.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte toutes les oprérations de l'acteur"));
 		
-		journalVentes = new Journal(getNom() + " : Registre des ventes", this);
+		journalVentes = new Journal("Registre des ventes [W&S]", this);
 		journalVentes.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des ventes"));
 		journalVentes.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les ventes de produits"));
 		
 		
-		journalAchats = new Journal(getNom() + " : Registre des achats", this);
+		journalAchats = new Journal("Registre des achats [W&S]", this);
 		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des acahats"));
 		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
 		
-		journal = new Journal(getNom() + " : Informations générales", this);
+		journal = new Journal("Informations générales [W&S]", this);
 		journal.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal d'activités"));
 		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant"));
 		journal.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "l'acteur (changement de stratégie, faillite, ...)."));
 		
-		journalCatalogue = new Journal(getNom() + " : Catalogue", this);
+		journalCatalogue = new Journal("Catalogue [W&S]", this);
 		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
 		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
 		
-		journalStocks= new Journal(getNom() + " : Registre des Stocks", (IActeur)this);
+		journalStocks= new Journal("Registre des Stocks [W&S]", (IActeur)this);
 		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
 		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 
@@ -99,6 +99,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		this.stocks = new Stocks((Distributeur2)this);
 		this.achat = new Achat((Distributeur2)this);
+		
 
 		
 	}
@@ -106,7 +107,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void next() {
 		this.stocks.initialiserChqEtape();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
-		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 2);
+		//this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 2);
 		if (Filiere.LA_FILIERE.getEtape()!=0) {
 		this.achat.next();
 		}
