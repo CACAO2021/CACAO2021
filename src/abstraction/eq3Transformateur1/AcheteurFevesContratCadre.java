@@ -76,6 +76,7 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		list.add(Feve.FEVE_HAUTE_EQUITABLE);
 		list.add(Feve.FEVE_MOYENNE_EQUITABLE);
 		list.add(Feve.FEVE_MOYENNE);
+		list.add(Feve.FEVE_BASSE);
 		return list;
 		
 	}
