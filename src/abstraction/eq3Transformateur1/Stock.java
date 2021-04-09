@@ -10,6 +10,9 @@ import abstraction.fourni.Variable;
 import java.util.List;
 import java.util.ArrayList;
 
+
+// Paul GIRAUD
+
 public class Stock extends Transformateur1Acteur {
 	
 	private Transformateur1Acteur eticao;
