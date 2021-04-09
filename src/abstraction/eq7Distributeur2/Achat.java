@@ -35,7 +35,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();
 		this.quantiteLimite =  10; //arbitrairement choisie : pas descendre en dessous de cette quantité pour n'importe quel produit
 		this.quantiteMax = 40;//arbitrairement choisie : quantité max pour limiter les coûts de stockage
-		this.supCCadre = (SuperviseurVentesContratCadre) Filiere.LA_FILIERE.getActeur("supCCadre");
+		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		
 	}
 	public void next() {
@@ -56,8 +56,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//}
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
-		for(ChocolatDeMarque choco : this.getCatalogue()) {
-			if(stocks.getStockChocolatDeMarque(choco) <= quantiteLimite) {
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			if(wonka.stocks.getStockChocolatDeMarque(choco) <= quantiteLimite) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax - stocks.getStockChocolatDeMarque(choco)));
 			}
 			else {
@@ -68,13 +68,15 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
-		for(ChocolatDeMarque choco : this.getCatalogue() ) {
-			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) supCCadre.getVendeurs(choco);
-			int i = (int) (Math.random()*vendeurs.size()) ;
-			IVendeurContratCadre vendeur = vendeurs.get(i);
-			Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
-			supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
-			wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
+		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
+			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) wonka.achat.supCCadre.getVendeurs(choco);
+			if (vendeurs.size()!=0){
+				int i = (int) (Math.random()*vendeurs.size()) ;
+				IVendeurContratCadre vendeur = vendeurs.get(i);
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
+				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
+			}
 		}
 	}
 	

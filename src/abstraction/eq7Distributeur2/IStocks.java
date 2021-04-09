@@ -8,6 +8,10 @@ public interface IStocks {
 	
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque);
 	
+	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, int etape);
+	
+	public double getQuantiteTotaleStocks();
+	
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque ,double quantité );
 	
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque ,double quantité );

@@ -13,7 +13,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
 	protected static int dureeDePeremption = 6;
-	protected static double limiteStocks = 20;
+	protected static double limiteStocks = 1000000000;
 	
 	//private HashMap<Chocolat, Variable> stocksParChocolat; //Stocks de chocolat par type
 	protected HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
@@ -47,13 +47,12 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}
 	}		
 	
-	public void initialiserChqEtape() {
+	public void next() {
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
 			int etape = Filiere.LA_FILIERE.getEtape();
 			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
 			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
 			nouveauChocoParEtape.put(etape, Init);
-			
 			jeterChocolatPerime();
 			
 		}
