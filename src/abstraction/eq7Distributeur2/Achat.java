@@ -117,7 +117,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), contrat.getQuantiteTotale());
+		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), contrat.getQuantiteTotale());
 	}
 
 	public SuperviseurVentesContratCadre getSupCCadre() {
