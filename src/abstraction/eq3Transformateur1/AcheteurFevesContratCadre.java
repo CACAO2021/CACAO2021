@@ -15,6 +15,7 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
 
 
+// Paul GIRAUD
 public class AcheteurFevesContratCadre extends Transformateur1Acteur implements IAcheteurContratCadre {
 
 	
