@@ -69,7 +69,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
-			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) wonka.achat.supCCadre.getVendeurs(choco);
+			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
 			if (vendeurs.size()!=0){
 				int i = (int) (Math.random()*vendeurs.size()) ;
 				IVendeurContratCadre vendeur = vendeurs.get(i);
@@ -121,6 +121,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		
 		
 		
+	}
+
+	public SuperviseurVentesContratCadre getSupCCadre() {
+		return supCCadre;
 	}
 
 
