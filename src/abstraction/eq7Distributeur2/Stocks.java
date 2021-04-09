@@ -14,6 +14,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	protected static int dureeDePeremption = 6;
 	protected static double limiteStocks = 1000000000;
+	protected static double prixStockage = 10;
 	
 	//private HashMap<Chocolat, Variable> stocksParChocolat; //Stocks de chocolat par type
 	protected HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
@@ -86,6 +87,15 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			res+= this.stocksParMarque.get(chocoDM).getValeur();
 		}return res;
 	}
+	
+	
+	public double getQuantiteTotaleStockEtape(int etape) {
+		double res = 0.0;
+		for(ChocolatDeMarque chocoDM : acteur.getCatalogue()) {
+			res+= this.nouveauChocoParEtape.get(etape).get(chocoDM).getValeur();
+		}return res;
+		
+	}
 		
 //"Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]" --> Nom d'une variable de chocolat à une étape donnée (si besoin d'y accéder)
 	
@@ -129,10 +139,12 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}
 	}
 
-
+	//A LIER AVEC LE COMPTE BANCAIRE
 	@Override
-	public void getCoutStockage() {
-		// TODO Auto-generated method stub
-		
+	public void CoutStockage() {
+		int etape = Filiere.LA_FILIERE.getEtape();
+		double cout = this.getQuantiteTotaleStockEtape(etape) * prixStockage;
+		// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
+		acteur.notificationOperationBancaire(cout);
 	}
 }
