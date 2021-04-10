@@ -113,6 +113,7 @@ public class Stock extends Transformateur1Acteur {
 		for(ArrayList<Variable> QuantitePrix : stockFeves) {
 			total += QuantitePrix.get(1).getValeur();
 		}
+		total = total/stockFeves.size();
 		return total;
 		
 	}
@@ -195,16 +196,7 @@ public class Stock extends Transformateur1Acteur {
 			Variable prix = stockATransformer.get(feve).get(1);
 			this.setStockChocolat(chocolat, quantite, prix);
 			this.stockFeves.get(feve).clear();
-			
 		}
-		
-		
-
-
 	}
-	
-	
-	
-	
-	
+
 }
