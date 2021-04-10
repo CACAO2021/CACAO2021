@@ -3,6 +3,7 @@ package abstraction.eq3Transformateur1;
 import java.util.HashMap;
 import java.util.Map;
 
+import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Variable;
@@ -21,7 +22,7 @@ public class Stock extends Transformateur1Acteur {
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
 	protected Map<Feve,Double> coutFeves;
 	protected Map<Chocolat,Double> coutChocolat;
-	private Variable PrixTransforatmionFeve;
+	private Variable PrixTransformationFeve;
 	private Variable PrixStockage;
 	private double PRIX_STOCKAGE = 2000;
 	
@@ -55,7 +56,7 @@ public class Stock extends Transformateur1Acteur {
 		this.stockChocolats.put(Chocolat.POUDRE_MOYENNE, new ArrayList<ArrayList<Variable>>());
 		this.stockChocolats.put(Chocolat.POUDRE_BASSE, new ArrayList<ArrayList<Variable>>());
 
-		this.PrixTransforatmionFeve = new Variable(this.getNom() + " Cout transformation feve à chocolat", this, 5000);
+		this.PrixTransformationFeve = new Variable(this.getNom() + " Cout transformation feve à chocolat", this, 5000);
 
 		this.PrixStockage = new Variable(this.getNom() + " Coutdu stockage", this, PRIX_STOCKAGE);
 		
@@ -101,6 +102,18 @@ public class Stock extends Transformateur1Acteur {
 			total += QuantitePrix.get(0).getValeur();
 		}
 		return total;	
+		
+	}
+	
+	public double getPrixMoyenFeve(Feve feve) {
+		
+		double total = 0;
+		Map<Feve, ArrayList<ArrayList<Variable>>> stockFevesT = this.stockFeves;
+		ArrayList<ArrayList<Variable>> stockFeves = stockFevesT.get(feve);
+		for(ArrayList<Variable> QuantitePrix : stockFeves) {
+			total += QuantitePrix.get(1).getValeur();
+		}
+		return total;
 		
 	}
 	
@@ -150,7 +163,42 @@ public class Stock extends Transformateur1Acteur {
 		this.stockChocolats.get(chocolat).add(QuantitePrix);
 	}
 	
-	public void transformationFeveChocolat(Feve feve, Variable quantite, Chocolat chocolat) {
+	
+	public Chocolat equivalentTabletteFeve(Feve feve) {
+		for (Chocolat chocolat : this.nosChocolats()) {
+			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
+				return chocolat;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	public void transformationFeveChocolat() {
+		
+		Map<Feve, ArrayList<Variable>> stockATransformer = new HashMap<Feve, ArrayList<Variable>>();
+		
+		for (Feve feve : this.nosFeves()) {
+			ArrayList<Variable> QuantitePrix = new ArrayList<>();
+			Variable quantite = new Variable(this.getNom(),this,this.getStockFeves(feve));
+			Variable prix = new Variable(this.getNom(),this, this.getPrixMoyenFeve(feve));
+			QuantitePrix.add(quantite);
+			QuantitePrix.add(prix);
+			stockATransformer.put(feve, QuantitePrix);
+		}
+		
+		for (Feve feve : this.nosFeves()) {
+			
+			Chocolat chocolat = this.equivalentTabletteFeve(feve);
+			Variable quantite = stockATransformer.get(feve).get(0);
+			Variable prix = stockATransformer.get(feve).get(1);
+			this.setStockChocolat(chocolat, quantite, prix);
+			this.stockFeves.get(feve).clear();
+			
+		}
+		
+		
 
 
 	}
