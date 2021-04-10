@@ -92,7 +92,7 @@ public class Stock extends Transformateur1Acteur {
 		return list;
 	}
 	
-	public double getstockFeves(Feve feve) {
+	public double getStockFeves(Feve feve) {
 		
 		double total = 0;
 		Map<Feve, ArrayList<ArrayList<Variable>>> stockFevesT = this.stockFeves;
@@ -104,17 +104,17 @@ public class Stock extends Transformateur1Acteur {
 		
 	}
 	
-	public double getstockFeves() {
+	public double getStockFeves() {
 		
 		double total = 0;
 		ArrayList<Feve> ListFeve = this.nosFeves();
 		for(Feve feve : ListFeve) {
-			total += this.getstockFeves(feve);
+			total += this.getStockFeves(feve);
 		}
 		return total;
 	}
 	
-	public double getstockChocolats(Chocolat chocolat) {
+	public double getStockChocolats(Chocolat chocolat) {
 		
 		double total = 0;
 		Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolatsT = this.stockChocolats;
@@ -126,15 +126,36 @@ public class Stock extends Transformateur1Acteur {
 		
 	}
 	
-	public double getstockChocolats() {
+	public double getStockChocolats() {
 		
 		double total = 0;
 		ArrayList<Chocolat> ListChocolat = this.nosChocolats();
 		for(Chocolat chocolat : ListChocolat) {
-			total += this.getstockChocolats(chocolat);
+			total += this.getStockChocolats(chocolat);
 		}
 		return total;
 	}
+	
+	public void setStockFeve(Feve feve, Variable quantite, Variable prix ) {
+		ArrayList<Variable> QuantitePrix = new ArrayList<>();
+		QuantitePrix.add(quantite);
+		QuantitePrix.add(prix);
+		this.stockFeves.get(feve).add(QuantitePrix);
+	}
+	
+	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
+		ArrayList<Variable> QuantitePrix = new ArrayList<>();
+		QuantitePrix.add(quantite);
+		QuantitePrix.add(prix);
+		this.stockChocolats.get(chocolat).add(QuantitePrix);
+	}
+	
+	public void transformationFeveChocolat(Feve feve, Variable quantite, Chocolat chocolat) {
+
+
+	}
+	
+	
 	
 	
 	

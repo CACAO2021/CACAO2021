@@ -18,8 +18,7 @@ public class Transformateur1Acteur implements IActeur {
 
 	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
 	private int numero;
-	private Variable totalStocksFeves;
-	protected Map<Feve, Double> stocksFeves;
+
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;
 	protected Journal journalVendeur;
@@ -30,11 +29,6 @@ public class Transformateur1Acteur implements IActeur {
 
 	public Transformateur1Acteur() {
 		
-		this.totalStocksFeves=new Variable(getNom()+" total stocks feves", this, 50);
-		stocksFeves=new HashMap<Feve, Double>();
-		for (Feve feve : Feve.values()) {
-			stocksFeves.put(feve, 0.0);
-		}
 		this.journalAcheteur = new Journal(this.getNom()+" achat", this);
 		this.journalVendeur = new Journal(this.getNom()+" vente ", this);
 		this.journalStock = new Journal(this.getNom()+" stock ", this);

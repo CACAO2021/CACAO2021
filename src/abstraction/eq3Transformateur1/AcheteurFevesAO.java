@@ -10,8 +10,9 @@ import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Variable;
 
-public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurFevesAO {
+public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAcheteurFevesAO {
 	
 	
 	private Feve feve;
@@ -43,7 +44,7 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	
 	// Renvoie le stock actuel de ce type de feve
 	private double getStockActuelFeve(Feve feve) {
-		return this.stocksFeves.get(feve);
+		return this.getStockFeves(feve);
 	}
 	
 	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
@@ -81,8 +82,10 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	}
 
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		this.journalVendeur.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		Variable quantite = new Variable(this.getNom(),this,proposition.getQuantiteKg());
+		Variable prix = new Variable(this.getNom(),this,proposition.getPrixKG());
+		this.setStockFeve(feve, quantite, prix);
+		this.journalAcheteur.ajouter("--> le stock de " + proposition.getFeve().toString() + "passe a "+Journal.doubleSur(this.getStockFeves(proposition.getFeve()), 4));
 	}
 
 	//	public double proposerAchat(LotCacaoCriee lot) {
