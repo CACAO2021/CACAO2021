@@ -29,10 +29,10 @@ public class Stock extends Transformateur1Acteur {
 	
 
 	private double PRIX_STOCKAGE_FIXE = 1000;
-	private double PRIX_STOCKAGE_VARIABLE = 6;
+	private double PRIX_STOCKAGE_VARIABLE = 6; // 6€/tonne/unité temporelle
 	private double COUT_TRANSFORMATION = 500;
 	private double COEFFICIENT_COUT_BIO = 1.15;
-	private double RAPPORT_TRANSFORMATION = 1;
+	private double RAPPORT_TRANSFORMATION = 2.5;  // 0,04kg de fèves pour 0,1 kg de chocolat
 	
 	
 	
@@ -177,25 +177,53 @@ public class Stock extends Transformateur1Acteur {
 	}
 	
 	public void setStockFeve(Feve feve, Variable quantite, Variable prix ) {
-		ArrayList<Variable> QuantitePrix = new ArrayList<>();
-		QuantitePrix.add(quantite);
-		QuantitePrix.add(prix);
-		this.stockFeves.get(feve).add(QuantitePrix);
-		this.journalStock.ajouter("stock de feve -" + feve.name() + " " +String.valueOf(this.getStockFeves(feve)));
+		if (quantite.getValeur()+this.getStockFeves() >= 0) {
+			ArrayList<Variable> QuantitePrix = new ArrayList<>();
+			QuantitePrix.add(quantite);
+			QuantitePrix.add(prix);
+			this.stockFeves.get(feve).add(QuantitePrix);
+			this.journalStock.ajouter("stock de feve -" + feve.name() + " " +String.valueOf(this.getStockFeves(feve)));
+		} else {
+			throw new IllegalArgumentException(" Stock trop faible");
+		}
 	}
 	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
 		ArrayList<Variable> QuantitePrix = new ArrayList<>();
-		QuantitePrix.add(quantite);
-		QuantitePrix.add(prix);
-		this.stockChocolats.get(chocolat).add(QuantitePrix);
-		this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " " + String.valueOf(quantite));
+		if (quantite.getValeur()+this.getStockChocolats() >= 0) {
+			QuantitePrix.add(quantite);
+			QuantitePrix.add(prix);
+			this.stockChocolats.get(chocolat).add(QuantitePrix);
+			this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " " + String.valueOf(quantite));
+		} else {
+			throw new IllegalArgumentException(" Stock trop faible");
+		}
 	}
 	
 	
 	public Chocolat equivalentTabletteFeve(Feve feve) {
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
+				return chocolat;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Chocolat equivalentConfiserieFeve(Feve feve) {
+		for (Chocolat chocolat : this.nosChocolats()) {
+			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
+				return chocolat;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Chocolat equivalentPoudreFeve(Feve feve) {
+		for (Chocolat chocolat : this.nosChocolats()) {
+			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
 			}
 		}
@@ -234,13 +262,22 @@ public class Stock extends Transformateur1Acteur {
 			if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 				cout = cout * COEFFICIENT_COUT_BIO;
 			}
-			Chocolat chocolat = this.equivalentTabletteFeve(feve);
-			this.setStockChocolat(chocolat, quantite, prix);
-			this.stockFeves.get(feve).clear();
+			
+			if( Math.random() <= 0.3) {
+				Chocolat chocolat = this.equivalentTabletteFeve(feve);
+				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+			} else if ( Math.random() >= 0.6) {
+				Chocolat chocolat = this.equivalentConfiserieFeve(feve);
+				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+			} else {
+				Chocolat chocolat = this.equivalentPoudreFeve(feve);
+				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+			}
+			
 			this.journalStock.ajouter("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
-			this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
 			this.journalTresorie.ajouter("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de" + String.valueOf(cout));
+			this.stockFeves.get(feve).clear();
 		}
 	}
 	
@@ -253,5 +290,30 @@ public class Stock extends Transformateur1Acteur {
 		
 		
 	}
+	
+	
+	public double prixDeVente(Chocolat chocolat) {
+		
+		double prix = 0.0;
+		Integer compteur = 0;
+		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
+		for ( ArrayList<Variable> quantPrix: stockChocolats) {
+			if (quantPrix.get(0).getValeur() > 0) {
+				compteur += 1;
+				prix += quantPrix.get(1).getValeur();
+			}
+		} 
+		prix = prix/compteur;
+		return prix;
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
