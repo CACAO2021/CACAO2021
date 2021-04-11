@@ -18,7 +18,7 @@ public class Transformateur3Acteur implements IActeur {
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
-		this.nom = "Côte d'IMT";
+		this.nom = "EQ5";
 		this.description = "Côte d'IMT, chocolatier de qualité";
 		this.JournalAjoutStock = new Journal(this.getNom()+" ajout dans le stock", this);
 		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
@@ -28,15 +28,12 @@ public class Transformateur3Acteur implements IActeur {
 	}
 
 	public String getNom() {
-		// TODO Auto-generated method stub
-		return null;
+		return nom;
 	}
 
 	@Override
 	public String getDescription() {
-
-		// TODO Auto-generated method stub
-		return null;
+		return description;
 	}
 	
 	

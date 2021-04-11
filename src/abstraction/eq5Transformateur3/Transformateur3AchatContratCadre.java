@@ -47,20 +47,17 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 
 	@Override
 	public String getNom() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getNom();
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getDescription();
 	}
 
 	@Override
 	public Color getColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Color(233, 30, 99);
 	}
 
 	@Override
