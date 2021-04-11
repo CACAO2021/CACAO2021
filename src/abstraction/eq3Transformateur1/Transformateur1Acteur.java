@@ -16,8 +16,6 @@ import abstraction.fourni.Variable;
 public class Transformateur1Acteur implements IActeur {
 	
 
-	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
-	private int numero;
 
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;

@@ -89,6 +89,10 @@ public class Stock extends Transformateur1Acteur {
 		this.getPrixStockage().setValeur(this, cout);
 	}
 	
+	public List<Variable> getIndicateur() {
+		return this.indicateurs;
+	}
+	
 	public ArrayList<Feve> nosFeves() {
 		ArrayList<Feve> list = new ArrayList<Feve>();
 		list.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
@@ -308,7 +312,9 @@ public class Stock extends Transformateur1Acteur {
 	}
 
 	
-	
+	public void setIndicateur() {
+		
+	}
 	
 	
 	
