@@ -72,7 +72,13 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 
 	// AJOUTE LA QUANTITE DE CHOCOLAT A LETAPE ACTUELLE ET DANS LE STOCK DE MARQUES
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
-		if (getQuantiteTotaleStocks()+qte<=limiteStocks) {
+		double limiteDeStocks = limiteStocks;
+		for(Variable var : acteur.getParametres()) {
+			if (var.getNom().equals("limiteStocks")) {
+				limiteDeStocks = var.getValeur();
+			}
+		}
+		if (getQuantiteTotaleStocks()+qte<=limiteDeStocks) {
 			this.stocksParMarque.get(chocolatDeMarque).ajouter(acteur, qte);
 			acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, "[AJOUT] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
 			int etape = Filiere.LA_FILIERE.getEtape();
@@ -128,8 +134,14 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	@Override
 	public void jeterChocolatPerime() {
 		int etape = Filiere.LA_FILIERE.getEtape();
-		int etapeImpactee = etape-dureeDePeremption;
-		if (etape>=dureeDePeremption) {
+		int dureePeremption = dureeDePeremption;
+		for(Variable var : acteur.getParametres()) {
+			if (var.getNom().equals("dureeDePeremption")) {
+				dureePeremption = (int)var.getValeur();
+			}
+		}
+		int etapeImpactee = etape-dureePeremption;
+		if (etape>=dureePeremption) {
 			for (ChocolatDeMarque chocoDM : acteur.getCatalogue()) {
 				double valeurRecue = this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).getValeur();
 				acteur.journalStocks.ajouter(Journal.texteColore(peremptionColor,Color.BLACK,"[PEREMPTION] " + Journal.doubleSur(valeurRecue,2) + " de " + chocoDM.name() +" datants de l'étape " + Journal.entierSur6(etapeImpactee) + " ont été jetés"));
@@ -143,7 +155,13 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	@Override
 	public void CoutStockage() {
 		int etape = Filiere.LA_FILIERE.getEtape();
-		double cout = this.getQuantiteTotaleStockEtape(etape) * prixStockage;
+		double prixDeStockage = prixStockage;
+		for(Variable var : acteur.getParametres()) {
+			if (var.getNom().equals("prixStockage")) {
+				prixDeStockage = var.getValeur();
+			}
+		}
+		double cout = this.getQuantiteTotaleStockEtape(etape) * prixDeStockage;
 		// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
 		acteur.notificationOperationBancaire(cout);
 	}
