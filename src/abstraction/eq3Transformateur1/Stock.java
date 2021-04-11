@@ -270,14 +270,18 @@ public class Stock extends Transformateur1Acteur {
 			if( Math.random() <= 0.3) {
 				Chocolat chocolat = this.equivalentTabletteFeve(feve);
 				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+				this.setStockChocolat(chocolat, quantite, prix);
 			} else if ( Math.random() >= 0.6) {
 				Chocolat chocolat = this.equivalentConfiserieFeve(feve);
 				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+				this.setStockChocolat(chocolat, quantite, prix);
 			} else {
 				Chocolat chocolat = this.equivalentPoudreFeve(feve);
 				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+				this.setStockChocolat(chocolat, quantite, prix);
 			}
 			
+
 			this.journalStock.ajouter("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
 			this.journalTresorie.ajouter("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de" + String.valueOf(cout));
