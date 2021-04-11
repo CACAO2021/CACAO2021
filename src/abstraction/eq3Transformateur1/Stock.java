@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Stock extends Transformateur1Acteur {
 	
-	private Transformateur1Acteur eticao;
+
 	private List<Variable> indicateurs;
 	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
@@ -27,7 +27,9 @@ public class Stock extends Transformateur1Acteur {
 	private Variable PrixStockage;
 	private Variable RapportTransformation;
 	
-	private double PRIX_STOCKAGE = 2000;
+
+	private double PRIX_STOCKAGE_FIXE = 1000;
+	private double PRIX_STOCKAGE_VARIABLE = 6;
 	private double COUT_TRANSFORMATION = 500;
 	private double COEFFICIENT_COUT_BIO = 1.15;
 	private double RAPPORT_TRANSFORMATION = 1;
@@ -65,7 +67,7 @@ public class Stock extends Transformateur1Acteur {
 		this.stockChocolats.put(Chocolat.POUDRE_BASSE, new ArrayList<ArrayList<Variable>>());
 
 		this.PrixTransformationFeve = new Variable(this.getNom() + " Cout transformation feve à chocolat pour 1tonne euros", this, COUT_TRANSFORMATION);
-		this.PrixStockage = new Variable(this.getNom() + " Coût du stockage", this, PRIX_STOCKAGE);
+		this.PrixStockage = new Variable(this.getNom() + " Coût du stockage", this, PRIX_STOCKAGE_FIXE);
 		this.RapportTransformation = new Variable(this.getNom() + " rapport entre quantité de fève et chocolat", this, RAPPORT_TRANSFORMATION);
 		
 		this.indicateurs = new ArrayList<Variable>();
@@ -81,6 +83,10 @@ public class Stock extends Transformateur1Acteur {
 	
 	public Variable getRapportTransformation () {
 		return this.RapportTransformation;
+	}
+	
+	public void setPrixStockage(double cout) {
+		this.getPrixStockage().setValeur(this, cout);
 	}
 	
 	public ArrayList<Feve> nosFeves() {
@@ -225,6 +231,9 @@ public class Stock extends Transformateur1Acteur {
 			Variable prix = new Variable(this.getNom(),this, this.getPrixMoyenFeve(feve)*this.getMarge(feve));
 			// on calcul les couts de transformations
 			double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
+			if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+				cout = cout * COEFFICIENT_COUT_BIO;
+			}
 			Chocolat chocolat = this.equivalentTabletteFeve(feve);
 			this.setStockChocolat(chocolat, quantite, prix);
 			this.stockFeves.get(feve).clear();
@@ -233,9 +242,16 @@ public class Stock extends Transformateur1Acteur {
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
 			this.journalTresorie.ajouter("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de" + String.valueOf(cout));
 		}
+	}
+	
+	public void coutStock() {
 		
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.getPrixStockage().getValeur());
+		double stockage = PRIX_STOCKAGE_FIXE + (this.getStockChocolats()+this.getStockFeves())*PRIX_STOCKAGE_VARIABLE/1000;
+		this.setPrixStockage(stockage);
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
 		this.journalTresorie.ajouter("Virement à la banque pour le coût de stockage d'un montant de" + String.valueOf(this.getPrixStockage().getValeur()));
+		
+		
 	}
 
 }
