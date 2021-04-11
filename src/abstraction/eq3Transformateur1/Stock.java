@@ -317,6 +317,7 @@ public class Stock extends Transformateur1Acteur {
 
 	
 	public void setIndicateur() {
+		
 		Integer compteur = 0;
 		for (Feve feve : this.nosFeves()) {
 			this.getIndicateur().get(compteur).setValeur(this, this.getStockFeves(feve));
@@ -326,7 +327,7 @@ public class Stock extends Transformateur1Acteur {
 			this.getIndicateur().get(compteur).setValeur(this, this.getStockChocolats(chocolat));
 			compteur += 1;
 		}
-
+		this.getIndicateur().get(compteur).setValeur(this, this.getPrixStockage().getValeur());
 	}
 	
 	
