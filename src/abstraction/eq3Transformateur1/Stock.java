@@ -79,7 +79,7 @@ public class Stock extends Transformateur1Acteur {
 		return this.PrixStockage;
 	}
 	
-	public Variable getRapportTransoformation () {
+	public Variable getRapportTransformation () {
 		return this.RapportTransformation;
 	}
 	
@@ -195,31 +195,41 @@ public class Stock extends Transformateur1Acteur {
 		return null;
 	}
 	
+	public double getMarge(Feve feve) {
+		if (feve.equals(Feve.FEVE_BASSE)) {
+			return 1.4;
+		} else if (feve.equals(Feve.FEVE_MOYENNE)) {
+			return 1.4*1.05;
+		} else if (feve.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
+			return 1.4*1.05*1.05;
+		} else if (feve.equals(Feve.FEVE_HAUTE_EQUITABLE)) {
+			return 1.4*1.1*1.05;
+		} else if (feve.equals(Feve.FEVE_HAUTE_BIO_EQUITABLE)) {
+			return 1.4*1.1*1.05*1.1;
+		} else {
+			return 0.0;
+		}
+	}
 	
 	public void transformationFeveChocolat() {
 		
-		Map<Feve, ArrayList<Variable>> stockATransformer = new HashMap<Feve, ArrayList<Variable>>();
-		
+		// on prend chaque feve
 		for (Feve feve : this.nosFeves()) {
-			ArrayList<Variable> QuantitePrix = new ArrayList<>();
-			double quant = this.getStockFeves(feve)*this.getRapportTransoformation().getValeur();
+			// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
+			double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
+			
 			Variable quantite = new Variable(this.getNom(),this,quant);
-			Variable prix = new Variable(this.getNom(),this, this.getPrixMoyenFeve(feve));
-			QuantitePrix.add(quantite);
-			QuantitePrix.add(prix);
-			stockATransformer.put(feve, QuantitePrix);
+			// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
+			Variable prix = new Variable(this.getNom(),this, this.getPrixMoyenFeve(feve)*this.getMarge(feve));
+			// on calcul les couts de transformations
 			double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
+			Chocolat chocolat = this.equivalentTabletteFeve(feve);
+			this.setStockChocolat(chocolat, quantite, prix);
+			this.stockFeves.get(feve).clear();
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
 		}
 		
-		for (Feve feve : this.nosFeves()) {
-			
-			Chocolat chocolat = this.equivalentTabletteFeve(feve);
-			Variable quantite = stockATransformer.get(feve).get(0);
-			Variable prix = stockATransformer.get(feve).get(1);
-			this.setStockChocolat(chocolat, quantite, prix);
-			this.stockFeves.get(feve).clear();
-		}
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.getPrixStockage().getValeur());
 	}
 
 }
