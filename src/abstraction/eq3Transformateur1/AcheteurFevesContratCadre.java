@@ -16,7 +16,7 @@ import abstraction.fourni.Variable;
 
 
 // Paul GIRAUD
-public class AcheteurFevesContratCadre extends Stock implements IAcheteurContratCadre {
+public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadre {
 
 	
 	protected SuperviseurVentesContratCadre supCCadre;

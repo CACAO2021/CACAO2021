@@ -175,6 +175,7 @@ public class Stock extends Transformateur1Acteur {
 		QuantitePrix.add(quantite);
 		QuantitePrix.add(prix);
 		this.stockFeves.get(feve).add(QuantitePrix);
+		this.journalStock.ajouter("stock de feve -" + feve.name() + "-" +String.valueOf(this.getStockFeves(feve)));
 	}
 	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
@@ -182,6 +183,7 @@ public class Stock extends Transformateur1Acteur {
 		QuantitePrix.add(quantite);
 		QuantitePrix.add(prix);
 		this.stockChocolats.get(chocolat).add(QuantitePrix);
+		this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
 	}
 	
 	
@@ -226,10 +228,14 @@ public class Stock extends Transformateur1Acteur {
 			Chocolat chocolat = this.equivalentTabletteFeve(feve);
 			this.setStockChocolat(chocolat, quantite, prix);
 			this.stockFeves.get(feve).clear();
+			this.journalStock.ajouter("stock de feve -" + feve.name() + "-" +String.valueOf(this.getStockFeves(feve)));
+			this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
+			this.journalTresorie.ajouter("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de" + String.valueOf(cout));
 		}
 		
 		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.getPrixStockage().getValeur());
+		this.journalTresorie.ajouter("Virement à la banque pour le coût de stockage d'un montant de" + String.valueOf(this.getPrixStockage().getValeur()));
 	}
 
 }

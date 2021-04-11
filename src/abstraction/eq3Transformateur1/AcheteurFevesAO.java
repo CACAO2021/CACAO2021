@@ -15,9 +15,9 @@ import abstraction.fourni.Variable;
 public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAcheteurFevesAO {
 	
 	
-	private Feve feve;
-	private double prixMax;
-	private double qMin, qMax;
+	protected Feve feve;
+	protected double prixMax;
+	protected double qMin, qMax;
 
 	private static double QUANTITE_MIN_FEVE = 100.0;
 	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;

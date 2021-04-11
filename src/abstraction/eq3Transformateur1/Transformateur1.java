@@ -1,6 +1,9 @@
 package abstraction.eq3Transformateur1;
 
-public class Transformateur1 extends Transformateur1Acteur {
+import abstraction.eq8Romu.produits.Feve;
+
+public class Transformateur1 extends Transformateur1Acteur{
+
 
 	public Transformateur1() { 
 		super();
