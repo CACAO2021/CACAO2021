@@ -6,6 +6,7 @@ import java.util.Map;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 import java.util.List;
@@ -24,7 +25,14 @@ public class Stock extends Transformateur1Acteur {
 	protected Map<Chocolat,Double> coutChocolat;
 	private Variable PrixTransformationFeve;
 	private Variable PrixStockage;
+	private Variable RapportTransformation;
+	
 	private double PRIX_STOCKAGE = 2000;
+	private double COUT_TRANSFORMATION = 500;
+	private double COEFFICIENT_COUT_BIO = 1.15;
+	private double RAPPORT_TRANSFORMATION = 1;
+	
+	
 	
 	public Stock() { 
 		super();
@@ -56,11 +64,23 @@ public class Stock extends Transformateur1Acteur {
 		this.stockChocolats.put(Chocolat.POUDRE_MOYENNE, new ArrayList<ArrayList<Variable>>());
 		this.stockChocolats.put(Chocolat.POUDRE_BASSE, new ArrayList<ArrayList<Variable>>());
 
-		this.PrixTransformationFeve = new Variable(this.getNom() + " Cout transformation feve à chocolat", this, 5000);
-
-		this.PrixStockage = new Variable(this.getNom() + " Coutdu stockage", this, PRIX_STOCKAGE);
+		this.PrixTransformationFeve = new Variable(this.getNom() + " Cout transformation feve à chocolat pour 1tonne euros", this, COUT_TRANSFORMATION);
+		this.PrixStockage = new Variable(this.getNom() + " Coût du stockage", this, PRIX_STOCKAGE);
+		this.RapportTransformation = new Variable(this.getNom() + " rapport entre quantité de fève et chocolat", this, RAPPORT_TRANSFORMATION);
 		
 		this.indicateurs = new ArrayList<Variable>();
+	}
+	
+	public Variable getPrixTransformation() {
+		return this.PrixTransformationFeve;
+	}
+	
+	public Variable getPrixStockage () {
+		return this.PrixStockage;
+	}
+	
+	public Variable getRapportTransoformation () {
+		return this.RapportTransformation;
 	}
 	
 	public ArrayList<Feve> nosFeves() {
@@ -182,11 +202,14 @@ public class Stock extends Transformateur1Acteur {
 		
 		for (Feve feve : this.nosFeves()) {
 			ArrayList<Variable> QuantitePrix = new ArrayList<>();
-			Variable quantite = new Variable(this.getNom(),this,this.getStockFeves(feve));
+			double quant = this.getStockFeves(feve)*this.getRapportTransoformation().getValeur();
+			Variable quantite = new Variable(this.getNom(),this,quant);
 			Variable prix = new Variable(this.getNom(),this, this.getPrixMoyenFeve(feve));
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			stockATransformer.put(feve, QuantitePrix);
+			double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
 		}
 		
 		for (Feve feve : this.nosFeves()) {

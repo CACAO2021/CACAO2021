@@ -24,6 +24,7 @@ public class Transformateur1Acteur implements IActeur {
 	protected Journal journalVendeur;
 	protected Journal journalStock;
 	protected Journal journalTransformation;
+	protected Journal journalTresorie;
 	
 	public static double STOCK_MAX = 10000000000.0;
 
@@ -33,6 +34,7 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalVendeur = new Journal(this.getNom()+" vente ", this);
 		this.journalStock = new Journal(this.getNom()+" stock ", this);
 		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
+		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
 	}
 
 	public void initialiser() {
