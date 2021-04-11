@@ -313,7 +313,16 @@ public class Stock extends Transformateur1Acteur {
 
 	
 	public void setIndicateur() {
-		
+		Integer compteur = 0;
+		for (Feve feve : this.nosFeves()) {
+			this.getIndicateur().get(compteur).setValeur(this, this.getStockFeves(feve));
+			compteur += 1;
+		}
+		for(Chocolat chocolat: this.nosChocolats()) {
+			this.getIndicateur().get(compteur).setValeur(this, this.getStockChocolats(chocolat));
+			compteur += 1;
+		}
+
 	}
 	
 	

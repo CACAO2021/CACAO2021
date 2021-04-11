@@ -16,7 +16,7 @@ import abstraction.fourni.Variable;
 public class Transformateur1Acteur implements IActeur {
 	
 
-
+	private Stock stock;
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;
 	protected Journal journalVendeur;
@@ -33,6 +33,7 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalStock = new Journal(this.getNom()+" stock ", this);
 		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
 		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
+		this.stock = new Stock();
 	}
 
 	public void initialiser() {
@@ -55,8 +56,15 @@ public class Transformateur1Acteur implements IActeur {
 		this.cryptogramme = crypto;
 	}
 	
+	public Stock getStock() {
+		return this.stock;
+	}
+	
 
 	public void next() {
+		
+		this.stock.transformationFeveChocolat();
+		this.stock.setIndicateur();
 		
 	}
 	
@@ -75,7 +83,7 @@ public class Transformateur1Acteur implements IActeur {
 	
 	public List<Variable> getIndicateurs() {;
 	
-		List<Variable> res=new ArrayList<Variable>();
+		List<Variable> res= this.getStock().getIndicateur();
 		return res;
 	}
 	
