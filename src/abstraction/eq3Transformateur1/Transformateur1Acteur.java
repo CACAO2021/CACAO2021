@@ -176,11 +176,5 @@ public class Transformateur1Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
-	
 
-
-	
-	
-	
-	
 }
