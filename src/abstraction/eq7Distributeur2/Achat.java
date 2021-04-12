@@ -107,10 +107,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		if(wonka.getAutorisationTransaction(prix)) {
+			//les comptes sont sufisant pour accepter le contrat tel quel, la contre proposition reste inchangée
 			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
 			return contrat.getPrix();
 		}
 		else {
+			//on ne peut pas se permettre cette transaction, on diminue le prix jusqu'à avoir un contrat acceptable
 			return contrat.getPrix()*0.90;
 		}
 	}
@@ -118,6 +120,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), contrat.getQuantiteTotale());
+		
 	}
 
 	public SuperviseurVentesContratCadre getSupCCadre() {

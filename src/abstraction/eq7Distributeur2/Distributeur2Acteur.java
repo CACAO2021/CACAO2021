@@ -20,6 +20,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected int cryptogramme;
 	protected Stocks stocks;
 	protected Achat achat;
+	protected Variable montantMin;
 
 	protected Journal journalTransactions, journalVentes, journalStocks, journalAchats, journalCatalogue, journal;
 
@@ -37,6 +38,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		initialisationJournaux();
 		parametres = new ArrayList<Variable>();
 		indicateurs = new ArrayList<Variable>();
+		montantMin = new Variable("Montant min sur compte bancaire",this, 10000);
 		
 	}
 	public int getCryptogramme() {
@@ -109,6 +111,16 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
+		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
+		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
+			this.getMontantMin().setValeur(this, this.getSolde()/2);
+		}
+		else if (this.getSolde() <= 0) {
+			this.getMontantMin().setValeur(this, 0);
+		}
+		else {
+			this.getMontantMin().setValeur(this, this.getSolde()/1.5);
+		}
 	}
 
 	
@@ -135,6 +147,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
 		return this.parametres;
+	}
+	
+	//Renvoie le montant minimum autorisé sur notre compte bancaire après un achat de chocolat
+	public Variable getMontantMin() {
+		return this.montantMin;
 	}
 
 	// Renvoie les journaux
@@ -172,9 +189,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
 	
-	//A coder: doit dire si quand le compte est débité d'un tel montant, le solde total sera supérieur au solde critique (Martin) 
+	//Renvoie true si après la future transaction, le solde total est supérieur au montantMin 
 	public boolean getAutorisationTransaction(double prix) {
-		return true;
+		if(this.getSolde() - prix >= this.getMontantMin().getValeur()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
