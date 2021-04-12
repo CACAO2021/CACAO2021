@@ -6,7 +6,7 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
-import abstraction.eq8Romu.produits.Feve;
+
 
 public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
 

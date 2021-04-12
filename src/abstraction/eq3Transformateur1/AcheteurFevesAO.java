@@ -1,6 +1,6 @@
 package abstraction.eq3Transformateur1;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
@@ -8,7 +8,6 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
-import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
@@ -20,10 +19,8 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	protected double qMin, qMax;
 	
 
-	private static double QUANTITE_MIN_FEVE = 100.0;
 	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;
 
-	private static ArrayList<Feve> list = new ArrayList<Feve>();
 
 
 

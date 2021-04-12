@@ -2,11 +2,10 @@ package abstraction.eq3Transformateur1;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+
+
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;

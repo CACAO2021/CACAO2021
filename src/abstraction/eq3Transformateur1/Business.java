@@ -2,6 +2,9 @@ package abstraction.eq3Transformateur1;
 
 import abstraction.eq8Romu.produits.Chocolat;
 
+
+// Paul GIRAUD
+
 public class Business {
 	
 	

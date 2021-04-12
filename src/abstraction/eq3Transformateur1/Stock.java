@@ -7,7 +7,6 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
-import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
 
 import java.util.List;
