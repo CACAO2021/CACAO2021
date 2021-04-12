@@ -301,7 +301,6 @@ public class Stock {
 	public void coutStock() {
 		
 		double stockage = PRIX_STOCKAGE_FIXE + (this.getStockChocolats()+this.getStockFeves())*PRIX_STOCKAGE_VARIABLE/1000;
-		System.out.println(stockage);
 		this.setPrixStockage(stockage);
 		Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
 		this.getActeur().ecritureJournalTresorie("Virement à la banque pour le coût de stockage d'un montant de " + String.valueOf(stockage));
