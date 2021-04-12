@@ -273,12 +273,12 @@ public class Stock {
 			if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 				cout = cout * COEFFICIENT_COUT_BIO;
 			}
-			
-			if( Math.random() <= 0.3) {
+			double p = Math.random();
+			if( p <= 0.3) {
 				Chocolat chocolat = this.equivalentTabletteFeve(feve);
 				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
 				this.setStockChocolat(chocolat, quantite, prix);
-			} else if ( Math.random() >= 0.6) {
+			} else if ( p >= 0.6) {
 				Chocolat chocolat = this.equivalentConfiserieFeve(feve);
 				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
 				this.setStockChocolat(chocolat, quantite, prix);
