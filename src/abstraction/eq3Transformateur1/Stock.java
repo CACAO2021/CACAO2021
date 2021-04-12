@@ -19,15 +19,14 @@ import java.util.ArrayList;
 public class Stock {
 	
 
-	private List<Variable> indicateurs;
-	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
+	private List<Variable> indicateurs;	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
 	protected Map<Feve,Double> coutFeves;
 	protected Map<Chocolat,Double> coutChocolat;
 	private Variable PrixTransformationFeve;
 	private Variable PrixStockage;
 	private Variable RapportTransformation;
-	
+
 
 	private double PRIX_STOCKAGE_FIXE = 1000;
 	private double PRIX_STOCKAGE_VARIABLE = 6; // 6€/tonne/unité temporelle
@@ -73,7 +72,7 @@ public class Stock {
 		this.PrixStockage = new Variable(acteur.getNom() + " Coût du stockage", acteur, PRIX_STOCKAGE_FIXE);
 		this.RapportTransformation = new Variable(acteur.getNom() + " rapport entre quantité de fève et chocolat", acteur, RAPPORT_TRANSFORMATION);
 		
-		this.indicateurs = new ArrayList<Variable>();
+
 	}
 	
 	public Transformateur1Acteur getActeur() {
@@ -324,27 +323,6 @@ public class Stock {
 		} 
 		prix = prix/compteur;
 		return prix;
-	}
-
-	
-	public void setIndicateur() {
-		
-		Integer compteur = 0;
-		for (Feve feve : this.nosFeves()) {
-			this.getActeur().getIndicateurs().get(compteur).setValeur(this.getActeur(), this.getStockFeves(feve));
-			compteur += 1;
-		}
-		for(Chocolat chocolat: this.nosChocolats()) {
-			this.getActeur().getIndicateurs().get(compteur).setValeur(this.getActeur(), this.getStockChocolats(chocolat));
-			compteur += 1;
-		}
-		this.getActeur().getIndicateurs().get(compteur).setValeur(this.getActeur(), this.getPrixStockage().getValeur());
-	}
-	
-	
-	
-	
-	
-	
+	}	
 	
 }
