@@ -112,20 +112,21 @@ public class Stock {
 	public ArrayList<Chocolat> nosChocolats() {
 		ArrayList<Chocolat> list = new ArrayList<Chocolat>();
 		list.add(Chocolat.CONFISERIE_BASSE);
-		list.add(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE);
-		list.add(Chocolat.CONFISERIE_HAUTE_EQUITABLE);
 		list.add(Chocolat.CONFISERIE_MOYENNE);
 		list.add(Chocolat.CONFISERIE_MOYENNE_EQUITABLE);
+		list.add(Chocolat.CONFISERIE_HAUTE_EQUITABLE);
+		list.add(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE);
 		list.add(Chocolat.POUDRE_BASSE);
-		list.add(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE);
-		list.add(Chocolat.POUDRE_HAUTE_EQUITABLE);
 		list.add(Chocolat.POUDRE_MOYENNE);
 		list.add(Chocolat.POUDRE_MOYENNE_EQUITABLE);
+		list.add(Chocolat.POUDRE_HAUTE_EQUITABLE);
+		list.add(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE);
 		list.add(Chocolat.TABLETTE_BASSE);
-		list.add(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE);
-		list.add(Chocolat.TABLETTE_HAUTE_EQUITABLE);
 		list.add(Chocolat.TABLETTE_MOYENNE);
 		list.add(Chocolat.TABLETTE_MOYENNE_EQUITABLE);
+		list.add(Chocolat.TABLETTE_HAUTE_EQUITABLE);
+		list.add(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE);
+
 		return list;
 	}
 	
