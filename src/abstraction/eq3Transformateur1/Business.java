@@ -1,11 +1,22 @@
 package abstraction.eq3Transformateur1;
 
-public class Business extends Stock {
+import abstraction.eq8Romu.produits.Chocolat;
 
-	public Business(Transformateur1Acteur acteur) {
-		
-		super(acteur);
-		
+public class Business {
+	
+	
+	private Stock stock;
+
+	public Business(Stock stock) {
+		this.stock = stock;
+	}
+	
+	public Stock getStock() {
+		return this.stock;
+	}
+	
+	public double prixVente(Double quantite, Chocolat chocolat) {
+		return quantite*this.getStock().prixDeVenteKG(chocolat);
 	}
 
 }

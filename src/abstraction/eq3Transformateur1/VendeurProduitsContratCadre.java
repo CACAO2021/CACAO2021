@@ -39,13 +39,12 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		// Prix arbitraire de 1000 a changer ?
-		return 1000;
+		return contrat.getQuantiteTotale();
 	}
 
 	@Override
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// On accepte la premiere proposition pour l'instant
-		return contrat.getPrix();
+		return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
 	}
 
 	@Override

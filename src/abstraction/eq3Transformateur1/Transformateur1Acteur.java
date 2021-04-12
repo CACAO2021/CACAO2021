@@ -16,7 +16,6 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
-
 	protected Stock stock;
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;

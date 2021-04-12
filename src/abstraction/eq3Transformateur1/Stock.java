@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Stock {
 	
-
+	protected Business financier;
 	private List<Variable> indicateurs;	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
 	protected Map<Feve,Double> coutFeves;
@@ -40,6 +40,7 @@ public class Stock {
 	public Stock(Transformateur1Acteur acteur) { 
 		
 		this.acteur = acteur;
+		this.financier = new Business(this);
 		
 		this.stockChocolats = new HashMap<Chocolat, ArrayList<ArrayList<Variable>>>();
 		this.stockFeves = new HashMap<Feve, ArrayList<ArrayList<Variable>>>();
@@ -73,6 +74,10 @@ public class Stock {
 		this.RapportTransformation = new Variable(acteur.getNom() + " rapport entre quantité de fève et chocolat", acteur, RAPPORT_TRANSFORMATION);
 		
 
+	}
+	
+	public Business getFinancier() {
+		return this.financier;
 	}
 	
 	public Transformateur1Acteur getActeur() {
@@ -311,7 +316,7 @@ public class Stock {
 	}
 	
 	
-	public double prixDeVente(Chocolat chocolat) {
+	public double prixDeVenteKG(Chocolat chocolat) {
 		
 		double prix = 0.0;
 		Integer compteur = 0;
