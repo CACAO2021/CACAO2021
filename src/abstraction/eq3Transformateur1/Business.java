@@ -18,5 +18,9 @@ public class Business {
 	public double prixVente(Double quantite, Chocolat chocolat) {
 		return quantite*this.getStock().prixDeVenteKG(chocolat);
 	}
+	
+	public boolean sommeNousVendeur(Object produit) {
+		return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
+	}
 
 }
