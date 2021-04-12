@@ -7,6 +7,7 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 // Paul GIRAUD
 
-public class Stock extends Transformateur1Acteur {
+public class Stock {
 	
 
 	private List<Variable> indicateurs;
@@ -33,11 +34,13 @@ public class Stock extends Transformateur1Acteur {
 	private double COUT_TRANSFORMATION = 500;
 	private double COEFFICIENT_COUT_BIO = 1.15;
 	private double RAPPORT_TRANSFORMATION = 2.5;  // 0,04kg de fèves pour 0,1 kg de chocolat
+	private Transformateur1Acteur acteur;
 	
 	
 	
-	public Stock() { 
-		super();
+	public Stock(Transformateur1Acteur acteur) { 
+		
+		this.acteur = acteur;
 		
 		this.stockChocolats = new HashMap<Chocolat, ArrayList<ArrayList<Variable>>>();
 		this.stockFeves = new HashMap<Feve, ArrayList<ArrayList<Variable>>>();
@@ -66,11 +69,15 @@ public class Stock extends Transformateur1Acteur {
 		this.stockChocolats.put(Chocolat.POUDRE_MOYENNE, new ArrayList<ArrayList<Variable>>());
 		this.stockChocolats.put(Chocolat.POUDRE_BASSE, new ArrayList<ArrayList<Variable>>());
 
-		this.PrixTransformationFeve = new Variable(this.getNom() + " Cout transformation feve à chocolat pour 1tonne euros", this, COUT_TRANSFORMATION);
-		this.PrixStockage = new Variable(this.getNom() + " Coût du stockage", this, PRIX_STOCKAGE_FIXE);
-		this.RapportTransformation = new Variable(this.getNom() + " rapport entre quantité de fève et chocolat", this, RAPPORT_TRANSFORMATION);
+		this.PrixTransformationFeve = new Variable(acteur.getNom() + " Cout transformation feve à chocolat pour 1tonne euros", acteur, COUT_TRANSFORMATION);
+		this.PrixStockage = new Variable(acteur.getNom() + " Coût du stockage", acteur, PRIX_STOCKAGE_FIXE);
+		this.RapportTransformation = new Variable(acteur.getNom() + " rapport entre quantité de fève et chocolat", acteur, RAPPORT_TRANSFORMATION);
 		
 		this.indicateurs = new ArrayList<Variable>();
+	}
+	
+	public Transformateur1Acteur getActeur() {
+		return this.acteur;
 	}
 	
 	public Variable getPrixTransformation() {
@@ -86,7 +93,7 @@ public class Stock extends Transformateur1Acteur {
 	}
 	
 	public void setPrixStockage(double cout) {
-		this.getPrixStockage().setValeur(this, cout);
+		this.getPrixStockage().setValeur(this.getActeur(), cout);
 	}
 	
 	public List<Variable> getIndicateur() {
@@ -186,7 +193,7 @@ public class Stock extends Transformateur1Acteur {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockFeves.get(feve).add(QuantitePrix);
-			this.journalStock.ajouter("stock de feve -" + feve.name() + " " +String.valueOf(this.getStockFeves(feve)));
+			this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " " +String.valueOf(this.getStockFeves(feve)));
 		} else {
 			throw new IllegalArgumentException(" Stock trop faible");
 		}
@@ -198,7 +205,7 @@ public class Stock extends Transformateur1Acteur {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockChocolats.get(chocolat).add(QuantitePrix);
-			this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " " + String.valueOf(quantite));
+			this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " " + String.valueOf(quantite));
 		} else {
 			throw new IllegalArgumentException(" Stock trop faible");
 		}
@@ -258,9 +265,9 @@ public class Stock extends Transformateur1Acteur {
 			// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
 			double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
 			
-			Variable quantite = new Variable(this.getNom(),this,quant);
+			Variable quantite = new Variable(this.getActeur().getNom(),this.getActeur(),quant);
 			// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
-			Variable prix = new Variable(this.getNom(),this, this.getPrixMoyenFeve(feve)*this.getMarge(feve));
+			Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
 			// on calcul les couts de transformations
 			double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
 			if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
@@ -269,22 +276,22 @@ public class Stock extends Transformateur1Acteur {
 			
 			if( Math.random() <= 0.3) {
 				Chocolat chocolat = this.equivalentTabletteFeve(feve);
-				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
 				this.setStockChocolat(chocolat, quantite, prix);
 			} else if ( Math.random() >= 0.6) {
 				Chocolat chocolat = this.equivalentConfiserieFeve(feve);
-				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
 				this.setStockChocolat(chocolat, quantite, prix);
 			} else {
 				Chocolat chocolat = this.equivalentPoudreFeve(feve);
-				this.journalStock.ajouter("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
+				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite));
 				this.setStockChocolat(chocolat, quantite, prix);
 			}
 			
 
-			this.journalStock.ajouter("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
-			this.journalTresorie.ajouter("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de" + String.valueOf(cout));
+			this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
+			Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
+			this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de" + String.valueOf(cout));
 			this.stockFeves.get(feve).clear();
 		}
 	}
@@ -293,8 +300,8 @@ public class Stock extends Transformateur1Acteur {
 		
 		double stockage = PRIX_STOCKAGE_FIXE + (this.getStockChocolats()+this.getStockFeves())*PRIX_STOCKAGE_VARIABLE/1000;
 		this.setPrixStockage(stockage);
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
-		this.journalTresorie.ajouter("Virement à la banque pour le coût de stockage d'un montant de" + String.valueOf(stockage));
+		Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
+		this.getActeur().ecritureJournalTresorie("Virement à la banque pour le coût de stockage d'un montant de" + String.valueOf(stockage));
 		
 		
 	}
@@ -320,14 +327,14 @@ public class Stock extends Transformateur1Acteur {
 		
 		Integer compteur = 0;
 		for (Feve feve : this.nosFeves()) {
-			this.getIndicateur().get(compteur).setValeur(this, this.getStockFeves(feve));
+			this.getActeur().getIndicateurs().get(compteur).setValeur(this.getActeur(), this.getStockFeves(feve));
 			compteur += 1;
 		}
 		for(Chocolat chocolat: this.nosChocolats()) {
-			this.getIndicateur().get(compteur).setValeur(this, this.getStockChocolats(chocolat));
+			this.getActeur().getIndicateurs().get(compteur).setValeur(this.getActeur(), this.getStockChocolats(chocolat));
 			compteur += 1;
 		}
-		this.getIndicateur().get(compteur).setValeur(this, this.getPrixStockage().getValeur());
+		this.getActeur().getIndicateurs().get(compteur).setValeur(this.getActeur(), this.getPrixStockage().getValeur());
 	}
 	
 	

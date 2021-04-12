@@ -16,7 +16,7 @@ import abstraction.fourni.Variable;
 public class Transformateur1Acteur implements IActeur {
 	
 	private AcheteurFevesContratCadre AcheteurCC;
-	private Stock stock;
+	protected Stock stock;
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;
 	protected Journal journalVendeur;
@@ -33,8 +33,10 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalStock = new Journal(this.getNom()+" stock ", this);
 		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
 		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
-		this.stock = new Stock();
+		this.stock = new Stock(this);
 		this.AcheteurCC = new AcheteurFevesContratCadre();
+
+		
 	}
 
 	public void initialiser() {
@@ -52,6 +54,10 @@ public class Transformateur1Acteur implements IActeur {
 		return new Color(52, 152, 219);
 	}
 	
+	public Integer getCryptogramme() {
+		return this.cryptogramme;
+	}
+	
 
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
@@ -59,6 +65,22 @@ public class Transformateur1Acteur implements IActeur {
 	
 	public Stock getStock() {
 		return this.stock;
+	}
+	
+	public void ecritureJournalAcheteur(String s) {
+		this.journalAcheteur.ajouter(s);
+	}
+	
+	public void ecritureJournalVendeur(String s) {
+		this.journalVendeur.ajouter(s);
+	}
+	
+	public void ecritureJournalStock(String s) {
+		this.journalStock.ajouter(s);
+	}
+	
+	public void ecritureJournalTresorie(String s) {
+		this.journalTresorie.ajouter(s);
 	}
 	
 

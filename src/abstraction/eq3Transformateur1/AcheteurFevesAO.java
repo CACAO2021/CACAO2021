@@ -18,6 +18,7 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	protected Feve feve;
 	protected double prixMax;
 	protected double qMin, qMax;
+	
 
 	private static double QUANTITE_MIN_FEVE = 100.0;
 	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;
@@ -44,7 +45,7 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	
 	// Renvoie le stock actuel de ce type de feve
 	private double getStockActuelFeve(Feve feve) {
-		return this.getStockFeves(feve);
+		return this.getStock().getStockFeves(feve);
 	}
 	
 	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
@@ -84,8 +85,8 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		Variable quantite = new Variable(this.getNom(),this,proposition.getQuantiteKg());
 		Variable prix = new Variable(this.getNom(),this,proposition.getPrixKG());
-		this.setStockFeve(feve, quantite, prix);
-		this.journalAcheteur.ajouter("--> le stock de " + proposition.getFeve().toString() + "passe a "+Journal.doubleSur(this.getStockFeves(proposition.getFeve()), 4));
+		this.getStock().setStockFeve(feve, quantite, prix);
+		this.journalAcheteur.ajouter("--> le stock de " + proposition.getFeve().toString() + "passe a "+Journal.doubleSur(this.getStock().getStockFeves(proposition.getFeve()), 4));
 	}
 
 	//	public double proposerAchat(LotCacaoCriee lot) {
