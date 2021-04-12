@@ -193,7 +193,8 @@ public class Stock {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockFeves.get(feve).add(QuantitePrix);
-			this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " " +String.valueOf(this.getStockFeves(feve)));
+			this.getActeur().ecritureJournalStock("On vient d'ajouter || " + feve.name() + "   " +String.valueOf(quantite.getValeur()));
+			this.getActeur().ecritureJournalStock(" Le nouveau stock de feve  || " + feve.name() + " est " +String.valueOf(this.getStockFeves(feve)));
 		} else {
 			throw new IllegalArgumentException(" Stock trop faible");
 		}
@@ -205,7 +206,8 @@ public class Stock {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockChocolats.get(chocolat).add(QuantitePrix);
-			this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " " + String.valueOf(quantite));
+			this.getActeur().ecritureJournalStock("On vient d'ajouter || " + chocolat.name() + "   " + String.valueOf(quantite.getValeur()));
+			this.getActeur().ecritureJournalStock(" Le nouveau stock de chocolat  || " + chocolat.name() + " est " + String.valueOf(quantite.getValeur()));
 		} else {
 			throw new IllegalArgumentException(" Stock trop faible");
 		}
@@ -277,15 +279,12 @@ public class Stock {
 				double p = Math.random();
 				if( p <= 0.3) {
 					Chocolat chocolat = this.equivalentTabletteFeve(feve);
-					this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
 					this.setStockChocolat(chocolat, quantite, prix);
 				} else if ( p >= 0.6) {
 					Chocolat chocolat = this.equivalentConfiserieFeve(feve);
-					this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
 					this.setStockChocolat(chocolat, quantite, prix);
 				} else {
 					Chocolat chocolat = this.equivalentPoudreFeve(feve);
-					this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
 					this.setStockChocolat(chocolat, quantite, prix);
 				}
 				
