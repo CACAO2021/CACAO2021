@@ -262,40 +262,42 @@ public class Stock {
 		
 		// on prend chaque feve
 		for (Feve feve : this.nosFeves()) {
-			// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
-			double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
-			
-			Variable quantite = new Variable(this.getActeur().getNom(),this.getActeur(),quant);
-			// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
-			Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
-			// on calcul les couts de transformations
-			double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
-			if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
-				cout = cout * COEFFICIENT_COUT_BIO;
+			if (this.getStockFeves(feve) > 0) {
+				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
+				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
+				
+				Variable quantite = new Variable(this.getActeur().getNom(),this.getActeur(),quant);
+				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
+				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
+				// on calcul les couts de transformations
+				double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
+				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+					cout = cout * COEFFICIENT_COUT_BIO;
+				}
+				double p = Math.random();
+				if( p <= 0.3) {
+					Chocolat chocolat = this.equivalentTabletteFeve(feve);
+					this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
+					this.setStockChocolat(chocolat, quantite, prix);
+				} else if ( p >= 0.6) {
+					Chocolat chocolat = this.equivalentConfiserieFeve(feve);
+					this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
+					this.setStockChocolat(chocolat, quantite, prix);
+				} else {
+					Chocolat chocolat = this.equivalentPoudreFeve(feve);
+					this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
+					this.setStockChocolat(chocolat, quantite, prix);
+				}
+				
+	
+				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
+				if( cout > 0) {
+					Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
+					this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de " + String.valueOf(cout));
+				}
+				
+				this.stockFeves.get(feve).clear();
 			}
-			double p = Math.random();
-			if( p <= 0.3) {
-				Chocolat chocolat = this.equivalentTabletteFeve(feve);
-				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
-				this.setStockChocolat(chocolat, quantite, prix);
-			} else if ( p >= 0.6) {
-				Chocolat chocolat = this.equivalentConfiserieFeve(feve);
-				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
-				this.setStockChocolat(chocolat, quantite, prix);
-			} else {
-				Chocolat chocolat = this.equivalentPoudreFeve(feve);
-				this.getActeur().ecritureJournalStock("stock de chocolat de type - " + chocolat.name() + " + " + String.valueOf(quantite.getValeur()));
-				this.setStockChocolat(chocolat, quantite, prix);
-			}
-			
-
-			this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
-			if( cout > 0) {
-				Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
-				this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de " + String.valueOf(cout));
-			}
-			
-			this.stockFeves.get(feve).clear();
 		}
 	}
 	
