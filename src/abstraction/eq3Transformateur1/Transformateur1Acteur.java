@@ -22,7 +22,7 @@ public class Transformateur1Acteur implements IActeur {
 	protected Journal journalStock;
 	protected Journal journalTransformation;
 	protected Journal journalTresorie;
-	protected List<Variable> indicateurs;
+
 	
 	public static double STOCK_MAX = 10000000000.0;
 
@@ -34,29 +34,7 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
 		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
 		this.stock = new Stock(this);
-		this.indicateurs = new ArrayList<Variable>();
-		
-		this.indicateurs.add(0,new Variable(this.getNom() + " Stock fève basse qualité", this, 0));
-		this.indicateurs.add(1,new Variable(this.getNom() + " Stock fève moyenne qualité", this, 0));
-		this.indicateurs.add(2,new Variable(this.getNom() + " Stock fève moyenne qualité equitable", this, 0));
-		this.indicateurs.add(3,new Variable(this.getNom() + " Stock fève haute qualité equitable", this, 0));
-		this.indicateurs.add(4,new Variable(this.getNom() + " Stock fève haute qualité équitable et bio", this, 0));
-		this.indicateurs.add(5,new Variable(this.getNom() + " Stock tablette basse qualité", this, 0));
-		this.indicateurs.add(6,new Variable(this.getNom() + " Stock tablette moyenne qualité", this, 0));
-		this.indicateurs.add(7,new Variable(this.getNom() + " Stock tablette moyenne qualité equitable", this, 0));
-		this.indicateurs.add(8,new Variable(this.getNom() + " Stock tablette haute qualité equitable", this, 0));
-		this.indicateurs.add(9,new Variable(this.getNom() + " Stock tablette haute qualité équitable et bio", this, 0));
-		this.indicateurs.add(10,new Variable(this.getNom() + " Stock confiserie basse qualité", this, 0));
-		this.indicateurs.add(11,new Variable(this.getNom() + " Stock confiserie moyenne qualité", this, 0));
-		this.indicateurs.add(12,new Variable(this.getNom() + " Stock confiserie moyenne qualité equitable", this, 0));
-		this.indicateurs.add(13,new Variable(this.getNom() + " Stock confiserie haute qualité equitable", this, 0));
-		this.indicateurs.add(14,new Variable(this.getNom() + " Stock confiserie haute qualité équitable et bio", this, 0));		
-		this.indicateurs.add(15,new Variable(this.getNom() + " Stock poudre basse qualité", this, 0));
-		this.indicateurs.add(16,new Variable(this.getNom() + " Stock poudre moyenne qualité", this, 0));
-		this.indicateurs.add(17,new Variable(this.getNom() + " Stock poudre moyenne qualité equitable", this, 0));
-		this.indicateurs.add(18,new Variable(this.getNom() + " Stock poudre haute qualité equitable", this, 0));
-		this.indicateurs.add(19,new Variable(this.getNom() + " Stock poudre haute qualité équitable et bio", this, 0));
-		this.indicateurs.add(20,new Variable(this.getNom() + " Prix de stockage", this, 1000));
+
 		
 	}
 
@@ -109,7 +87,7 @@ public class Transformateur1Acteur implements IActeur {
 		
 		this.getStock().transformationFeveChocolat();
 		this.getStock().coutStock();
-		this.setIndicateurs();
+		this.getStock().getFinancier().setIndicateurs();
 		this.getStock().setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getNom(), this, 3000),  new Variable(this.getNom(), this, 5000));
 		
 	}
@@ -128,22 +106,10 @@ public class Transformateur1Acteur implements IActeur {
 	}
 	
 	public List<Variable> getIndicateurs() {;
-		return this.indicateurs;
+		return this.getStock().getFinancier().getIndicateurs();
 	}
 	
-	
-	public void setIndicateurs() {
-		Integer compteur = 0;
-		for (Feve feve : this.getStock().nosFeves()) {
-			this.getIndicateurs().get(compteur).setValeur(this, this.getStock().getStockFeves(feve));
-			compteur += 1;
-		}
-		for(Chocolat chocolat: this.getStock().nosChocolats()) {
-			this.getIndicateurs().get(compteur).setValeur(this, this.getStock().getStockChocolats(chocolat));
-			compteur += 1;
-		}
-		this.getIndicateurs().get(compteur).setValeur(this, this.getStock().getPrixStockage().getValeur());
-	}
+
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
 		return res; 
