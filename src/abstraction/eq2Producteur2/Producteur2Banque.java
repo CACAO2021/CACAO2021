@@ -16,8 +16,17 @@ public class Producteur2Banque extends Producteur2VeudeurFeveCC {
 	}
 	
 	public void perdreArgent(double montant) {
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
+		System.out.println("perte"+ montant);
+		Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , this.cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
 	}
+	
+	/*
+	 * protected void perteargent(double quantite) {
+		if (quantite>0) {
+			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		}
+	}
+	 */
 
 	
 }
