@@ -218,8 +218,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.stocks.getQuantiteChocoEnTG(choco);
 	}
 
 	@Override
