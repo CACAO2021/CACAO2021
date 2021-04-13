@@ -47,10 +47,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			for (Stock s : this.arbrePlantesHE) {
 				nb += s.getQtt();
 			}
-		}else if (estFeveHE(produit)) {
-			for (Stock s : this.arbrePlantesHE) {
-				nb += s.getQtt();
-			}
 		}else if (estFeveME(produit)) {
 			for (Stock s : this.arbrePlantesME) {
 				nb += s.getQtt();
@@ -79,7 +75,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	
 	private void coutProd(double qtt, Object p) {
-		double cout = coutProdUnitaire(p) * qtt;
+		double cout = coutProdUnitaire(p) * qtt / 100000;
 		perdreArgent(cout);
 	}
 	

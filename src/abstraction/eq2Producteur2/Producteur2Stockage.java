@@ -72,6 +72,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			return stockFM;
 		}else if (estFeveB(produit)) {			
 			return stockFB;
+			
 		}else if (estPoudreHE(produit)) {
 			return stockPHE;
 		}else if (estPoudreM(produit)) {
@@ -139,7 +140,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	public void verifPeremption() {
-		LinkedList<Stock> feveHBE = stockFeveHBE;
+		//LinkedList<Stock> feveHBE = stockFeveHBE;
 		return;
 	}
 

@@ -16,8 +16,7 @@ public class Producteur2Banque extends Producteur2VeudeurFeveCC {
 	}
 	
 	public void perdreArgent(double montant) {
-		System.out.println("perte"+ montant);
-		Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , this.cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
+		Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
 	}
 	
 	/*
