@@ -103,6 +103,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.parametres.add(new Variable("dureeDePeremption",this,Stocks.dureeDePeremption));
 		this.parametres.add(new Variable("limiteStocks",this,Stocks.limiteStocks));
 		this.parametres.add(new Variable("prixStockage",this,Stocks.prixStockage));
+		this.parametres.add(new Variable("Pourcentage de limite en TG",this, Stocks.limiteEnTG));
 		
 	}
 
@@ -174,15 +175,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void notificationFaillite(IActeur acteur) {
-		journalTransactions.ajouter(descriptionColor, Color.BLUE, "Attention " + acteur.getNom() + " est out");
+		this.journalTransactions.ajouter(descriptionColor, Color.BLUE, "Attention " + acteur.getNom() + " est out");
 	}
 
 	public void notificationOperationBancaire(double montant) {
 		if (montant>0) {
-			journalTransactions.ajouter(descriptionColor, Color.GREEN, "Vous avez reçu un virement de " + montant);
+			this.journalTransactions.ajouter(descriptionColor, Color.GREEN, "Vous avez reçu un virement de " + montant);
 		}
 		else {
-			journalTransactions.ajouter(descriptionColor, Color.RED, "Votre compte vient d'être débité de" + montant); }
+			this.journalTransactions.ajouter(descriptionColor, Color.RED, "Votre compte vient d'être débité de" + montant); }
 	}
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
@@ -206,14 +207,12 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//On considere que tout le stock d'un produit est en vente
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.stocks.getStockChocolatDeMarque(choco);
 	}
 
 	@Override
@@ -223,13 +222,13 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
-		// TODO Auto-generated method stub
-		
+		this.stocks.supprimerChocolatDeMarque(choco, quantite); // l'argent entre déjà dans nos comptes donc pas de soucis
+		this.journalVentes.ajouter(positiveColor, Color.WHITE, "[VENTE] :" + Journal.doubleSur(quantite, 2) + "kg, de "+ choco.name());
 	}
 
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
-		journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));		
+		this.journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));		
 	}
 
 	@Override
