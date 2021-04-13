@@ -1,6 +1,8 @@
 package abstraction.eq2Producteur2;
 
-public class Producteur2Banque extends Producteur2Prod {
+import abstraction.fourni.Filiere;
+
+public class Producteur2Banque extends Producteur2VeudeurFeveCC {
 
 	public Producteur2Banque() {
 		super();
@@ -12,5 +14,10 @@ public class Producteur2Banque extends Producteur2Prod {
 		// cout stockage
 		return cout;
 	}
+	
+	public void perdreArgent(double montant) {
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
+	}
 
+	
 }

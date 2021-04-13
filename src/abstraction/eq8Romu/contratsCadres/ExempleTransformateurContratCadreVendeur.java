@@ -2,7 +2,7 @@ package abstraction.eq8Romu.contratsCadres;
 
 import java.util.LinkedList;
 import java.util.List;
-
+//Léna 
 public class ExempleTransformateurContratCadreVendeur extends ExempleTransformateurContratCadre implements IVendeurContratCadre {
 
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
