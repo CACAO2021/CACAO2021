@@ -100,18 +100,26 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		this.stocks = new Stocks((Distributeur2)this);
 		this.achat = new Achat((Distributeur2)this);
-		this.parametres.add(new Variable("dureeDePeremption",this,Stocks.dureeDePeremption));
-		this.parametres.add(new Variable("limiteStocks",this,Stocks.limiteStocks));
-		this.parametres.add(new Variable("prixStockage",this,Stocks.prixStockage));
+		this.parametres.add(new Variable("Nombre d'étapes avant Peremption",this,Stocks.dureeDePeremption));
+		this.parametres.add(new Variable("limite de Stocks",this,Stocks.limiteStocks));
+		this.parametres.add(new Variable("prix du Stockage unitaire",this,Stocks.prixStockage));
 		this.parametres.add(new Variable("Pourcentage de limite en TG",this, Stocks.limiteEnTG));
 		
+		List<Variable> res=new ArrayList<Variable>();
+		for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
+			res.add(var);
+		}
+		this.indicateurs.addAll(res);
+		this.indicateurs.add(new Variable("Pourcentage de TG",this, this.stocks.getQuantiteTotaleEnTG()/this.stocks.getQuantiteTotaleStocks()));
 	}
 
 	public void next() {
 		this.stocks.next();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
+		this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
+		this.miseAjourDesIndicateurs();
 		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
 		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
 			this.getMontantMin().setValeur(this, this.getSolde()/2);
@@ -122,6 +130,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		else {
 			this.getMontantMin().setValeur(this, this.getSolde()/1.5);
 		}
+		
 	}
 
 	
@@ -138,11 +147,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
-		List<Variable> res=new ArrayList<Variable>();
-		for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
-			res.add(var);
-		}
-		return res;
+		return this.indicateurs;
 	}
 
 	// Renvoie les paramètres
@@ -243,6 +248,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		List<ChocolatDeMarque> choco = new ArrayList<ChocolatDeMarque>();
 		choco.add(this.chocoProduit);
 		return choco;
+	}
+	
+	public void miseAjourDesIndicateurs() {
+		for (Variable indic : this.getIndicateurs()) {
+			if (indic.getNom().equals("Pourcentage de TG")) {
+				indic.setValeur(this, this.stocks.getQuantiteTotaleEnTG()/this.stocks.getQuantiteTotaleStocks());
+			}
+		}
 	}
 	
 
