@@ -9,7 +9,7 @@ import abstraction.fourni.IActeur;
 
 public class Producteur2TestDesVentesAO  extends Filiere {
 
-		public Producteur2TestDesVentesAO() {
+		public Producteur2TestDesVentesAO() { 
 			super();
 			this.ajouterActeur(new Producteur2());
 			this.ajouterActeur(new Producteur1());
