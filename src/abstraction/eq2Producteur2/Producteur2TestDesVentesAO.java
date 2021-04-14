@@ -1,16 +1,19 @@
 package abstraction.eq2Producteur2;
 
+import abstraction.eq8Romu.fevesAO.ExempleAcheteurFevesAO;
+import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 
-public class Producteur2TestDesVentes  extends Filiere {
+public class Producteur2TestDesVentesAO  extends Filiere {
 
-		public Producteur2TestDesVentes() {
+		public Producteur2TestDesVentesAO() {
 			super();
-			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_BASSE, 0.85, 500, 4000));
-			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_BASSE, 0.8, 1000, 2000));
-			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_MOYENNE, 1.1, 250, 1500));
+			this.ajouterActeur(new Producteur2());
+			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_BASSE, 5, 500, 4000));
+			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_BASSE, 8, 1000, 2000));
+			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_MOYENNE, 11, 250, 1500));
 			SuperviseurVentesFevesAO superviseur = new SuperviseurVentesFevesAO();
 			this.ajouterActeur(superviseur);
 		}
@@ -25,7 +28,4 @@ public class Producteur2TestDesVentes  extends Filiere {
 				return null;
 			}
 		}
-
-
-	}
 }
