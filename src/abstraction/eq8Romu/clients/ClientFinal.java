@@ -523,7 +523,11 @@ public class ClientFinal implements IActeur {
 				return 0.0;
 			}
 		} else {
-			throw new IllegalArgumentException(" Appel de ClientFinal.getVentes avec etape=="+etape+" alors que les etapes valides sont "+this.historiqueVentes.keySet());
+			if (etape<-24 || etape>=Filiere.LA_FILIERE.getEtape()) {
+				throw new IllegalArgumentException(" Appel de ClientFinal.getVentes avec etape=="+etape+" alors que les etapes valides sont "+this.historiqueVentes.keySet());
+			} else {
+				return 0.0;
+			}
 		}
 	}
 
