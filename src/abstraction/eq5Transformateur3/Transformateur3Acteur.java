@@ -6,7 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import abstraction.eq8Romu.produits.Chocolat;
+<<<<<<< HEAD
 import abstraction.eq8Romu.produits.Feve;
+=======
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -17,7 +20,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-	protected Variable prix_max_fèves;
+	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation;
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -28,6 +31,11 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
 		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
+		this.stock_min_feves = new Variable("Stock minimal de fèves", this, 12000);
+		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
+		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
+		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
+		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 	}
 
 	public String getNom() {
@@ -85,7 +93,12 @@ public abstract class Transformateur3Acteur implements IActeur {
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
-		res.add(this.prix_max_fèves);
+		res.add(prix_max_fèves);
+		res.add(stock_min_feves);
+		res.add(stock_min_confiserie);
+		res.add(stock_min_tablettes_HBE);
+		res.add(stock_min_tablettes_moyenne);
+		res.add(coefficient_transformation);
 		return res;
 	}
 
@@ -116,7 +129,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 	
 	public abstract void retirer(Feve feve, double delta);
 	public abstract void ajouter(Chocolat chocolat, double delta);
-
 
 }
 
