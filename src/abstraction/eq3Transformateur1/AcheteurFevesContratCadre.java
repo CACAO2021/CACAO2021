@@ -10,9 +10,11 @@ import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
+
 
 
 // Paul GIRAUD
@@ -36,7 +38,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		// Si l'echeancier est juste plus lons de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		if( contrat.getEcheanciers().get(0).getNbEcheances() >= 3 && contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
+		if( contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
 		}
@@ -44,7 +46,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		//Si le prix est augmenté de 2% max on accepete
+		//Si le prix est augmenté de 2% max on accepte
 		if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.02) {
 			return contrat.getPrix();
 		} else if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.025 ){ // Si on nous propose une augmentation max de 2,5% on re-propose 2% sinon on refuse
@@ -55,7 +57,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		}
 	}
 	public void next() {
-		// On enleve les contrats obsolete (nous pourrions vouloir les conserver pour "archive"...)
+		// On enleve les contrats obsoletes (nous pourrions vouloir les conserver pour "archive"...)
 		List<ExemplaireContratCadre> contratsObsoletes=new LinkedList<ExemplaireContratCadre>();
 		for (ExemplaireContratCadre contrat : this.mesContratEnTantQuAcheteur) {
 			if (contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
@@ -97,7 +99,10 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		stock.ajouter(this,  quantite);
+		if (produit instanceof Feve) {
+			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+"contrat.getNumero()",this,contrat.getPrix()));
+			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves ");
+		}
 	}
 
 }
