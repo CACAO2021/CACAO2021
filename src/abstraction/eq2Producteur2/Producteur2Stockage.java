@@ -238,7 +238,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				}
 			}
 		}
-		if (this.stockFeveHE.get(0).getEtape()>nbEtapeAvPeremption) {
+		if (this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveHE) {
 				if (st.getEtape()>nbEtapeAvPeremption) {
 					this.stockFeveHE.remove(st);
