@@ -78,11 +78,11 @@ public class Producteur2Transfo extends Producteur2Prod {
 	
 	public double coutTransf(Object produit) {
 		if (estPoudreHE(produit)) {
-			return prodParStep(produit)*prixHEparKilo;
+			return (int)(prodParStep(produit)*prixHEparKilo);
 		} else if (estPoudreM(produit)) {
-			return prodParStep(produit)*prixMparKilo;
+			return (int)(prodParStep(produit)*prixMparKilo);
 		} else if (estPoudreME(produit)) {
-			return prodParStep(produit)*prixMEparKilo;
+			return (int)(prodParStep(produit)*prixMEparKilo);
 		} return 0;
 	}
 

@@ -28,9 +28,9 @@ public class Producteur2et1ValeursEnCommun {
 	protected double coefM = 0.4;
 	protected double coefME = 0.4;
 	
-	protected int qteParStepHE = 1; //quantité que l'on peut transformer en un step
-	protected int qteParStepM = 1;
-	protected int qteParStepME = 1;
+	protected int qteParStepHE = 15000; //quantité que l'on peut transformer en un step (100kg/h, 10h/jour)
+	protected int qteParStepM = 15000;
+	protected int qteParStepME = 15000;
 	
 	protected double prixHEparKilo = 1; // coût de transformation d'un kilo de fèves en poudre
 	protected double prixMparKilo = 1; // un seul coût: entretien des machines
