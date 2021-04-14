@@ -5,7 +5,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 
 
-public class Transformateur2AchatCC extends Transformateur2AchatAO implements IAcheteurContratCadre{
+public class Transformateur2AchatCC extends Transformateur2Vente implements IAcheteurContratCadre{
 
 	public Transformateur2AchatCC() {
 		super();

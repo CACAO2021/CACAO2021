@@ -12,7 +12,7 @@ import abstraction.eq8Romu.produits.Feve;
 
 //Antoine C
 
-public class Transformateur2AchatAO extends Transformateur2Vente implements IAcheteurFevesAO {
+public class Transformateur2AchatAO extends Transformateur2AchatCC implements IAcheteurFevesAO {
 
 	public Transformateur2AchatAO() {
 		super();
