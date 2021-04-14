@@ -20,6 +20,7 @@ public class Transformateur2AchatAO extends Transformateur2Vente implements IAch
 	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
+		
 		return new OffreAchatFeves(this, Feve.FEVE_BASSE, (double) 1000);
 	}
 
