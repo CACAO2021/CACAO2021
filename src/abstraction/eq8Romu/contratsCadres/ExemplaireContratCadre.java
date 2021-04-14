@@ -12,14 +12,6 @@ public final class ExemplaireContratCadre {
 	}
 	
 	/**
-	 * @author lebra
-	 * @return renvoie le contrat cadre de l'exemplaire contrat cadre
-	 */
-	public ContratCadre getContratCadre() {
-		return this.contratCadre;
-	}
-	
-	/**
 	 * @return Retourne le numero unique designant le contrat
 	 */
 	public long getNumero() {

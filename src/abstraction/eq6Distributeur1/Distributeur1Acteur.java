@@ -15,12 +15,15 @@ public class Distributeur1Acteur implements IActeur {
 
 	public Distributeur1Acteur() {
 	}
+	
+	
 	public String getNom() {
+
 		return "EQ6";
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "CacaoCaisse est un distributeur de type grande surface, il achète le chocolat aux transformateurs et le revend au client final.";
 	}
 
 	public Color getColor() {
@@ -29,9 +32,13 @@ public class Distributeur1Acteur implements IActeur {
 
 
 	public void initialiser() {
+		
 	}
 
 	public void next() {
+		// créer un contrat cadre qui mettra à jour la banque
+		// mettre à jour les stocks en fonction du contrat cadre
+		// simuler la vente => comprendre le client
 	}
 
 	
