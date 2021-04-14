@@ -15,7 +15,8 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
 
 
-public class AcheteurFevesContratCadre extends Transformateur1Acteur implements IAcheteurContratCadre {
+// Paul GIRAUD
+public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadre {
 
 	
 	protected SuperviseurVentesContratCadre supCCadre;
@@ -24,9 +25,13 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 	protected Object produit;
 	protected List<ExemplaireContratCadre> mesContratEnTantQuAcheteur;
 
-	public AcheteurFevesContratCadre (Object produit) {
+	public AcheteurFevesContratCadre () {
 		super();
 		this.mesContratEnTantQuAcheteur=new LinkedList<ExemplaireContratCadre>();
+	}
+	
+	public List<ExemplaireContratCadre> getContractsCadres() {
+		return this.mesContratEnTantQuAcheteur;
 	}
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
@@ -63,8 +68,13 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 	
 		for  (Feve feve : this.nosFevesCC()) {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve)) {
+				boolean t = true;
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
+					Integer nomdreDeContratCadre = this.getContractsCadres().size();
 					supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, this.getQuantiteStep(feve)), cryptogramme, false);
+					if (nomdreDeContratCadre < this.getContractsCadres().size()) {
+						t = false;
+					}
 				}
 			}
 		}
@@ -76,6 +86,7 @@ public class AcheteurFevesContratCadre extends Transformateur1Acteur implements 
 		list.add(Feve.FEVE_HAUTE_EQUITABLE);
 		list.add(Feve.FEVE_MOYENNE_EQUITABLE);
 		list.add(Feve.FEVE_MOYENNE);
+		list.add(Feve.FEVE_BASSE);
 		return list;
 		
 	}
