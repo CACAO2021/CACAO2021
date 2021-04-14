@@ -77,19 +77,11 @@ public class Producteur2Transfo extends Producteur2Prod {
 	}
 	
 	public double coutTransf(Object produit) {
-		if (estPoudreHE(produit)) {
-			return prodParStep(produit)*prixHEparKilo;
-		} else if (estPoudreM(produit)) {
-			return prodParStep(produit)*prixMparKilo;
-		} else if (estPoudreME(produit)) {
-			return prodParStep(produit)*prixMEparKilo;
-		} return 0;
+		return coutEntretien;
 	}
 
 	@Override
 	public void perdreArgent(double montant) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
