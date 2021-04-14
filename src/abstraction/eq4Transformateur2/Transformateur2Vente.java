@@ -13,18 +13,18 @@ import abstraction.eq8Romu.produits.Categorie;
 
 
 
-public class Vente extends Transformateur2Stock implements IVendeurContratCadre {
+public class Transformateur2Vente extends Transformateur2Stock implements IVendeurContratCadre {
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
-	public Vente(Object produit) {
+	public Transformateur2Vente(Object produit) {
 		super();
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
 	
 	public boolean peutVendre(Object produit) {
 		if (produit instanceof Chocolat) {
-			if (((Chocolat) produit).getGamme() == Gamme.HAUTE) {
+			if (((Chocolat) produit).getGamme() != Gamme.HAUTE) {
 				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
 					return true; 
 				}
@@ -36,7 +36,7 @@ public class Vente extends Transformateur2Stock implements IVendeurContratCadre 
 	
 	public boolean vend(Object produit) {
 		if (produit instanceof Chocolat) {
-			if (((Chocolat) produit).getGamme() == Gamme.HAUTE) {
+			if (((Chocolat) produit).getGamme() != Gamme.HAUTE) {
 				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
 					return true; 
 				}
@@ -93,7 +93,7 @@ public class Vente extends Transformateur2Stock implements IVendeurContratCadre 
 	
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		
-		 return null;
+		 return contrat.getEcheancier();
 		
 	}
 
