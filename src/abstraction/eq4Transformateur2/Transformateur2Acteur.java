@@ -25,7 +25,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	}
 	
 	public String getNom() {
-		return "EQ4";
+		return "Boni Suci";
 	}
 
 	public String getDescription() {
@@ -47,6 +47,8 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		getIndicateurs().get(3).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
 		getIndicateurs().get(4).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
 		getIndicateurs().get(5).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), -(cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), -(cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
 	}
 	
 	public List<String> getNomsFilieresProposees() {
@@ -54,9 +56,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	}
 
 	public Filiere getFiliere(String nom) {
-		switch (nom) {
-		default : return null;
-		}
+		return Filiere.LA_FILIERE;
 	}
 	
 	public List<Variable> getIndicateurs() {

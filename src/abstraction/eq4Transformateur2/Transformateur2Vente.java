@@ -12,7 +12,7 @@ import abstraction.eq8Romu.produits.Categorie;
 import java.util.ArrayList;
 
 
-public class Transformateur2Vente extends Transformateur2Stock implements IVendeurContratCadre {
+public class Transformateur2Vente extends Transformateur2Production implements IVendeurContratCadre {
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
@@ -31,7 +31,6 @@ public class Transformateur2Vente extends Transformateur2Stock implements IVende
 				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
 					return true; 
 				}
-				
 			}
 		}
 		return false;

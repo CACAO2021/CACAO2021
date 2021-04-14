@@ -18,7 +18,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
 	//nbOffres=nbOffres.SuperviseurVentesFevesAO;
 
-	public Producteur2VendeurFeveAO() {
+	public Producteur2VendeurFeveAO() { 
 		super();
 		this.mesContratsAO = new LinkedList<ExemplaireContratCadre>();
 	}

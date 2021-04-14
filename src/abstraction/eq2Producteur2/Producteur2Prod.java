@@ -33,6 +33,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_MOYENNE);
 		this.listeProd.add(Feve.FEVE_BASSE);
 		}
@@ -41,10 +42,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		double nb = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.arbrePlantesHBE) {
-				nb += s.getQtt();
-			}
-		}else if (estFeveHE(produit)) {
-			for (Stock s : this.arbrePlantesHE) {
 				nb += s.getQtt();
 			}
 		}else if (estFeveHE(produit)) {
@@ -87,13 +84,13 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		if(estFeveHBE(p)) {
 			return COUT_PRODUCTION_FEVE_HBE;
 		} else if(estFeveHE(p)) {
-			return PROD_HE;
+			return COUT_PRODUCTION_FEVE_HE;
 		} else if(estFeveME(p)) {
-			return PROD_ME;
+			return COUT_PRODUCTION_FEVE_ME;
 		} else if(estFeveM(p)) {
-			return PROD_M;
+			return COUT_PRODUCTION_FEVE_M;
 		}else if(estFeveB(p)) {
-			return PROD_B;
+			return COUT_PRODUCTION_FEVE_B;
 		} else { // un produit que l'on ne vend pas
 			return 0;
 		}

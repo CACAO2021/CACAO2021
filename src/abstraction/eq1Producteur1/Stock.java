@@ -14,7 +14,7 @@ public class Stock {
 	private IActeur acteur;
 	
 	public Stock(String nom, double quantite, IActeur a) {
-		IActeur acteur = a;
+		this.acteur = a;
 		this.quantite= new Variable(nom, acteur);
 		this.quantite.setValeur(acteur, quantite);
 	}
