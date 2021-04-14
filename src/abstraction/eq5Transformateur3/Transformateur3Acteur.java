@@ -2,14 +2,17 @@ package abstraction.eq5Transformateur3;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Transformateur3Acteur implements IActeur {
+public abstract class Transformateur3Acteur implements IActeur {
 	
 	protected int cryptogramme;
 	private String nom;
@@ -47,6 +50,12 @@ public class Transformateur3Acteur implements IActeur {
 	}
 
 	public void next() {
+		int index = this.getIndicateurs().indexOf(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		Variable feve = this.getIndicateurs().get(index);
+		if(feve.getValeur()-100>0) { //garder au minimum 100kg
+			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, feve.getValeur()-100 ); //retirer le surplus de fèves 
+			this.ajouter(Chocolat.TABLETTE_HAUTE_EQUITABLE, (feve.getValeur()-100)*2.5); //pour le transformer en tablette haute qualité
+		}
 	}
 
 	
@@ -98,6 +107,9 @@ public class Transformateur3Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
+	
+	public abstract void retirer(Feve feve, double delta);
+	public abstract void ajouter(Chocolat chocolat, double delta);
 
 
 }

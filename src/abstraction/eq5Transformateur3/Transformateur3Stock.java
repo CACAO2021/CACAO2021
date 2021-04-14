@@ -79,4 +79,6 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 		return feves;
 	}
 	
+	
+	
 }
