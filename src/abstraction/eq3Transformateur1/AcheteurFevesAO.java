@@ -11,8 +11,6 @@ import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-
-
 public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAcheteurFevesAO {
 	
 	
@@ -39,7 +37,7 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		if (superviseur!=null) { // Personne ne peut creer un second Superviseur --> il s'agit bien de l'unique superviseur et on peut lui faire confiance
 			return cryptogramme;
 		}
-		return Integer.valueOf(1);
+		return Integer.valueOf(0);
 	}
 	
 	// Renvoie le stock actuel de ce type de feve
