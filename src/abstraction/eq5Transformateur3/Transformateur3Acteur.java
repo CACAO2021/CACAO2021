@@ -64,7 +64,7 @@ public class Transformateur3Acteur implements IActeur {
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
 		List<Variable> res = new ArrayList<Variable>();
-		return res;
+		return this.getIndicateurs();
 	}
 
 	// Renvoie les paramètres
