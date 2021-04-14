@@ -7,5 +7,6 @@ public class Transformateur2 extends Transformateur2AchatAO {
 	public Transformateur2 () {
 		super();
 	}
+
 	
 }

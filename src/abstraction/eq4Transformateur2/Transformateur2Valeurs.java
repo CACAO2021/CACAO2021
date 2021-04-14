@@ -28,6 +28,9 @@ public class Transformateur2Valeurs {
 	
 	protected static double charges_fixes;
 	
+	protected static double cout_stockage_unite_feve;
+	protected static double cout_stockage_unite_choco;
+	
 	
 	
 }
