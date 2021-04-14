@@ -14,7 +14,10 @@ import abstraction.eq8Romu.produits.Feve;
 
 public class Transformateur2AchatAO extends Transformateur2Stock implements IAcheteurFevesAO {
 
-
+	public Transformateur2AchatAO() {
+		super();
+	}
+	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
 		return new OffreAchatFeves(this, Feve.FEVE_BASSE, (double) 1000);
