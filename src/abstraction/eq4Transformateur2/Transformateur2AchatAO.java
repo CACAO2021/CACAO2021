@@ -46,6 +46,12 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 				prop = i;
 			}
 		}
+		if (prix_min > cout_max_feve_basse && propositions.get(prop).getFeve() == Feve.FEVE_BASSE) {
+			return null;
+		}
+		if (prix_min > cout_max_feve_moyenne && propositions.get(prop).getFeve() == Feve.FEVE_MOYENNE) {
+			return null;
+		}
 		return propositions.get(prop);
 	}
 
