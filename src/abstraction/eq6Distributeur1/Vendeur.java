@@ -69,4 +69,3 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 	}	
 }
-
