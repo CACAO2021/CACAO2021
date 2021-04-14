@@ -2,11 +2,7 @@ package abstraction.eq3Transformateur1;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
-import abstraction.eq8Romu.produits.ChocolatDeMarque;
-import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.IMarqueChocolat;
 
 public class MarqueTransformateur1 implements IMarqueChocolat {
