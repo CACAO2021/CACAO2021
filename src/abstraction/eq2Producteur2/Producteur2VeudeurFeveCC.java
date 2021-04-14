@@ -49,7 +49,17 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 			return PRIX_ESPERE_FEVE_HBE;
 		} else if(estFeveHE(produit)) {
 			return PRIX_ESPERE_FEVE_HE;
-		} // a finir
+		} else if(estFeveME(produit)) {
+			return PRIX_ESPERE_FEVE_ME;
+		} else if(estFeveM(produit)) {
+			return PRIX_ESPERE_FEVE_M;
+		} else if(estFeveB(produit)) {
+			return PRIX_ESPERE_FEVE_B;
+		} else if(estPoudreHE(produit)) {
+			return PRIX_ESPERE_POUDRE_HE;
+		} else if(estPoudreM(produit)) {
+			return PRIX_ESPERE_POUDRE_M;
+		}
 		else { // un produit que l'on ne vend pas
 			return 0;
 		}
@@ -59,7 +69,17 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 			return PRIX_MIN_ACCEPTEE_FEVE_HBE;
 		} else if(estFeveHE(produit)) {
 			return PRIX_MIN_ACCEPTEE_FEVE_HE;
-		} // a finir
+		} else if(estFeveME(produit)) {
+			return PRIX_MIN_ACCEPTEE_FEVE_ME;
+		} else if(estFeveM(produit)) {
+			return PRIX_MIN_ACCEPTEE_FEVE_M;
+		} else if(estFeveB(produit)) {
+			return PRIX_MIN_ACCEPTEE_FEVE_B;
+		} else if(estPoudreHE(produit)) {
+			return PRIX_MIN_ACCEPTEE_POUDRE_HE;
+		} else if(estPoudreM(produit)) {
+			return PRIX_MIN_ACCEPTEE_POUDRE_M;
+		}
 		else { // un produit que l'on ne vend pas
 			return 0;
 		}
@@ -69,10 +89,30 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 			return DIF_ACCEPTEE_FEVE_HBE;
 		} else if(estFeveHE(produit)) {
 			return DIF_ACCEPTEE_FEVE_HE;
-		} // a finir
+		} else if(estFeveME(produit)) {
+			return DIF_ACCEPTEE_FEVE_ME;
+		} else if(estFeveM(produit)) {
+			return DIF_ACCEPTEE_FEVE_M;
+		} else if(estFeveB(produit)) {
+			return DIF_ACCEPTEE_FEVE_B;
+		} else if(estPoudreHE(produit)) {
+			return DIF_ACCEPTEE_POUDRE_HE;
+		} else if(estPoudreM(produit)) {
+			return DIF_ACCEPTEE_POUDRE_M;
+		}
 		else { // un produit que l'on ne vend pas
 			return 0;
 		}
+	}
+	
+	public double aProduire(Object produit) {
+		double prod = 0;
+		for (ExemplaireContratCadre e: mesContratsCC) {
+			if (e.getProduit() == produit) {
+				prod += e.getQuantiteRestantALivrer();
+			}
+		}
+		return prod;
 	}
 	
 
@@ -81,9 +121,11 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 		Object produit = contrat.getProduit();	
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
 		double qttDispo = qttTotale(produit).getValeur();
-		boolean qtt = qttDemandee < qttDispo;
-		//cond sur nos capacite de prod et les contrats deja en cours
-		boolean cond = qtt;
+		double qttProduiteFutur = prodParStep(produit) * contrat.getEcheancier().getNbEcheances();
+		double contratEnCours = aProduire(produit);
+		double qtt = qttDispo + qttProduiteFutur - contratEnCours;
+		boolean cond = qttDemandee < qtt;
+
 		if(cond) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur
