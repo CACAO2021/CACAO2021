@@ -15,6 +15,8 @@ public class Transformateur3Acteur implements IActeur {
 	private String nom;
 	private String description;
 	protected Variable prix_max_fèves;
+	protected Variable prix_min_vente_MG;
+	protected Variable prix_min_vente_EQ;
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -25,6 +27,9 @@ public class Transformateur3Acteur implements IActeur {
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
 		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
+		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 2000);
+		this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 2500);
+	
 	}
 
 	public String getNom() {
@@ -63,7 +68,6 @@ public class Transformateur3Acteur implements IActeur {
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
 		List<Variable> res = new ArrayList<Variable>();
-		
 		return res;
 	}
 
@@ -71,6 +75,8 @@ public class Transformateur3Acteur implements IActeur {
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
 		res.add(this.prix_max_fèves);
+		res.add(this.prix_min_vente_MG);
+		res.add(this.prix_min_vente_EQ);
 		return res;
 	}
 
