@@ -77,7 +77,7 @@ public class Producteur2Transfo extends Producteur2Prod {
 	}
 	
 	public double coutTransf(Object produit) {
-		return coutEntretien;
+		return coutMachines;
 	}
 
 	@Override
