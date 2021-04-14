@@ -18,6 +18,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 
 	public Transformateur2Acteur() {
 		super();
+		this.journal = new Journal(this.getNom(), this);
 	}
 
 	public void initialiser() {
