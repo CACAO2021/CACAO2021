@@ -206,7 +206,7 @@ public class Stock {
 	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
 		ArrayList<Variable> QuantitePrix = new ArrayList<>();
-		if (quantite.getValeur()+this.getStockChocolats() >= 0) {
+		if (quantite.getValeur()+this.getStockChocolats(chocolat) >= 0) {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockChocolats.get(chocolat).add(QuantitePrix);
