@@ -69,9 +69,10 @@ public abstract class Transformateur3Acteur implements IActeur {
 		feve = this.getIndicateurs().get(index);
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
 			this.retirer(Feve.FEVE_MOYENNE, feve.getValeur()-100 ); //retirer le surplus de fèves 
-			this.ajouter(Chocolat.TABLETTE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			this.ajouter(Chocolat.TABLETTE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); }
 		
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500);
 	}
 
 	
