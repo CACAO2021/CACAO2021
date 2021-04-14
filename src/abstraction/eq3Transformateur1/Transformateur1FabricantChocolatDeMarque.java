@@ -51,7 +51,7 @@ public class Transformateur1FabricantChocolatDeMarque implements IFabricantChoco
 	public List<String> getNomsFilieresProposees() {
 		List<String> res =  new LinkedList<String>();
 		
-		return null;
+		return res;
 	}
 
 	@Override

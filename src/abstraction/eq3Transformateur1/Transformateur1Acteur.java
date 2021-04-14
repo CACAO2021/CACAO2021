@@ -2,11 +2,11 @@ package abstraction.eq3Transformateur1;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+
+
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
@@ -15,30 +15,27 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
-
-	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
-	private int numero;
-	private Variable totalStocksFeves;
-	protected Map<Feve, Double> stocksFeves;
+	protected Stock stock;
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;
 	protected Journal journalVendeur;
 	protected Journal journalStock;
 	protected Journal journalTransformation;
+	protected Journal journalTresorie;
+
 	
 	public static double STOCK_MAX = 10000000000.0;
 
 	public Transformateur1Acteur() {
 		
-		this.totalStocksFeves=new Variable(getNom()+" total stocks feves", this, 50);
-		stocksFeves=new HashMap<Feve, Double>();
-		for (Feve feve : Feve.values()) {
-			stocksFeves.put(feve, 0.0);
-		}
 		this.journalAcheteur = new Journal(this.getNom()+" achat", this);
 		this.journalVendeur = new Journal(this.getNom()+" vente ", this);
 		this.journalStock = new Journal(this.getNom()+" stock ", this);
 		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
+		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
+		this.stock = new Stock(this);
+
+		
 	}
 
 	public void initialiser() {
@@ -56,13 +53,42 @@ public class Transformateur1Acteur implements IActeur {
 		return new Color(52, 152, 219);
 	}
 	
+	public Integer getCryptogramme() {
+		return this.cryptogramme;
+	}
+	
 
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
 	}
 	
+	public Stock getStock() {
+		return this.stock;
+	}
+	
+	public void ecritureJournalAcheteur(String s) {
+		this.journalAcheteur.ajouter(s);
+	}
+	
+	public void ecritureJournalVendeur(String s) {
+		this.journalVendeur.ajouter(s);
+	}
+	
+	public void ecritureJournalStock(String s) {
+		this.journalStock.ajouter(s);
+	}
+	
+	public void ecritureJournalTresorie(String s) {
+		this.journalTresorie.ajouter(s);
+	}
+	
 
 	public void next() {
+		
+		this.getStock().transformationFeveChocolat();
+		this.getStock().coutStock();
+		this.getStock().getFinancier().setIndicateurs();
+		this.getStock().setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getNom(), this, 3000),  new Variable(this.getNom(), this, 5000));
 		
 	}
 	
@@ -80,11 +106,10 @@ public class Transformateur1Acteur implements IActeur {
 	}
 	
 	public List<Variable> getIndicateurs() {;
-	
-		List<Variable> res=new ArrayList<Variable>();
-		return res;
+		return this.getStock().getFinancier().getIndicateurs();
 	}
 	
+
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
 		return res; 
@@ -96,6 +121,7 @@ public class Transformateur1Acteur implements IActeur {
 		res.add(this.journalVendeur);
 		res.add(this.journalTransformation);
 		res.add(this.journalStock);
+		res.add(this.journalTresorie);
 		return res;
 	}
 	
@@ -115,11 +141,5 @@ public class Transformateur1Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
-	
 
-
-	
-	
-	
-	
 }

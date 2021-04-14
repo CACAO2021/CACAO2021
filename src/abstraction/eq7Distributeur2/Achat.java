@@ -21,18 +21,43 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private LinkedList<ExemplaireContratCadre> contrats;
 	private SuperviseurVentesContratCadre supCCadre;
 	
+	public Color titleColor = Color.BLACK;
+	public Color metaColor = Color.CYAN;
+	public Color alertColor = Color.RED;
+	public Color newContratColor = Color.GREEN;
+	public Color newPropositionColor = Color.ORANGE;
+	public Color descriptionColor = Color.YELLOW;
+	
+	
 
-	public Achat(Distributeur2Acteur wonka) {
+	public Achat(Distributeur2 wonka) {
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();
 		this.quantiteLimite =  10; //arbitrairement choisie : pas descendre en dessous de cette quantité pour n'importe quel produit
 		this.quantiteMax = 40;//arbitrairement choisie : quantité max pour limiter les coûts de stockage
-		this.supCCadre = (SuperviseurVentesContratCadre) Filiere.LA_FILIERE.getActeur("supCCadre");
+		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		
 	}
+	public void next() {
+		this.majDemande();
+		this.nouveauContrat();
+	}
+	//public void init() {
+	//	HashMap<ChocolatDeMarque, Double> initCommande = new HashMap<ChocolatDeMarque, Double>();
+	//	for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+	//		initCommande.put(choco,30.);
+	//		LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) supCCadre.getVendeurs(choco);
+	//		int i = (int) (Math.random()*vendeurs.size()) ;
+	//		IVendeurContratCadre vendeur = vendeurs.get(i);
+	//		Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
+	//		supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+	//		
+	//	}
+	//}
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
-		for(ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
-			if(stocks.getStockChocolatDeMarque(choco) <= quantiteLimite) {
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			if(wonka.stocks.getStockChocolatDeMarque(choco) <= quantiteLimite) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax - stocks.getStockChocolatDeMarque(choco)));
 			}
 			else {
@@ -43,12 +68,15 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
-		for(ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits() ) {
-			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) supCCadre.getVendeurs(choco);
-			int i = (int) (Math.random()*vendeurs.size()) ;
-			IVendeurContratCadre vendeur = vendeurs.get(i);
-			Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
-			supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
+			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
+			if (vendeurs.size()!=0){
+				int i = (int) (Math.random()*vendeurs.size()) ;
+				IVendeurContratCadre vendeur = vendeurs.get(i);
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
+				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
+			}
 		}
 	}
 	
@@ -61,12 +89,15 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				//pour chaque étape au dessus de 10, on met quantité = 0
 				e.set(i, 0);
 			}
+			wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+e.toString());
 			return e;
 		}
 		//si la quantité proposée par le vendeur est inférieure à la quantité voulue
 		if(e.getQuantiteTotale()<besoinsChoco.get(contrat.getProduit()).getValeur()) {
-			e.set(0, e.getQuantite(0)+(besoinsChoco.get(contrat.getProduit()).getValeur()-e.getQuantiteTotale()));
+			e.set(e.getStepDebut(), e.getQuantite(0)+(besoinsChoco.get(contrat.getProduit()).getValeur()-e.getQuantiteTotale()));
+			wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+e.toString());
 			return e;
+			
 		}
 		else { return e;
 		}
@@ -76,18 +107,24 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		if(wonka.getAutorisationTransaction(prix)) {
+			//les comptes sont sufisant pour accepter le contrat tel quel, la contre proposition reste inchangée
+			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
 			return contrat.getPrix();
 		}
 		else {
+			//on ne peut pas se permettre cette transaction, on diminue le prix jusqu'à avoir un contrat acceptable
 			return contrat.getPrix()*0.90;
 		}
 	}
 
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		stocks.ajouterChocolatDeMarque((ChocolatDeMarque) contrat.getProduit(), contrat.getQuantiteTotale());
+		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), contrat.getQuantiteTotale());
 		
-		
+	}
+
+	public SuperviseurVentesContratCadre getSupCCadre() {
+		return supCCadre;
 	}
 
 

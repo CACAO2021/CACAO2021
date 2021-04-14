@@ -7,7 +7,10 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
+
 public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
+
+
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
@@ -22,8 +25,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	@Override
 	public boolean vend(Object produit) {
 		// Implementer une fonction booléenne qui indique s'il y a du stock dans un produit spécifique
-		// on renvoie toujours NON pour l'instant 
-		return false;
+		return this.getStock().getFinancier().sommeNousVendeur(produit);
 	}
 
 	@Override
@@ -35,8 +37,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		// Prix arbitraire de 1000 a changer ?
-		return 1000;
+		return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
 	}
 
 	@Override

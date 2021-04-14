@@ -1,6 +1,6 @@
 package abstraction.eq3Transformateur1;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
@@ -8,20 +8,19 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
-import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Variable;
 
-public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurFevesAO {
+public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAcheteurFevesAO {
 	
 	
-	private Feve feve;
-	private double prixMax;
-	private double qMin, qMax;
+	protected Feve feve;
+	protected double prixMax;
+	protected double qMin, qMax;
+	
 
-	private static double QUANTITE_MIN_FEVE = 100.0;
 	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;
 
-	private static ArrayList<Feve> list = new ArrayList<Feve>();
 
 
 
@@ -43,7 +42,7 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	
 	// Renvoie le stock actuel de ce type de feve
 	private double getStockActuelFeve(Feve feve) {
-		return this.stocksFeves.get(feve);
+		return this.getStock().getStockFeves(feve);
 	}
 	
 	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
@@ -81,8 +80,10 @@ public class AcheteurFevesAO extends Transformateur1Acteur implements IAcheteurF
 	}
 
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		this.journalVendeur.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		Variable quantite = new Variable(this.getNom(),this,proposition.getQuantiteKg());
+		Variable prix = new Variable(this.getNom(),this,proposition.getPrixKG());
+		this.getStock().setStockFeve(feve, quantite, prix);
+		this.journalAcheteur.ajouter("--> le stock de " + proposition.getFeve().toString() + "passe a "+Journal.doubleSur(this.getStock().getStockFeves(proposition.getFeve()), 4));
 	}
 
 	//	public double proposerAchat(LotCacaoCriee lot) {
