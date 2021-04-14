@@ -42,7 +42,7 @@ public abstract class AbsDistributeur2 {
 		public void initialiserCatalogue() {
 			for(Chocolat nosChocolats : this.chocolatPropose) {
 				for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
-					System.out.println(chocolatDeLaFiliere.name());
+					//System.out.println(chocolatDeLaFiliere.name());
 					if(chocolatDeLaFiliere.getChocolat().toString().equals(nosChocolats.name())) {
 						catalogue.add(chocolatDeLaFiliere);
 					}
