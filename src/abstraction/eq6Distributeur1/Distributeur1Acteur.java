@@ -32,7 +32,7 @@ public class Distributeur1Acteur implements IActeur {
 
 
 	public void initialiser() {
-		//peut etre initialiser la variable Stocks.prix
+		
 	}
 
 	public void next() {
