@@ -6,6 +6,7 @@ import java.util.List;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
@@ -18,6 +19,8 @@ public class Business {
 	private Stock stock;
 	
 	protected List<Variable> indicateurs;
+	
+	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 	
 	private Variable prixVenteTabletteBasse;
 	private Variable prixVenteTabletteMoyenne;
@@ -98,7 +101,7 @@ public class Business {
 		this.indicateurs.add(34,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreHauteEquitable au KG", this.getStock().getActeur(), 0));
 		this.indicateurs.add(35,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreHauteBioEquitable au KG", this.getStock().getActeur(), 0));
  
-		
+		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
 		
 	}
 	
@@ -140,7 +143,20 @@ public class Business {
 		}
 	}
 	
+	public List<ExemplaireContratCadre> getmesContratEnTantQueVendeur() {
+		return this.mesContratEnTantQueVendeur;
+	}
 	
+	public void MiseAJourContratVente() {
+		ArrayList<ExemplaireContratCadre> ContratValide = new ArrayList<ExemplaireContratCadre>() ;
+		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
+			if(contrat.getEcheancier().getStepFin() < Filiere.LA_FILIERE.getEtape()) {
+				ContratValide.add(contrat);
+			}
+		}
+		this.mesContratEnTantQueVendeur = ContratValide;
+	}
+
 	
 	
 	
