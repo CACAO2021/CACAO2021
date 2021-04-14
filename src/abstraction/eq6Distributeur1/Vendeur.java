@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
 
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
@@ -13,6 +14,7 @@ import abstraction.fourni.Variable;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
+	protected Map<ChocolatDeMarque,Double> historique;
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
@@ -51,17 +53,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
-		List<String> historique = new ArrayList<String>();
-		vendre(client, choco, quantite, montant, historique);
-	}
-	
-	public List<String> vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant, List<String> historique) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
 			this.ajouterStock(choco, -1*quantite, false);
-			historique.add(choco.getMarque()+" : "+quantite);
-			return historique;
-		}else {
-			return historique;
+			historique.put(choco, quantite);
 		}
 	}
 
