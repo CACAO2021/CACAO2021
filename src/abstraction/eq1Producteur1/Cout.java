@@ -21,13 +21,14 @@ public class Cout extends Producteur2et1ValeursEnCommun {
 
 	public static void cout(Producteur1Acteur a){
 		Cout.PayerProducteurs(a);
+		Cout.payerStockage(a);
 	}
 	
 /**
  * 
  * @param arthurlemgit
  */
-	public void payerStockage(Producteur1Acteur a) {
+	public static void payerStockage(Producteur1Acteur a) {
 		double qte_stockee = a.getStocks().get(Feve.FEVE_BASSE).getQuantite()
 				+ a.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()
 				+ a.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()

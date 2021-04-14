@@ -36,5 +36,5 @@ public class Producteur2et1ValeursEnCommun {
 
 	
 	// cout stockage
-	protected double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
+	protected static double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
 }
