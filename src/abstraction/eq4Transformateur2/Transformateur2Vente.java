@@ -51,7 +51,34 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		this.contrats.add(contrat);
-		
+		Object produit = contrat.getProduit();
+		if (produit instanceof Chocolat) {
+			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
+				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_confiserie_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_confiserie_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+				}
+			}
+			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
+				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_confiserie_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_confiserie_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+				}
+			}
+			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
+				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_tablette_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_tablette_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+				}
+			}
+			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
+				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_tablette_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_tablette_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+				}
+			}
+			
+		}
 	}
 	
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
@@ -91,20 +118,20 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		Object produit = contrat.getProduit();
 		if (produit instanceof Chocolat) {
 			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
-				return 6.2 ;
+				return prix_min_confiserie_basse * 1.4 ;
 			}
 			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
-				return 9.2  ;
+				return prix_min_confiserie_moyenne *1.4  ;
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
-				return 4.6 ; 
+				return prix_min_tablette_basse * 1.4 ; 
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
-				return 9.2  ;
+				return prix_min_tablette_moyenne *1.4  ;
 			}
 			
 		}	
-		return 10000000000.0 ; //si on ne vend pas ce produit 
+		return 10000000.0 ; //si on ne vend pas ce produit 
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
@@ -118,7 +145,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 				return prixA*0.45 + prixV*0.55 ; 
 			}
 			else {
-				return 0;
+				return -1;
 			}
 		}
 	}

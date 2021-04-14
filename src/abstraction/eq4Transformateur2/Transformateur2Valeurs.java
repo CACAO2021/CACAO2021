@@ -31,6 +31,11 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_bas;
 	protected double mini_stock_moyen;
 	
+	//Achat 
+	
+	protected static double cout_max_feve_basse ; 
+	protected static double cout_max_feve_moyenne;
+	
 	//Production
 	
 	protected static double charges_fixes;
@@ -43,6 +48,10 @@ public class Transformateur2Valeurs {
 	protected static double cout_fixe_entrepot_feve;
 	protected static double cout_fixe_entrepot_choco;
 	
+	//Vente
 	
-	
+	protected double prix_min_tablette_basse = cout_transformation + cout_stockage_unite_choco+ cout_stockage_unite_feve + cout_max_feve_basse; 
+	protected double prix_min_tablette_moyenne = cout_transformation + cout_stockage_unite_choco+ cout_stockage_unite_feve + cout_max_feve_moyenne; 
+	protected double prix_min_confiserie_basse = cout_transformation + cout_stockage_unite_choco+ cout_stockage_unite_feve + cout_max_feve_basse; 
+	protected double prix_min_confiserie_moyenne = cout_transformation + cout_stockage_unite_choco+ cout_stockage_unite_feve + cout_max_feve_moyenne; 
 }
