@@ -10,6 +10,9 @@ public class Producteur2et1ValeursEnCommun {
 	public static double COUT_PRODUCTION_FEVE_HE = 2.5;
 	public static double COUT_PRODUCTION_FEVE_HBE = 3;
 	
+	//cout changement arbre
+	public double COUT_CHANGEMENT_ARBRE_HBE = 0;
+	
 	protected int ARBRE_TPS_VIE_HBE = 40*48;
 	protected int ARBRE_TPS_VIE_HE = 40*48;
 	protected int ARBRE_TPS_VIE_ME=40*48;
