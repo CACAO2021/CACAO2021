@@ -105,15 +105,23 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 		}
 	}
 	
+	public double aProduire(Object produit) {
+		for (ExemplaireContratCadre e: mesContratsCC) {
+			e.getQuantiteRestantALivrer()
+		}
+	}
+	
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		Object produit = contrat.getProduit();	
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
 		double qttDispo = qttTotale(produit).getValeur();
-		boolean qtt = qttDemandee < qttDispo;
+		double qttProduiteFutur = prodParStep(produit);
+		double contratEnCours = 
+		double qtt = qttDispo + qttProduiteFutur - contratEnCours;
+		boolean cond = qttDemandee < qtt;
 		//cond sur nos capacite de prod et les contrats deja en cours
-		boolean cond = qtt;
 		if(cond) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur

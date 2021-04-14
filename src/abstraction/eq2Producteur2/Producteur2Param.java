@@ -18,6 +18,7 @@ public class Producteur2Param extends Producteur2Banque {
 		res.add(stockFHE);
 		res.add(stockFME);
 		res.add(stockFM);
+		res.add(stockFB);
 		res.add(stockPHE);
 		res.add(stockPM);		
 		return res;
