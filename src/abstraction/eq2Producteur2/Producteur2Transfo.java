@@ -82,8 +82,6 @@ public class Producteur2Transfo extends Producteur2Prod {
 
 	@Override
 	public void perdreArgent(double montant) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
