@@ -137,14 +137,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			System.out.println("erreur");
 		}		
 	}
-<<<<<<< HEAD
-	/**
-	 * @author Maxime Boillot
-	 * Pour chaque type de stock : HBE, HE, ME,M, B
-	 * Si le premier élément (celui qui est dans la liste depuis le plus longtemps=le plus vieux stock ) de la liste n'est pas périmé on nee fait rien 
-	 * Dans le cas inverse, on retire tous les léléments périmés de la liste en partant du plus vieux
-	 */
-=======
+
 	
 	//Dim
 	public void vente(double qtt, Object produit) {
@@ -224,7 +217,12 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	
->>>>>>> branch 'master' of https://github.com/dim-correia/CACAO2021
+	/**
+	 * @author Maxime Boillot
+	 * Pour chaque type de stock : HBE, HE, ME,M, B
+	 * Si le premier élément (celui qui est dans la liste depuis le plus longtemps=le plus vieux stock ) de la liste n'est pas périmé on nee fait rien 
+	 * Dans le cas inverse, on retire tous les léléments périmés de la liste en partant du plus vieux
+	 */
 	public void verifPeremption() {
 		//LinkedList<Stock> feveHBE = stockFeveHBE;
 		if (this.stockFeveHBE.get(0).getEtape()>nbEtapeAvPeremption) {
