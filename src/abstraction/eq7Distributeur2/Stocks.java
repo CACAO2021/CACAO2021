@@ -121,7 +121,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 				limiteTG = var.getValeur();
 			}
 		}
-		return (this.getQuantiteTotaleEnTG()+qte)/(this.getQuantiteTotaleStocks()+qte)<=limiteTG;
+		return (this.getQuantiteTotaleEnTG()+qte)/(this.getQuantiteTotaleStocks()+qte)<limiteTG+0.01;
 	}
 	
 	
