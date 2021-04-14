@@ -2,6 +2,7 @@ package abstraction.eq6Distributeur1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
@@ -15,6 +16,11 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	protected Map<ChocolatDeMarque,Double> historique;
+	
+	public Vendeur() {
+		super();
+		this.historique=new HashMap <ChocolatDeMarque,Double>();
+	}
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {

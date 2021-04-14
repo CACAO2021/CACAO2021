@@ -16,6 +16,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	
 	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
 	
+	public Acheteur() {
+		super();
+	}
+	
 
 	
 	@Override

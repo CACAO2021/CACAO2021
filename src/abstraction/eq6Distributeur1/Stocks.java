@@ -19,6 +19,7 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 
 	
 	public Stocks() {
+		super();
 		this.stock=new HashMap<ChocolatDeMarque, Variable>();
 		this.prix=new HashMap<ChocolatDeMarque, Double>();
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>();
