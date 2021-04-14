@@ -83,13 +83,13 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		if(estFeveHBE(p)) {
 			return COUT_PRODUCTION_FEVE_HBE;
 		} else if(estFeveHE(p)) {
-			return PROD_HE;
+			return COUT_PRODUCTION_FEVE_HE;
 		} else if(estFeveME(p)) {
-			return PROD_ME;
+			return COUT_PRODUCTION_FEVE_ME;
 		} else if(estFeveM(p)) {
-			return PROD_M;
+			return COUT_PRODUCTION_FEVE_M;
 		}else if(estFeveB(p)) {
-			return PROD_B;
+			return COUT_PRODUCTION_FEVE_B;
 		} else { // un produit que l'on ne vend pas
 			return 0;
 		}
