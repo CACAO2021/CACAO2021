@@ -10,7 +10,7 @@ import abstraction.fourni.Variable;
 
 
 public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
-
+	
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 
 	//test si le produit désiré est dans notre catalogue
@@ -51,7 +51,12 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
 		this.journalVendeur.ajouter("Offre de vente : "+contrat);
+		this.mesContratEnTantQueVendeur.add(contrat);
 		
+	}
+	
+	public List<ExemplaireContratCadre> getmesContratEnTantQueVendeur() {
+		return mesContratEnTantQueVendeur;
 	}
 
 	@Override
