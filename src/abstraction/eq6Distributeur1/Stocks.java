@@ -10,7 +10,7 @@ import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Variable;
 
-public class Stocks extends Distributeur1Acteur implements IMarqueChocolat{
+public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 	
 	
 	protected Map<ChocolatDeMarque, Variable> stock;
@@ -28,11 +28,11 @@ public class Stocks extends Distributeur1Acteur implements IMarqueChocolat{
 		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
 	}
 
-	@Override
+	/*@Override
 	public List<String> getMarquesChocolat() {
 		List marque = new ArrayList<String>();
 		marque.add("CacaoCaisse");
-		return marque;
+		return marque;*/
 	}
 	
 
@@ -69,4 +69,3 @@ public class Stocks extends Distributeur1Acteur implements IMarqueChocolat{
 	protected int POUDRE_BASSE;*/
 	
 
-}
