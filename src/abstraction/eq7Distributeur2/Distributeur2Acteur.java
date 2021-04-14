@@ -99,11 +99,17 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.initialiserCatalogue();
 		for (ChocolatDeMarque CDM : this.catalogue) {
 		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
+
 		}
 
 		
 		this.stocks = new Stocks((Distributeur2)this);
 		this.achat = new Achat((Distributeur2)this);
+
+		}	
+		this.stocks = new Stocks(this);
+		this.achat = new Achat(this);
+
 		this.parametres.add(new Variable("Nombre d'étapes avant Peremption",this,Stocks.dureeDePeremption));
 		this.parametres.add(new Variable("limite de Stocks",this,Stocks.limiteStocks));
 		this.parametres.add(new Variable("prix du Stockage unitaire",this,Stocks.prixStockage));
@@ -118,8 +124,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void next() {
-		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
-
 		this.stocks.next();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
 		this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
@@ -145,14 +149,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
-		filieres.add("TEST_CC"); 
+		filieres.add("TEST_CC_WS"); 
 		return(filieres);
 	}
 
 	// Renvoie une instance d'une filière d'après son nom
 	public Filiere getFiliere(String nom) {
 		switch (nom) { 
-		case "TEST_CC" : return new FiliereTestContratCadreWS();
+		case "TEST_CC_WS" : return new FiliereTestContratCadreWS();
 	    default : return Filiere.LA_FILIERE;
 		}
 	}
