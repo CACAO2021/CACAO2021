@@ -2,8 +2,10 @@ package abstraction.eq5Transformateur3;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -14,7 +16,7 @@ public class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne;
+	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation;
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -29,6 +31,7 @@ public class Transformateur3Acteur implements IActeur {
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
+		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 	}
 
 	public String getNom() {
@@ -79,6 +82,7 @@ public class Transformateur3Acteur implements IActeur {
 		res.add(stock_min_confiserie);
 		res.add(stock_min_tablettes_HBE);
 		res.add(stock_min_tablettes_moyenne);
+		res.add(coefficient_transformation);
 		return res;
 	}
 
@@ -106,7 +110,6 @@ public class Transformateur3Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
-
 
 }
 
