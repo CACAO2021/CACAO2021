@@ -15,17 +15,23 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 	
 	protected Map<ChocolatDeMarque, Variable> stock;
 	protected Map<ChocolatDeMarque, Double> prix;
-
+	protected Map<ChocolatDeMarque,Variable> stockTG;
 
 	
 	public Stocks() {
 		this.stock=new HashMap<ChocolatDeMarque, Variable>();
 		this.prix=new HashMap<ChocolatDeMarque, Double>();
+		this.stockTG=new HashMap<ChocolatDeMarque, Variable>();
 	}
 	
-	public void ajouterStock(Object produit, double quantite) {
+	public void ajouterStock(Object produit, double quantite, boolean tg) {
 		//peut-etre que caster produit en ChocolatDeMarque va faire une erreur, il faudrait mettre des verifications ou le caster avant d'utiliser cette methode
-		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
+		//si tg==true alors on ajoute le produit en tête de gondole, sinon simplement en rayon
+		if (tg) {
+			stockTG.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
+		}else {
+			stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
+		}
 	}
 
 	/*@Override
