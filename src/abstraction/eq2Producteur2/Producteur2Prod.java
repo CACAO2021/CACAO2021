@@ -76,7 +76,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	
 	private void coutProd(double qtt, Object p) {
-		double cout = coutProdUnitaire(p) * qtt / 100000;
+		double cout = coutProdUnitaire(p) * qtt;
 		perdreArgent(cout);
 	}
 	
