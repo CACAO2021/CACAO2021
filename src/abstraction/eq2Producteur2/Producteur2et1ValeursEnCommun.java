@@ -19,7 +19,7 @@ public class Producteur2et1ValeursEnCommun {
 	//production par tour par arbre 
 	protected int PROD_HBE = 6;
 	protected int PROD_HE = 6;
-	protected int PROD_ME = 6;
+	protected int PROD_ME = 6; 
 	protected int PROD_M = 6;
 	protected int PROD_B = 6;
 	
