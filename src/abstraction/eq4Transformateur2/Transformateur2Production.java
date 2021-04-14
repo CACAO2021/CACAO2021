@@ -4,11 +4,7 @@ import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
-<<<<<<< HEAD
-//Antoine C
-=======
-// Antoine C & Antoine R
->>>>>>> branch 'master' of https://github.com/Romaric-Moyeuvre/CACAO2021
+//Antoine C & Antoine R
 
 public class Transformateur2Production extends Transformateur2Stock {
 
