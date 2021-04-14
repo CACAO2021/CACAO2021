@@ -10,6 +10,7 @@ public class Transformateur2Production extends Transformateur2Stock {
 
 	public Transformateur2Production() {
 		super();
+		
 	}
 	
 	public void transformation_feve(double quantite, Object o) {
