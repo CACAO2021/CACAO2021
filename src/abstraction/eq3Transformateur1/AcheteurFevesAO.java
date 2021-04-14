@@ -80,19 +80,20 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	}
 	
 	public OffreAchatFeves getOffreAchat() {
-		double quantite = null ;
+		double quantite = 0 ;
 		OffreAchatFeves result = new OffreAchatFeves(this, feve, quantite );
-		if (qMin )
-		if (qMax<) {
+		if (qMin<0 ) {
+			return null;
+		}
+		if (qMax<0) {
 			quantite = qMax ;
 		} else {
-			quantite  = ;
+			quantite  = 0;
 		
 			this.journalAcheteur.ajouter("Offre d'achat = "+result);
 			return result;
-		} else {
-			this.journalAcheteur.ajouter("pas d'offre d'achat");
-			return null;
+			// his.journalAcheteur.ajouter("pas d'offre d'achat");
+			//return null;
 		}
 	}
 	
