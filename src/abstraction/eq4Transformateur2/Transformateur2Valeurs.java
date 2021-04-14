@@ -3,8 +3,10 @@ package abstraction.eq4Transformateur2;
 import abstraction.fourni.Journal;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
 
@@ -13,6 +15,7 @@ public class Transformateur2Valeurs {
 	public Transformateur2Valeurs() {
 	}
 
+	protected LinkedList<ExemplaireContratCadre> contrats;
 	protected int cryptogramme;
 	protected Journal journal;
 	
