@@ -20,11 +20,13 @@ public class Transformation {
 			a.getStocks().get(f).removeQuantite(quantite);
 			a.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
 			a.perteargent(0.5*quantite);
-		}
+			a.getJournal(1).ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
+			}
 		if (f.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
 			a.getStocks().get(f).removeQuantite(quantite);
 			a.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).addQuantite(quantite);
 			a.perteargent(0.5*quantite);
+			a.getJournal(1).ajouter(quantite + " kg de fèves de moyenne qualité équitable ont été transformés en " + quantite + "kg de poudre de moyenne qualité équitable ");
 		}
 		
 	}
@@ -44,5 +46,7 @@ public class Transformation {
 		this.Transformation_Feve_Quantite(Feve.FEVE_MOYENNE_EQUITABLE,q_p_m_e, a);
 		this.Transformation_Feve_Quantite(Feve.FEVE_MOYENNE, m_q_p_m, a);
 	}
+	
+	
 
 }

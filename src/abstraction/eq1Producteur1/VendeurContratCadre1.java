@@ -23,7 +23,7 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	protected Object produit;
 	protected Journal journal;
 	protected SuperviseurVentesContratCadre supCCadre;
-	protected List<ExemplaireContratCadre> mesCC;
+	protected List<ExemplaireContratCadre> mesCC; 
 	
 
 	/**
@@ -185,24 +185,28 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 * @author arthurlemgit
 	 * Retourne la quantité de produit livré et met à jour le stock, selon le type de produit.
 	 * On livre ici systématiquement la quantité maximale qu'on puisse. 
+	 * @author lebra seulement pour les journaux
 	 */
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		if ((produit instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE))) {
 			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				stocks.get(produit).removeQuantite(livre);
+				journaux.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
 				}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
 			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				stocks.get(produit).removeQuantite(livre);
+				journaux.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
 			}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
 			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				stocks.get(produit).removeQuantite(livre);
+				journaux.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
 			}
 			return livre;
 		}
