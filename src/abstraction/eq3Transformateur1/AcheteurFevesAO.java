@@ -67,6 +67,13 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 
 
 
+	/**
+	 * @param qMax the qMax to set
+	 */
+	public void setqMax(double qMax) {
+		this.qMax = qMax;
+	}
+
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		if (superviseur!=null) { // Personne ne peut creer un second Superviseur --> il s'agit bien de l'unique superviseur et on peut lui faire confiance
 			return cryptogramme;
@@ -81,21 +88,36 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	
 	public OffreAchatFeves getOffreAchat() {
 		double quantite = 0 ;
-		OffreAchatFeves result = new OffreAchatFeves(this, feve, quantite );
-		if (qMin<0 ) {
-			return null;
+		double prixestime = 0 ;
+		OffreAchatFeves result = null;
+		if (qMin< this.getStock().stockRestant()) {
+			quantite = 0;
+			this.journalAcheteur.ajouter("pas d'offre d'achat");
+			return result; 
 		}
-		if (qMax<0) {
+		if (qMax<this.getStock().stockRestant()) {
 			quantite = qMax ;
-		} else {
-			quantite  = 0;
-		
-			this.journalAcheteur.ajouter("Offre d'achat = "+result);
+			result = new OffreAchatFeves(this, feve, quantite );
+			this.journalAcheteur.ajouter("Offre d'achat = ");
 			return result;
-			// his.journalAcheteur.ajouter("pas d'offre d'achat");
-			//return null;
+		} else {
+			quantite = this.dichothomie();
+			result = new OffreAchatFeves(this, feve, quantite );
+			this.journalAcheteur.ajouter("Offre d'achat = ");
+			return result;
+		}
+	} 
+	
+	public double dichothomie(){
+		double m = (this.getqMin()+ this.getqMax())/2;
+		if (m>this.getStock().stockRestant()) {
+			this.setqMax(m);
+			return this.dichothomie();
+		} else {
+			return m;
 		}
 	}
+
 	
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
