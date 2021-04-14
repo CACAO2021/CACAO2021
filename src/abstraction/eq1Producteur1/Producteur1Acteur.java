@@ -113,6 +113,10 @@ public class Producteur1Acteur implements IActeur {
 		this.journaux.getJournal(3).ajouter(couleur, Color.black,"==== Journal des ventes par contrat cadre ===");
 	}
 	
+	public void payerProducteurs() {
+		
+	}
+	
 	protected HashMap<Object, Stock> getStocks() {
 		return stocks;
 	}
@@ -139,7 +143,7 @@ public class Producteur1Acteur implements IActeur {
 		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
-		this.perteargent(500);//Coûts fixes
+		this.payerProducteurs(); // coût proportionel à la qualité et à la quantité de fèves produites
 		this.transformation.Transformation_Feve(this);
 	}
 
