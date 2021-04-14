@@ -68,7 +68,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	public void prod() {
 		for (Object p : listeProd) {
 			double qtt = prodParStep(p);
-			addStock(qtt, p);
+			addStock(qtt, p); 
 			JournalProd.ajouter(""+ p +" "+qtt);	
 			coutProd(qtt, p);
 			majStock(p);
