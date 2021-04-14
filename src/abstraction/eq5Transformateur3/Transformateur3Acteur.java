@@ -19,14 +19,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-<<<<<<< HEAD
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie;
-=======
-	
-	protected Variable prix_min_vente_MG;
-	protected Variable prix_min_vente_EQ;
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne;
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
+	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, prix_min_vente_MG, prix_min_vente_EQ;
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -43,14 +36,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
 		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 2000);
 	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 2500);
-		
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
-<<<<<<< HEAD
-=======
-		this.pourcentage_tablette_moyenne = new Variable("Pourcentage de fèves de gamme moyenne transformées en tablettes", this, 0.8);
-
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 	}
 
 	public String getNom() {
@@ -109,7 +96,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
-<<<<<<< HEAD
+
 		res.add(prix_max_fèves);
 		res.add(stock_min_feves);
 		res.add(stock_min_confiserie);
@@ -117,15 +104,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		res.add(stock_min_tablettes_moyenne);
 		res.add(coefficient_transformation);
 		res.add(pourcentage_confiserie);
-=======
-		res.add(this.prix_max_fèves);
-		res.add(this.stock_min_feves);
-		res.add(this.stock_min_confiserie);
-		res.add(this.stock_min_tablettes_HBE);
-		res.add(this.stock_min_tablettes_moyenne);
 		res.add(this.prix_min_vente_MG);
 		res.add(this.prix_min_vente_EQ);
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 		return res;
 	}
 
