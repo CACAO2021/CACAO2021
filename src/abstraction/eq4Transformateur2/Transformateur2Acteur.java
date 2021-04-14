@@ -18,6 +18,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 
 	public Transformateur2Acteur() {
 		super();
+		this.journal = new Journal(this.getNom(), this);
 	}
 
 	public void initialiser() {
@@ -35,7 +36,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		return new Color(155, 89, 182);
 	}
 	
-
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
 	}
@@ -54,7 +54,9 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	}
 
 	public Filiere getFiliere(String nom) {
-		return null;
+		switch (nom) {
+		default : return null;
+		}
 	}
 	
 	public List<Variable> getIndicateurs() {
@@ -71,13 +73,14 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	
 	public List<Variable> getParametres() {
 		// on choisit les paramètres qui seront pris en compte à l'initialisation de la filière
-		//List<Variable> res=new ArrayList<Variable>();
-		return null; 
+		List<Variable> res=new ArrayList<Variable>();
+		return res; 
 	}
 
 	public List<Journal> getJournaux() {
 		// pas très utile à notre stade
 		List<Journal> res=new ArrayList<Journal>();
+		res.add(journal);
 		return res;
 	}
 
