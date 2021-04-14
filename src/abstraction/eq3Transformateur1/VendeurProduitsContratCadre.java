@@ -1,6 +1,6 @@
 package abstraction.eq3Transformateur1;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
@@ -52,7 +52,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
 		this.journalVendeur.ajouter("Offre de vente : "+contrat);
-		this.mesContratEnTantQueVendeur.add(contrat);
+		this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
 		
 	}
 	

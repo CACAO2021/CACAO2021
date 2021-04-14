@@ -143,8 +143,8 @@ public class Business {
 		}
 	}
 	
-	public List<ExemplaireContratCadre> getmesContratEnTantQueVendeur() {
-		return this.mesContratEnTantQueVendeur;
+	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {
+		this.mesContratEnTantQueVendeur.add(contrat);
 	}
 	
 	public void MiseAJourContratVente() {
@@ -157,11 +157,6 @@ public class Business {
 		this.mesContratEnTantQueVendeur = ContratValide;
 	}
 
-	
-	
-	
-	
-	
 	
 	
 	
