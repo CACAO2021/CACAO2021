@@ -117,6 +117,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+e.toString());
 			return e;	
 		}
+		//Quantité comprise entre 0.9 * quantité voulue et 1.1 * quantité voulue : ok
 		else {
 			return e;
 		}
