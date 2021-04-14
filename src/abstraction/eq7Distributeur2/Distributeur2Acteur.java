@@ -212,6 +212,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
+		System.out.println(this.catalogue);
 		return this.catalogue;
 	}
 
@@ -227,6 +228,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
+		//System.out.println(this.stocks.getQuantiteChocoEnTG(choco));
 		return this.stocks.getQuantiteChocoEnTG(choco);
 	}
 

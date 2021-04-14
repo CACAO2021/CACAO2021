@@ -200,6 +200,7 @@ public class ClientFinal implements IActeur {
 			List<IDistributeurChocolatDeMarque> distribs = this.distributeursParChocolat.get(choco);
 			ArrayList<Double>prix = new ArrayList<Double>();
 			for (IDistributeurChocolatDeMarque distri : distribs) {
+				System.out.println(distri.quantiteEnVente(choco));
 				if (distri.quantiteEnVente(choco)>0.0) { // On ne tient pas compte du prix si il n'en met pas en vente
 					this.journalPrix.ajouter(" "+distri.getNom()+" vend "+choco.name()+" au prix de "+Journal.doubleSur(distri.prix(choco), 4));
 					prix.add(distri.prix(choco));
