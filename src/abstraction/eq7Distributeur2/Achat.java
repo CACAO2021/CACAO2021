@@ -20,7 +20,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private HashMap<ChocolatDeMarque, Variable> quantiteMax;
 	private LinkedList<ExemplaireContratCadre> contrats;
 	private SuperviseurVentesContratCadre supCCadre;
-	private HashMap<ChocolatDeMarque, Variable> quantiteLimite; 
+	private HashMap<ChocolatDeMarque, Variable> quantiteLimite;
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -28,6 +28,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public Color newContratColor = Color.GREEN;
 	public Color newPropositionColor = Color.ORANGE;
 	public Color descriptionColor = Color.YELLOW;
+	public double test2;
 	
 	
 
