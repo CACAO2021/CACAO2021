@@ -149,12 +149,17 @@ public class Business {
 	
 	public void MiseAJourContratVente() {
 		ArrayList<ExemplaireContratCadre> ContratValide = new ArrayList<ExemplaireContratCadre>() ;
+		List<ExemplaireContratCadre> Liste = this.mesContratEnTantQueVendeur;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
 			if(contrat.getEcheancier().getStepFin() < Filiere.LA_FILIERE.getEtape()) {
 				ContratValide.add(contrat);
 			}
 		}
 		this.mesContratEnTantQueVendeur = ContratValide;
+		Liste.removeAll(ContratValide);
+		for(ExemplaireContratCadre contratobselete : Liste ) {
+			this.getStock().getActeur().journalVendeur.ajouter("Contrat terminé :"+contratobselete);;
+		}
 	}
 
 	
