@@ -1,19 +1,22 @@
 package abstraction.eq2Producteur2;
 
 
-
-public class Producteur2 extends Producteur2VeudeurFeveCC {
+public class Producteur2 extends Producteur2Param  {
 
 	public Producteur2() {
-		super();
+		super();		
+	}
+	
+	public void initialiser() {
+		initJournaux();
 	}
 	
 	public void next() {
-		System.out.println("next");
-		verifPeremption();
+		majJournaux();
 		prod();
 		transfo();
 		renouvellement();
-		coutTotDuStep(); 
+		coutTotDuStep();	
+		verifPeremption();
 	}
 }

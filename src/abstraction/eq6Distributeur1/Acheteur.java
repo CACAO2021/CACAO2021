@@ -38,7 +38,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		ajouterStock(produit, quantite);
+		ajouterStock(produit, quantite,contrat.getTeteGondole());
 		JournalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
 		
 	}

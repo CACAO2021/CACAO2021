@@ -13,6 +13,8 @@ public class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO
 	private static double PRIX_P_F_M=1.05;//prix plancher en €/kg des fèves moyenne qualité non équitable.
 	private static double PRIX_P_F_B=0.91;//idem pour les fèves basse qualité non équitable.
 	private static double PAS_DE_NEGO=0.1;//Pas de négociationen  €/kg
+	private Producteur1Acteur a;
+	
 	/**
 	 * @author Alb1x
 	 * Par appel d'offres on vend les fèves non équitables
@@ -55,6 +57,7 @@ public class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO
 
 	/**
 	 * @author Alb1x
+	 * @author lebra seulement pour les journaux
 	 */
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		List<VenteAO> hist=this.historiques.get(proposition.getFeve()); 
@@ -62,6 +65,7 @@ public class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO
 		hist.get(hist.size()-1).set_prixVente(proposition.getMontant());
 
 		this.stocks.get(proposition.getFeve()).removeQuantite(proposition.getQuantiteKg());//on retire les fèves vendues de notre stock.
+		journaux.getJournal(2).ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
 	}
 
 }

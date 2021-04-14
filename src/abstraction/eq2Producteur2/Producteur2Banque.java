@@ -1,6 +1,8 @@
 package abstraction.eq2Producteur2;
 
-public class Producteur2Banque extends Producteur2Prod {
+import abstraction.fourni.Filiere;
+
+public class Producteur2Banque extends Producteur2VeudeurFeveCC {
 
 	public Producteur2Banque() {
 		super();
@@ -12,5 +14,18 @@ public class Producteur2Banque extends Producteur2Prod {
 		// cout stockage
 		return cout;
 	}
+	
+	public void perdreArgent(double montant) {
+		Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
+	}
+	
+	/*
+	 * protected void perteargent(double quantite) {
+		if (quantite>0) {
+			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		}
+	}
+	 */
 
+	
 }
