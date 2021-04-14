@@ -113,10 +113,6 @@ public class Producteur1Acteur implements IActeur {
 		this.journaux.getJournal(3).ajouter(couleur, Color.black,"==== Journal des ventes par contrat cadre ===");
 	}
 	
-	public void payerProducteurs() {
-		
-	}
-	
 	protected HashMap<Object, Stock> getStocks() {
 		return stocks;
 	}
