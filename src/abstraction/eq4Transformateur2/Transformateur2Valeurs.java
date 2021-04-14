@@ -9,12 +9,17 @@ import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
-
+//Antoine C
 public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
 	}
-
+	protected LinkedList<Double> echeancier_tablette_basse;
+	protected LinkedList<Double> echeancier_tablette_moyenne;
+	protected LinkedList<Double> echeancier_confiserie_basse;
+	protected LinkedList<Double> echeancier_confiserie_moyenne;
+	protected LinkedList<Double> echeancier_total;
+	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 	protected int cryptogramme;
 	protected Journal journal;
@@ -23,6 +28,8 @@ public class Transformateur2Valeurs {
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
+	protected double mini_stock_bas;
+	protected double mini_stock_moyen;
 	
 	//Production
 	

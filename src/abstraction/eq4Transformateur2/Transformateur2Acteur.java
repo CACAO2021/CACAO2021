@@ -101,4 +101,9 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
 
+	public void update_echeancier_total() {
+		for (int i=0;i<24;i++) {
+			echeancier_total.set(i, echeancier_tablette_basse.get(i) + echeancier_tablette_moyenne.get(i) + echeancier_confiserie_basse.get(i) + echeancier_confiserie_moyenne.get(i));
+		}
+	}
 }

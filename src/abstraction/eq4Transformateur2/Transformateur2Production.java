@@ -4,7 +4,7 @@ import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
-// Antoine C & Antoine R
+//Antoine C & Antoine R
 
 public class Transformateur2Production extends Transformateur2Stock {
 
