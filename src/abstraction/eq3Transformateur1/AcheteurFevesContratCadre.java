@@ -101,6 +101,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		if (produit instanceof Feve) {
 			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+"contrat.getNumero()",this,contrat.getPrix()));
+			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves ");
 		}
 	}
 
