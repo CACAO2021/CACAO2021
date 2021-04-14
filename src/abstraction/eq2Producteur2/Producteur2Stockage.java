@@ -72,6 +72,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			return stockFM;
 		}else if (estFeveB(produit)) {			
 			return stockFB;
+			
 		}else if (estPoudreHE(produit)) {
 			return stockPHE;
 		}else if (estPoudreM(produit)) {
@@ -85,33 +86,32 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		double stock = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.stockFeveHBE) {
-				stock += s.getQtt();
-				stockFHBE.setValeur(this, stock);
-			}
+				stock += s.getQtt();			
+			}stockFHBE.setValeur(this, stock);
 		}else if (estFeveHE(produit)) {			
 			for (Stock s : this.stockFeveHE) {
-				stock += s.getQtt();
-			}
+				stock += s.getQtt();				
+			}stockFHE.setValeur(this, stock);
 		}else if (estFeveME(produit)) {			
 			for (Stock s : this.stockFeveME) {
-				stock += s.getQtt();
-			}
+				stock += s.getQtt();				
+			}stockFME.setValeur(this, stock);
 		}else if (estFeveM(produit)) {			
 			for (Stock s : this.stockFeveM) {
-				stock += s.getQtt();
-			}
+				stock += s.getQtt();				
+			}stockFM.setValeur(this, stock);
 		}else if (estFeveB(produit)) {			
 			for (Stock s : this.stockFeveB) {
 				stock += s.getQtt();
-			}
+			}stockFB.setValeur(this, stock);
 		}else if (estPoudreHE(produit)) {
 			for (Stock s : this.stockPoudreHE) {
 				stock += s.getQtt();
-			}
+			}stockPHE.setValeur(this, stock);
 		}else if (estPoudreM(produit)) {
 			for (Stock s : this.stockPoudreM) {
 				stock += s.getQtt();
-			}
+			}stockPM.setValeur(this, stock);
 		}
 	}
 	
@@ -140,7 +140,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	public void verifPeremption() {
-		LinkedList<Stock> feveHBE = stockFeveHBE;
+		//LinkedList<Stock> feveHBE = stockFeveHBE;
 		return;
 	}
 

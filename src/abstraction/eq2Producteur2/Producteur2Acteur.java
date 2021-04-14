@@ -35,7 +35,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
-	}
+	} 
 	
 
 	public void next() {
