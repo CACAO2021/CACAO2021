@@ -51,6 +51,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/1.5  - wonka.quantiteEnVente(choco) );
 			quantiteMax.put(choco, quantite);
 		}
+		
 		this.majDemande();
 		this.nouveauContrat();
 	}
@@ -86,7 +87,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			if (vendeurs.size()!=0){
 				int i = (int) (Math.random()*vendeurs.size()) ;
 				IVendeurContratCadre vendeur = vendeurs.get(i);
-				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
 				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
 			}
