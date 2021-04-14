@@ -204,6 +204,10 @@ public class Stock {
 		}
 	}
 	
+	public double stockRestant() {
+		return 0.30*this.getActeur().STOCK_MAX - this.getStockFeves(); 
+	}
+	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
 		ArrayList<Variable> QuantitePrix = new ArrayList<>();
 		if (quantite.getValeur()+this.getStockChocolats(chocolat) >= 0) {
