@@ -20,7 +20,6 @@ public class Vente extends Transformateur2Stock implements IVendeurContratCadre 
 	public Vente(Object produit) {
 		super();
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
-		
 	}
 	
 	public boolean peutVendre(Object produit) {
