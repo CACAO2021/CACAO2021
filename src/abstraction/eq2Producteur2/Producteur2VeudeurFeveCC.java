@@ -16,7 +16,6 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 	public Producteur2VeudeurFeveCC() {
 		super();
 		this.mesContratsCC = new LinkedList<ExemplaireContratCadre>();
-		System.out.println("test");
 	}
 
 	@Override
@@ -178,7 +177,7 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 		// garder en mémoire la production future a assumer
 		contrat.getQuantiteTotale(); // va falloir produire ca
 		contrat.getEcheancier().getStepFin(); // dernier step ou on doit fournir
-		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur());
+		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur().getNom());
 	}
 
 	@Override
