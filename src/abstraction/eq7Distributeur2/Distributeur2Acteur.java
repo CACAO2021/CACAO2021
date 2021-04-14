@@ -146,12 +146,16 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
+		filieres.add("TEST_CC"); 
 		return(filieres);
 	}
 
 	// Renvoie une instance d'une filière d'après son nom
 	public Filiere getFiliere(String nom) {
-		return Filiere.LA_FILIERE;
+		switch (nom) { 
+		case "TEST_CC" : return new FiliereTestContratCadreWS();
+	    default : return Filiere.LA_FILIERE;
+		}
 	}
 
 	// Renvoie les indicateurs
