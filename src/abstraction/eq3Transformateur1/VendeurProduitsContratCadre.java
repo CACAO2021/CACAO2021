@@ -1,17 +1,18 @@
 package abstraction.eq3Transformateur1;
 
+
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
 public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
 	
-	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
@@ -51,14 +52,11 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
 		this.journalVendeur.ajouter("Offre de vente : "+contrat);
-		this.mesContratEnTantQueVendeur.add(contrat);
+		this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
 		
 	}
 	
-	public List<ExemplaireContratCadre> getmesContratEnTantQueVendeur() {
-		return mesContratEnTantQueVendeur;
-	}
-
+	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		double qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
