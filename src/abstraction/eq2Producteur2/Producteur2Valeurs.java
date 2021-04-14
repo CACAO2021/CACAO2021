@@ -5,7 +5,7 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
-public class Producteur2Valeurs {
+public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	public Producteur2Valeurs() {super();}
 	
 	
@@ -30,6 +30,9 @@ public class Producteur2Valeurs {
 	protected static double PRIX_ESPERE_FEVE_ME = PRIX_ESPERE_FEVE_M*1.2;
 	protected static double PRIX_ESPERE_FEVE_HE = 5;
 	protected static double PRIX_ESPERE_FEVE_HBE = PRIX_ESPERE_FEVE_HE*1.2;
+	
+	protected static double PRIX_ESPERE_POUDRE_HE = 0;// a fr
+	protected static double PRIX_ESPERE_POUDRE_M = 0;// a fr
 
 
 
@@ -38,44 +41,33 @@ public class Producteur2Valeurs {
 	protected static double PRIX_MIN_ACCEPTEE_FEVE_ME = PRIX_MIN_ACCEPTEE_FEVE_M*1.2;
 	protected static double PRIX_MIN_ACCEPTEE_FEVE_HE = 4;
 	protected static double PRIX_MIN_ACCEPTEE_FEVE_HBE = PRIX_MIN_ACCEPTEE_FEVE_HE*1.2;
-
-
+	
+	protected static double PRIX_MIN_ACCEPTEE_POUDRE_HE = 0;// a fr
+	protected static double PRIX_MIN_ACCEPTEE_POUDRE_M = 0; // a fr
 	
 	
 	protected static double DIF_ACCEPTEE_FEVE_HBE = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_HE = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_ME = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_M = 0.1;
-	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;
+	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;	
 	
-	
-	protected static double COUT_PRODUCTION_FEVE_B = 1.4;
-	protected static double COUT_PRODUCTION_FEVE_M = 2.3;
-	protected static double COUT_PRODUCTION_FEVE_ME = PRIX_MIN_ACCEPTEE_FEVE_M*1.2;
-	protected static double COUT_PRODUCTION_FEVE_HE = 3.7;
-	protected static double COUT_PRODUCTION_FEVE_HBE = PRIX_MIN_ACCEPTEE_FEVE_HE*1.2;
-	
-	
-	// partie production
-	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/6;
-	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/6;
-	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/6;
-	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/6;
-	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
+	protected static double DIF_ACCEPTEE_POUDRE_HE = 0.1;	
+	protected static double DIF_ACCEPTEE_POUDRE_M = 0.1;	
 
 	
-	protected int ARBRE_TPS_VIE_HBE = 40*48;
-	protected int ARBRE_TPS_VIE_HE = 40*48;
-	protected int ARBRE_TPS_VIE_ME=40*48;
-	protected int ARBRE_TPS_VIE_M=40*48;
-	protected int ARBRE_TPS_VIE_B=40*48;
+	//production_par_arbre_par_step
+	protected int production_par_arbre= 6/24;
 	
-	//production par tour par arbre 
-	protected int PROD_HBE = 6;
-	protected int PROD_HE = 6;
-	protected int PROD_ME = 6;
-	protected int PROD_M = 6;
-	protected int PROD_B = 6;
+	// partie production
+	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/100000/6;
+	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/100000/6;
+	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/100000/6;
+	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/100000/6;
+	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/100000/6; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
+
+	
+
 	
 	
 	// verification du type de produit
@@ -95,17 +87,6 @@ public class Producteur2Valeurs {
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
-	// partie transformation
-	protected double coefHE = 0.4; //(à affiner)
-	protected double coefM = 0.4;
-	protected double coefME = 0.4;
-	
-	protected int qteParStepHE = 1; //quantité que l'on peut transformer en un step
-	protected int qteParStepM = 1;
-	protected int qteParStepME = 1;
-	
-	protected double prixHEparKilo = 1; // coût de transformation d'un kilo de fèves en poudre
-	protected double prixMparKilo = 1;
-	protected double prixMEparKilo = 1;
+
 
 }

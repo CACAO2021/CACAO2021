@@ -10,13 +10,12 @@ public class Producteur2Banque extends Producteur2VeudeurFeveCC {
 
 	public double coutTotDuStep() { // cout a payer a ce step
 		double cout = 0;
-		// cout prod (salaire, replanter, ...)
 		// cout stockage
 		return cout;
 	}
 	
 	public void perdreArgent(double montant) {
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
+		Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
 	}
 
 	
