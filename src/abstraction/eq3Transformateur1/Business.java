@@ -110,7 +110,7 @@ public class Business {
 		return quantite*this.getStock().prixDeVenteKG(chocolat);
 	}
 	
-	public boolean sommeNousVendeur(Object produit) {
+	public boolean sommesNousVendeur(Object produit) {
 		return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
 	}
 	
