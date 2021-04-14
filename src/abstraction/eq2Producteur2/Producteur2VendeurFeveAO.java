@@ -63,6 +63,8 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	 
 	 */
 	public void notifierVente(PropositionVenteFevesAO proposition) {
+		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur() + " qtt = " + proposition.getQuantiteKg() + proposition.getFeve()
+		+ " pour " + proposition.getPrixKG() + "euro");
 		this.mesContratsAOAcceptes.add(proposition);
 		
 	}
