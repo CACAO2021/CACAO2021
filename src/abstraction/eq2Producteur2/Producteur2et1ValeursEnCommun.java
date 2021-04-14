@@ -33,7 +33,7 @@ public class Producteur2et1ValeursEnCommun {
 	protected int qteParStepME = 1;
 	
 	protected double prixHEparKilo = 1; // coût de transformation d'un kilo de fèves en poudre
-	protected double prixMparKilo = 1;
+	protected double prixMparKilo = 1; // un seul coût: entretien des machines
 	protected double prixMEparKilo = 1;
 
 }
