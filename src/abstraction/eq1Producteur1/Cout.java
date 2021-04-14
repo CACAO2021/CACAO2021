@@ -1,6 +1,7 @@
 package abstraction.eq1Producteur1;
 
 import abstraction.eq2Producteur2.Producteur2et1ValeursEnCommun;
+import abstraction.eq8Romu.produits.Feve;
 
 /**
  * 
@@ -19,5 +20,16 @@ public class Cout extends Producteur2et1ValeursEnCommun {
 
 	public static void cout(Producteur1Acteur a){
 		Cout.PayerProducteurs(a);
+	}
+	
+/**
+ * 
+ * @param arthurlemgit
+ */
+	public void payerStockage(Producteur1Acteur a) {
+		double qte_stockee = a.getStocks().get(Feve.FEVE_BASSE).getQuantite()
+				+ a.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()
+				+ a.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite();
+		a.perteargent(qte_stockee*COUT_STOCKAGE_FEVE);
 	}
 }
