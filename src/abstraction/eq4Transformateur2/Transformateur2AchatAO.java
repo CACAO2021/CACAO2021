@@ -20,7 +20,9 @@ public class Transformateur2AchatAO extends Transformateur2Vente implements IAch
 	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
-		
+		if (get_stock(Feve.FEVE_BASSE) < 4*mini_stock) {
+			
+		}
 		return new OffreAchatFeves(this, Feve.FEVE_BASSE, (double) 1000);
 	}
 
