@@ -36,6 +36,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.quantiteLimite =  10; //arbitrairement choisie : pas descendre en dessous de cette quantité pour n'importe quel produit
 		this.quantiteMax = 40;//arbitrairement choisie : quantité max pour limiter les coûts de stockage
 		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		
 	}
 	public void next() {
@@ -67,6 +68,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
+	// il faut encore prendre en compte le chocolat qui sera reçu aux prochaines étapes A CODER !!!
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
@@ -107,19 +109,22 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		if(wonka.getAutorisationTransaction(prix)) {
-			//les comptes sont sufisant pour accepter le contrat tel quel, la contre proposition reste inchangée
+			//les comptes sont suffisants pour accepter le contrat tel quel, la contre proposition reste inchangée
 			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
+			contrats.add(contrat);
+			//on ajoute le contrat aux contrats signés
 			return contrat.getPrix();
 		}
 		else {
-			//on ne peut pas se permettre cette transaction, on diminue le prix jusqu'à avoir un contrat acceptable
+			//on ne peut pas se permettre cette transaction, on diminue le prix jusqu'à avoir un contrat acceptable ou à supprimer le contrat
 			return contrat.getPrix()*0.90;
 		}
 	}
-
+// Il faut ajouter les quantités de chocolat reçues par mois selon l'échéancier de chaque contrat, 
+// et non ajouter la quantité totale de chocolat du contrat dès la signature
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), contrat.getQuantiteTotale());
+		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), quantite);
 		
 	}
 

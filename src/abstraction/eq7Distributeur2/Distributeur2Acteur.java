@@ -1,5 +1,6 @@
 package abstraction.eq7Distributeur2;
 
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
+
 		parametres = new ArrayList<Variable>();
 		indicateurs = new ArrayList<Variable>();
 		montantMin = new Variable("Montant min sur compte bancaire",this, 10000);
+
 		
-	}
-	public int getCryptogramme() {
-		return this.cryptogramme;
+		
+		
 	}
 	
 	public void initialisationJournaux() {
@@ -68,8 +70,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journalCatalogue = new Journal("Catalogue [W&S]", this);
 		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
 		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
-		
+
 		journalStocks= new Journal("Registre des Stocks [W&S]", (IActeur)this);
+
 		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
 		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 
@@ -96,7 +99,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
 		}
 
-		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte
+		Filiere.LA_FILIERE.getBanque().creerCompte(this);
 		
 		this.stocks = new Stocks((Distributeur2)this);
 		this.achat = new Achat((Distributeur2)this);
@@ -114,12 +117,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void next() {
+		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 4);
+
 		this.stocks.next();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
 		this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
+
 		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
 		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
 			this.getMontantMin().setValeur(this, this.getSolde()/2);
@@ -130,6 +136,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		else {
 			this.getMontantMin().setValeur(this, this.getSolde()/1.5);
 		}
+
 		
 	}
 
@@ -204,7 +211,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 			return false;
 		}
 	}
-
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
 		return this.catalogue;
@@ -233,7 +239,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
+
 		this.journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));		
+
 	}
 
 	@Override
@@ -249,6 +257,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		choco.add(this.chocoProduit);
 		return choco;
 	}
+
 	
 	public void miseAjourDesIndicateurs() {
 		for (Variable indic : this.getIndicateurs()) {
@@ -262,5 +271,4 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		Filiere.LA_FILIERE.getBanque().virer(this, this.getCryptogramme(), Filiere.LA_FILIERE.getBanque(), cout);
 	}
 	
-
 }
