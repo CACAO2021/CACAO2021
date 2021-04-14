@@ -142,19 +142,21 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	public void vente(double qtt, Object produit) {
 		if (estFeveHBE(produit)) {
 			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockFeveHBE.get(0).setQtt((this.stockFeveHBE.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
-					q = qtt - this.stockFeveHBE.get(0).getQtt() ;
+					qtt -= this.stockFeveHBE.get(0).getQtt() ;
 					this.stockFeveHBE.remove(0);
 				}
 			}							
 		} else if (estFeveHE(produit)) {
 			double q = this.stockFeveHE.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockFeveHE.get(0).setQtt((this.stockFeveHE.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
 					q = qtt - this.stockFeveHE.get(0).getQtt() ;
 					this.stockFeveHE.remove(0);
@@ -162,9 +164,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			}		
 		}else if (estFeveME(produit)) {
 			double q = this.stockFeveME.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockFeveME.get(0).setQtt((this.stockFeveME.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
 					q = qtt - this.stockFeveME.get(0).getQtt() ;
 					this.stockFeveME.remove(0);
@@ -172,9 +175,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			}		
 		}else if (estFeveM(produit)) {
 			double q = this.stockFeveM.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockFeveM.get(0).setQtt((this.stockFeveM.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
 					q = qtt - this.stockFeveM.get(0).getQtt() ;
 					this.stockFeveM.remove(0);
@@ -182,9 +186,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			}		
 		}else if (estFeveB(produit)) {
 			double q = this.stockFeveB.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockFeveB.get(0).setQtt((this.stockFeveB.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
 					q = qtt - this.stockFeveB.get(0).getQtt() ;
 					this.stockFeveB.remove(0);
@@ -192,9 +197,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			}		
 		}else if (estPoudreHE(produit)) {
 			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockPoudreHE.get(0).setQtt((this.stockPoudreHE.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
 					q = qtt - this.stockPoudreHE.get(0).getQtt() ;
 					this.stockPoudreHE.remove(0);
@@ -202,9 +208,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			}		
 		}else if (estPoudreM(produit)) {
 			double q = this.stockPoudreM.get(0).getQtt() - qtt;
-			while(q>0) {
+			while(qtt>0) {
 				if (q>0) {
 					this.stockPoudreM.get(0).setQtt((this.stockPoudreM.get(0).getQtt() - qtt )) ;
+					qtt = 0;
 				} else {
 					q = qtt - this.stockPoudreM.get(0).getQtt() ;
 					this.stockPoudreM.remove(0);
