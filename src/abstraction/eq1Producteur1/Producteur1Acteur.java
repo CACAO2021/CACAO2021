@@ -14,6 +14,7 @@ import abstraction.fourni.Variable;
 
 public class Producteur1Acteur implements IActeur {
 	private int cryptogramme;
+	private Color couleur = new Color(26, 188, 156);
 	private Stock stock_F_M_E;
 	private Stock stock_F_M;
 	private Stock stock_F_B;
@@ -31,13 +32,14 @@ public class Producteur1Acteur implements IActeur {
 		this.init_stocks(this);
 		this.init_historiques();
 		this.step_actuel = 0;
-		this.journaux = new JournauxEq1();
-		
-
+		this.init_journaux();
+	}
+	
+	public Journal getJournal(int i) {
+		return journaux.getJournal(i);
 	}
 
 	public void initialiser() {
-		this.journaux.addJournal(3);
 		transformation = new Transformation();
 
 	}
@@ -88,11 +90,27 @@ public class Producteur1Acteur implements IActeur {
 	}
 	/**
 	 * @author Alb1x
+	 * @author lebra pour l'ajout dans le journal
 	 */
 	private void produireFeve() {
 		this.stocks.get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
 		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(67500000);
 		this.stocks.get(Feve.FEVE_BASSE).addQuantite(60000000);
+		this.journaux.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
+		this.journaux.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
+		this.journaux.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
+	}
+	
+	private void init_journaux() {
+		this.journaux = new JournauxEq1();
+		this.journaux.addJournal("Ghanao Production", this);
+		this.journaux.getJournal(0).ajouter(couleur, Color.black, "==== Journal de la production ===");
+		this.journaux.addJournal("Ghanao Transformation", this);
+		this.journaux.getJournal(1).ajouter(couleur, Color.black,"==== Journal de la transformation ===");
+		this.journaux.addJournal("Ghanao VenteAO", this);
+		this.journaux.getJournal(2).ajouter(couleur, Color.black,"==== Journal des ventes par offre d'achat ===");
+		this.journaux.addJournal("Ghanao VenteContratCadre", this);
+		this.journaux.getJournal(3).ajouter(couleur, Color.black,"==== Journal des ventes par contrat cadre ===");
 	}
 	
 	protected HashMap<Object, Stock> getStocks() {
@@ -108,7 +126,7 @@ public class Producteur1Acteur implements IActeur {
 	}
 
 	public Color getColor() {
-		return new Color(26, 188, 156);
+		return couleur;
 	}
 
 
