@@ -128,17 +128,24 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
-		if(wonka.getAutorisationTransaction(prix)) {
+		//On compare le prix d'achat par rapport au prix d'achat moyen de ce produit : si trop différent on demande moins cher
+		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
+		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape());
+		
+		if((ancienPrix * 1.10 <= prix && ancienPrix != 0 )|| !wonka.getAutorisationTransaction(prix)) {
+			return contrat.getPrix()*0.90;
+		}
+		
+		else {
 			//les comptes sont suffisants pour accepter le contrat tel quel, la contre proposition reste inchangée
+			//De plus, la proposition est convenable par rapport au prix moyen du produit : on achète
 			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
 			contrats.add(contrat);
 			//on ajoute le contrat aux contrats signés
 			return contrat.getPrix();
 		}
-		else {
-			//on ne peut pas se permettre cette transaction, on diminue le prix jusqu'à avoir un contrat acceptable ou à supprimer le contrat
-			return contrat.getPrix()*0.90;
-		}
+
+		
 	}
 // Il faut ajouter les quantités de chocolat reçues par mois selon l'échéancier de chaque contrat, 
 // et non ajouter la quantité totale de chocolat du contrat dès la signature
