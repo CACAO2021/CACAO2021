@@ -42,6 +42,10 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		initCatalogue();
 		initPrix();
 	}
+	
+	public void initCatalogue() {
+		
+	}
 
 	public void initPrix() {
 		for(ChocolatDeMarque choco : stock.keySet()) {
