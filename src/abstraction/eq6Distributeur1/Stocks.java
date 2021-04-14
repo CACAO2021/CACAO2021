@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Variable;
@@ -32,22 +34,68 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 			stockTG.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
 		}
 		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
-		
+
 	}
-	
+
 	public void initialiser() {
 		super.initialiser();
 		initCatalogue();
+		initPrix();
 	}
-	
+
 	public void initCatalogue() {
-		
+
 	}
-	
+
 	public void initPrix() {
 		for(ChocolatDeMarque choco : stock.keySet()) {
-			if() {
-				
+			if(choco.getCategorie()==Categorie.TABLETTE) {
+				if(choco.getGamme()==Gamme.HAUTE) {
+					prix.put(choco, 2.0);
+				} else if (choco.getGamme()==Gamme.MOYENNE) {
+					prix.put(choco, 1.5);
+				}else if (choco.getGamme()==Gamme.BASSE) {
+					prix.put(choco, 1.0);
+				}
+				if(choco.isEquitable()) {
+					prix.put(choco, prix.get(choco)*1.2);
+				}
+				if(choco.isBio()) {
+					prix.put(choco, prix.get(choco)*1.3);
+				}
+
+			}
+			if(choco.getCategorie()==Categorie.POUDRE) {
+				if(choco.getGamme()==Gamme.HAUTE) {
+					prix.put(choco, 2.0);
+				} else if (choco.getGamme()==Gamme.MOYENNE) {
+					prix.put(choco, 1.5);
+				}else if (choco.getGamme()==Gamme.BASSE) {
+					prix.put(choco, 1.0);
+				}
+				if(choco.isEquitable()) {
+					prix.put(choco, prix.get(choco)*1.2);
+				}
+				if(choco.isBio()) {
+					prix.put(choco, prix.get(choco)*1.3);
+				}
+
+			}
+			if(choco.getCategorie()==Categorie.CONFISERIE) {
+				if(choco.getGamme()==Gamme.HAUTE) {
+					prix.put(choco, 2.0);
+				} else if (choco.getGamme()==Gamme.MOYENNE) {
+					prix.put(choco, 1.5);
+				}else if (choco.getGamme()==Gamme.BASSE) {
+					prix.put(choco, 1.0);
+				}
+				if(choco.isEquitable()) {
+					prix.put(choco, prix.get(choco)*1.2);
+				}
+				if(choco.isBio()) {
+					prix.put(choco, prix.get(choco)*1.3);
+				}
+
 			}
 		}
 	}
@@ -62,35 +110,5 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 	
 
 	
-	
-	/*
-	 * En fait on achète que les marques des transformateurs donc pas besoin de specifer leur qualite, bio, etc,
-	 * tout ça est compris dans l'objet ChocolatDeMarque (pour voir comment il est défini la raccourci c'est ctl+click sur ChocolatDeMarque)
-	 * Il faudra juste reflechir a comment initialiser la Map qui definit tout ça vu qu'on connait pas les noms
-	 * des marques à l'avance a priori
-	 * 
-	protected int TABLETTE_HAUTE_BIO_EQUITABLE;
-	protected int TABLETTE_HAUTE_BIO;
-	protected int TABLETTE_HAUTE_EQUITABLE;
-	//protected int TABLETTE_HAUTE;
-	protected int TABLETTE_MOYENNE_EQUITABLE;
-	protected int TABLETTE_MOYENNE;
-	protected int TABLETTE_BASSE;
-	
-	protected int CONFISERIE_HAUTE_BIO_EQUITABLE;
-	//protected int CONFISERIE_HAUTE_BIO;
-	protected int CONFISERIE_HAUTE_EQUITABLE;
-	//protected int CONFISERIE_HAUTE;
-	protected int CONFISERIE_MOYENNE_EQUITABLE;
-	protected int CONFISERIE_MOYENNE;
-	protected int CONFISERIE_BASSE;
-	
-	protected int POUDRE_HAUTE_BIO_EQUITABLE;
-	//protected int POUDRE_HAUTE_BIO;
-	//protected int POUDRE_HAUTE_EQUITABLE;
-	//protected int POUDRE_HAUTE;
-	protected int POUDRE_MOYENNE_EQUITABLE;
-	protected int POUDRE_MOYENNE;
-	protected int POUDRE_BASSE;*/
 	
 
