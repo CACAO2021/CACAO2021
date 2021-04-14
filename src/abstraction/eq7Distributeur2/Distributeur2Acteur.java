@@ -258,5 +258,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		}
 	}
 	
+	public void deduireUneSomme(double cout) {
+		Filiere.LA_FILIERE.getBanque().virer(this, this.getCryptogramme(), Filiere.LA_FILIERE.getBanque(), cout);
+	}
+	
 
 }
