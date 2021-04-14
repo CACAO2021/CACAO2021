@@ -100,7 +100,7 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		double p = 0;
 		double prixmin = propositions.get(0).getPrixKG();
 		if (propositions.size()>0) {
-			for (int i=0; col<propositions.size(); i++) {
+			for (int i=0; i<propositions.size(); i++) {
 				if (propositions.get(i).getPrixKG()<prixmin) {
 					p=i;
 					prixmin=propositions.get(i).getPrixKG();
