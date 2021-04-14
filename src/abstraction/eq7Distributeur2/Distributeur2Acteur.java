@@ -41,17 +41,12 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		parametres = new ArrayList<Variable>();
 		indicateurs = new ArrayList<Variable>();
 		montantMin = new Variable("Montant min sur compte bancaire",this, 10000);
-
-		
-<<<<<<< HEAD
 	}
+		
+
 	public int getCryptogramme() {
-		//tesst
 		return this.cryptogramme;
-=======
-		
-		
->>>>>>> branch 'master' of https://github.com/Elio-Granger/CACAO2021
+
 	}
 	
 	public void initialisationJournaux() {
