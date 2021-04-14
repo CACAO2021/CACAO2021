@@ -144,47 +144,23 @@ public class Business {
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {
 		this.mesContratEnTantQueVendeur.add(contrat);
+		this.getStock().getActeur().journalVendeur.ajouter("Nouveau Contrat :"+contrat);
 	}
 	
-	public void MiseAJourContratVente() {
-		ArrayList<ExemplaireContratCadre> ContratValide = new ArrayList<ExemplaireContratCadre>() ;
-		List<ExemplaireContratCadre> Liste = this.mesContratEnTantQueVendeur;
+	public void miseAJourContratVendeur() {
+		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
-			if(contrat.getEcheancier().getStepFin() < Filiere.LA_FILIERE.getEtape()) {
-				ContratValide.add(contrat);
+			if(contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
+				contratsObsoletes.add(contrat);
 			}
 		}
-		this.mesContratEnTantQueVendeur = ContratValide;
-		Liste.removeAll(ContratValide);
-		for(ExemplaireContratCadre contratobselete : Liste ) {
-			this.getStock().getActeur().journalVendeur.ajouter("Contrat terminé :"+contratobselete);;
+		this.mesContratEnTantQueVendeur.removeAll(contratsObsoletes);
+		for(ExemplaireContratCadre contratobselete : contratsObsoletes ) {
+			this.getStock().getActeur().journalVendeur.ajouter("Contrat terminé :"+contratobselete);
 		}
 	}
 	
-	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
-		this.mesContratEnTantQueAcheteur.add(contrat);
-	}
-	
-	public void MiseAJourContratAchat() {
-		ArrayList<ExemplaireContratCadre> ContratValide = new ArrayList<ExemplaireContratCadre>() ;
-		List<ExemplaireContratCadre> Liste = this.mesContratEnTantQueAcheteur;
-		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueAcheteur) {
-			if(contrat.getEcheancier().getStepFin() < Filiere.LA_FILIERE.getEtape()) {
-				ContratValide.add(contrat);
-			}
-		}
-		this.mesContratEnTantQueAcheteur = ContratValide;
-		Liste.removeAll(ContratValide);
-		for(ExemplaireContratCadre contratobselete : Liste ) {
-			this.getStock().getActeur().journalAcheteur.ajouter("Contrat terminé :"+contratobselete);;
-		}
-	}
-
-	
-	
-	
-	
-	
+		
 	
 	
 	

@@ -22,8 +22,6 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	
 	protected SuperviseurVentesContratCadre supCCadre;
-
-	protected Variable stock;
 	protected Object produit;
 	protected List<ExemplaireContratCadre> mesContratEnTantQuAcheteur;
 
@@ -34,6 +32,26 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	
 	public List<ExemplaireContratCadre> getContractsCadres() {
 		return this.mesContratEnTantQuAcheteur;
+	}
+	
+	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
+		this.mesContratEnTantQuAcheteur.add(contrat);
+		this.getStock().getActeur().journalAcheteur.ajouter("Nouveau contrat :"+contrat);
+	}
+	
+	
+	
+	public void miseAJourContratAchat() {
+		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
+		for(ExemplaireContratCadre contrat : this.mesContratEnTantQuAcheteur) {
+			if(contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
+				contratsObsoletes.add(contrat);
+			}
+		}
+		this.mesContratEnTantQuAcheteur.removeAll(contratsObsoletes);
+		for(ExemplaireContratCadre contratobselete : contratsObsoletes ) {
+			this.getStock().getActeur().journalAcheteur.ajouter("Contrat terminé :"+contratobselete);
+		}
 	}
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
@@ -56,26 +74,19 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 		}
 	}
-	public void next() {
-		// On enleve les contrats obsoletes (nous pourrions vouloir les conserver pour "archive"...)
-		List<ExemplaireContratCadre> contratsObsoletes=new LinkedList<ExemplaireContratCadre>();
-		for (ExemplaireContratCadre contrat : this.mesContratEnTantQuAcheteur) {
-			if (contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
-				contratsObsoletes.add(contrat);
-			}
-		}
-		this.mesContratEnTantQuAcheteur.removeAll(contratsObsoletes);
+	public void nosDemandesCC() {
 		
-		// Proposition d'un nouveau contrat a tous les vendeurs possibles
-	
+		this.miseAJourContratAchat();
+		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
 		for  (Feve feve : this.nosFevesCC()) {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				boolean t = true;
 				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
 					Integer nomdreDeContratCadre = this.getContractsCadres().size();
-					supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, this.getQuantiteStep(feve)), cryptogramme, false);
-					if (nomdreDeContratCadre < this.getContractsCadres().size()) {
+					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, this.getQuantiteStep(feve)), cryptogramme, false);
+					if (contrat != null) {
 						t = false;
+						this.ajoutContratEnTantQueAcheteur(contrat);
 					}
 				}
 			}
