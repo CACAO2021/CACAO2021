@@ -233,35 +233,35 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		//LinkedList<Stock> feveHBE = stockFeveHBE;
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveHBE) {
-				if (st.getStep()>nbEtapeAvPeremption) {
+				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveHBE.remove(st);
 				}
 			}
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveHE) {
-				if (st.getStep()>nbEtapeAvPeremption) {
+				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveHE.remove(st);
 				}
 			}
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveME.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveME) {
-				if (st.getStep()>nbEtapeAvPeremption) {
+				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveME.remove(st);
 				}
 			}
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveM.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveM) {
-				if (st.getStep()>nbEtapeAvPeremption) {
+				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveM.remove(st);
 				}
 			}
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveB.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveB) {
-				if (st.getStep()>nbEtapeAvPeremption) {
+				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveB.remove(st);
 				}
 			}
