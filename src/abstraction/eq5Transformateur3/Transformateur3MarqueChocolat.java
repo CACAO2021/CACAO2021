@@ -8,7 +8,7 @@ import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 
 //Léna 
-public class Transformateur3MarqueChocolat extends Transformateur3Fabricant implements IMarqueChocolat {
+public abstract class Transformateur3MarqueChocolat extends Transformateur3Fabricant implements IMarqueChocolat {
 	
 	public List<String> getMarquesChocolat() {
 		List<String> marques = new LinkedList<String>();

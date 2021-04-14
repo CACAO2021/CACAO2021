@@ -2,21 +2,27 @@ package abstraction.eq5Transformateur3;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import abstraction.eq8Romu.produits.Chocolat;
+
+import abstraction.eq8Romu.produits.Feve;
 
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Transformateur3Acteur implements IActeur {
+public abstract class Transformateur3Acteur implements IActeur {
 	
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne;
+	
 	protected Variable prix_min_vente_MG;
 	protected Variable prix_min_vente_EQ;
+	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne;
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -34,6 +40,10 @@ public class Transformateur3Acteur implements IActeur {
 		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 2000);
 	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 2500);
 		
+		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
+		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
+		this.pourcentage_tablette_moyenne = new Variable("Pourcentage de fèves de gamme moyenne transformées en tablettes", this, 0.8);
+
 	}
 
 	public String getNom() {
@@ -56,6 +66,19 @@ public class Transformateur3Acteur implements IActeur {
 	}
 
 	public void next() {
+		int index = this.getIndicateurs().indexOf(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		Variable feve = this.getIndicateurs().get(index);
+		if(feve.getValeur()-100>0) { //garder au minimum 100kg
+			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, feve.getValeur()-100 ); //retirer le surplus de fèves 
+			this.ajouter(Chocolat.TABLETTE_HAUTE_EQUITABLE, (feve.getValeur()-100)*2.5); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+		}
+		index = this.getIndicateurs().indexOf(Feve.FEVE_MOYENNE);
+		feve = this.getIndicateurs().get(index);
+		if(feve.getValeur()-100>0) { //garder au minimum 100kg
+			this.retirer(Feve.FEVE_MOYENNE, feve.getValeur()-100 ); //retirer le surplus de fèves 
+			this.ajouter(Chocolat.TABLETTE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); }
+		
 	}
 
 	
@@ -86,6 +109,14 @@ public class Transformateur3Acteur implements IActeur {
 		res.add(this.stock_min_tablettes_moyenne);
 		res.add(this.prix_min_vente_MG);
 		res.add(this.prix_min_vente_EQ);
+		res.add(prix_max_fèves);
+		res.add(stock_min_feves);
+		res.add(stock_min_confiserie);
+		res.add(stock_min_tablettes_HBE);
+		res.add(stock_min_tablettes_moyenne);
+		res.add(coefficient_transformation);
+		res.add(pourcentage_confiserie);
+		res.add(pourcentage_tablette_moyenne);
 		return res;
 	}
 
@@ -113,7 +144,9 @@ public class Transformateur3Acteur implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
-
+	
+	public abstract void retirer(Feve feve, double delta);
+	public abstract void ajouter(Chocolat chocolat, double delta);
 
 }
 
