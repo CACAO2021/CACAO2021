@@ -43,6 +43,7 @@ public class Transformateur3Acteur implements IActeur {
 
 
 	public void initialiser() {
+		
 	}
 
 	public void next() {

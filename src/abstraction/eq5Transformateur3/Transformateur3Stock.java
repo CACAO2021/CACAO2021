@@ -1,7 +1,8 @@
 package abstraction.eq5Transformateur3;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
