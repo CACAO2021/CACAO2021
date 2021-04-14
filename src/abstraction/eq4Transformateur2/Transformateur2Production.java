@@ -4,6 +4,8 @@ import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
+//Antoine C
+
 public class Transformateur2Production extends Transformateur2Stock {
 
 	public Transformateur2Production() {

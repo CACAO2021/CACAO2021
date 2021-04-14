@@ -1,17 +1,15 @@
 package abstraction.eq4Transformateur2;
 
 import java.util.LinkedList;
-
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
-import abstraction.eq8Romu.produits.Feve;
-import abstraction.eq8Romu.produits.Beurre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.eq8Romu.produits.Categorie;
 
 
+//Abigaëlle
 
 public class Transformateur2Vente extends Transformateur2Production implements IVendeurContratCadre {
 	
