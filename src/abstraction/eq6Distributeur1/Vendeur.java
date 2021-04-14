@@ -7,6 +7,7 @@ import java.util.Set;
 
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.fourni.Banque;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
@@ -30,7 +31,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	@Override
 	public double quantiteEnVente(ChocolatDeMarque choco) {
 		if (choco!=null) {
-			return this.stock.get(choco).getValeur() + quantiteEnVenteTG(choco);
+			return this.stock.get(choco).getValeur();
 		}
 		else {
 			return 0;
@@ -49,8 +50,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
-		// TODO Auto-generated method stub
-		
+		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
+			this.ajouterStock(choco, -quantite, false);
+		}
 	}
 
 	@Override
