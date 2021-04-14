@@ -29,9 +29,9 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		//si tg==true alors on ajoute le produit en tête de gondole, sinon simplement en rayon
 		if (tg) {
 			stockTG.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
-		}else {
-			stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
 		}
+		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, quantite));
+		
 	}
 	
 	public void initPrix() {
