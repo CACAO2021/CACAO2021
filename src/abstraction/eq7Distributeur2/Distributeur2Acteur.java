@@ -133,8 +133,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		else {
 			this.getMontantMin().setValeur(this, this.getSolde()/1.5);
 		}
-
-		
 	}
 
 	
