@@ -57,7 +57,7 @@ public abstract class AbsDistributeur2 {
 		}
 		
 		public void initialiserMarges() {
-			ArrayList<double> valeurs = new ArrayList<>();
+			ArrayList<Double> valeurs = new ArrayList<>();
 			for(Chocolat noschocos : this.chocolatPropose) {
 			}
 		}
