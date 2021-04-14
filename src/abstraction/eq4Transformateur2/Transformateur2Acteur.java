@@ -72,8 +72,8 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	
 	public List<Variable> getParametres() {
 		// on choisit les paramètres qui seront pris en compte à l'initialisation de la filière
-		//List<Variable> res=new ArrayList<Variable>();
-		return null; 
+		List<Variable> res=new ArrayList<Variable>();
+		return res; 
 	}
 
 	public List<Journal> getJournaux() {
