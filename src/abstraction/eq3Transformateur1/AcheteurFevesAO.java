@@ -19,9 +19,7 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	protected double qMin, qMax;
 	
 
-	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;
-
-
+	private static double QUANTITE_MAX_FEVE = STOCK_MAX;
 
 
 	public AcheteurFevesAO(Feve feve, double prixMax, double qMin, double qMax) {
@@ -31,8 +29,43 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		this.qMin = qMin;
 		this.qMax = qMax;
 	}
-	
-	
+		
+	/**
+	 * @return the feve
+	 */
+	public Feve getFeve() {
+		return feve;
+	}
+
+
+
+	/**
+	 * @return the prixMax
+	 */
+	public double getPrixMax() {
+		return prixMax;
+	}
+
+
+
+	/**
+	 * @return the qMin
+	 */
+	public double getqMin() {
+		return qMin;
+	}
+
+
+
+	/**
+	 * @return the qMax
+	 */
+	public double getqMax() {
+		return qMax;
+	}
+
+
+
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		if (superviseur!=null) { // Personne ne peut creer un second Superviseur --> il s'agit bien de l'unique superviseur et on peut lui faire confiance
 			return cryptogramme;
@@ -45,17 +78,11 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		return this.getStock().getStockFeves(feve);
 	}
 	
-	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
-	private boolean notEnought(Feve f) {
-		return (getStockActuelFeve(f) <= QUANTITE_MAX_FEVE);
-		
-	}
-	
-	
-
 	public OffreAchatFeves getOffreAchat() {
-		OffreAchatFeves result = new OffreAchatFeves(this, feve.FEVE_MOYENNE, qMin+(Math.random()*(qMax-qMin)));
-		if (Math.random()<0.5) { // une chance sur 2
+		double quantite = (Double) null ;
+		OffreAchatFeves result = new OffreAchatFeves(this, feve, quantite );
+		 
+		if () { // une chance sur 2
 			this.journalAcheteur.ajouter("Offre d'achat = "+result);
 			return result;
 		} else {
@@ -70,10 +97,17 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	}
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
+		double p = 0;
+		double prixmin = propositions.get(0).getPrixKG();
 		if (propositions.size()>0) {
-			int hasard = (int)(Math.random()*propositions.size());
-			if (propositions.get(hasard).getPrixKG()<this.prixMax) {
-				return propositions.get(hasard);
+			for (int i=0; col<propositions.size(); i++) {
+				if (propositions.get(i).getPrixKG()<prixmin) {
+					p=i;
+					prixmin=propositions.get(i).getPrixKG();
+				}
+			}
+			if (prixmin<this.prixMax) {
+				return propositions.get(p);
 			}
 		}
 		return null;
