@@ -20,7 +20,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private double quantiteLimite, quantiteMax;
 	private LinkedList<ExemplaireContratCadre> contrats;
 	private SuperviseurVentesContratCadre supCCadre;
-	private HashMap<ChocolatDeMarque, Variable> quantiteSouhaitee; 
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -35,13 +34,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();
 		this.quantiteLimite =  10; //arbitrairement choisie : pas descendre en dessous de cette quantité pour n'importe quel produit
-		this.quantiteMax = 40;//arbitrairement choisie : quantité max pour limiter les coûts de stockage		
+		this.quantiteMax = 40;//arbitrairement choisie : quantité max pour limiter les coûts de stockage
 		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
-		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
-			Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, -12)/2  - wonka.quantiteEnVente(choco) - wonka.quantiteEnVenteTG(choco));
-			quantiteSouhaitee.put(choco, quantite);
-		}
 		
 	}
 	public void next() {
@@ -81,7 +76,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				int i = (int) (Math.random()*vendeurs.size()) ;
 				IVendeurContratCadre vendeur = vendeurs.get(i);
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
-				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, this.wonka.getCryptogramme(), false);
 				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
 			}
 		}
@@ -136,8 +131,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public SuperviseurVentesContratCadre getSupCCadre() {
 		return supCCadre;
 	}
-	
-
 
 
 

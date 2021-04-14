@@ -101,7 +101,6 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
 		}
 
-		Filiere.LA_FILIERE.getBanque().creerCompte(this);
 		
 		this.stocks = new Stocks((Distributeur2)this);
 		this.achat = new Achat((Distributeur2)this);
