@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstraction.eq8Romu.contratsCadres.Echeancier;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -36,9 +40,8 @@ public class Distributeur1Acteur implements IActeur {
 	}
 
 	public void next() {
-		// créer un contrat cadre qui mettra à jour la banque
-		// mettre à jour les stocks en fonction du contrat cadre
-		// simuler la vente => comprendre le client
+		
+		
 	}
 
 	

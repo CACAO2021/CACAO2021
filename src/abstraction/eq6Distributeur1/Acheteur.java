@@ -3,7 +3,11 @@ package abstraction.eq6Distributeur1;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 
 public class Acheteur extends Vendeur implements IAcheteurContratCadre {
@@ -12,7 +16,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	
 	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
 	
-	
+
 	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
@@ -21,6 +25,16 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2);// on propose d'acheter 2 fois plus si le vendeur n'est pas content. A modifier par la suite
 			return e;
 		
+	}
+
+	public void next() {
+		for (ChocolatDeMarque produit : ) {
+			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
+					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme);
+				}
+			}
+		}
 	}
 
 	@Override
