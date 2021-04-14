@@ -40,6 +40,10 @@ public class Producteur2et1ValeursEnCommun {
 	
 	
 	//cout renouvellment arbre
+	//Cacaotier durée de vie 40 ans, bonne culture à partir de 5 ans et rendement maximal à partir de 7 ans. 
 	protected int TPS_RENOUVELLEMENT_ARBRE=40*2;
+	protected int TPS_BON_RENDEMENT_ARBRE=5*2;
+	protected int TPS_RENDEMENT_MAX_ARBRE=7*2;
+	
 	
 }

@@ -98,7 +98,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void renouvellement() {
 		//  a faire plus tard 
-		perdreArgent(cout);
+		//TPS_RENOUVELLEMENT_ARBRE;
+		//perdreArgent(cout);
 	}
 	
 	private double prodParStep(Object p) {
