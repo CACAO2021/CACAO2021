@@ -8,6 +8,7 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
@@ -19,9 +20,7 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	protected double qMin, qMax;
 	
 
-	private static double QUANTITE_MAX_FEVE = STOCK_MAX*0.3;
-
-
+	private static double QUANTITE_MAX_FEVE = STOCK_MAX;
 
 
 	public AcheteurFevesAO(Feve feve, double prixMax, double qMin, double qMax) {
@@ -31,8 +30,43 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		this.qMin = qMin;
 		this.qMax = qMax;
 	}
-	
-	
+		
+	/**
+	 * @return the feve
+	 */
+	public Feve getFeve() {
+		return feve;
+	}
+
+
+
+	/**
+	 * @return the prixMax
+	 */
+	public double getPrixMax() {
+		return prixMax;
+	}
+
+
+
+	/**
+	 * @return the qMin
+	 */
+	public double getqMin() {
+		return qMin;
+	}
+
+
+
+	/**
+	 * @return the qMax
+	 */
+	public double getqMax() {
+		return qMax;
+	}
+
+
+
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		if (superviseur!=null) { // Personne ne peut creer un second Superviseur --> il s'agit bien de l'unique superviseur et on peut lui faire confiance
 			return cryptogramme;
@@ -45,22 +79,21 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		return this.getStock().getStockFeves(feve);
 	}
 	
-	// Renvoie l'information si notre stock actuel est compris entre notre intervalle de stock souhaité
-	private boolean notEnought(Feve f) {
-		return (getStockActuelFeve(f) <= QUANTITE_MAX_FEVE);
-		
-	}
-	
-	
-
 	public OffreAchatFeves getOffreAchat() {
-		OffreAchatFeves result = new OffreAchatFeves(this, feve.FEVE_MOYENNE, qMin+(Math.random()*(qMax-qMin)));
-		if (Math.random()<0.5) { // une chance sur 2
+		double quantite = 0 ;
+		OffreAchatFeves result = new OffreAchatFeves(this, feve, quantite );
+		if (qMin<0 ) {
+			return null;
+		}
+		if (qMax<0) {
+			quantite = qMax ;
+		} else {
+			quantite  = 0;
+		
 			this.journalAcheteur.ajouter("Offre d'achat = "+result);
 			return result;
-		} else {
-			this.journalAcheteur.ajouter("pas d'offre d'achat");
-			return null;
+			// his.journalAcheteur.ajouter("pas d'offre d'achat");
+			//return null;
 		}
 	}
 	
@@ -70,13 +103,24 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	}
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
+		int p = 0;
+		double prixmin = propositions.get(0).getPrixKG();
 		if (propositions.size()>0) {
-			int hasard = (int)(Math.random()*propositions.size());
-			if (propositions.get(hasard).getPrixKG()<this.prixMax) {
-				return propositions.get(hasard);
+			for (int i=0; i<propositions.size(); i++) {
+				if (propositions.get(i).getPrixKG()<prixmin) {
+					p=i;
+					prixmin=propositions.get(i).getPrixKG();
+				}
+			}
+			if (prixmin<this.prixMax) { 
+				if (this.getSolde()>prixmin) {
+					return propositions.get(p);
+			} else {
+				return null ;
 			}
 		}
-		return null;
+		return null ;
+		}
 	}
 
 	public void notifierVente(PropositionVenteFevesAO proposition) {
@@ -85,30 +129,5 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		this.getStock().setStockFeve(feve, quantite, prix);
 		this.journalAcheteur.ajouter("--> le stock de " + proposition.getFeve().toString() + "passe a "+Journal.doubleSur(this.getStock().getStockFeves(proposition.getFeve()), 4));
 	}
-
-	//	public double proposerAchat(LotCacaoCriee lot) {
-	//		double prix = this.prixCourant.get(lot.getFeve())*0.95; // on tente de payer un peu moins
-	//		double solde = Filiere.LA_FILIERE.getBanque().getSolde(this, cryptogramme);
-	//		if (solde>lot.getQuantiteEnTonnes()*prix) {
-	//			this.journal.ajouter("Propose "+Journal.doubleSur(prix,  4)+" pour "+Journal.texteColore(lot.getVendeur(), Journal.doubleSur(lot.getQuantiteEnTonnes(), 2)+" tonnes de "+lot.getFeve().name()));
-	//			return prix;
-	//		} else {
-	//			this.journal.ajouter("Ne souhaite pas acheter un lot de "+Journal.texteColore(lot.getVendeur(), Journal.doubleSur(lot.getQuantiteEnTonnes(), 2)+" tonnes de "+lot.getFeve().name()));
-	//			return 0.0;
-	//		}
-	//	}
-	//
-	//	public void notifierPropositionRefusee(PropositionCriee proposition) {
-	//		double nouveauPrix = Math.max(0.01,  this.prixCourant.get(proposition.getLot().getFeve())*1.02);
-	//		this.prixCourant.put(proposition.getLot().getFeve(), nouveauPrix);
-	//		this.journal.ajouter("Apprend que sa proposition de "+Journal.doubleSur(proposition.getPrixPourUneTonne(), 4)+" pour "+Journal.texteColore(proposition.getVendeur(), Journal.doubleSur(proposition.getQuantiteEnTonnes(), 2)+" tonnes de "+proposition.getFeve().name())+Journal.texteColore(Color.red, Color.white, " a ete refusee"));
-	//		this.journal.ajouter("--> augmente le prix de 2% --> "+Journal.doubleSur(nouveauPrix, 4));
-	//	}
-	//
-	//	public void notifierVente(PropositionCriee proposition) {
-	//		this.stocksFeves.put(proposition.getFeve(), this.stocksFeves.get(proposition.getFeve())+proposition.getQuantiteEnTonnes());
-	//		this.journal.ajouter("Apprend que sa proposition de "+Journal.doubleSur(proposition.getPrixPourUneTonne(), 4)+" pour "+Journal.texteColore(proposition.getVendeur(), Journal.doubleSur(proposition.getQuantiteEnTonnes(), 2)+" tonnes de "+proposition.getFeve().name())+Journal.texteColore(Color.green, Color.black," a ete acceptee"));
-	//		this.journal.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
-	//	}
 }
 

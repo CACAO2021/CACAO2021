@@ -11,7 +11,7 @@ import abstraction.fourni.Variable;
 
 public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
 
-
+	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
