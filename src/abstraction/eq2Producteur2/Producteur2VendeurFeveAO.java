@@ -10,6 +10,7 @@ import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 
 public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
@@ -21,6 +22,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	//nbOffres=nbOffres.SuperviseurVentesFevesAO;
 	public LinkedList<OffreAchatFeves> LAO;
 	double PAS_PRIX_STEP_HBE=(PRIX_ESPERE_FEVE_HBE-PRIX_MIN_ACCEPTEE_FEVE_HBE)/nbOffresMaxParStep;
+	int step = Filiere.LA_FILIERE.getEtape();
 
 	public Producteur2VendeurFeveAO() {
 		super();
@@ -33,11 +35,17 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	public double proposerPrix(OffreAchatFeves oa) {
 		Feve feveachetee=oa.getFeve();
 		
-	/**int nbOffres=nbOffres.get(acheteurs.get(acheteurCourant));*/
-	if( mesContratsAORefuses..conversion().contains(oa)) {
-		for(PropositionVenteFevesAO propVFAO:)
+	/**On cherche à récupérer le nombre de contre-propositions ayant eu lieu pour cet OA de fèves
+		for(PropositionVenteFevesAO propVFAO:mesContratsAORefuses) {
+			if (oa==propVFAO.getOffreAchateFeves()) {
+				
+				 On récupère la date d'émission de la proposition 
+				 int i = propVFAO.getNbStep()
+			
+			}
+		}
 	}
-	
+	*/
 	if ((feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()>oa.getQuantiteKG())) {
 		return PRIX_ESPERE_FEVE_HBE;
 	}
@@ -73,6 +81,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		this.mesContratsAOAcceptes.add(proposition);
+		
 	}
 	/**@author Maxime Boillot
 	  Sert à créer une liste des offres d'achat à partir des propositions

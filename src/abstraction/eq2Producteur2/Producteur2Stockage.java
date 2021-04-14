@@ -138,10 +138,50 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}
 		
 	}
-	
+	/**
+	 * @author Maxime Boillot
+	 * Pour chaque type de stock : HBE, HE, ME,M, B
+	 * Si le premier élément (celui qui est dans la liste depuis le plus longtemps=le plus vieux stock ) de la liste n'est pas périmé on nee fait rien 
+	 * Dans le cas inverse, on retire tous les léléments périmés de la liste en partant du plus vieux
+	 */
 	public void verifPeremption() {
 		//LinkedList<Stock> feveHBE = stockFeveHBE;
-		return;
+		if (this.stockFeveHBE.get(0).getEtape()>nbEtapeAvPeremption) {
+			for (Stock st:this.stockFeveHBE) {
+				if (st.getEtape()>nbEtapeAvPeremption) {
+					this.stockFeveHBE.remove(st);
+				}
+			}
+		}
+		if (this.stockFeveHE.get(0).getEtape()>nbEtapeAvPeremption) {
+			for (Stock st:this.stockFeveHE) {
+				if (st.getEtape()>nbEtapeAvPeremption) {
+					this.stockFeveHE.remove(st);
+				}
+			}
+		}
+		if (this.stockFeveME.get(0).getEtape()>nbEtapeAvPeremption) {
+			for (Stock st:this.stockFeveME) {
+				if (st.getEtape()>nbEtapeAvPeremption) {
+					this.stockFeveME.remove(st);
+				}
+			}
+		}
+		if (this.stockFeveM.get(0).getEtape()>nbEtapeAvPeremption) {
+			for (Stock st:this.stockFeveM) {
+				if (st.getEtape()>nbEtapeAvPeremption) {
+					this.stockFeveM.remove(st);
+				}
+			}
+		}
+		if (this.stockFeveB.get(0).getEtape()>nbEtapeAvPeremption) {
+			for (Stock st:this.stockFeveB) {
+				if (st.getEtape()>nbEtapeAvPeremption) {
+					this.stockFeveB.remove(st);
+				}
+			}
+		}
+		
 	}
 
 	@Override
