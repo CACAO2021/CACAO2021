@@ -46,10 +46,17 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void next() {
 		//Modifie les quantités min et max pour chaque chocolat en fonction de l'année précédente
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
+			List<IDistributeurChocolatDeMarque> Concurrents = Filiere.LA_FILIERE.getDistributeurs();
+			System.out.println("this"+this+"conc"+Concurrents);
+			Concurrents.remove((IDistributeurChocolatDeMarque)this);
+			System.out.println("conc"+Concurrents);
+			/*if (Concurrent.getCatalogue().contains(choco)) {
 			Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/4  - wonka.quantiteEnVente(choco) );
 			quantiteLimite.put(choco, quantiteMin);
 			Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/1.5  - wonka.quantiteEnVente(choco) );
 			quantiteMax.put(choco, quantite);
+			}
+			*/
 		}
 		this.majDemande();
 		this.nouveauContrat();
