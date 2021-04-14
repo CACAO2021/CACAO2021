@@ -1,5 +1,6 @@
 package abstraction.eq7Distributeur2;
 
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,16 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
+
 		parametres = new ArrayList<Variable>();
 		indicateurs = new ArrayList<Variable>();
 		montantMin = new Variable("Montant min sur compte bancaire",this, 10000);
-		
 	}
+		
+
 	public int getCryptogramme() {
 		return this.cryptogramme;
+
 	}
 	
 	public void initialisationJournaux() {
@@ -68,8 +72,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		journalCatalogue = new Journal("Catalogue [W&S]", this);
 		journalCatalogue.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Catalogue de produits"));
 		journalCatalogue.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal permet de visualiser les produits de marque que propose l'enseigne Wonka & Sons"));
-		
+
 		journalStocks= new Journal("Registre des Stocks [W&S]", (IActeur)this);
+
 		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Gestion des Stocks"));
 		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 
@@ -94,12 +99,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.initialiserCatalogue();
 		for (ChocolatDeMarque CDM : this.catalogue) {
 		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
-		}
-
-		//Filiere.LA_FILIERE.getBanque().creerCompte(this); Notre acteur a deja un compte
-		
-		this.stocks = new Stocks((Distributeur2)this);
-		this.achat = new Achat((Distributeur2)this);
+		}	
+		this.stocks = new Stocks(this);
+		this.achat = new Achat(this);
 		this.parametres.add(new Variable("Nombre d'étapes avant Peremption",this,Stocks.dureeDePeremption));
 		this.parametres.add(new Variable("limite de Stocks",this,Stocks.limiteStocks));
 		this.parametres.add(new Variable("prix du Stockage unitaire",this,Stocks.prixStockage));
@@ -120,6 +122,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
+
 		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
 		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
 			this.getMontantMin().setValeur(this, this.getSolde()/2);
@@ -130,19 +133,22 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		else {
 			this.getMontantMin().setValeur(this, this.getSolde()/1.5);
 		}
-		
 	}
 
 	
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
+		filieres.add("TEST_CC_WS"); 
 		return(filieres);
 	}
 
 	// Renvoie une instance d'une filière d'après son nom
 	public Filiere getFiliere(String nom) {
-		return Filiere.LA_FILIERE;
+		switch (nom) { 
+		case "TEST_CC_WS" : return new FiliereTestContratCadreWS();
+	    default : return Filiere.LA_FILIERE;
+		}
 	}
 
 	// Renvoie les indicateurs
@@ -204,9 +210,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 			return false;
 		}
 	}
-
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
+		//System.out.println(this.catalogue);
 		return this.catalogue;
 	}
 
@@ -222,6 +228,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
+		//System.out.println(this.stocks.getQuantiteChocoEnTG(choco));
 		return this.stocks.getQuantiteChocoEnTG(choco);
 	}
 
@@ -233,7 +240,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
+
 		this.journal.ajouter(Journal.texteColore(warningColor, Color.BLACK, "[RAYON] Le rayon de " + choco.name() + " est vide."));		
+
 	}
 
 	@Override
@@ -249,6 +258,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		choco.add(this.chocoProduit);
 		return choco;
 	}
+
 	
 	public void miseAjourDesIndicateurs() {
 		for (Variable indic : this.getIndicateurs()) {
@@ -258,5 +268,12 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		}
 	}
 	
-
+	public boolean equals(Object o) {
+		return o instanceof IActeur
+				&& this.getNom().equals(((IActeur)o).getNom());
+	}
+	public void deduireUneSomme(double cout) {
+		Filiere.LA_FILIERE.getBanque().virer(this, this.getCryptogramme(), Filiere.LA_FILIERE.getBanque(), cout);
+	}
+	
 }
