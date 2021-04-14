@@ -68,7 +68,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
 			this.retirer(Feve.FEVE_MOYENNE, feve.getValeur()-100 ); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
-		}
+			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); }
 		
 	}
 
