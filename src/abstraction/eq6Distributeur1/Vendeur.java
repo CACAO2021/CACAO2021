@@ -55,10 +55,13 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		vendre(client, choco, quantite, montant, historique);
 	}
 	
-	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant, List<String> historique) {
+	public List<String> vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant, List<String> historique) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
 			this.ajouterStock(choco, -1*quantite, false);
 			historique.add(choco.getMarque()+" : "+quantite);
+			return historique;
+		}else {
+			return historique;
 		}
 	}
 
@@ -69,3 +72,4 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 	}	
 }
+
