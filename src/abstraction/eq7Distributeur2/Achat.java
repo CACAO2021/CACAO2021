@@ -39,7 +39,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
-		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 
 		}
 		
