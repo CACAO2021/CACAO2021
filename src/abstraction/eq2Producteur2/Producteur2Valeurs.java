@@ -5,7 +5,7 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
-public class Producteur2Valeurs {
+public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	public Producteur2Valeurs() {super();}
 	
 	
@@ -46,14 +46,8 @@ public class Producteur2Valeurs {
 	protected static double DIF_ACCEPTEE_FEVE_HE = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_ME = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_M = 0.1;
-	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;
-	
-	
-	protected static double COUT_PRODUCTION_FEVE_B = 1.4;
-	protected static double COUT_PRODUCTION_FEVE_M = 2.3;
-	protected static double COUT_PRODUCTION_FEVE_ME = PRIX_MIN_ACCEPTEE_FEVE_M*1.2;
-	protected static double COUT_PRODUCTION_FEVE_HE = 3.7;
-	protected static double COUT_PRODUCTION_FEVE_HBE = PRIX_MIN_ACCEPTEE_FEVE_HE*1.2;
+	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;	
+
 	
 	
 	// partie production
@@ -64,18 +58,7 @@ public class Producteur2Valeurs {
 	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
 
 	
-	protected int ARBRE_TPS_VIE_HBE = 40*48;
-	protected int ARBRE_TPS_VIE_HE = 40*48;
-	protected int ARBRE_TPS_VIE_ME=40*48;
-	protected int ARBRE_TPS_VIE_M=40*48;
-	protected int ARBRE_TPS_VIE_B=40*48;
-	
-	//production par tour par arbre 
-	protected int PROD_HBE = 6;
-	protected int PROD_HE = 6;
-	protected int PROD_ME = 6;
-	protected int PROD_M = 6;
-	protected int PROD_B = 6;
+
 	
 	
 	// verification du type de produit
@@ -95,17 +78,6 @@ public class Producteur2Valeurs {
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
-	// partie transformation
-	protected double coefHE = 0.4; //(à affiner)
-	protected double coefM = 0.4;
-	protected double coefME = 0.4;
-	
-	protected int qteParStepHE = 1; //quantité que l'on peut transformer en un step
-	protected int qteParStepM = 1;
-	protected int qteParStepME = 1;
-	
-	protected double prixHEparKilo = 1; // coût de transformation d'un kilo de fèves en poudre
-	protected double prixMparKilo = 1;
-	protected double prixMEparKilo = 1;
+
 
 }
