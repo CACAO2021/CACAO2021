@@ -31,28 +31,22 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_bas;
 	protected double mini_stock_moyen;
 	
-<<<<<<< HEAD
 
 	//Achat 
 	
 	protected static double cout_max_feve_basse ; 
 	protected static double cout_max_feve_moyenne;
-=======
->>>>>>> branch 'master' of https://github.com/Romaric-Moyeuvre/CACAO2021
+
 	protected static double cout_stockage_unite_feve;
 	protected static double cout_stockage_unite_choco;
 	
 	protected static double cout_fixe_entrepot_feve;
 	protected static double cout_fixe_entrepot_choco;
-<<<<<<< HEAD
 
-=======
-	
-	//Achat 
-	
-	protected static double cout_max_feve_basse ; 
-	protected static double cout_max_feve_moyenne;
->>>>>>> branch 'master' of https://github.com/Romaric-Moyeuvre/CACAO2021
+
+
+
+
 	
 	//Production
 	
