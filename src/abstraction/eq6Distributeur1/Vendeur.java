@@ -14,8 +14,6 @@ import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Variable;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
-<<<<<<< HEAD
-=======
 	
 	protected Map<ChocolatDeMarque,Double> historique;
 	
@@ -23,7 +21,6 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		super();
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
 	}
->>>>>>> branch 'master' of https://github.com/ThomasYamini/CACAO2021
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
@@ -64,12 +61,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
 			this.ajouterStock(choco, -1*quantite, false);
-<<<<<<< HEAD
-			this.historique.add(choco.getMarque()+" :"+quantite);
-=======
 			historique.put(choco, quantite);
 		}
->>>>>>> branch 'master' of https://github.com/ThomasYamini/CACAO2021
 	}
 
 	@Override
