@@ -31,11 +31,13 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	
 
-	public Achat(Distributeur2 wonka) {
+	public Achat(Distributeur2Acteur wonka) {
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
 		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
+		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
+		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
 		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 
 		}
