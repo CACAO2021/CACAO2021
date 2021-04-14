@@ -19,14 +19,10 @@ public abstract class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-<<<<<<< HEAD
+
 	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie;
-=======
-	
 	protected Variable prix_min_vente_MG;
 	protected Variable prix_min_vente_EQ;
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne;
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -46,11 +42,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
-<<<<<<< HEAD
-=======
-		this.pourcentage_tablette_moyenne = new Variable("Pourcentage de fèves de gamme moyenne transformées en tablettes", this, 0.8);
 
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 	}
 
 	public String getNom() {
@@ -77,8 +69,11 @@ public abstract class Transformateur3Acteur implements IActeur {
 		Variable feve = this.getIndicateurs().get(index);
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, feve.getValeur()-100 ); //retirer le surplus de fèves 
-			this.ajouter(Chocolat.TABLETTE_HAUTE_EQUITABLE, (feve.getValeur()-100)*2.5); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			this.ajouter(Chocolat.TABLETTE_HAUTE_EQUITABLE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 		}
+		
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(feve.getValeur()-100)*coefficient_transformation.getValeur()/1000);
+		
 		index = this.getIndicateurs().indexOf(Feve.FEVE_MOYENNE);
 		feve = this.getIndicateurs().get(index);
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
@@ -86,7 +81,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 			this.ajouter(Chocolat.TABLETTE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); }
 		
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500);
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*((feve.getValeur()-100)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(feve.getValeur()-100)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur())/1000);
 	}
 
 	
@@ -110,15 +105,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
-<<<<<<< HEAD
-		res.add(prix_max_fèves);
-		res.add(stock_min_feves);
-		res.add(stock_min_confiserie);
-		res.add(stock_min_tablettes_HBE);
-		res.add(stock_min_tablettes_moyenne);
-		res.add(coefficient_transformation);
-		res.add(pourcentage_confiserie);
-=======
+
 		res.add(this.prix_max_fèves);
 		res.add(this.stock_min_feves);
 		res.add(this.stock_min_confiserie);
@@ -126,7 +113,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		res.add(this.stock_min_tablettes_moyenne);
 		res.add(this.prix_min_vente_MG);
 		res.add(this.prix_min_vente_EQ);
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
+
 		return res;
 	}
 
