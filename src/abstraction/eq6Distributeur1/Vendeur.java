@@ -46,7 +46,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
-		}
+		} 
 	}
 
 	@Override
