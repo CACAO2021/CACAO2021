@@ -231,37 +231,37 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	 */
 	public void verifPeremption() {
 		//LinkedList<Stock> feveHBE = stockFeveHBE;
-		if (this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
+		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveHBE) {
-				if (st.getEtape()>nbEtapeAvPeremption) {
+				if (st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveHBE.remove(st);
 				}
 			}
 		}
-		if (this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
+		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveHE) {
-				if (st.getEtape()>nbEtapeAvPeremption) {
+				if (st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveHE.remove(st);
 				}
 			}
 		}
-		if (this.stockFeveME.get(0).getEtape()>nbEtapeAvPeremption) {
+		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveME.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveME) {
-				if (st.getEtape()>nbEtapeAvPeremption) {
+				if (st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveME.remove(st);
 				}
 			}
 		}
-		if (this.stockFeveM.get(0).getEtape()>nbEtapeAvPeremption) {
+		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveM.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveM) {
-				if (st.getEtape()>nbEtapeAvPeremption) {
+				if (st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveM.remove(st);
 				}
 			}
 		}
-		if (this.stockFeveB.get(0).getEtape()>nbEtapeAvPeremption) {
+		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveB.get(0).getStep()>nbEtapeAvPeremption) {
 			for (Stock st:this.stockFeveB) {
-				if (st.getEtape()>nbEtapeAvPeremption) {
+				if (st.getStep()>nbEtapeAvPeremption) {
 					this.stockFeveB.remove(st);
 				}
 			}
