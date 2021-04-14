@@ -12,7 +12,6 @@ import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Variable;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
-	
 
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
@@ -51,18 +50,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
-		List<String> historique = new ArrayList<String>();
-		vendre(client, choco, quantite, montant, historique);
-	}
-	
-	public List<String> vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant, List<String> historique) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
 			this.ajouterStock(choco, -1*quantite, false);
-			historique.add(choco.getMarque()+" : "+quantite);
-			return historique;
-		}else {
-			return historique;
-		}
+			this.historique.add(choco.getMarque()+" :"+quantite);
 	}
 
 	@Override
