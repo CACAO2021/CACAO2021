@@ -10,6 +10,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
 //Antoine C
+
 public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
@@ -47,8 +48,6 @@ public class Transformateur2Valeurs {
 	protected static double charges_fixes;
 	protected static double capacite_production;
 	protected static double cout_transformation = 1.0;
-	
-
 	
 	//Vente
 	
