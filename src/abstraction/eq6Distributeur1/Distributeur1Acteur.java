@@ -76,7 +76,6 @@ public class Distributeur1Acteur implements IActeur {
 
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
-		
 	}
 
 	//Quand un autre acteur fait faillite cette methode est appelee automatiquement pour si on veut l'utiliser

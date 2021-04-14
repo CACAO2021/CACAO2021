@@ -31,11 +31,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		
 	}
 
+	//est ce que on peut mettre next() ici?
 	public void next() {
-		for (ChocolatDeMarque produit : ) {
+		for (ChocolatDeMarque produit : this.stock.keySet()) {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme);
+					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
 				}
 			}
 		}
