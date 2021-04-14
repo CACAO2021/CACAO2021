@@ -205,6 +205,6 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}
 		double cout = this.getQuantiteTotaleStockEtape(etape) * prixDeStockage;
 		// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
-		acteur.notificationOperationBancaire(cout);
+		Filiere.LA_FILIERE.getBanque().virer(acteur, acteur.getCryptogramme(), Filiere.LA_FILIERE.getBanque(), cout);
 	}
 }
