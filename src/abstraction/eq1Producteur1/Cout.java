@@ -1,6 +1,7 @@
 package abstraction.eq1Producteur1;
 
 import abstraction.eq2Producteur2.Producteur2et1ValeursEnCommun;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
 /**
@@ -29,7 +30,11 @@ public class Cout extends Producteur2et1ValeursEnCommun {
 	public void payerStockage(Producteur1Acteur a) {
 		double qte_stockee = a.getStocks().get(Feve.FEVE_BASSE).getQuantite()
 				+ a.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()
-				+ a.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite();
-		a.perteargent(qte_stockee*COUT_STOCKAGE_FEVE);
+				+ a.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()
+				+a.getStocks().get(Chocolat.POUDRE_MOYENNE).getQuantite()
+				+a.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite();
+		double montant = qte_stockee*COUT_STOCKAGE_FEVE;
+		a.perteargent(montant);
+		a.getJournal(4).ajouter("Le stockage des produits a coûté ce stet" +montant+"€" );
 	}
 }
