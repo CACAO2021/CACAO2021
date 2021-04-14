@@ -143,7 +143,7 @@ public class Producteur1Acteur implements IActeur {
 		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
-		this.payerProducteurs(); // coût proportionel à la qualité et à la quantité de fèves produites
+		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
 		this.transformation.Transformation_Feve(this);
 	}
 
