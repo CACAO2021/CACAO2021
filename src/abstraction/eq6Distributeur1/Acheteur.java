@@ -26,7 +26,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		int i=contrat.getEcheanciers().size(); //Nombre d'etapes de négociation déjà passées.
+		int i=contrat.getEcheancier().getNbEcheances(); //Nombre d'etapes de négociation déjà passées.
 		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit())*0.75;
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;}
