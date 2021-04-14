@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstraction.eq8Romu.clients.FiliereTestClientFinal;
+import abstraction.eq8Romu.contratsCadres.FiliereTestContratCadre;
+import abstraction.eq8Romu.fevesAO.FiliereTestAOFeves;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -35,7 +38,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 
 	public void setCryptogramme(Integer crypto) {
 		this.cryptogramme = crypto;
-	}
+	} 
 	
 
 	public void next() {
@@ -43,11 +46,18 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	}
 	
 	public List<String> getNomsFilieresProposees() {
-		return new ArrayList<String>();
+		ArrayList<String> filieres = new ArrayList<String>();
+		filieres.add("TESTVENTECC");
+		filieres.add("TESTVENTEAO");
+		return filieres;
 	}
 
 	public Filiere getFiliere(String nom) {
-		return null;
+		switch (nom) { 
+		case "TESTVENTECC" : return new Producteur2TestDesVentesCC();
+		case "TESTVENTEAO" : return new Producteur2TestDesVentesAO();
+	    default : return null;
+		}
 	}
 	
 	public List<Variable> getIndicateurs() {

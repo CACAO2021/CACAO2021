@@ -113,6 +113,7 @@ public class SuperviseurVentesFevesAO implements IActeur {
 				if (nbOffres.get(acheteurs.get(acheteurCourant))==this.nbOffresMaxParEtape.getValeur()) {
 					this.journal.ajouter(Journal.texteColore(acheteurs.get(acheteurCourant), acheteurs.get(acheteurCourant).getNom()+" a atteint le nombre maximum d'offres possibles par etape ("+this.nbOffresMaxParEtape.getValeur()+") --> retrait de la liste des acheteurs de cette etape"));
 					acheteurs.remove(acheteurCourant);
+					continue;
 				}
 				this.journal.ajouter(Journal.texteColore(acheteurs.get(acheteurCourant), acheteurs.get(acheteurCourant).getNom()+" fait l'offre d'achat "+offreAchat));
 				List<PropositionVenteFevesAO> propositions = new ArrayList<PropositionVenteFevesAO>();
