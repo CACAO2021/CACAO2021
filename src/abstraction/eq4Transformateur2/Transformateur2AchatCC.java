@@ -7,6 +7,9 @@ import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 
 public class Transformateur2AchatCC extends Transformateur2AchatAO implements IAcheteurContratCadre{
 
+	public Transformateur2AchatCC() {
+		super();
+	}
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		// TODO Auto-generated method stub
