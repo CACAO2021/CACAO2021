@@ -109,14 +109,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 		res.add(this.stock_min_tablettes_moyenne);
 		res.add(this.prix_min_vente_MG);
 		res.add(this.prix_min_vente_EQ);
-		res.add(prix_max_fèves);
-		res.add(stock_min_feves);
-		res.add(stock_min_confiserie);
-		res.add(stock_min_tablettes_HBE);
-		res.add(stock_min_tablettes_moyenne);
-		res.add(coefficient_transformation);
-		res.add(pourcentage_confiserie);
-		res.add(pourcentage_tablette_moyenne);
 		return res;
 	}
 
