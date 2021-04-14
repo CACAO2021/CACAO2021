@@ -10,6 +10,7 @@ import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 
 public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
@@ -34,11 +35,11 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 		Feve feveachetee=oa.getFeve();
 		
 	/**int nbOffres=nbOffres.get(acheteurs.get(acheteurCourant));*/
-	if( mesContratsAORefuses..conversion().contains(oa)) {
-		for(PropositionVenteFevesAO propVFAO:)
+	if( mesContratsAORefuses.conversion().contains(oa)) {
+		for(PropositionVenteFevesAO propVFAO)
 	}
 	
-	if ((feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()>oa.getQuantiteKG())) {
+	if ((feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()>oa.getQuantiteKG()) {
 		return PRIX_ESPERE_FEVE_HBE;
 	}
 	else if ((feveachetee==Feve.FEVE_HAUTE_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_EQUITABLE).getValeur()>oa.getQuantiteKG())) {
