@@ -1,7 +1,6 @@
 package abstraction.eq4Transformateur2;
 
 import java.util.LinkedList;
-
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
@@ -10,7 +9,7 @@ import abstraction.eq8Romu.produits.Beurre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.eq8Romu.produits.Categorie;
-
+import java.util.ArrayList;
 
 
 public class Transformateur2Vente extends Transformateur2Stock implements IVendeurContratCadre {
@@ -88,11 +87,41 @@ public class Transformateur2Vente extends Transformateur2Stock implements IVende
 	}
 	
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		return 0.5 + (5000.0/contrat.getQuantiteTotale());// plus la quantite est elevee, plus le prix est interessant
+		Object produit = contrat.getProduit();
+		if (produit instanceof Chocolat) {
+			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
+				return 6.2 ;
+			}
+			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
+				return 9.2  ;
+			}
+			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
+				return 4.6 ; 
+			}
+			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
+				return 9.2  ;
+			}
+			
+		}	
+		return 10000000000.0 ; //si on ne vend pas ce produit 
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-			return contrat.getPrix(); // pas de négociation
+		double prixA = contrat.getListePrix().get(-1);
+		double prixV = contrat.getListePrix().get(-2);
+		if ((prixV - prixA) <= prixV*0.1 ) {
+			return prixA; // pas de négociation car écart faible entre les deux prop
+		}
+		else {
+			if (prixA*0.45 + prixV*0.55 >= contrat.getListePrix().get(0)*0.8) {
+				return prixA*0.45 + prixV*0.55 ; 
+			}
+			else {
+				return 0;
+			}
+		}
+			
+		
 	}
 	
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
