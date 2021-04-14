@@ -212,7 +212,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
-		System.out.println(this.catalogue);
+		System.out.println(this.catalogue)
 		return this.catalogue;
 	}
 
