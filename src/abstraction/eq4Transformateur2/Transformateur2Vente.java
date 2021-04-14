@@ -13,11 +13,11 @@ import abstraction.eq8Romu.produits.Categorie;
 
 
 
-public class Vente extends Transformateur2Stock implements IVendeurContratCadre {
+public class Transformateur2Vente extends Transformateur2Stock implements IVendeurContratCadre {
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
-	public Vente(Object produit) {
+	public Transformateur2Vente() {
 		super();
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
