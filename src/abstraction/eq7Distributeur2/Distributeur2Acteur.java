@@ -99,17 +99,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.initialiserCatalogue();
 		for (ChocolatDeMarque CDM : this.catalogue) {
 		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
-
-		}
-
-		
-		this.stocks = new Stocks((Distributeur2)this);
-		this.achat = new Achat((Distributeur2)this);
-
 		}	
 		this.stocks = new Stocks(this);
 		this.achat = new Achat(this);
-
 		this.parametres.add(new Variable("Nombre d'étapes avant Peremption",this,Stocks.dureeDePeremption));
 		this.parametres.add(new Variable("limite de Stocks",this,Stocks.limiteStocks));
 		this.parametres.add(new Variable("prix du Stockage unitaire",this,Stocks.prixStockage));
