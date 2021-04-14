@@ -6,11 +6,12 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.fourni.Variable;
 
 
 public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
-
-
+	
+	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
@@ -25,7 +26,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	@Override
 	public boolean vend(Object produit) {
 		// Implementer une fonction booléenne qui indique s'il y a du stock dans un produit spécifique
-		return this.getStock().getFinancier().sommeNousVendeur(produit);
+		return this.getStock().getFinancier().sommesNousVendeur(produit);
 	}
 
 	@Override
@@ -50,12 +51,23 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
 		this.journalVendeur.ajouter("Offre de vente : "+contrat);
+		this.mesContratEnTantQueVendeur.add(contrat);
+		
+	}
+	
+	public List<ExemplaireContratCadre> getmesContratEnTantQueVendeur() {
+		return mesContratEnTantQueVendeur;
 	}
 
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-	//besoin d'une fonction du stock qui indique la quantité disponible
-	// pour l'instant on ne prend pas en compte les potentiels autres contrats qui partagent des echeanciers
+		double qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
+		if(qdisp>0) {
+			Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+			Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+			this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
+			return qdisp;
+		}
 		return 0.0;
 	}
 	
