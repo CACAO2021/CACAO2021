@@ -24,11 +24,10 @@ public class Transformateur2Vente extends Transformateur2Stock implements IVende
 	
 	public boolean peutVendre(Object produit) {
 		if (produit instanceof Chocolat) {
-			if (((Chocolat) produit).getGamme() == Gamme.HAUTE) {
+			if (((Chocolat) produit).getGamme() != Gamme.HAUTE) {
 				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
 					return true; 
 				}
-				
 			}
 		}
 		return false;
@@ -36,7 +35,7 @@ public class Transformateur2Vente extends Transformateur2Stock implements IVende
 	
 	public boolean vend(Object produit) {
 		if (produit instanceof Chocolat) {
-			if (((Chocolat) produit).getGamme() == Gamme.HAUTE) {
+			if (((Chocolat) produit).getGamme() != Gamme.HAUTE) {
 				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
 					return true; 
 				}
