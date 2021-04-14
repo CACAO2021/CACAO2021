@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import abstraction.eq8Romu.produits.Chocolat;
-<<<<<<< HEAD
+
 import abstraction.eq8Romu.produits.Feve;
-=======
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -20,7 +18,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation;
+	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne;
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
 
 	public Transformateur3Acteur() {
@@ -36,6 +34,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
+		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
+		this.pourcentage_tablette_moyenne = new Variable("Pourcentage de fèves de gamme moyenne transformées en tablettes", this, 0.8);
 	}
 
 	public String getNom() {
@@ -99,6 +99,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		res.add(stock_min_tablettes_HBE);
 		res.add(stock_min_tablettes_moyenne);
 		res.add(coefficient_transformation);
+		res.add(pourcentage_confiserie);
+		res.add(pourcentage_tablette_moyenne);
 		return res;
 	}
 
