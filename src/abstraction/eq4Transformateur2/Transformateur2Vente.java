@@ -11,6 +11,7 @@ import abstraction.eq8Romu.produits.Gamme;
 import abstraction.eq8Romu.produits.Categorie;
 import java.util.ArrayList;
 
+//Abi
 
 public class Transformateur2Vente extends Transformateur2Production implements IVendeurContratCadre {
 	
@@ -119,8 +120,6 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 				return 0;
 			}
 		}
-			
-		
 	}
 	
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
