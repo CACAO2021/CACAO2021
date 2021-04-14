@@ -73,4 +73,11 @@ public class Transformateur2Stock extends Transformateur2Production {
 	public double Stock_choco_total() {
 		return Stock_tablette_total()+Stock_confiserie_total();
 	}
+	
+	public double cout_stock_feves() {
+		return this.Stock_feve_total()*cout_stockage_unite_feve;
+	}
+	public double cout_stock_chocolat() {
+		return this.Stock_choco_total()*cout_stockage_unite_choco;
+	}
 }
