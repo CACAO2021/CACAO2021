@@ -53,7 +53,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;	
 	
 	protected static double DIF_ACCEPTEE_POUDRE_HE = 0.1;	
-	protected static double DIF_ACCEPTEE_POUDRE_B = 0.1;	
+	protected static double DIF_ACCEPTEE_POUDRE_M = 0.1;	
 
 	
 	//production_par_arbre_par_step
