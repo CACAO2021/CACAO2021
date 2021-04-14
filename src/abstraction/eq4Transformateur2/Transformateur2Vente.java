@@ -17,7 +17,11 @@ public class Transformateur2Vente extends Transformateur2Stock implements IVende
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
-	public Transformateur2Vente(Object produit) {
+
+
+
+	public Transformateur2Vente() {
+
 		super();
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
