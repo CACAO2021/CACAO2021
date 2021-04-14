@@ -96,7 +96,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
-
 		res.add(prix_max_fèves);
 		res.add(stock_min_feves);
 		res.add(stock_min_confiserie);
