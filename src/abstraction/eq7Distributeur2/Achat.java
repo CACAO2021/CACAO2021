@@ -28,7 +28,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public Color newContratColor = Color.GREEN;
 	public Color newPropositionColor = Color.ORANGE;
 	public Color descriptionColor = Color.YELLOW;
-	public double test2;
 	
 	
 
