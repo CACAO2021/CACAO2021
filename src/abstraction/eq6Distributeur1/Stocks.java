@@ -19,6 +19,7 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 
 	
 	public Stocks() {
+		super();
 		this.stock=new HashMap<ChocolatDeMarque, Variable>();
 		this.prix=new HashMap<ChocolatDeMarque, Double>();
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>();
@@ -34,8 +35,21 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		
 	}
 	
-	public void initPrix() {
+	public void initialiser() {
+		super.initialiser();
+		initCatalogue();
+	}
+	
+	public void initCatalogue() {
 		
+	}
+	
+	public void initPrix() {
+		for(ChocolatDeMarque choco : stock.keySet()) {
+			if() {
+				
+			}
+		}
 	}
 
 	/*@Override
