@@ -21,7 +21,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	protected HashMap<ChocolatDeMarque,Variable> stocksEnTG; // Stocks de chocolat en Tête de Gondole STOCK PAS COMPTE DANS LE STOCK GENERAL
 	protected HashMap<ChocolatDeMarque, Variable> stocksParMarque; //Stocks de chocolat par marque
 	protected HashMap<Integer, HashMap<ChocolatDeMarque, Variable>> nouveauChocoParEtape; //Historique des chocolats reçus à chaque étape par marque
-	private Distributeur2 acteur;
+	private Distributeur2Acteur acteur;
 	
 	// Couleurs d'arrière-plan pour les messages des journaux
 		public Color titleColor = Color.BLACK;
@@ -33,7 +33,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		public Color peremptionColor = Color.MAGENTA;
 	
 
-	public Stocks(Distributeur2 acteur) {
+	public Stocks(Distributeur2Acteur acteur) {
 		this.acteur = acteur;
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
@@ -205,6 +205,6 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}
 		double cout = this.getQuantiteTotaleStockEtape(etape) * prixDeStockage;
 		// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
-		acteur.notificationOperationBancaire(cout);
+		acteur.deduireUneSomme(cout);
 	}
 }
