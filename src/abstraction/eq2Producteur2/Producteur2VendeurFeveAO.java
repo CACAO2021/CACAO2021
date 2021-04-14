@@ -10,7 +10,6 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
 	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
-	public LinkedList<OffreAchatFeves> LAO;
 
 	public Producteur2VendeurFeveAO() {
 		super();
@@ -21,6 +20,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
+		oa.getQuantiteKG()
 		return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve());
 	
 	}
@@ -40,6 +40,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur().getNom() + " qtt = " + Math.floor(proposition.getQuantiteKg()) + proposition.getFeve()
 		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );
 		this.mesContratsAO.add(proposition);
+		Producteur2Stockage.vente(proposition.getQuantiteKg(), proposition.getFeve());
 		
 	}
 }
