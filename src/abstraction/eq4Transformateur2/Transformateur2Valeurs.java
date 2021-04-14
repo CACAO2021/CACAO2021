@@ -33,22 +33,17 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_moyen;
 	
 
-	//Achat 
-	
-	protected static double cout_max_feve_basse ; 
-	protected static double cout_max_feve_moyenne;
-
 	protected static double cout_stockage_unite_feve;
 	protected static double cout_stockage_unite_choco;
 	
 	protected static double cout_fixe_entrepot_feve;
 	protected static double cout_fixe_entrepot_choco;
-
-
-
-
-
 	
+	//Achat 
+	
+	protected static double cout_max_feve_basse ; 
+	protected static double cout_max_feve_moyenne;
+
 	//Production
 	
 	protected static double charges_fixes;
