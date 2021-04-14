@@ -31,8 +31,8 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected static double PRIX_ESPERE_FEVE_HE = 5;
 	protected static double PRIX_ESPERE_FEVE_HBE = PRIX_ESPERE_FEVE_HE*1.2;
 	
-	protected static double PRIX_ESPERE_POUDRE_HE = 0;
-	protected static double PRIX_ESPERE_POUDRE_M = 0;
+	protected static double PRIX_ESPERE_POUDRE_HE = 0;// a fr
+	protected static double PRIX_ESPERE_POUDRE_M = 0;// a fr
 
 
 
@@ -42,8 +42,8 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected static double PRIX_MIN_ACCEPTEE_FEVE_HE = 4;
 	protected static double PRIX_MIN_ACCEPTEE_FEVE_HBE = PRIX_MIN_ACCEPTEE_FEVE_HE*1.2;
 	
-	protected static double PRIX_MIN_ACCEPTEE_POUDRE_HE = 0;
-	protected static double PRIX_MIN_ACCEPTEE_POUDRE_M = 0;
+	protected static double PRIX_MIN_ACCEPTEE_POUDRE_HE = 0;// a fr
+	protected static double PRIX_MIN_ACCEPTEE_POUDRE_M = 0; // a fr
 	
 	
 	protected static double DIF_ACCEPTEE_FEVE_HBE = 0.1;
