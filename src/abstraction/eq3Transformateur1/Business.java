@@ -10,7 +10,6 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
-// Paul GIRAUD
 
 public class Business {
 	
@@ -21,7 +20,7 @@ public class Business {
 	protected List<Variable> indicateurs;
 	
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
-	
+	protected List<ExemplaireContratCadre> mesContratEnTantQueAcheteur;
 	private Variable prixVenteTabletteBasse;
 	private Variable prixVenteTabletteMoyenne;
 	private Variable prixVenteTabletteMoyenneEquitable;
@@ -102,7 +101,7 @@ public class Business {
 		this.indicateurs.add(35,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreHauteBioEquitable au KG", this.getStock().getActeur(), 0));
  
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
-		
+		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;
 	}
 	
 	public Stock getStock() {
@@ -159,6 +158,25 @@ public class Business {
 		Liste.removeAll(ContratValide);
 		for(ExemplaireContratCadre contratobselete : Liste ) {
 			this.getStock().getActeur().journalVendeur.ajouter("Contrat terminé :"+contratobselete);;
+		}
+	}
+	
+	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
+		this.mesContratEnTantQueAcheteur.add(contrat);
+	}
+	
+	public void MiseAJourContratAchat() {
+		ArrayList<ExemplaireContratCadre> ContratValide = new ArrayList<ExemplaireContratCadre>() ;
+		List<ExemplaireContratCadre> Liste = this.mesContratEnTantQueAcheteur;
+		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueAcheteur) {
+			if(contrat.getEcheancier().getStepFin() < Filiere.LA_FILIERE.getEtape()) {
+				ContratValide.add(contrat);
+			}
+		}
+		this.mesContratEnTantQueAcheteur = ContratValide;
+		Liste.removeAll(ContratValide);
+		for(ExemplaireContratCadre contratobselete : Liste ) {
+			this.getStock().getActeur().journalAcheteur.ajouter("Contrat terminé :"+contratobselete);;
 		}
 	}
 
