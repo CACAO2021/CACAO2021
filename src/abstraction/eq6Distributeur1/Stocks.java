@@ -32,7 +32,8 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 	public List<String> getMarquesChocolat() {
 		List marque = new ArrayList<String>();
 		marque.add("CacaoCaisse");
-		return marque;*/
+		return marque;
+		}*/
 	}
 	
 

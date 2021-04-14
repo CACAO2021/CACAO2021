@@ -32,7 +32,7 @@ public class Distributeur1Acteur implements IActeur {
 
 
 	public void initialiser() {
-		
+		//peut etre initialiser la variable Stocks.prix
 	}
 
 	public void next() {
@@ -76,11 +76,14 @@ public class Distributeur1Acteur implements IActeur {
 		
 	}
 
+	//Quand un autre acteur fait faillite cette methode est appelee automatiquement pour si on veut l'utiliser
 	public void notificationFaillite(IActeur acteur) {
 	}
 
+	// quand la banque fait un dépot ou un retrait cette methode est appelée avec le montant en param, pour si on veut l'utiliser pour quelque chose
 	public void notificationOperationBancaire(double montant) {
 	}
+	
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
