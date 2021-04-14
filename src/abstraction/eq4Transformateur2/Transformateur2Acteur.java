@@ -17,6 +17,7 @@ import abstraction.fourni.Filiere;
 public class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
 
 	public Transformateur2Acteur() {
+		super();
 	}
 
 	public void initialiser() {

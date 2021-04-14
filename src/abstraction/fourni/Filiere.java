@@ -156,6 +156,13 @@ public class Filiere {
 		for (IActeur a : this.acteurs) {
 			a.initialiser();
 		}
+		for (IActeur a : this.acteurs) {
+			if (a!=this.laBanque) {
+				ajouterIndicateurs(a);
+			}
+			ajouterParametres(a);
+			ajouterJournaux(a);
+		}
 	}
 
 	/**
@@ -243,18 +250,24 @@ public class Filiere {
 		}
 		this.getBanque().creerCompte(ac);
 		this.journalFiliere.ajouter(Journal.texteColore(ac, "- creation du compte bancaire de "+ac.getNom()));
+	}
+	public void ajouterIndicateurs(IActeur ac) {
 		this.initIndicateurs(ac);
 		List<Variable> indicateursAAjouter = ac.getIndicateurs();
 		for (Variable v : indicateursAAjouter) {
 			this.ajouterIndicateur(v);
 			this.journalFiliere.ajouter(Journal.texteColore(ac,"- ajout de l'indicateur "+v.getNom()));
 		}
+	}
+	public void ajouterParametres(IActeur ac) {
 		this.initParametres(ac);
 		List<Variable> parametresAAjouter = ac.getParametres();
 		for (Variable v : parametresAAjouter) {
 			this.ajouterParametre(v);
 			this.journalFiliere.ajouter(Journal.texteColore(ac,"- ajout du parametre "+v.getNom()));
 		}
+	}
+	public void ajouterJournaux(IActeur ac) {
 		this.initJournaux(ac);
 		List<Journal> journauxAAjouter = ac.getJournaux();
 		for (Journal j : journauxAAjouter) {
