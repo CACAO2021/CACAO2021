@@ -39,7 +39,6 @@ public class Transformateur2Stock extends Transformateur2Production {
 				stock_chocolat.replace((Chocolat) o, stock_chocolat.get(o) - quantite);
 			}
 		}
-		
 	}
 	
 	public double get_stock(Object o) {
@@ -51,7 +50,6 @@ public class Transformateur2Stock extends Transformateur2Production {
 		}
 		return 0.0;
 	}
-	
 	
 	public double Stock_feve_total() {
 		return get_stock(Feve.FEVE_BASSE) + get_stock(Feve.FEVE_MOYENNE);	
