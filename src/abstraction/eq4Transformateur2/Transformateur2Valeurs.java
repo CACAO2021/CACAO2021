@@ -30,6 +30,8 @@ public class Transformateur2Valeurs {
 	
 	protected static double cout_stockage_unite_feve;
 	protected static double cout_stockage_unite_choco;
+	protected static double cout_fixe_entrepot_feve;
+	protected static double cout_fixe_entrepot_choco;
 	
 	
 	
