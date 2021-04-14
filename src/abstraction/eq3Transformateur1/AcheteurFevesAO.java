@@ -137,12 +137,14 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 			if (prixmin<this.prixMax) { 
 				if (this.getSolde()>prixmin) {
 					return propositions.get(p);
-			} else {
+				}
+			}else {
 				return null ;
 			}
-		}
+		} else {
 		return null ;
 		}
+		return null;
 	}
 
 	public void notifierVente(PropositionVenteFevesAO proposition) {
