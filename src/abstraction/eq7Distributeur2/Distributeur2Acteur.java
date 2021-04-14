@@ -42,6 +42,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 	}
 	public int getCryptogramme() {
+		//tesst
 		return this.cryptogramme;
 	}
 	
