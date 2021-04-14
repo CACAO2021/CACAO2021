@@ -49,14 +49,15 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;	
 
 	
+	//production_par_arbre_par_step
 	protected int production_par_arbre= 6/24;
 	
 	// partie production
-	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/6*24;
-	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/6*24;
-	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/6*24;
-	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/6*24;
-	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6*24; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
+	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/100000/6;
+	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/100000/6;
+	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/100000/6;
+	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/100000/6;
+	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/100000/6; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
 
 	
 
