@@ -27,9 +27,12 @@ public class Transformateur2Valeurs {
 	//Production
 	
 	protected static double charges_fixes;
+	protected static double capacite_production;
+	protected static double cout_transformation = 1.0;
 	
 	protected static double cout_stockage_unite_feve;
 	protected static double cout_stockage_unite_choco;
+	
 	protected static double cout_fixe_entrepot_feve;
 	protected static double cout_fixe_entrepot_choco;
 	
