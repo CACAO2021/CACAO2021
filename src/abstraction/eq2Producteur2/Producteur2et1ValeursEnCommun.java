@@ -34,7 +34,7 @@ public class Producteur2et1ValeursEnCommun {
 	
 	protected double coutMachines = 21; // coût de transformation des fèves en poudre, un seul coût: entretien des machines
 
-	
+	protected int nbEtapeAvPeremption=10;
 	// cout stockage
 	protected double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
 }
