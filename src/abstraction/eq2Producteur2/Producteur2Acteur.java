@@ -9,7 +9,7 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
+public abstract class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	protected int cryptogramme;
 
 	public Producteur2Acteur() {
@@ -80,5 +80,7 @@ public class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
 	}
+	
+	public abstract void perdreArgent(double montant) ;
 
 }
