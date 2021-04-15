@@ -28,10 +28,19 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	public AcheteurFevesContratCadre () {
 		super();
 		this.mesContratEnTantQuAcheteur=new LinkedList<ExemplaireContratCadre>();
+		this.supCCadre = null;
 	}
 	
 	public List<ExemplaireContratCadre> getContractsCadres() {
 		return this.mesContratEnTantQuAcheteur;
+	}
+	
+	public SuperviseurVentesContratCadre setSupCCadre() {
+		return this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+	}
+	
+	public SuperviseurVentesContratCadre getSupCCadre() {
+		return supCCadre;
 	}
 	
 	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
@@ -105,7 +114,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 	
 	public double getQuantiteStep(Feve feve) {
-		return 5.0;
+		return 10000.0;
 	}
 		
 
