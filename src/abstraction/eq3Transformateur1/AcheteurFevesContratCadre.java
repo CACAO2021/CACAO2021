@@ -73,16 +73,13 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		//Si le prix est augmenté de 2% max on accepte
-		if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.02) {
-			return contrat.getPrix();
-		} else if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.025 ){ // Si on nous propose une augmentation max de 2,5% on re-propose 2% sinon on refuse
-			return contrat.getListePrix().get(0)*1.02;
+		if( contrat.getPrix() >= this.getSolde()) {
+			return 0;
 		} else {
-			return 0.0;
-
+			return contrat.getPrix();
 		}
 	}
+	
 	public void nosDemandesCC() {
 		
 		this.miseAJourContratAchat();
@@ -119,8 +116,9 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
+		System.out.println("cette fonction est bien lancée");
 		if (produit instanceof Feve) {
-			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+"contrat.getNumero()",this,contrat.getPrix()/contrat.getQuantiteTotale())); // pour avoir le prix du KG
+			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix()/contrat.getQuantiteTotale())); // pour avoir le prix du KG
 			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());
 		}
 	}

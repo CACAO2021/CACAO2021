@@ -17,7 +17,7 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 		this.getStock().getFinancier().miseAJourContratVendeur();
 		this.nosDemandesCC();
 		this.getStock().coutStock();
-		this.getStock().setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getNom(), this, 3000),  new Variable(this.getNom(), this, 5000));
+
 		
 		
 	}

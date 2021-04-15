@@ -113,7 +113,10 @@ public class Business {
 	}
 	
 	public boolean sommesNousVendeur(Object produit) {
-		return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
+		if (produit instanceof Chocolat) {
+			return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
+		}
+		else return false;
 	}
 	
 	public void venteDeChocolat() {
