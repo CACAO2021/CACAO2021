@@ -56,7 +56,8 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
 			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
 			nouveauChocoParEtape.put(etape, Init);
-			jeterChocolatPerime();
+			this.jeterChocolatPerime();
+			this.CoutStockage();
 			
 		}
 	}
@@ -204,9 +205,12 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			if (var.getNom().equals("prixStockage")) {
 				prixDeStockage = var.getValeur();
 			}
-		}
-		double cout = this.getQuantiteTotaleStockEtape(etape) * prixDeStockage;
-		// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
+		}if(etape!=0) {
+			double cout = this.getQuantiteTotaleStockEtape(etape-1) * prixDeStockage;
+			// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
+			if(cout>0) {
 		acteur.deduireUneSomme(cout);
+			}
+		}
 	}
 }

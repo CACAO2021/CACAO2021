@@ -44,6 +44,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
 		this.prixParChocolat = new HashMap<ChocolatDeMarque, LinkedList<Double>>();
 		this.prixChocolat = new LinkedList<Double>();
+		
+		for(ChocolatDeMarque nosChoco : wonka.getCatalogue()) {
+			this.prixParChocolat.put(nosChoco, this.prixChocolat);
+			}
 
 		}
 		
