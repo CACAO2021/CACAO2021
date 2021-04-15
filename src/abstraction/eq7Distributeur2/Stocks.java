@@ -91,8 +91,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
 	public void ajouterChocolatEnTG(ChocolatDeMarque chocolatDeMarque, double qte) { // Caractérise juste une partie du stock de TG
+		if(this.verifNouveauChocoEnTG(chocolatDeMarque, qte)) {
 		this.stocksEnTG.get(chocolatDeMarque).ajouter(acteur, qte);
 		acteur.journalStocks.ajouter(Journal.texteColore(TGColor, Color.BLACK, "[TG] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + "Est passé en TG, [TOTAL] : " + Journal.doubleSur(this.getQuantiteTotaleEnTG()/this.getQuantiteTotaleStocks(),2) + " De Choco en TG"));
+		}
 	}
 	
 	public double getQuantiteTotaleStocks() {
@@ -119,7 +121,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 				limiteTG = var.getValeur();
 			}
 		}
-		return (this.getQuantiteTotaleEnTG()+qte)/(this.getQuantiteTotaleStocks()+qte)<=limiteTG;
+		return (this.getQuantiteTotaleEnTG()+qte)/(this.getQuantiteTotaleStocks()+qte)<limiteTG+0.01;
 	}
 	
 	

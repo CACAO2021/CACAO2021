@@ -89,7 +89,6 @@ public class Transformateur1Acteur implements IActeur {
 		this.getStock().coutStock();
 		this.getStock().getFinancier().setIndicateurs();
 		this.getStock().setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getNom(), this, 3000),  new Variable(this.getNom(), this, 5000));
-		
 	}
 	
 	
