@@ -252,7 +252,7 @@ public class Business {
 	public ArrayList<Feve> feveAAcheter() {
 		ArrayList<Feve> listefeve = new ArrayList<Feve>();
 		for (Feve feve : this.getStock().nosFeves()) {
-			if (this.listeDifferenceStockArrivePart().get(feve) < 0) {
+			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
 				listefeve.add(feve);
 			} 
 		}
