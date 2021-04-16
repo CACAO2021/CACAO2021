@@ -97,6 +97,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void initialiser() {
 		
 		this.initialiserCatalogue();
+		this.initialiserMarges();
 		for (ChocolatDeMarque CDM : this.catalogue) {
 		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
 		}	
@@ -118,7 +119,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void next() {
 		this.stocks.next();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
-		this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
+		//this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
