@@ -109,11 +109,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
-		}for(Variable var : this.besoinsChoco.values()) {
-			System.out.println(var.getNom());
-			System.out.println(var.getValeur());
 		}
 	}
+	
 	//besoin de savoir ce qu'il nous reste à payer pour connaître l'état réel des comptes et non seulement le montant sur notre compte bancaire
 	public double paiementsEnAttente() {
 		double valeur = 0;
@@ -182,10 +180,24 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
+		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
+		if (Filiere.LA_FILIERE.getEtape()==0) {
+			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
+			contrats.add(contrat);
+			//on ajoute le contrat aux contrats signés
+			
+		
+			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+			this.prixChocolat = this.prixParChocolat.get(choco);
+			this.prixChocolat.add(contrat.getPrix());
+			this.prixParChocolat.put(choco, this.prixChocolat);
+			return contrat.getPrix();
+		}else {
+		
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		//On compare le prix d'achat par rapport au prix d'achat moyen de ce produit : si trop différent on demande moins cher
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
-		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape());
+		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
 		
 		if((ancienPrix * 1.10 <= prix && ancienPrix != 0 )|| !wonka.getAutorisationTransaction(prix + paiements)) {
 			return contrat.getPrix()*0.90;
@@ -201,9 +213,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		
 			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 			this.prixChocolat = this.prixParChocolat.get(choco);
-			this.prixChocolat.add(contrat.getPrix()/contrat.getQuantiteTotale());
+			this.prixChocolat.add(contrat.getPrix());
 			this.prixParChocolat.put(choco, this.prixChocolat);
 			return contrat.getPrix();
+		}
 		}
 
 		
