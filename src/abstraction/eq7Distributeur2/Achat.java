@@ -40,7 +40,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
 		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
 			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
-				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);	
+//				System.out.println(recherche_superviseur.getNom());
+				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);
+//				System.out.println(this.supCCadre.getVendeurs(wonka.getCatalogue().get(0)));
 			}
 		}
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
@@ -64,10 +66,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			List<IDistributeurChocolatDeMarque> Concurrents = Filiere.LA_FILIERE.getDistributeurs();
 			Concurrents.remove((IDistributeurChocolatDeMarque)this);
 			//si les concurrents vendent le même chocolat que nous, on en commande moins que le total de l'année passée
-			if (Concurrents.get(0).getCatalogue().contains(choco)) {
-				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/4  - wonka.quantiteEnVente(choco) );
+			if (Concurrents.size()!=0 && Concurrents.get(0).getCatalogue().contains(choco)) {
+				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)*0.25  - wonka.quantiteEnVente(choco) );
 				quantiteLimite.put(choco, quantiteMin);
-				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/1.5  - wonka.quantiteEnVente(choco) );
+				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)*0.75  - wonka.quantiteEnVente(choco) );
 				quantiteMax.put(choco, quantite);
 			}
 			else {
@@ -81,7 +83,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		
 		this.majDemande();
 		this.nouveauContrat();
-
+//		for (ChocolatDeMarque choco : wonka.getCatalogue()) {
+//		System.out.println(choco.name());
+//		System.out.println(this.quantiteLimite.get(choco).getValeur());
+//		System.out.println("------------");
+//		System.out.println(this.quantiteMax.get(choco).getValeur());
+//			}
 		}
 	
 	//public void init() {
@@ -130,8 +137,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
+			System.out.println(this.getSupCCadre().getVendeurs(choco));
 			if (vendeurs.size()!=0){
-				int i = (int) (Math.random()*vendeurs.size()) ;
+				int i = (int) (Math.random()*vendeurs.size());
 				IVendeurContratCadre vendeur = vendeurs.get(i);
 				//on répartie la valeur totale commandée sur 5 étapes 
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
