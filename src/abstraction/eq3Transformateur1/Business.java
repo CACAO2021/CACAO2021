@@ -205,7 +205,7 @@ public class Business {
 		return stockafournir; 
 	}
 	
-	public Map<Feve, Double> stockAFRecevoir(int step) {
+	public Map<Feve, Double> stockARecevoir(int step) {
 		Map<Feve, Double> stockarecevoir = new HashMap<Feve, Double>();
 		for (Feve feve : this.getStock().nosFeves()) {
 			stockarecevoir.put(feve, 0.0);
@@ -219,7 +219,32 @@ public class Business {
 		return stockarecevoir; 
 	}
 	
+	public double differenceStockArrivePart(Feve feve, int step) {
+		return this.stockARecevoir(step).get(feve) - this.stockAFournir(step).get(this.getStock().equivalentConfiserieFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentTabletteFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentPoudreFeve(feve));
+	}
 	
+	public  Map<Feve, Double> listeDifferenceStockArrivePart() {
+		Map<Feve, Double> listedifstock = new HashMap<Feve, Double>(); 
+		for (Feve feve : this.getStock().nosFeves()) {
+			double difference = 0;
+			for (int i = 1; i < 11; i++) {
+				difference += this.differenceStockArrivePart(feve, i);
+			}
+			listedifstock.put(feve, difference);
+			
+		}
+		return listedifstock;
+	}
+	
+	public Map<Feve, Double> feveAAcheter() {
+		Map<Feve, Double> stockaacheter = new HashMap<Feve, Double>(); 
+		for (Feve feve : this.getStock().nosFeves()) {
+			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
+				stockaacheter.put(feve,this.listeDifferenceStockArrivePart().get(feve)*1.5);
+			}
+		}
+		return stockaacheter;
+	}
 	
 	
 
