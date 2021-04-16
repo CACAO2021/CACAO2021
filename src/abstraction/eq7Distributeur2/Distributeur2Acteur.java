@@ -103,10 +103,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		}	
 		this.stocks = new Stocks(this);
 		this.achat = new Achat(this);
-		this.parametres.add(new Variable("Nombre d'étapes avant Peremption",this,Stocks.dureeDePeremption));
-		this.parametres.add(new Variable("limite de Stocks",this,Stocks.limiteStocks));
-		this.parametres.add(new Variable("prix du Stockage unitaire",this,Stocks.prixStockage));
-		this.parametres.add(new Variable("Pourcentage de limite en TG",this, Stocks.limiteEnTG));
+		this.parametres.add(new Variable("dureeDePeremption",this,Stocks.dureeDePeremption));
+		this.parametres.add(new Variable("limiteStocks",this,Stocks.limiteStocks));
+		this.parametres.add(new Variable("prixStockage",this,Stocks.prixStockage));
+		this.parametres.add(new Variable("limiteEnTG",this, Stocks.limiteEnTG));
 		
 		List<Variable> res=new ArrayList<Variable>();
 		for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
@@ -119,7 +119,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void next() {
 		this.stocks.next();
 		this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
-		//this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
+		this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
 		this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
@@ -224,12 +224,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	//On considere que tout le stock d'un produit est en vente
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		return this.stocks.getStockChocolatDeMarque(choco);
+		return (this.stocks.getStockChocolatDeMarque(choco));
 	}
 
 	@Override
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		//System.out.println(this.stocks.getQuantiteChocoEnTG(choco));
 		return this.stocks.getQuantiteChocoEnTG(choco);
 	}
 
