@@ -1,13 +1,10 @@
 package abstraction.eq7Distributeur2;
 
 import abstraction.eq8Romu.clients.ClientFinal;
-import abstraction.eq8Romu.clients.ExempleTransformateurImproductif;
-import abstraction.eq8Romu.contratsCadres.ExempleTransformateurContratCadreVendeur;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
-import abstraction.fourni.Banque;
 import abstraction.fourni.Filiere;
 
 public class FiliereTestContratCadreWS extends Filiere{
@@ -26,7 +23,7 @@ public class FiliereTestContratCadreWS extends Filiere{
 
 			super();
 			this.ajouterActeur(new Distributeur2());
-			this.ajouterActeur(new ExempleTransformateurContratCadreVendeur(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"test1")));
+			this.ajouterActeur(new ExempleTransformateurContratCadreVendeurWS(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"test1")));
 			this.ajouterActeur(new ClientFinal(Categorie.CONFISERIE, 1627200000.0, 50.0, DISTRIBUTIONS_ANNUELLES_CONF));
 //			this.ajouterActeur(new ExempleTransformateurImproductif(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"test2")));
 //			this.ajouterActeur(new ExempleTransformateurContratCadreVendeur(new ChocolatDeMarque(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE,"test3")));

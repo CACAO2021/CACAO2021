@@ -22,9 +22,9 @@ public class ExempleTransformateurContratCadreVendeurWS extends ExempleTransform
 			}
 
 			public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-				System.out.println(contrat.getProduit());
+				//System.out.println(contrat.getProduit());
 				if (contrat.getProduit().equals(produit)) {
-					System.out.println(contrat.getEcheancier().getQuantiteTotale()<stock.getValeur());
+					//System.out.println(contrat.getEcheancier().getQuantiteTotale()<stock.getValeur());
 					if (contrat.getEcheancier().getQuantiteTotale()<stock.getValeur()) {
 						if (Math.random()<0.1) {
 						return contrat.getEcheancier(); // on ne cherche pas a negocier sur le previsionnel de livraison

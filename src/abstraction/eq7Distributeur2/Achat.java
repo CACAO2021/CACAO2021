@@ -8,7 +8,6 @@ import abstraction.fourni.*;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
-import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.contratsCadres.*;
 
@@ -111,8 +110,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
 		}for(Variable var : this.besoinsChoco.values()) {
-			//System.out.println(var.getNom());
-			//System.out.println(var.getValeur());
+			System.out.println(var.getNom());
+			System.out.println(var.getValeur());
 		}
 	}
 	//besoin de savoir ce qu'il nous reste à payer pour connaître l'état réel des comptes et non seulement le montant sur notre compte bancaire
