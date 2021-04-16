@@ -3,6 +3,7 @@ package abstraction.eq3Transformateur1;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -42,7 +43,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		// Si l'echeancier est juste plus long de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		if( contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
+		if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
 		}
@@ -61,11 +62,13 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 		this.getStock().getFinancier().miseAJourContratAcheteur();
 		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
-		for  (Feve feve : this.nosFevesCC()) {
+		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantitefeveAAcheter();
+		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
+		for  (Feve feve : feveaacheter) {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				boolean t = true;
 				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
-					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, this.getQuantiteStep(feve)), cryptogramme, false);
+					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
 					if (contrat != null) {
 						t = false;
 						this.getStock().getFinancier().ajoutContratEnTantQueAcheteur(contrat);
@@ -86,9 +89,6 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 	}
 	
-	public double getQuantiteStep(Feve feve) {
-		return 10000.0;
-	}
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {

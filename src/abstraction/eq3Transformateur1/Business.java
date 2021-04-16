@@ -12,13 +12,13 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
-
+// Paul GIRAUD
 public class Business {
 	
 	
 	
 	private Stock stock;
-	
+	private double QUANTITE_INI = 10000;
 	protected List<Variable> indicateurs;
 	
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
@@ -236,16 +236,27 @@ public class Business {
 		return listedifstock;
 	}
 	
-	public Map<Feve, Double> feveAAcheter() {
+	public Map<Feve, Double> quantitefeveAAcheter() {
 		Map<Feve, Double> stockaacheter = new HashMap<Feve, Double>(); 
 		for (Feve feve : this.getStock().nosFeves()) {
-			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
+			double diff = this.listeDifferenceStockArrivePart().get(feve);
+			if (diff < 0) {
 				stockaacheter.put(feve,this.listeDifferenceStockArrivePart().get(feve)*1.5);
+			} else if (diff == 0) {
+				stockaacheter.put(feve, QUANTITE_INI);
 			}
 		}
 		return stockaacheter;
 	}
 	
-	
+	public ArrayList<Feve> feveAAcheter() {
+		ArrayList<Feve> listefeve = new ArrayList<Feve>();
+		for (Feve feve : this.getStock().nosFeves()) {
+			if (this.listeDifferenceStockArrivePart().get(feve) < 0) {
+				listefeve.add(feve);
+			} 
+		}
+		return listefeve;
+	}
 
 }
