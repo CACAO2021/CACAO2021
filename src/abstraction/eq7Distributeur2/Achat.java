@@ -38,7 +38,11 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public Achat(Distributeur2Acteur wonka) {
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
-		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
+			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
+				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);	
+			}
+		}
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();

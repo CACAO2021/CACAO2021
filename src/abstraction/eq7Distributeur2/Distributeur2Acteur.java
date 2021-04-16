@@ -99,7 +99,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.initialiserCatalogue();
 		this.initialiserMarges();
 		for (ChocolatDeMarque CDM : this.catalogue) {
-		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.getMarque()));
+		journalCatalogue.ajouter(Journal.texteColore(Color.WHITE, Color.BLACK , CDM.name()));
 		}	
 		this.stocks = new Stocks(this);
 		this.achat = new Achat(this);
