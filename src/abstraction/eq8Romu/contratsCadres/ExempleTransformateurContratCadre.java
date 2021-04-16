@@ -25,7 +25,7 @@ public class ExempleTransformateurContratCadre implements IActeur {
 		NB_INSTANCES++;
 		this.numero=NB_INSTANCES;
 		this.produit=produit;
-		this.stock=new Variable(getNom()+" stock ", this, 0, 1000000000, 1000000000);
+		this.stock=new Variable(getNom()+" stock ", this, 0, 1000000, 100000);
 		this.journal = new Journal(this.getNom()+" activites", this);
 	}
 	
