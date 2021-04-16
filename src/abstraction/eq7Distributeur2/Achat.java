@@ -40,9 +40,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
 		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
 			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
-//				System.out.println(recherche_superviseur.getNom());
 				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);
-//				System.out.println(this.supCCadre.getVendeurs(wonka.getCatalogue().get(0)));
 			}
 		}
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
@@ -112,7 +110,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
-		}		
+		}for(Variable var : this.besoinsChoco.values()) {
+			//System.out.println(var.getNom());
+			//System.out.println(var.getValeur());
+		}
 	}
 	//besoin de savoir ce qu'il nous reste à payer pour connaître l'état réel des comptes et non seulement le montant sur notre compte bancaire
 	public double paiementsEnAttente() {
@@ -137,14 +138,13 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
-			System.out.println(this.getSupCCadre().getVendeurs(choco));
-			if (vendeurs.size()!=0){
+			if (vendeurs.size()!=0 && this.besoinsChoco.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
 				int i = (int) (Math.random()*vendeurs.size());
 				IVendeurContratCadre vendeur = vendeurs.get(i);
 				//on répartie la valeur totale commandée sur 5 étapes 
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 			}
 		}
 	}

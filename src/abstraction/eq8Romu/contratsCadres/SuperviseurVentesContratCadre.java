@@ -45,6 +45,8 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	public List<IVendeurContratCadre> getVendeurs(Object produit) {
 		List<IVendeurContratCadre> vendeurs = new LinkedList<IVendeurContratCadre>();
 		List<IActeur> acteurs = Filiere.LA_FILIERE.getActeurs();
+//		System.out.println(acteurs.toString());
+//		System.out.println(Filiere.LA_FILIERE.getChocolatsProduits());
 		for (IActeur acteur : acteurs) {
 			if (acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 				vendeurs.add(((IVendeurContratCadre)acteur));
