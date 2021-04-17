@@ -123,7 +123,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 				//arbrePlantesB.remove(s);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
 			}}
-		//  a faire plus tard 
+		//  a faire plus tard : strat pour replanter
 		//TPS_RENOUVELLEMENT_ARBRE;
 		//perdreArgent(cout);
 	}
