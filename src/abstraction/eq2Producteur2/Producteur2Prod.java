@@ -11,7 +11,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesHBE;
 	private LinkedList<Stock> arbrePlantesHE;
 	private LinkedList<Stock> arbrePlantesME;
-	private LinkedList<Stock> arbrePlantesM;
+	private LinkedList<Stock> arbrePlantesM; 
 	private LinkedList<Stock> arbrePlantesB;
 	private LinkedList<Feve> listeProd;
 	
