@@ -16,12 +16,21 @@ import abstraction.fourni.Variable;
 
 //Léna
 
-public class Transformateur3Fabricant extends Transformateur3Acteur implements IFabricantChocolatDeMarque {
+public abstract class Transformateur3Fabricant extends Transformateur3Acteur implements IFabricantChocolatDeMarque {
 	private List<ChocolatDeMarque> chocolats;
+	private String marque;
 	
-	public Transformateur3Fabricant(ChocolatDeMarque choco) {
-		this.chocolats = new LinkedList<ChocolatDeMarque>();}
+	public Transformateur3Fabricant() {
+		this.marque = "Côte d'IMT";
+		this.chocolats = new LinkedList<ChocolatDeMarque>();
+		chocolats.add(new ChocolatDeMarque(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, marque ));
+		chocolats.add(new ChocolatDeMarque(Chocolat.TABLETTE_MOYENNE, marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.CONFISERIE_MOYENNE, marque));}
 	
+	public String getMarque() {
+		return this.marque;
+	}
+		
 	@Override
 	public List<ChocolatDeMarque> getChocolatsProduits() {
 		return this.chocolats; }
