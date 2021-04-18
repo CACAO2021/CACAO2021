@@ -39,7 +39,12 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
+		if (contrat.getProduit() instanceof Chocolat) {
+			return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
+		} else {
+			 return 0;
+		}
+
 	}
 
 	@Override

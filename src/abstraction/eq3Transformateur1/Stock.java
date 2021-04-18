@@ -18,7 +18,8 @@ import java.util.ArrayList;
 public class Stock {
 	
 	protected Business financier;
-	private List<Variable> indicateurs;	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
+	private List<Variable> indicateurs;	
+	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
 	protected Map<Feve,Double> coutFeves;
 	protected Map<Chocolat,Double> coutChocolat;
