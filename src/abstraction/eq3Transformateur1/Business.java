@@ -1,7 +1,9 @@
 package abstraction.eq3Transformateur1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
@@ -11,17 +13,16 @@ import abstraction.fourni.Variable;
 
 
 // Paul GIRAUD
-
 public class Business {
 	
 	
 	
 	private Stock stock;
-	
+	private double QUANTITE_INI = 10000;
 	protected List<Variable> indicateurs;
 	
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
-	
+	protected List<ExemplaireContratCadre> mesContratEnTantQueAcheteur;
 	private Variable prixVenteTabletteBasse;
 	private Variable prixVenteTabletteMoyenne;
 	private Variable prixVenteTabletteMoyenneEquitable;
@@ -102,7 +103,7 @@ public class Business {
 		this.indicateurs.add(35,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreHauteBioEquitable au KG", this.getStock().getActeur(), 0));
  
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
-		
+		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;		
 	}
 	
 	public Stock getStock() {
@@ -114,7 +115,10 @@ public class Business {
 	}
 	
 	public boolean sommesNousVendeur(Object produit) {
-		return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
+		if (produit instanceof Chocolat) {
+			return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
+		}
+		else return false;
 	}
 	
 	public void venteDeChocolat() {
@@ -145,30 +149,114 @@ public class Business {
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {
 		this.mesContratEnTantQueVendeur.add(contrat);
+		this.getStock().getActeur().journalVendeur.ajouter("Nouveau Contrat :"+contrat);
 	}
 	
-	public void MiseAJourContratVente() {
-		ArrayList<ExemplaireContratCadre> ContratValide = new ArrayList<ExemplaireContratCadre>() ;
-		List<ExemplaireContratCadre> Liste = this.mesContratEnTantQueVendeur;
+	public void miseAJourContratVendeur() {
+		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
-			if(contrat.getEcheancier().getStepFin() < Filiere.LA_FILIERE.getEtape()) {
-				ContratValide.add(contrat);
+			if(contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
+				contratsObsoletes.add(contrat);
 			}
 		}
-		this.mesContratEnTantQueVendeur = ContratValide;
-		Liste.removeAll(ContratValide);
-		for(ExemplaireContratCadre contratobselete : Liste ) {
-			this.getStock().getActeur().journalVendeur.ajouter("Contrat terminé :"+contratobselete);;
+		this.mesContratEnTantQueVendeur.removeAll(contratsObsoletes);
+		for(ExemplaireContratCadre contratobselete : contratsObsoletes ) {
+			this.getStock().getActeur().journalVendeur.ajouter("Contrat terminé :"+contratobselete);
 		}
 	}
-
 	
+	public List<ExemplaireContratCadre> getMesContratEnTantQueVendeur() {
+		return this.mesContratEnTantQueVendeur;
+	}
 	
+	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
+		this.mesContratEnTantQueAcheteur.add(contrat);
+		this.getStock().getActeur().journalAcheteur.ajouter("Nouveau contrat :"+contrat);
+	}
 	
+	public void miseAJourContratAcheteur() {
+		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
+		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueAcheteur) {
+			if(contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
+				contratsObsoletes.add(contrat);
+			}
+		}
+		this.mesContratEnTantQueAcheteur.removeAll(contratsObsoletes);
+		for(ExemplaireContratCadre contratobselete : contratsObsoletes ) {
+			this.getStock().getActeur().journalAcheteur.ajouter("Contrat terminé :"+contratobselete);
+		}
+	}
 	
+	public List<ExemplaireContratCadre> getContractsCadresAcheteur() {
+		return this.mesContratEnTantQueAcheteur;
+	}
 	
+	public Map<Chocolat, Double> stockAFournir(int step) {
+		Map<Chocolat, Double> stockafournir = new HashMap<Chocolat, Double>();
+		for (Chocolat chocolat : this.getStock().nosChocolats()) {
+			stockafournir.put(chocolat, 0.0);
+		}
+		for (ExemplaireContratCadre contrat : this.getMesContratEnTantQueVendeur()) {
+			if (contrat.getProduit() instanceof Chocolat) {
+				Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
+				stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
+			}
+		}
+		return stockafournir; 
+	}
 	
+	public Map<Feve, Double> stockARecevoir(int step) {
+		Map<Feve, Double> stockarecevoir = new HashMap<Feve, Double>();
+		for (Feve feve : this.getStock().nosFeves()) {
+			stockarecevoir.put(feve, 0.0);
+		}
+		for (ExemplaireContratCadre contrat : this.getContractsCadresAcheteur() ){
+			if (contrat.getProduit() instanceof Feve) {
+				Double ancienstock = stockarecevoir.get((Feve) contrat.getProduit());
+				stockarecevoir.replace((Feve)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
+			}
+		}
+		return stockarecevoir; 
+	}
 	
+	public double differenceStockArrivePart(Feve feve, int step) {
+		return this.stockARecevoir(step).get(feve) - this.stockAFournir(step).get(this.getStock().equivalentConfiserieFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentTabletteFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentPoudreFeve(feve));
+	}
 	
+	public  Map<Feve, Double> listeDifferenceStockArrivePart() {
+		Map<Feve, Double> listedifstock = new HashMap<Feve, Double>(); 
+		for (Feve feve : this.getStock().nosFeves()) {
+			double difference = 0;
+			for (int i = 1; i < 11; i++) {
+				difference += this.differenceStockArrivePart(feve, i);
+			}
+			listedifstock.put(feve, difference);
+			
+		}
+		return listedifstock;
+	}
+	
+	public Map<Feve, Double> quantitefeveAAcheter() {
+		Map<Feve, Double> stockaacheter = new HashMap<Feve, Double>(); 
+		for (Feve feve : this.getStock().nosFeves()) {
+			double diff = this.listeDifferenceStockArrivePart().get(feve);
+			if (diff < 0) {
+				stockaacheter.put(feve,this.listeDifferenceStockArrivePart().get(feve)*1.5);
+			} else if (diff == 0) {
+				stockaacheter.put(feve, QUANTITE_INI);
+			}
+		}
+		return stockaacheter;
+	}
+	
+	public ArrayList<Feve> feveAAcheter() {
+		ArrayList<Feve> listefeve = new ArrayList<Feve>();
+		for (Feve feve : this.getStock().nosFeves()) {
+			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
+				listefeve.add(feve);
+			} 
+		}
+		return listefeve;
+	}
 
 }
