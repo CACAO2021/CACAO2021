@@ -228,6 +228,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 // et non ajouter la quantité totale de chocolat du contrat dès la signature
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
+		System.out.println("cette fonction est bien lancée");
 		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), quantite);
 		
 	}

@@ -18,28 +18,25 @@ import abstraction.fourni.Variable;
 
 
 
-// Paul GIRAUD
 public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadre {
 
 	
-	protected SuperviseurVentesContratCadre supCCadre;
-	protected Object produit;
 
+	protected Object produit;
+	protected SuperviseurVentesContratCadre supCCadre;
+	
 	public AcheteurFevesContratCadre () {
 		super();
-		this.supCCadre = null;
+	/*	for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
+//			System.out.println(recherche_superviseur.getNom());
+			if(recherche_superviseur.getNom().equals("Sup.CCadre")) {
+//			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
+//				System.out.println(recherche_superviseur);
+				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);
+			}
+		}*/
 	}
 	
-
-	
-	public SuperviseurVentesContratCadre setSupCCadre() {
-		return this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
-	}
-	
-	public SuperviseurVentesContratCadre getSupCCadre() {
-		return supCCadre;
-	}
-
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		// Si l'echeancier est juste plus long de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
@@ -68,7 +65,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				boolean t = true;
 				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
-					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
+					ExemplaireContratCadre contrat = this.supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
 					if (contrat != null) {
 						t = false;
 						this.getStock().getFinancier().ajoutContratEnTantQueAcheteur(contrat);
