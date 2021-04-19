@@ -38,7 +38,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
 		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
-			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
+//			System.out.println(recherche_superviseur.getNom());
+			if(recherche_superviseur.getNom().equals("Sup.CCadre")) {
+//			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
+//				System.out.println(recherche_superviseur);
 				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);
 			}
 		}
