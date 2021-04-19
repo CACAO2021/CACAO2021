@@ -31,7 +31,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		
 	}
 
-	//est ce que on peut mettre next() ici?
+	// tout les tours on propose un contrat cadre par produit (pour l'instant jamais en tête de gondole)
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
