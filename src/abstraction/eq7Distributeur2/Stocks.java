@@ -173,7 +173,9 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		if (this.getStockChocolatDeMarque(chocolatDeMarque)>qte) { //on vérifie déjà que l'action soit possible
-			this.stocksEnTG.get(chocolatDeMarque).setValeur(acteur, acteur.quantiteEnVente(chocolatDeMarque)*this.getParametre("limiteEnTG")/100);
+			if(this.stocksEnTG.get(chocolatDeMarque).getValeur()!=0) {
+			this.stocksEnTG.get(chocolatDeMarque).setValeur(acteur, acteur.quantiteEnVente(chocolatDeMarque)*(this.getParametre("limiteEnTG")-0.01)/100);
+			}
 			if(this.getQuantiteChocoEnTG(chocolatDeMarque)<0) { // on dit que lorsqu'un chocolat est vendu, c'est qu'il était d'abord en TG
 				this.setQuantiteChocoEnTG(chocolatDeMarque, 0.0);
 			}
