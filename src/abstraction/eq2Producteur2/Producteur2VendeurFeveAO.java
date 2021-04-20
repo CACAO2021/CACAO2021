@@ -15,45 +15,36 @@ import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
 
-	protected LinkedList<LinkedList<PropositionVenteFevesAO> > mesContratsAO;
+	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
 	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
-	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
-	//nbOffres=nbOffres.SuperviseurVentesFevesAO;
-	public LinkedList<OffreAchatFeves> LAO;
 
 	public Producteur2VendeurFeveAO() {
 		super();
-		this.mesContratsAO = new LinkedList<LinkedList<PropositionVenteFevesAO> >();
+		this.mesContratsAO = new LinkedList<PropositionVenteFevesAO>();
 	}
 
 	/**	@author Maxime Boillot
 	 
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-		// verif qtt
-		return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve());	
+		double stock = qttTotale(oa.getFeve()).getValeur();
+		if (stock >= oa.getQuantiteKG() ) {
+			return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
+		}else {
+			return 0;
+		}
 	}
 	
-/**	@author Maxime Boillot
-	 
+	/**	@author Maxime Boillot
 	 
 	 */
 	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
 		this.mesContratsAORefuses.add(proposition);
 	}
-
-	/**@author Maxime Boillot
-	  Sert à créer une liste des offres d'achat à partir des propositions
+	
+	/**	@author Maxime Boillot
+	 
 	 */
-	public OffreAchatFeves conversion(LinkedList<PropositionVenteFevesAO> mesContratsAORefuses) {
-		this.LAO = new LinkedList<OffreAchatFeves>();
-		for (int i=0;i=mesContratsAORefuses.size();i++) {
-			LAO.add(mesContratsAORefuses.get(i).getOffreAchateFeves());
-		}
-	
-	}
-	
-	//DIM
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur().getNom() + " qtt = " + Math.floor(proposition.getQuantiteKg()) + proposition.getFeve()
 		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );

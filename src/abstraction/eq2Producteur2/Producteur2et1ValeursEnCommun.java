@@ -12,6 +12,10 @@ public class Producteur2et1ValeursEnCommun {
 	
 	//cout changement arbre
 	public double COUT_CHANGEMENT_ARBRE_HBE = 0;
+	public double COUT_CHANGEMENT_ARBRE_HE = 0;
+	public double COUT_CHANGEMENT_ARBRE_ME = 0;
+	public double COUT_CHANGEMENT_ARBRE_M = 0;
+	public double COUT_CHANGEMENT_ARBRE_B = 0;
 	
 	protected int ARBRE_TPS_VIE_HBE = 40*48;
 	protected int ARBRE_TPS_VIE_HE = 40*48;

@@ -270,7 +270,5 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 
 
-	@Override
-	public abstract void perdreArgent(double montant) ;
 
 }

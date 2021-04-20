@@ -173,7 +173,6 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		// maj var mesContrats
 		this.mesContratsCC.add(contrat);
-		System.out.println("youpi un contrat");
 		// garder en mémoire la production future a assumer
 		contrat.getQuantiteTotale(); // va falloir produire ca
 		contrat.getEcheancier().getStepFin(); // dernier step ou on doit fournir
@@ -183,10 +182,9 @@ public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implement
 	@Override
 	// Dim
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		double stock = 0;
+		double stock = qttTotale(produit).getValeur();
 		if (stock >= quantite ) {
-			// maj stock a faire ici
-			// ecouler en priorite les stocks ancien
+			vente(quantite, produit);
 			return quantite;
 		}else {
 			return stock;

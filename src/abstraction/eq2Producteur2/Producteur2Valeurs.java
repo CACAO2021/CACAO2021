@@ -64,9 +64,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/6;
 	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/6;
 	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/6;
-	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
-
-	
+	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; 
 
 	
 	
@@ -82,8 +80,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	
 	public static boolean estPoudreHE(Object produit) {return produit.equals(Chocolat.POUDRE_HAUTE_EQUITABLE);}
 	public static boolean estPoudreM(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE);}
-	public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
-	
+	public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}	
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
