@@ -7,21 +7,25 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
-public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
+public class VendeurProduitsContratCadre extends Transformateur1Marque implements IVendeurContratCadre {
 	
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
-		MarqueTransformateur1 M = new MarqueTransformateur1(); //on rappelle la classe marquetransformateur1
-		List<Chocolat> L = M.getProduits(); //liste des produits
-		if(L.contains(produit)) {
-			return true;
+		if ((produit instanceof Chocolat)) {
+			if (((Chocolat)produit).getGamme() != Gamme.BASSE) {
+			return true;	
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	@Override
