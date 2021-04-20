@@ -27,7 +27,7 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 	}
 	
 	public void initialiser() {
-	//	this.supCCadre = (SuperviseurVentesContratCadre) (Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+	 	this.supCCadre = (SuperviseurVentesContratCadre) (Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		this.getStock().setStockFeve(Feve.FEVE_MOYENNE_EQUITABLE, new Variable(this.getNom(), this, 10000), new Variable(this.getNom(), this,500));
 	}
 }
