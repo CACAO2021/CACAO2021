@@ -225,9 +225,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	
 	/**
 	 * @author Maxime Boillot
-	 * Pour chaque type de stock : HBE, HE, ME,M, B
-	 * Si le premier élément (celui qui est dans la liste depuis le plus longtemps=le plus vieux stock ) de la liste n'est pas périmé on nee fait rien 
-	 * Dans le cas inverse, on retire tous les léléments périmés de la liste en partant du plus vieux
+	 * on retire tous les léléments périmés de la liste 
 	 */
 	public void verifPeremption() {
 		//LinkedList<Stock> feveHBE = stockFeveHBE;
@@ -268,6 +266,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}
 		
 	}
+	
 
 
 

@@ -2,7 +2,7 @@ package abstraction.eq2Producteur2;
 
 import abstraction.eq8Romu.produits.Feve;
 
-public class contratAO extends Producteur2VendeurFeveAO {
+public abstract class contratAO extends Producteur2VendeurFeveAO {
 	private double prixKg;
 	private boolean etat;
 	private Feve typefeve;
