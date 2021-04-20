@@ -14,7 +14,7 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 	}
 	
 	public void next() {
-		
+
 		this.getStock().getFinancier().setIndicateurs();
 		this.getStock().getFinancier().miseAJourContratVendeur();
 		this.nosDemandesCC();
