@@ -3,7 +3,7 @@ package abstraction.eq2Producteur2;
 
 import java.util.LinkedList;
 import java.util.Map;
-
+import abstraction.eq2Producteur2.contratAO;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
@@ -15,12 +15,12 @@ import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
 
-	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
-	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
+	protected LinkedList<contratAO> historiqueMesContratsAO;
+	
 
 	public Producteur2VendeurFeveAO() {
 		super();
-		this.mesContratsAO = new LinkedList<PropositionVenteFevesAO>();
+		this.historiqueMesContratsAO = new LinkedList<contratAO>();
 	}
 
 	/**	@author Maxime Boillot
@@ -39,7 +39,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	 
 	 */
 	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
-		this.mesContratsAORefuses.add(proposition);
+		historiqueMesContratsAO.add(contratA0(proposition.getPrixKG(),false ,proposition.getOffreAchateFeves().getFeve()));
 	}
 	
 	/**	@author Maxime Boillot
@@ -48,7 +48,7 @@ public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVen
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur().getNom() + " qtt = " + Math.floor(proposition.getQuantiteKg()) + proposition.getFeve()
 		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );
-		this.mesContratsAO.add(proposition);
+		this.historiqueMesContratsAO.add(proposition);
 		vente(proposition.getQuantiteKg(), proposition.getFeve());
 		
 	}
