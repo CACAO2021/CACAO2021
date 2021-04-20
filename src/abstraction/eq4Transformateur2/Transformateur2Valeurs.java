@@ -20,6 +20,8 @@ public class Transformateur2Valeurs {
 	protected LinkedList<Double> echeancier_confiserie_moyenne;
 	protected LinkedList<Double> echeancier_total;
 	
+	protected static double Prix_max_achat;
+	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 	protected int cryptogramme;
 	protected Journal journal;

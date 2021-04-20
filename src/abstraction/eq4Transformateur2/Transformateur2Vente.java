@@ -7,7 +7,6 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.eq8Romu.produits.Categorie;
-import java.util.ArrayList;
 
 
 //Abigaëlle
