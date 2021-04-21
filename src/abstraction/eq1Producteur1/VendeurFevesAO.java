@@ -7,7 +7,7 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 
-public class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO  {
+public abstract class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO  {
 	private static double PRIX_I_F_M=1.70;//prix de vente initial en €/kg des fèves moyenne qualité non équitable.
 	private static double PRIX_I_F_B=1.52;//idem pour les fèves basse qualité non équitable.
 	private static double PRIX_P_F_M=1.05;//prix plancher en €/kg des fèves moyenne qualité non équitable.
@@ -23,11 +23,14 @@ public class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO
 	 * On applique la stratégie mise en place dans le cahier des charges.
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
+		if (step_actuel==1) {
+			return 0;
+		}
 		double res = 0;
 		Feve feve = oa.getFeve();
 		double q = oa.getQuantiteKG();		
 		if ((feve==Feve.FEVE_BASSE || feve==Feve.FEVE_MOYENNE)  //On ne veut que 2 types de fèves par AO.
-				&& (this.stocks.get(feve).getQuantite()>q)) { //Si on a la quantité de fève demandée alors on étudie l'oa.
+				&& (this.getStocks().get(feve).getQuantite()>q)) { //Si on a la quantité de fève demandée alors on étudie l'oa.
 			if(this.historiques.get(feve).get(step_actuel-2).etatVente()) {  //Si au step précédent la vente a été conclue alors on repropose le prix initial.
 				res = feve==Feve.FEVE_MOYENNE ? PRIX_I_F_M*q : PRIX_I_F_B*q;
 			}
@@ -64,8 +67,8 @@ public class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO
 		hist.get(hist.size()-1).set_etatVente(true); //si on conclue une vente alors on la rentre dans l'historique des ventes par AO.
 		hist.get(hist.size()-1).set_prixVente(proposition.getMontant());
 
-		this.stocks.get(proposition.getFeve()).removeQuantite(proposition.getQuantiteKg());//on retire les fèves vendues de notre stock.
-		journaux.getJournal(2).ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
+		this.getStocks().get(proposition.getFeve()).removeQuantite(proposition.getQuantiteKg());//on retire les fèves vendues de notre stock.
+		this.getJournal(2).ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
 	}
 
 }

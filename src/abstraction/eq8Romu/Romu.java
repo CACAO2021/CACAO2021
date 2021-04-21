@@ -56,7 +56,7 @@ public class Romu implements IActeur {
 		}
 		journal.ajouter("Que produisent les fabriquants :");
 		for (IFabricantChocolatDeMarque f : Filiere.LA_FILIERE.getFabricantsChocolatDeMarque()) {
-			journal.ajouter(" fabriquant : "+f+" fabrique : "+f.getChocolatsProduits());
+			journal.ajouter(" fabriquant : "+((IActeur)f).getNom()+" fabrique : "+f.getChocolatsProduits());
 		}
 	}
 

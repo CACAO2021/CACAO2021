@@ -13,14 +13,14 @@ import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Variable;
 
-public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
+public class Stocks extends Distributeur1Acteur{
 	
 	
 	protected Map<ChocolatDeMarque, Variable> stock; // tout les stocks, y compris le contenu de stockTG
 	protected Map<ChocolatDeMarque, Double> prix;
 	protected Map<ChocolatDeMarque,Variable> stockTG;
 
-	
+	//Louis
 	public Stocks() {
 		super();
 		this.stock=new HashMap<ChocolatDeMarque, Variable>(); 
@@ -28,6 +28,7 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>(); 
 	}
 	
+	//Louis
 	public void ajouterStock(Object produit, double quantite, boolean tg) {
 		//peut-etre que caster produit en ChocolatDeMarque va faire une erreur, il faudrait mettre des verifications ou le caster avant d'utiliser cette methode
 		//si tg==true alors on ajoute le produit en tête de gondole, sinon simplement en rayon
@@ -38,10 +39,12 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 
 	}
 	
+	//Louis
 	public void setPrix(ChocolatDeMarque choco, double prix) {
 		this.prix.put(choco, prix);
 	}
 
+	//Louis
 	public void initialiser() {
 		super.initialiser();
 		initCatalogue();
@@ -49,10 +52,11 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		int i=0;
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			i++;
-			this.indicateurs.add(new Variable(choco.getMarque().toString()+ " " + i +" Quantite stock CC",this,0.));
+			this.indicateurs.add(new Variable(choco.getMarque().toString()+ " " + i +" Quantite stock CC",this,stock.get(choco).getValeur()));
 		}
 	}
 	
+	//Louis
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 
@@ -61,6 +65,7 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		}
 	}
 
+	//Louis
 	public void initPrix() {
 		for(ChocolatDeMarque choco : stock.keySet()) {
 			if(choco.getCategorie()==Categorie.TABLETTE) {
@@ -112,14 +117,9 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 
 			}
 		}
+		
 	}
 
-	/*@Override
-	public List<String> getMarquesChocolat() {
-		List marque = new ArrayList<String>();
-		marque.add("CacaoCaisse");
-		return marque;
-		}*/
 }
 	
 

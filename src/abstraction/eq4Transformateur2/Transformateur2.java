@@ -14,5 +14,7 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		}
 	}
 
-	
+	public String toString() {
+		return this.getNom();
+	}
 }
