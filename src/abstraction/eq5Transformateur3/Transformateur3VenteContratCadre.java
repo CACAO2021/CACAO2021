@@ -36,10 +36,10 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 
 	@Override
 	public boolean vend(Object produit) {
-		if (!this.getChocolats().keySet().contains(produit)) {
+		if (!this.getChocolats().keySet().contains((Chocolat)produit)) {
 			return false;
 		}
-		if (this.getChocolats().get(produit).getValeur()>0) {
+		if (this.getChocolats().get((Chocolat)produit).getValeur()>0) {
 			return true;}
 		else { return false;}
 
@@ -57,14 +57,35 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 		
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		return 2*contrat.getQuantiteTotale();
+		if (contrat.getProduit().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE)) {
+			return this.prix_tablette_equi.getValeur()*contrat.getQuantiteTotale();	}
+		if (contrat.getProduit().equals(Chocolat.TABLETTE_MOYENNE)) {
+			return this.prix_tablette.getValeur()*contrat.getQuantiteTotale(); }
+		if (contrat.getProduit().equals(Chocolat.CONFISERIE_MOYENNE)) {
+			return this.prix_confiserie.getValeur()*contrat.getQuantiteTotale(); }
+		else { return -1; }
+		
 	}
 
 	@Override
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		if (contrat.getPrix()>1.8*contrat.getQuantiteTotale()) { //si le prix proposé est inférieur à 90% du prix initiale
-			return contrat.getPrix(); }
-		else { return 1.8*contrat.getQuantiteTotale();} //retourne un prix égal à 90% du prix initial
+		
+		if (contrat.getProduit().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE)) {
+			if (contrat.getPrix()>this.prix_min_vente_EQ.getValeur()) {
+				return contrat.getPrix();}
+			else { return this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale(); } }
+		
+		if (contrat.getProduit().equals(Chocolat.TABLETTE_MOYENNE)) {
+			if (contrat.getPrix()>this.prix_min_vente_MG.getValeur()) {
+				return contrat.getPrix(); }
+			else { return this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale();} }
+			
+		if (contrat.getProduit().equals(Chocolat.CONFISERIE_MOYENNE)) {
+			if (contrat.getPrix()>this.prix_min_vente_confiserie.getValeur()) {
+				return contrat.getPrix(); }
+		    else { return this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale(); } }
+		
+		else { return -1;} 
 	}
 
 	@Override
