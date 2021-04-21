@@ -149,6 +149,21 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 	}
 	
+	//Nouveau contrat avec chocolat en tête de gondole
+	public void nouveauContratenTG() {
+		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
+			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
+			if (vendeurs.size()!=0 && this.besoinsChoco.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
+				int i = (int) (Math.random()*vendeurs.size());
+				IVendeurContratCadre vendeur = vendeurs.get(i);
+				//on répartie la valeur totale commandée sur 5 étapes 
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
+				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), true);
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
+			}
+		}
+	}
+	
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		Echeancier e = contrat.getEcheancier();
 		if(e.getNbEcheances()>=10) { //si l'échéancier est réparti sur plus de 10 étapes : trop long (arbitraire)
