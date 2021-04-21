@@ -32,6 +32,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected List<Variable> indicateurs;
 	protected List<Variable> parametres;
 
+	
+
+
 	private ChocolatDeMarque chocoProduit;
 	
 	
@@ -64,7 +67,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		
 		journalAchats = new Journal("Registre des achats [W&S]", this);
-		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des acahats"));
+		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des achats"));
 		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
 		
 		journal = new Journal("Informations générales [W&S]", this);
@@ -127,6 +130,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
 
+		//Martin Collemare
 		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
 		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
 			this.getMontantMin().setValeur(this, this.getSolde()/2);
@@ -205,6 +209,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
 	
+	//Martin Collemare
 	//Renvoie true si après la future transaction, le solde total est supérieur au montantMin 
 	public boolean getAutorisationTransaction(double prix) {
 		if(this.getSolde() - prix >= this.getMontantMin().getValeur()) {
@@ -222,7 +227,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
-		return this.achat.moyennePrixChoco( choco)/this.marges.get(choco.getChocolat());
+		return this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat());
 	}
 
 	//On considere que tout le stock d'un produit est en vente
@@ -253,6 +258,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		List<String> marquesProposes = new ArrayList<String>();
 		marquesProposes.add(this.chocoProduit.getMarque());
 		return marquesProposes;
+//		return new ArrayList<String>();
 	}
 
 	@Override
@@ -260,6 +266,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		List<ChocolatDeMarque> choco = new ArrayList<ChocolatDeMarque>();
 		choco.add(this.chocoProduit);
 		return choco;
+//		return new ArrayList<ChocolatDeMarque>();
 	}
 
 	
@@ -297,4 +304,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.achat.receptionner(produit, quantite, contrat);
 	}
 	
+	/**
+	 * @return the chocoProduit
+	 */
+	public ChocolatDeMarque getChocoProduit() {
+		return chocoProduit;
+	}
+	
+	public String toString() {
+		return this.getNom();
+	}
 }
