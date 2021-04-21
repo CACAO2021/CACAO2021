@@ -40,6 +40,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public double getQmax() {
 		return this.quantite.getMax();
 	}
+	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
 	public Feve getFeve(Chocolat chocolat) {
 			if(chocolat == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
 				return Feve.FEVE_HAUTE_BIO_EQUITABLE;
@@ -55,6 +56,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 	
 	public OffreAchatFeves getOffreAchat() {
+		int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
@@ -62,6 +64,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 					feve = getFeve(chocolat);
 					if(quantite.getValeur()!=0){
 						this.JournalOA.ajouter("offre d'achat =" + OA);
+						nb_OA+=1;
 						return OA;
 					}
 				}
@@ -73,11 +76,12 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 					feve = getFeve((Chocolat) (contrat.getProduit()));
 					if(quantite.getValeur()!=0){
 						this.JournalOA.ajouter("offre d'achat =" + OA);
+						nb_OA+=1;
 						return OA;
 					}
 				}
 			}
-			else {
+			if(nb_OA==0){
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
 			}
