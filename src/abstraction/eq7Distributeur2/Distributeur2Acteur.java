@@ -64,7 +64,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		
 		journalAchats = new Journal("Registre des achats [W&S]", this);
-		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des acahats"));
+		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des achats"));
 		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
 		
 		journal = new Journal("Informations générales [W&S]", this);
