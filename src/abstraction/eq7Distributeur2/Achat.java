@@ -106,7 +106,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)  - wonka.quantiteEnVente(choco) );
 				quantiteMax.put(choco, quantite);
 			}
-			
 		}
 		this.majDemande();
 		this.nouveauContrat();
@@ -137,6 +136,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
 			}
 			else {
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
+			}
+			//afin de ne pas polluer démesurement on annulle la commande si le volume n'est pas conséquent
+			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
 		}
