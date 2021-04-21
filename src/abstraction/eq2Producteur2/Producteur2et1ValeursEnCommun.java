@@ -22,6 +22,7 @@ public class Producteur2et1ValeursEnCommun {
 	
 	//production par tour par arbre 
 	public int PROD_ARBRE = 6;
+	
 	//si on decide de donner des valeurs différentes:
 	public int PROD_HBE = 6;
 	public int PROD_HE = 6;
