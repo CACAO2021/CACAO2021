@@ -24,6 +24,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private HashMap<ChocolatDeMarque, LinkedList<Double>> prixParChocolat; //pour avoir une moyenne du prix d'achat par chocolat
 	private LinkedList<Double> prixChocolat; //idem 
 	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on a pas encore en stock alors qu'il arrive dans x étapes selon l'échéancier d'un contrat déjà signé
+	private HashMap<ChocolatDeMarque,Double> quantiteEnRouteTG; // quantité de choco à mettre en tete de gondole en cours de livraison
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -49,7 +50,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
-
+		this.quantiteEnRouteTG = new HashMap<ChocolatDeMarque, Double>();
+		
 		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 		this.prixParChocolat = new HashMap<ChocolatDeMarque, LinkedList<Double>>();
 		this.prixChocolat = new LinkedList<Double>();
@@ -57,6 +59,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
 			this.quantiteARecevoir.put(choco, 0.);
+		}
+		
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			this.quantiteEnRouteTG.put(choco, 0.);
 		}
 		
 		for(ChocolatDeMarque nosChoco : wonka.getCatalogue()) {
@@ -68,10 +74,19 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		
 	
 	public void next() {
+		
 		for(ExemplaireContratCadre contrat : contrats) {
 			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 			this.quantiteARecevoir.put(choco, contrat.getQuantiteRestantALivrer());
 		}
+		
+		for(ExemplaireContratCadre contrat : contrats) {
+			if (contrat.getTeteGondole()) {
+				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+				this.quantiteEnRouteTG.put(choco, contrat.getQuantiteRestantALivrer());
+			}
+		}
+		
 		this.mettreAJourContrats(); //supprime les contrats caduques
 		paiements = this.paiementsEnAttente();
 		//Modifie les quantités min et max pour chaque chocolat en fonction de l'année précédente
@@ -264,7 +279,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 
-
+	
 
 
 }
