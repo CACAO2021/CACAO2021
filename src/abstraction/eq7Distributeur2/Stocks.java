@@ -57,7 +57,6 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			stocksEnTG.put(choco, new Variable("Stocks en TG de " + choco.name() +" [W&S]", acteur,0));
 		}
-		System.out.println(this.nouveauChocoParEtape.toString());
 	}
 	
 	
@@ -66,8 +65,6 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		if(Filiere.LA_FILIERE.getEtape()==0) {
 			for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
 				if(!chocoDeMarq.name().equals(acteur.getChocoProduit().name())){
-					System.out.println(chocoDeMarq.name());
-					System.out.println(Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24));
 					this.stocksParMarque.get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24));
 					acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, "[AJOUT] " + Journal.doubleSur(Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24),2) + " de " + chocoDeMarq.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocoDeMarq).getValeur(),2) + " "));
 					this.nouveauChocoParEtape.get(0).get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24));
