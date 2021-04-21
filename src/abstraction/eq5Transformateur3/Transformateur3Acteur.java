@@ -61,15 +61,13 @@ public abstract class Transformateur3Acteur implements IActeur {
 		
 	}
 
-	public void next() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	/*public void next() {
-		int index = this.getIndicateurs().indexOf(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		Variable feve = this.getIndicateurs().get(index+1);
-		if(feve.getValeur()-100>0) { //garder au minimum 100kg
+		int index = this.getIndicateurs().indexOf(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE));
+		Variable feve = this.getIndicateurs().get(index+1); }
+
+	if(feve.getValeur()-100>0) { //garder au minimum 100kg
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, feve.getValeur()-100 ); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_HAUTE_EQUITABLE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 		}
@@ -87,6 +85,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	}*/
 
 	
+
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
