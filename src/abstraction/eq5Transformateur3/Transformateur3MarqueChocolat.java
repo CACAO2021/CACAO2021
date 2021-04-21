@@ -11,9 +11,9 @@ import abstraction.fourni.IMarqueChocolat;
 public abstract class Transformateur3MarqueChocolat extends Transformateur3Fabricant implements IMarqueChocolat {
 	
 	public List<String> getMarquesChocolat() {
-		List<String> touteslesmarques = new LinkedList<String>();
-		touteslesmarques.add(this.getMarque());
-		return touteslesmarques;
+		List<String> marques = new LinkedList<String>();
+		marques.add(super.getMarque());
+		return marques;
 		}
 	
 }
