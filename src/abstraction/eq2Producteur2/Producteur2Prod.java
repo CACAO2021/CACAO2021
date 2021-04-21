@@ -103,7 +103,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_M);
 			}}
-		for (Stock s : arbrePlantesB) {
+		for (Stock s : arbrePlantesB) { 
 			if (step - s.getStep() == ARBRE_TPS_VIE_B) {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
