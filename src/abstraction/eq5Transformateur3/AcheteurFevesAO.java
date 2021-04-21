@@ -24,8 +24,12 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 	
 	
+
 	
 	/*public double getQmin() {
+=======
+	public double getQmin() {
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 		return this.quantite.getMin();
 	}
 	public double getQmax() {
