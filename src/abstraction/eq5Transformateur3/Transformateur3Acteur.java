@@ -68,6 +68,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.JournalRetraitStock.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
 		this.JournalAchatContratCadre.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
 		this.JournalVenteContratCadre.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
+		this.JournalOA.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
 	}
 
 
