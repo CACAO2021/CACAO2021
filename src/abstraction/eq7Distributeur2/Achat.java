@@ -23,6 +23,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private double paiements; //variable servant à connaître réellement l'état du compte en banque
 	private HashMap<ChocolatDeMarque, LinkedList<Double>> prixParChocolat; //pour avoir une moyenne du prix d'achat par chocolat
 	private LinkedList<Double> prixChocolat; //idem 
+	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on a pas encore en stock alors qu'il arrive dans x étapes selon l'échéancier d'un contrat déjà signé
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -52,6 +53,11 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 		this.prixParChocolat = new HashMap<ChocolatDeMarque, LinkedList<Double>>();
 		this.prixChocolat = new LinkedList<Double>();
+		this.quantiteARecevoir = new HashMap<ChocolatDeMarque, Double>() ;
+		
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			this.quantiteARecevoir.put(choco, 0.);
+		}
 		
 		for(ChocolatDeMarque nosChoco : wonka.getCatalogue()) {
 			this.prixParChocolat.put(nosChoco, this.prixChocolat);
@@ -62,6 +68,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		
 	
 	public void next() {
+		for(ExemplaireContratCadre contrat : contrats) {
+			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+			this.quantiteARecevoir.put(choco, contrat.getQuantiteRestantALivrer());
+		}
 		this.mettreAJourContrats(); //supprime les contrats caduques
 		paiements = this.paiementsEnAttente();
 		//Modifie les quantités min et max pour chaque chocolat en fonction de l'année précédente
@@ -108,8 +118,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-			if(wonka.stocks.getStockChocolatDeMarque(choco) <= quantiteLimite.get(choco).getValeur()) {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - stocks.getStockChocolatDeMarque(choco)));
+			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
 			}
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
