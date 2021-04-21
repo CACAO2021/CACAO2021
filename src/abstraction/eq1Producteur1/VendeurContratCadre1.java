@@ -54,7 +54,11 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 */
 
 	public boolean vend(Object produit){
-	return  ((this.getStock(produit).getQuantite() > 0) && (this.peutVendre(produit)));
+		boolean res = false;
+		if (this.peutVendre(produit)) {
+			res = this.getStock(produit).getQuantite() > 0;
+		}
+	return  res;
 }
 		
 
@@ -192,21 +196,21 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
-				this.getJournaux().getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
 				}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
-				this.getJournaux().getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
 			}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
-				this.getJournaux().getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
 			}
 			return livre;
 		}

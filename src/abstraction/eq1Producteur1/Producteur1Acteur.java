@@ -74,9 +74,9 @@ public abstract class Producteur1Acteur implements IActeur {
 		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
 		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(67500000);
 		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(60000000);
-		this.getJournaux().getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
-		this.getJournaux().getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
-		this.getJournaux().getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
+		this.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
+		this.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
+		this.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
 	}
 	
 	public String getNom() {
@@ -156,7 +156,7 @@ public abstract class Producteur1Acteur implements IActeur {
 	 * @return
 	 */
 	public abstract Journal getJournal(int i);
-	public abstract JournauxEq1 getJournaux();
+	public abstract List<Journal> getJournaux();
 	public abstract Stock getStock(Object o);
 	public abstract HashMap<Object, Stock> getStocks();
 } 

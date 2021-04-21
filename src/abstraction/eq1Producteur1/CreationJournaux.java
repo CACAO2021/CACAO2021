@@ -5,6 +5,7 @@ package abstraction.eq1Producteur1;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import abstraction.fourni.Journal;
 
@@ -32,8 +33,8 @@ public class CreationJournaux extends Plantations {
 		this.init_journaux();
 	}
 	
-	public JournauxEq1 getJournaux() {
-		return journaux;
+	public List<Journal> getJournaux() {
+		return journaux.getListeJournaux();
 	}
 	
 	public Journal getJournal(int i) {

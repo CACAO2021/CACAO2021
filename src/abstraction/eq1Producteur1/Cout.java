@@ -8,7 +8,7 @@ import abstraction.eq2Producteur2.Producteur2et1ValeursEnCommun;
  *
  */
 
-public class Cout extends JournauxEq1 {
+public class Cout extends CreationJournaux {
 	private static double COUT_PRODUCTION_FEVE_B = Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_B;
 	private static double COUT_PRODUCTION_FEVE_M =Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_M;
 	private static double COUT_PRODUCTION_FEVE_ME =Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_ME;
