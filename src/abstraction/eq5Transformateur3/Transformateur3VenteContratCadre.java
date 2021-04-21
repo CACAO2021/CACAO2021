@@ -1,17 +1,32 @@
 package abstraction.eq5Transformateur3;
 
+import java.util.HashMap;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Variable;
 
 
 //Léna
 
 public class Transformateur3VenteContratCadre extends Transformateur3AchatContratCadre implements IVendeurContratCadre{
+
+	protected HashMap<ExemplaireContratCadre, Integer> contrats ;
+	
+	public Transformateur3VenteContratCadre() {
+		this.contrats = new HashMap<ExemplaireContratCadre, Integer>();
+	}
+	public HashMap<ExemplaireContratCadre, Integer> getContrats() {
+		return contrats;
+	}
+	public int getEtape(ExemplaireContratCadre contrat) {
+		return this.getContrats().get(contrat);
+	}
 	
 	public boolean peutVendre(Object produit) {
 		if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
@@ -52,6 +67,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
+		this.getContrats().put(contrat, Filiere.LA_FILIERE.getEtape());
 	}
 	
 	@Override
@@ -62,6 +78,5 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 		}
 		return livre;
 	}
-	
-
 }
+	

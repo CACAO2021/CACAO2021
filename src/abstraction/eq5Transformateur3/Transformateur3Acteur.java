@@ -19,8 +19,9 @@ public abstract class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
+	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
 	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ;
-	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
+	
 
 	public Transformateur3Acteur() {
 		this.nom = "EQ5";
@@ -29,6 +30,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
+		this.JournalOA = new Journal(this.getNom()+ "Offre d'achat", this);
 		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
 		this.stock_min_feves = new Variable("Stock minimal de fèves", this, 12000);
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
