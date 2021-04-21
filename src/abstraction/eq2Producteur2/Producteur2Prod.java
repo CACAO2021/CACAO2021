@@ -85,27 +85,27 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		int step = Filiere.LA_FILIERE.getEtape();
 		for (Stock s : arbrePlantesHBE) {
 			if (step - s.getStep() == ARBRE_TPS_VIE_HBE) {
-				//arbrePlantesHBE.remove(s);
+				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
 			}}
 		for (Stock s : arbrePlantesHE) {
 			if (step - s.getStep() == ARBRE_TPS_VIE_HE) {
-				//arbrePlantesHE.remove(s);
+				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HE);
 			}}
 		for (Stock s : arbrePlantesME) {
 			if (step - s.getStep() == ARBRE_TPS_VIE_ME) {
-				//arbrePlantesME.remove(s);
+				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_ME);
 			}}
 		for (Stock s : arbrePlantesM) {
 			if (step - s.getStep() == ARBRE_TPS_VIE_M) {
-				//arbrePlantesM.remove(s);
+				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_M);
 			}}
 		for (Stock s : arbrePlantesB) {
 			if (step - s.getStep() == ARBRE_TPS_VIE_B) {
-				//arbrePlantesB.remove(s);
+				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
 			}}
 	}
