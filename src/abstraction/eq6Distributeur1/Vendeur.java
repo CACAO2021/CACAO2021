@@ -127,7 +127,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		int i=0;
 		ajouterStock(produit, quantite,contrat.getTeteGondole());
-		journaux.add(new Journal("vente de "+quantite+" "+produit.toString()+" a "+contrat..toString()+" pour un prix de "+contrat.getPrix(),this));
+		journaux.add(new Journal("vente de "+quantite+" "+produit.toString()+" a "+contrat.toString()+" pour un prix de "+contrat.getPrix(),this));
 		
 	}
 }
