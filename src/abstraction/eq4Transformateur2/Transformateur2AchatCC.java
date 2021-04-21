@@ -23,7 +23,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 				j = 1;
 			}
 		}
-		if (contrat.getEcheancier().getNbEcheances() > 12 || j == 1) {
+		if (contrat.getEcheancier().getNbEcheances() > 24 || j == 1) {
 			return null;
 		}
 		else {
@@ -56,5 +56,4 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 	public void next() {
 		
 	}
-
 }
