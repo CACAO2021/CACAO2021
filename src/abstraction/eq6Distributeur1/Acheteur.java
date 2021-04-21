@@ -1,7 +1,9 @@
 package abstraction.eq6Distributeur1;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
@@ -16,6 +18,7 @@ import abstraction.fourni.Journal;
 
 public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	protected int i=0; //Nombre de tours de négociations
+	protected LinkedList produitTG;
 
 	
 	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
@@ -28,14 +31,36 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
+			i++;
 			Echeancier e = contrat.getEcheancier();
-			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.1; //J'achete 10% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
-			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*1.3);// on propose d'acheter 1.3 fois plus si le vendeur n'est pas content. A modifier par la suite
+			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.15; //J'achete 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
+			if (e.getQuantite(e.getStepFin())>maxQuantite) {
+				e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));}
+			else {
+				e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
+			}
 			return e;
 		
 	}
+	
+	public void choixTG() {
+		produitTG= new LinkedList();
+		double sommeQuantite=0;
+		double sommeTG=0;
+		Map<ChocolatDeMarque,Double> maxQuantites= new HashMap<ChocolatDeMarque,Double>();
+		for (ChocolatDeMarque produit : this.stock.keySet()) {
+			double maxQuantite=(this.historique.get(produit)-this.stock.get(produit).getValeur())*1.15;
+			maxQuantites.put(produit, maxQuantite);
+			sommeQuantite+=maxQuantite;
+		}
+		while (sommeTG<0.08*sommeQuantite) {
+			int rnd = new Random().nextInt(this.getCatalogue().size());
+			sommeTG+=maxQuantites.get(this.getCatalogue().get(rnd));
+			produitTG.add(this.getCatalogue().get(rnd));
+		}
+	}
 
-	// tout les tours on propose un contrat cadre par produit (pour l'instant jamais en tête de gondole) 
+	//est ce que on peut mettre next() ici?
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
@@ -47,8 +72,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			}
 			int rnd = new Random().nextInt(vendeurs.size());
 			IActeur vendeur = vendeurs.get(rnd);
-			((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
-		
+			
+			if (produitTG.contains(produit)) {
+				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, true);
+			}
+			else {
+				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
+			}
 		}
 	}
 
@@ -59,7 +89,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;}
 		if (contrat.getPrix()>maxPrix) {
-			return maxPrix*(1-((contrat.getEcheanciers().size()-1)/100)+i/100);}
+			return maxPrix*(0.85+i/100);}
 		else {
 			return contrat.getPrix(); 
 		}
