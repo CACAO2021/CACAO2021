@@ -18,8 +18,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	protected Map<ChocolatDeMarque,Double> historique;
 	protected int quantitevendue; // quantite vendue en une période
 	protected int q;//Quantité à définir à partir duquel les ventes sont convenables
-	 
-	public int getQuantiteVendue() { 
+	
+	public int getQuantiteVendue() {
 		return this.quantitevendue;
 	}
 	
@@ -40,9 +40,10 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
 			return prix.get(choco);
-		}
+		}else {
 		return 0;
-	}
+		}
+	}//retourne le prix de vente du chocolat "choco"
 
 	@Override
 	public double quantiteEnVente(ChocolatDeMarque choco) {
@@ -51,7 +52,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
-		}
+		}//retourne la quantité totale de chocolat en vente
 	}
 
 	@Override
@@ -61,7 +62,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
-		}  
+		} //retourne la quantité disponible de chocolat en tete de gondole
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 				this.ajouterStock(choco, (-1)*quantite, false);
 				historique.put(choco, quantite);
 				this.quantitevendue+=quantite;
-		}
+		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
 	}
 
 	@Override
