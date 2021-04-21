@@ -18,7 +18,7 @@ import abstraction.fourni.Journal;
 
 public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	protected int i=0; //Nombre de tours de négociations
-	protected LinkedList produitTG;
+	protected LinkedList<ChocolatDeMarque> produitTG;
 
 	
 	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
@@ -44,7 +44,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	}
 	
 	public void choixTG() {
-		produitTG= new LinkedList();
+		produitTG= new LinkedList<ChocolatDeMarque>();
 		double sommeQuantite=0;
 		double sommeTG=0;
 		Map<ChocolatDeMarque,Double> maxQuantites= new HashMap<ChocolatDeMarque,Double>();
