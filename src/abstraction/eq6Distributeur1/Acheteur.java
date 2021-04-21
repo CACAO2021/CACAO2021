@@ -60,7 +60,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		}
 	}
 
-	//est ce que on peut mettre next() ici?
+	// tout les tours on demande à acheter tout les chocolats de nos stocks à un vendeur au hasard.
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
