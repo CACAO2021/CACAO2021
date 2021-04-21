@@ -19,7 +19,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	protected int quantitevendue; // quantite vendue en une période
 	protected int q;//Quantité à définir à partir duquel les ventes sont convenables
 	 
-	public int getQuantiteVendue() {
+	public int getQuantiteVendue() { 
 		return this.quantitevendue;
 	}
 	
