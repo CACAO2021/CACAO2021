@@ -12,7 +12,7 @@ import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
-
+// Gaspard
 public class VendeurProduitsContratCadre extends Transformateur1Marque implements IVendeurContratCadre {
 	
 

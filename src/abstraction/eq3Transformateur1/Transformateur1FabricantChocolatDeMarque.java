@@ -13,6 +13,8 @@ import abstraction.fourni.IFabricantChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
+
+// Jonathan
 public class Transformateur1FabricantChocolatDeMarque extends Transformateur1Acteur implements IFabricantChocolatDeMarque {
 
 	private List<ChocolatDeMarque> chocolats;
