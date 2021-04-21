@@ -20,6 +20,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite par chocolat vendue
 	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère que les ventes convenables
 	
+	//thomas
 	public Vendeur() {
 		super();
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
@@ -38,20 +39,21 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 	}
-	
+
+	//thomas
 	public Double getQuantiteVendue(ChocolatDeMarque choco) {
 		return this.quantiteChocoVendue.get(choco);
 	}
 		
 	
-	@Override
+	//thomas
 	public List<ChocolatDeMarque> getCatalogue() {
 		Set<ChocolatDeMarque> Catalogue = stock.keySet();
 		List<ChocolatDeMarque> c = new ArrayList<>(Catalogue);
 		return c;
 	}//retourne le catalogue (liste des produits disponibles)
 
-	@Override
+	//thomas
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
 			return prix.get(choco);
@@ -60,7 +62,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 	}//retourne le prix de vente du chocolat "choco"
 
-	@Override
+	//thomas
 	public double quantiteEnVente(ChocolatDeMarque choco) {
 		if (choco!=null) {
 			return this.stock.get(choco).getValeur();
@@ -70,7 +72,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}//retourne la quantité du chocolat choco en vente
 	}
 
-	@Override
+	//thomas
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
 		if (choco!=null && this.stockTG.get(choco)!=null) {
 			return this.stockTG.get(choco).getValeur();
@@ -80,7 +82,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}//retourne la quantité disponible du chocolat choco en tete de gondole
 	}
 
-	@Override
+	//thomas
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
 				this.ajouterStock(choco, (-1)*quantite, false);
@@ -90,12 +92,14 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
 	}// on actualise aussi quantiteChocoVendue
 
-	@Override
+	//thomas
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		if (quantiteEnVente(choco)==0) {
 			System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
+	
+	//thomas
 	public void NouveauPrix(ChocolatDeMarque choco, double prix, int QuantiteVendue) {
 		//prix correspond au prix de vente initial
 		if (this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) {
@@ -103,9 +107,12 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
 	}
+	
+	//thomas
 	public void next() {
 		super.next();
 		this.quantiteTotaleVendue=0;
 		this.quantiteChocoVendue.clear();
-	}//méthode next qui remet les quantités à 0	
+	}//méthode next qui remet les quantités à 0
 }
+
