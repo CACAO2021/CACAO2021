@@ -3,7 +3,8 @@ package abstraction.eq2Producteur2;
 public class Producteur2et1ValeursEnCommun {
 	
 	
-	// les valeurs partagées avec l'autre équipe
+	// les valeurs partagées avec l'autre équipe, participation de tous
+	// responsable emeline
 	
 	//cout prod
 	public static double COUT_PRODUCTION_FEVE_B = 1.1/1000.;

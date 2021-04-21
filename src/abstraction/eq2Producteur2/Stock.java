@@ -1,5 +1,7 @@
 package abstraction.eq2Producteur2;
 
+//ensemble fait par DIM
+
 public class Stock {
 	private double qtt;
 	private int step;
