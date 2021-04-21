@@ -14,7 +14,7 @@ public class Cout extends CreationJournaux {
 	private static double COUT_PRODUCTION_FEVE_B = Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_B;
 	private static double COUT_PRODUCTION_FEVE_M =Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_M;
 	private static double COUT_PRODUCTION_FEVE_ME =Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_ME;
-	
+	private static double COUT_STOCKAGE_FEVE =Producteur2et1ValeursEnCommun.COUT_STOCKAGE_FEVE;
 	public static void PayerProducteurs(Producteur1Acteur producteur1Acteur){
 		double valeur=(COUT_PRODUCTION_FEVE_B*60000000)+(COUT_PRODUCTION_FEVE_M*67500000)+(COUT_PRODUCTION_FEVE_ME*22500000);
 		producteur1Acteur.perteargent(valeur);
@@ -22,10 +22,7 @@ public class Cout extends CreationJournaux {
 
 	}
 
-<<<<<<< HEAD
-	public static void cout(Producteur1Acteur producteur1Acteur){
-		Cout.PayerProducteurs(producteur1Acteur);
-=======
+
 	public static void cout(Producteur1Acteur a){
 		Cout.PayerProducteurs(a);
 		Cout.payerStockage(a);
@@ -44,6 +41,6 @@ public class Cout extends CreationJournaux {
 		double montant = qte_stockee*COUT_STOCKAGE_FEVE;
 		a.perteargent(montant);
 		a.getJournal(4).ajouter("Le stockage des produits a coûté ce stet" +montant+"€" );
->>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
+
 	}
 }
