@@ -21,7 +21,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	protected LinkedList<ChocolatDeMarque> produitTG;
 
 	
-	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
 	
 	public Acheteur() {
 		super();
@@ -71,7 +70,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	}
 
 
-	//Elsa
+	//Louis
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
@@ -114,7 +113,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		i=0;
 		ajouterStock(produit, quantite,contrat.getTeteGondole());
-		JournalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
+		journaux.add(new Journal("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix(),this));
 		
 	}
 	
