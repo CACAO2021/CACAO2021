@@ -9,6 +9,7 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Gamme;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.IFabricantChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 import abstraction.eq8Romu.produits.Categorie;
@@ -162,8 +163,25 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	}
 	
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		
-		 return contrat.getEcheancier();
+			if (24 - contrat.getEcheancier().getStepDebut() + Filiere.LA_FILIERE.getEtape() - contrat.getEcheancier().getNbEcheances() >= 0) {
+					ChocolatDeMarque produit = (ChocolatDeMarque) contrat.getProduit();
+					Chocolat choco = produit.getChocolat();
+					if (get_stock(choco) > contrat.getEcheancier().getQuantite(contrat.getEcheancier().getStepDebut())){
+						return contrat.getEcheancier();
+					}	
+					else {
+						List<Double> liste = new LinkedList<Double>();
+						int deb = contrat.getEcheancier().getStepDebut();
+						liste.add(0, get_stock(choco));
+						for (int i = 1; i< contrat.getEcheancier().getNbEcheances(); i++ ) {
+							liste.add(i, contrat.getEcheancier().getQuantite(i));
+						}
+						Echeancier ech = new Echeancier(deb, liste);
+						return ech;
+					
+					}	
+			}
+		 return null ;
 	}	
 
 
