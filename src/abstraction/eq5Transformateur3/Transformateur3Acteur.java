@@ -1,6 +1,6 @@
 package abstraction.eq5Transformateur3;
 
-//Manuelo
+//Manuelo & Rémi
 
 import java.awt.Color;
 import java.util.ArrayList;
