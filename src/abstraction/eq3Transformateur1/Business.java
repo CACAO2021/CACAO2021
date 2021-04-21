@@ -7,6 +7,7 @@ import java.util.Map;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
@@ -200,7 +201,13 @@ public class Business {
 			if (contrat.getProduit() instanceof Chocolat) {
 				Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
 				stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
+			} else {
+				if (contrat.getProduit() instanceof ChocolatDeMarque) {
+					Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
+					stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
+				}
 			}
+			
 		}
 		return stockafournir; 
 	}
