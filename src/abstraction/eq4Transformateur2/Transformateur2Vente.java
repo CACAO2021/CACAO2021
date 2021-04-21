@@ -27,17 +27,21 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
 	
+	//on peut vendre ce produit
 	public boolean peutVendre(Object produit) {
 		if (produit instanceof ChocolatDeMarque) {
 			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
 				if (((ChocolatDeMarque) produit).getCategorie() != Categorie.POUDRE) {
-					return true; 
+					if (((ChocolatDeMarque) produit).getMarque() == "Boni Suci" ){
+						return true; 
+					}
 				}
 			}
 		}
 		return false;
 	}
 	
+	//on veut vendre ce produit à cet instant
 	public boolean vend(Object produit) {
 		if (produit instanceof ChocolatDeMarque) {
 			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
