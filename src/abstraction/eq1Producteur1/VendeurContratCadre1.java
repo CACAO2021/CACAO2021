@@ -79,9 +79,9 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
-				double random = Math.random()/3;
 				Echeancier e = new Echeancier (contrat.getEcheancier());
-				/*int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				/*double random = Math.random()/3;
+			 	int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
 				 int i;
 				 for (i=e.getStepDebut(); i<step_milieu; i++) {
@@ -98,9 +98,9 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
-				double random = Math.random()/3;
 				Echeancier e = new Echeancier (contrat.getEcheancier());
-				/*int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				/*double random = Math.random()/3;
+				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
 				int i;
 				for (i=e.getStepDebut(); i<step_milieu; i++) {
@@ -117,9 +117,9 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
-				double random = Math.random()/3;
 				Echeancier e = new Echeancier (contrat.getEcheancier());
-				/*int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				/* double random = Math.random()/3;
+				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
 				int i;
 				for (i=e.getStepDebut(); i<step_milieu; i++) {
