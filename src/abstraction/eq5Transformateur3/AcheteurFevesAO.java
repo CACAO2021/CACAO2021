@@ -26,18 +26,15 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 
 	
-	/*public double getQmin() {
-=======
 	public double getQmin() {
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 		return this.quantite.getMin();
 	}
 	public double getQmax() {
 		return this.quantite.getMax();
-	}*/
+	}
 
 	public OffreAchatFeves getOffreAchat() {
-		/*OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
+		OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
@@ -53,7 +50,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			else {
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
-			}*/
+			}
 			return null;
 	}
 
@@ -65,7 +62,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//On va choisir ici la proposition la moins chère pour être cohérent avec notre objectif de rentabilité
 	// on choisit cependant des AO dont les quantités respectent les quantités voulues initialement 
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
-	/*public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
+	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
 		double delta = this.getQmax()-this.getQmin();
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
@@ -76,7 +73,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			
 				
 			}
-		}*/
+		} 
+	}
 
 
 	@Override
