@@ -88,6 +88,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		for (Stock s : arbrePlantesHBE) {
 			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step);
+				System.out.println("renou");
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
 			}}
 		for (Stock s : arbrePlantesHE) {
@@ -141,6 +142,14 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	}
 	
+	
+	// a prendre en compte pour la suite :
+	
+	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
+	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
+	// cela vainfluencer le nombre darbre qui produit effectivement
+	
+	
 	// pas encore utilisé
 	protected double rendement(int step, Object p) {
 		// step correspond à l'age de larbre
@@ -155,13 +164,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	}
 	
-	public double qttArbre(Object produit) {
-		// a prendre en compte pour la suite :
-		
-		//il faut du temps avant que le nouvel arbre pousse et produise des fèves
-		//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
-		// cela vainfluencer le nombre darbre qui produit effectivement
-		
+	public double qttArbre(Object produit) {		
 		double nb = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.arbrePlantesHBE) {

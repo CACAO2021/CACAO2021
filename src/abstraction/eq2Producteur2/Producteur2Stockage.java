@@ -242,7 +242,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	 * on retire tous les léléments périmés de la liste 
 	 */
 	public void verifPeremption() {
-		//LinkedList<Stock> feveHBE = stockFeveHBE;
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
 			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
 			for (Stock st:this.stockFeveHBE) {
