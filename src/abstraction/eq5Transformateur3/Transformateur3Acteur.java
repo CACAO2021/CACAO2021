@@ -23,7 +23,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	private String description;
 
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
-	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ;
+	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ, prix_min_vente_confiserie, prix_tablette, prix_tablette_equi, prix_confiserie;
 
 
 	public Transformateur3Acteur() {
@@ -39,10 +39,14 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
-		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 2000);
-	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 2500);
+		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 1);
+	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 1);
+	    this.prix_min_vente_confiserie = new Variable("Prix min de vente confiserie", this, 1);
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
+		this.prix_tablette = new Variable("Prix tablette moyenne", this, 2);
+		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 2);
+		this.prix_confiserie = new Variable("Prix confiserie", this, 2);
 
 	}
 
