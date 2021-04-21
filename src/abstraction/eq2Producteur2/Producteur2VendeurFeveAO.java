@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.produits.Feve;
 
 public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
@@ -40,8 +41,10 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 
 	 */
 	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
-		this.mesContratsAORefusess.add(proposition);
+		mesContratsAO.add(contratA0(proposition.getPrixKG(),false ,proposition.getOffreAchateFeves().getFeve()));
 	}
+
+	protected abstract PropositionVenteFevesAO contratA0(double prixKG, boolean b, Feve feve);
 
 	/**	@author Maxime Boillot
 
