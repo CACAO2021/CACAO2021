@@ -2,6 +2,7 @@ package abstraction.eq6Distributeur1;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -59,19 +60,24 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		}
 	}
 
-	//est ce que on peut mettre next() ici?
+	// tout les tours on demande à acheter tout les chocolats de nos stocks à un vendeur au hasard.
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
+			List<IActeur> vendeurs = new LinkedList();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-					if (produitTG.contains(produit)) {
-						((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, true);
-					}
-					else {
-						((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
-					}
+				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
+					vendeurs.add(acteur);
 				}
+			}
+			int rnd = new Random().nextInt(vendeurs.size()+1);
+			IActeur vendeur = vendeurs.get(rnd);
+			
+			if (produitTG.contains(produit)) {
+				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, true);
+			}
+			else {
+				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
 			}
 		}
 	}
