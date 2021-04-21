@@ -8,6 +8,7 @@ import java.util.Map;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Gamme;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Variable;
@@ -44,7 +45,9 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 	}
 	
 	public void initCatalogue() {
-		
+		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			stock.put(choco, new Variable(choco.getMarque()+" Quantite", this, 0.));
+		}
 	}
 
 	public void initPrix() {
