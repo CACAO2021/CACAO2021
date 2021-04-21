@@ -3,6 +3,7 @@ package abstraction.eq5Transformateur3;
 import java.awt.Color;
 import java.util.List;
 
+import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
@@ -16,11 +17,21 @@ public class  AcheteurFevesAO extends Transformateur3Stock implements IAcheteurF
 	private Feve feve;
 	private double qmin;
 	private double qmax;
+	private double prixmax;
 	
-	public AcheteurFevesAO() {
-		quantite = new Variable("quantite", this, qmin,qmax,0); //qmin et qmax représentent les quantites de chocolat (et pas de fèves!!)
-		this.feve = feve;
+	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
+		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
+			throw new Exception("quantité trop faible");
+		}
+		else {
+			quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
+			this.feve = feve;
+			this.qmax = 1000000000;
+			this.qmin = qmin ; //mettre qmin assez élevé
+			this.prixmax = prixmax;
+		}
 	}
+	
 	public double getQmin() {
 		return this.quantite.getMin();
 	}
@@ -28,24 +39,24 @@ public class  AcheteurFevesAO extends Transformateur3Stock implements IAcheteurF
 		return this.quantite.getMax();
 	}
 
-	@Override
 	public OffreAchatFeves getOffreAchat() {
 		OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
-				if(this.getChocolats().get(chocolat).getValeur() < this.getQmin()) { 
-					quantite.ajouter(this, (this.getQmax()-this.getQmin())*25);//40 g de feves pour 100 g de chocolat (la quantité represente la quantite de fèves il faut donc convertir pour pouvoir comparer la )
+				if(this.getChocolats().get(chocolat).getValeur()*0.25 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
+					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.25);
 				}
 			}
-		
-		
+			for(ExemplaireContratCadre contrat : this.getContrats
+			
+		}
 		return null;
 	}
 
-	@Override
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		// TODO Auto-generated method stub
-		
+		this.JournalOA.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
+		
+	
 
 	@Override
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {

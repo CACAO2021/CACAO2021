@@ -15,7 +15,7 @@ public class Transformateur3Acteur implements IActeur {
 	private String nom;
 	private String description;
 	protected Variable prix_max_fèves;
-	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
+	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
 
 	public Transformateur3Acteur() {
 		this.nom = "EQ5";
@@ -24,6 +24,7 @@ public class Transformateur3Acteur implements IActeur {
 		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
+		this.JournalOA = new Journal(this.getNom()+ "Offre d'achat", this);
 		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
 	}
 
