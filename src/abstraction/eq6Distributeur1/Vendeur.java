@@ -16,10 +16,17 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	protected Map<ChocolatDeMarque,Double> historique;
+	protected int quantitevendue; // quantite vendue en une période
+	protected int q;//Quantité à définir à partir duquel les ventes sont convenables
+	
+	public int getQuantiteVendue() {
+		return this.quantitevendue;
+	}
 	
 	public Vendeur() {
 		super();
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
+		this.quantitevendue=0;
 	}
 
 	@Override
@@ -33,9 +40,10 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
 			return prix.get(choco);
-		}
+		}else {
 		return 0;
-	}
+		}
+	}//retourne le prix de vente du chocolat "choco"
 
 	@Override
 	public double quantiteEnVente(ChocolatDeMarque choco) {
@@ -44,7 +52,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
-		}
+		}//retourne la quantité totale de chocolat en vente
 	}
 
 	@Override
@@ -54,15 +62,16 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
-		}  
+		} //retourne la quantité disponible de chocolat en tete de gondole
 	}
 
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
-			this.ajouterStock(choco, -1*quantite, false);
-			historique.put(choco, quantite);
-		}
+				this.ajouterStock(choco, (-1)*quantite, false);
+				historique.put(choco, quantite);
+				this.quantitevendue+=quantite;
+		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
 	}
 
 	@Override
@@ -71,5 +80,20 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
+	public void NouveauPrix(ChocolatDeMarque choco, double prix, int QuantiteVendue) {
+		//prix correspond au prix de vente initial
+		if (this.getQuantiteVendue()==0 || this.getQuantiteVendue()<q) {
+			this.setPrix(choco, prix*0.9); 
+			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
+		}
+		if(this.getQuantiteVendue()>2*q) {
+			this.setPrix(choco, prix*1.1);
+			//Si les ventes sont bonnes on augmente le prix de vente de 10%
+		}
+	}
+	public void next() {
+		super.next();
+		this.quantitevendue=0;
+	}
 }
 
