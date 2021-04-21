@@ -173,10 +173,12 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 						List<Double> liste = new LinkedList<Double>();
 						int deb = contrat.getEcheancier().getStepDebut();
 						liste.add(0, get_stock(choco));
-						for (int i = 1; i< contrat.getEcheancier().getNbEcheances(); i++ ) {
+						liste.add(1,contrat.getEcheancier().getQuantite(1)+(contrat.getEcheancier().getQuantite(0) - get_stock(choco)));
+						for (int i = 2; i< contrat.getEcheancier().getNbEcheances(); i++ ) {
 							liste.add(i, contrat.getEcheancier().getQuantite(i));
 						}
 						Echeancier ech = new Echeancier(deb, liste);
+						
 						return ech;
 					
 					}	
