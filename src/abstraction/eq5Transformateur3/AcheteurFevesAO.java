@@ -23,9 +23,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public AcheteurFevesAO() {
 		}
 	
-	
-
-	
 	/*public double getQmin() {
 =======
 	public double getQmin() {
