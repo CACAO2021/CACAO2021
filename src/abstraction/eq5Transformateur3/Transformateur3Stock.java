@@ -34,14 +34,12 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 
 	public void ajouter(Chocolat chocolat, double delta) {
 		Variable variable = this.getChocolats().get(chocolat);
-		System.out.println("adgghd" +variable+" "+chocolat);
 		variable.ajouter(this, delta);		
 		this.JournalAjoutStock.ajouter("Ajout de "+delta+"kg de "+chocolat.toString());
 	}
 	
 	public void ajouter(Feve feve, double delta) {
 		Variable variable = this.getFeves().get(feve);
-	
 		variable.ajouter(this, delta);
 		this.JournalAjoutStock.ajouter("Ajout de "+delta+"kg de "+feve.toString());
 	}
