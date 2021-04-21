@@ -3,6 +3,7 @@ package abstraction.eq3Transformateur1;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -10,9 +11,11 @@ import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
+
 
 
 // Paul GIRAUD
@@ -20,23 +23,27 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	
 	protected SuperviseurVentesContratCadre supCCadre;
-
-	protected Variable stock;
 	protected Object produit;
-	protected List<ExemplaireContratCadre> mesContratEnTantQuAcheteur;
 
 	public AcheteurFevesContratCadre () {
 		super();
-		this.mesContratEnTantQuAcheteur=new LinkedList<ExemplaireContratCadre>();
+		this.supCCadre = null;
 	}
 	
-	public List<ExemplaireContratCadre> getContractsCadres() {
-		return this.mesContratEnTantQuAcheteur;
+
+	
+	public SuperviseurVentesContratCadre setSupCCadre() {
+		return this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+	}
+	
+	public SuperviseurVentesContratCadre getSupCCadre() {
+		return supCCadre;
 	}
 
+
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		// Si l'echeancier est juste plus lons de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		if( contrat.getEcheanciers().get(0).getNbEcheances() >= 3 && contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
+		// Si l'echeancier est juste plus long de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
+		if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
 		}
@@ -44,36 +51,27 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		//Si le prix est augmenté de 2% max on accepete
-		if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.02) {
-			return contrat.getPrix();
-		} else if (contrat.getPrix() <= contrat.getListePrix().get(0)*1.025 ){ // Si on nous propose une augmentation max de 2,5% on re-propose 2% sinon on refuse
-			return contrat.getListePrix().get(0)*1.02;
+		if( contrat.getPrix() >= this.getSolde()) {
+			return 0;
 		} else {
-			return 0.0;
-
+			return contrat.getPrix();
 		}
 	}
-	public void next() {
-		// On enleve les contrats obsolete (nous pourrions vouloir les conserver pour "archive"...)
-		List<ExemplaireContratCadre> contratsObsoletes=new LinkedList<ExemplaireContratCadre>();
-		for (ExemplaireContratCadre contrat : this.mesContratEnTantQuAcheteur) {
-			if (contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
-				contratsObsoletes.add(contrat);
-			}
-		}
-		this.mesContratEnTantQuAcheteur.removeAll(contratsObsoletes);
-		
-		// Proposition d'un nouveau contrat a tous les vendeurs possibles
 	
-		for  (Feve feve : this.nosFevesCC()) {
+	public void nosDemandesCC() {
+		
+		this.getStock().getFinancier().miseAJourContratAcheteur();
+		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
+		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantitefeveAAcheter();
+		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
+		for  (Feve feve : feveaacheter) {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				boolean t = true;
 				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
-					Integer nomdreDeContratCadre = this.getContractsCadres().size();
-					supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, this.getQuantiteStep(feve)), cryptogramme, false);
-					if (nomdreDeContratCadre < this.getContractsCadres().size()) {
+					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
+					if (contrat != null) {
 						t = false;
+						this.getStock().getFinancier().ajoutContratEnTantQueAcheteur(contrat);
 					}
 				}
 			}
@@ -91,13 +89,14 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 	}
 	
-	public double getQuantiteStep(Feve feve) {
-		return 5.0;
-	}
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		stock.ajouter(this,  quantite);
+		System.out.println("cette fonction est bien lancée");
+		if (produit instanceof Feve) {
+			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix()/contrat.getQuantiteTotale())); // pour avoir le prix du KG
+			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());
+		}
 	}
 
 }
