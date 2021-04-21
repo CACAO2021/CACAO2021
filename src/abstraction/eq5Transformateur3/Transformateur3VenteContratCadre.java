@@ -11,7 +11,7 @@ import abstraction.fourni.Journal;
 
 //Léna
 
-public class Transformateur3VenteContratCadre extends Transformateur3Stock implements IVendeurContratCadre{
+public class Transformateur3VenteContratCadre extends Transformateur3AchatContratCadre implements IVendeurContratCadre{
 	
 	public boolean peutVendre(Object produit) {
 		if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
