@@ -16,10 +16,17 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	protected Map<ChocolatDeMarque,Double> historique;
+	protected int quantitevendue; // quantite vendue en une période
+	protected int q;//Quantité à définir à partir duquel les ventes sont convenables (on ne change pas le prix)
+	
+	public int getQuantiteVendue() {
+		return this.quantitevendue;
+	}
 	
 	public Vendeur() {
 		super();
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
+		this.quantitevendue=0;
 	}
 
 	@Override
@@ -60,8 +67,14 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
-			this.ajouterStock(choco, (-1)*quantite, false);
-			historique.put(choco, quantite);
+			if(this.getQuantiteVendue()!=0 || this.getQuantiteVendue()>q) {
+				this.ajouterStock(choco, (-1)*quantite, false);
+				historique.put(choco, quantite);
+				this.quantitevendue+=quantite;
+			}
+			else {
+				
+			}
 		}
 	}
 
@@ -71,5 +84,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
+	
+	
 }
 
