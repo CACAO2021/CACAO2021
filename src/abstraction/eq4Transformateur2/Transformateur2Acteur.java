@@ -12,7 +12,7 @@ import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
-//Antoine C
+//Tous le monde
 
 public class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
 
