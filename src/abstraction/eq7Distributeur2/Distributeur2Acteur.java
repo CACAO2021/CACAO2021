@@ -32,13 +32,16 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected List<Variable> indicateurs;
 	protected List<Variable> parametres;
 
+	
+
+
 	private ChocolatDeMarque chocoProduit;
 	
 	
 
 	public Distributeur2Acteur() {
 		catalogue = new ArrayList<ChocolatDeMarque>();
-//		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
+		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
 		initialisationJournaux();
 
 		parametres = new ArrayList<Variable>();
@@ -251,17 +254,17 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	@Override
 	public List<String> getMarquesChocolat() {
 		List<String> marquesProposes = new ArrayList<String>();
-//		marquesProposes.add(this.chocoProduit.getMarque());
-//		return marquesProposes;
-		return new ArrayList<String>();
+		marquesProposes.add(this.chocoProduit.getMarque());
+		return marquesProposes;
+//		return new ArrayList<String>();
 	}
 
 	@Override
 	public List<ChocolatDeMarque> getChocolatsProduits() {
 		List<ChocolatDeMarque> choco = new ArrayList<ChocolatDeMarque>();
-//		choco.add(this.chocoProduit);
-//		return choco;
-		return new ArrayList<ChocolatDeMarque>();
+		choco.add(this.chocoProduit);
+		return choco;
+//		return new ArrayList<ChocolatDeMarque>();
 	}
 
 	
@@ -299,4 +302,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.achat.receptionner(produit, quantite, contrat);
 	}
 	
+	/**
+	 * @return the chocoProduit
+	 */
+	public ChocolatDeMarque getChocoProduit() {
+		return chocoProduit;
+	}
 }
