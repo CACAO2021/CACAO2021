@@ -145,7 +145,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		this.stocksEnTG.get(choco).retirer(acteur, qte);
 	}
 	
-	public double QtePossibleTG(ChocolatDeMarque choco){
+	public double qtePossibleTG(ChocolatDeMarque choco){
 		return 0.0;
 	}
 	
