@@ -50,7 +50,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;}
 		if (contrat.getPrix()>maxPrix) {
-			return maxPrix*(0.85+i/100);}
+			return maxPrix*(1-((contrat.getEcheanciers().size()-1)/100)+i/100);}
 		else {
 			return contrat.getPrix(); 
 		}
