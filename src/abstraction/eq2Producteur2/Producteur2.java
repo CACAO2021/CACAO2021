@@ -13,10 +13,11 @@ public class Producteur2 extends Producteur2Param  {
 	
 	public void next() {
 		majJournaux();
+		// faire fonction probleme : intemperie,...
 		prod();
-		transfo();
+		transfo(); // vide pour le moment
 		renouvellement();
-		coutTotDuStep();	
 		verifPeremption();
+		coutStockage();
 	}
 }
