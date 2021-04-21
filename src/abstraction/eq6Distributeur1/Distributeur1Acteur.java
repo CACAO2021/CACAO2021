@@ -19,6 +19,32 @@ public class Distributeur1Acteur implements IActeur {
 	List<Variable> parametres = new ArrayList<Variable>();
 	List<Variable> indicateurs = new ArrayList<Variable>();
 	List<Journal> journaux  = new ArrayList<Journal>();
+	public Color titleColor = Color.BLACK;
+	public Color descriptionColor = Color.ORANGE;
+	public Color warningColor = Color.YELLOW;
+	
+	protected Journal journalVentes, journalStocks, journalAchats;
+	
+	public void initialisationJournaux() {
+
+
+		
+		journalVentes = new Journal("Registre des ventes", this);
+		journalVentes.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Journal des ventes"));
+		journalVentes.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les ventes de produits"));
+		
+		
+		journalAchats = new Journal("Registre des achats ", this);
+		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Journal des acahats"));
+		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
+		
+
+		journalStocks= new Journal("Registre des Stocks ", (IActeur)this);
+		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Gestion des Stocks"));
+		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
+
+	}
+	
 
 	public Distributeur1Acteur() {
 	}
@@ -70,6 +96,10 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
+		List<Journal> journaux = new ArrayList<Journal>();
+		journaux.add(journalVentes);
+		journaux.add(journalStocks);
+		journaux.add(journalAchats);
 		return journaux;
 	}
 

@@ -1,5 +1,6 @@
 package abstraction.eq6Distributeur1;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,8 +75,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
+
 		}//retourne la quantité du chocolat choco en vente
-	}
+ 	}
 
 	//thomas
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
