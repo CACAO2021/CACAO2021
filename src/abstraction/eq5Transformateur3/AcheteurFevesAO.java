@@ -60,8 +60,24 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
 		this.JournalOA.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
-		
+
 	
+	//On va choisir ici la proposition la moins chère pour être cohérent avec notre objectif de rentabilité
+	// on choisit cependant des AO dont les quantités respectent les quantités voulues initialement 
+	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
+	/*public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
+		double delta = this.getQmax()-this.getQmin();
+		if (propositions.size()>0) {
+			for(PropositionVenteFevesAO proposition : propositions) {
+				if(proposition.getPrixKG()< this.prixmax 
+						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
+						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta) {
+		}
+			
+				
+			}
+		}*/
+
 
 	@Override
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
