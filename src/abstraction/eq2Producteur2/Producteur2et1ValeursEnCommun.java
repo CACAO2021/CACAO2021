@@ -55,4 +55,3 @@ public class Producteur2et1ValeursEnCommun {
 	
 	
 }
-
