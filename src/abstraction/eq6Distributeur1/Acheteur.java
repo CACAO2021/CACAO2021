@@ -21,14 +21,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	protected LinkedList<ChocolatDeMarque> produitTG;
 
 	
-	protected Journal JournalAchats= new Journal(this.getNom()+" achats", this);
 	
 	public Acheteur() {
 		super();
 	}
 	
 
-	
+	//Elsa
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 			i++;
@@ -52,6 +51,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		
 	}
 	
+	//Elsa
 	public void choixTG() {
 		produitTG= new LinkedList<ChocolatDeMarque>();
 		double sommeQuantite=0;
@@ -70,7 +70,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	}
 
 
-	// tout les tours on demande à acheter tout les chocolats de nos stocks à un vendeur au hasard.
+	//Louis
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
@@ -78,9 +78,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					vendeurs.add(acteur);
+	//				System.out.println("ajout de l'acteur" + acteur + "pour le chocolat" + produit);
 				}
 			}
-			/*int rnd = new Random().nextInt(vendeurs.size());
+		/*	int rnd = new Random().nextInt(vendeurs.size());
 			IActeur vendeur = vendeurs.get(rnd);
 			
 			if (produitTG.contains(produit)) {
@@ -90,7 +91,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
 			}*/
 		}
+
 	}
+	
+	//Elsa
 
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
@@ -104,12 +108,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			return contrat.getPrix(); 
 		}
 	}
-
+	
+	//Elsa
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		i=0;
 		ajouterStock(produit, quantite,contrat.getTeteGondole());
-		JournalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
+		//journaux.add(new Journal("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix(),this));
 		
 	}
 	

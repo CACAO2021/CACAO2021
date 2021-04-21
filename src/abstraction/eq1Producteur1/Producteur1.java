@@ -5,4 +5,7 @@ public class Producteur1 extends Arbre {
 	public Producteur1() {
 		super();
 	}
+	public String toString() {
+		return this.getNom();
+	}
 }
