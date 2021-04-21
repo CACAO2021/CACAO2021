@@ -17,20 +17,20 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
-	
+
 
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
 	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère les ventes convenables
-	
+
 	//thomas
 	public Vendeur() {
 		super();
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
 		this.q=new HashMap <ChocolatDeMarque,Double>();
-		
+
 	}
-	
+
 	//thomas, louis
 	public void initialiser() {
 		super.initialiser();
@@ -39,17 +39,17 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 100.0);
 		}
-		
+
 		/*On initialise l'historique, la quantité totale vendue et 
 		Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
-		*/
-		
+		 */
+
 		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.q.put(this.getCatalogue().get(i), 0.2*this.quantiteEnVente(this.getCatalogue().get(i)));
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 	}
-	
+
 	//thomas
 	public void next() {
 		super.next();
@@ -57,9 +57,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
 		}
-		
+
 	}//méthode next qui remets les quantités à 0
-	
+
 
 	//thomas
 	public double getQuantiteVendue(ChocolatDeMarque choco) {
@@ -70,7 +70,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			return 0;
 		}
 	}
-		
+
 	//thomas
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
@@ -79,7 +79,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			return 0;
 		}
 	}//retourne le prix de vente du chocolat "choco"
-	
+
 	//thomas
 	public List<ChocolatDeMarque> getCatalogue() {
 		List<ChocolatDeMarque> c = new ArrayList<ChocolatDeMarque>();
@@ -99,7 +99,16 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			return 0;
 
 		}//retourne la quantité du chocolat "choco" en vente
- 	}
+	}
+	
+	//louis
+	public double quantiteEnVente() {
+		double total=0;
+		for (ChocolatDeMarque choco : getCatalogue()) {
+			total += quantiteEnVente(choco);
+		}
+		return total;
+	}
 
 	//thomas
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
@@ -109,6 +118,15 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		else {
 			return 0;
 		}//retourne la quantité disponible du chocolat choco en tete de gondole
+	}
+
+	//louis
+	public double quantiteEnVenteTG() {
+		double total=0;
+		for (ChocolatDeMarque choco : getCatalogue()) {
+			total += quantiteEnVenteTG(choco);
+		}
+		return total;
 	}
 
 	//thomas
@@ -127,7 +145,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			//	System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
-	
+
 	//thomas
 	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
@@ -135,8 +153,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
-		
+
 	}
-	
+
 }
 

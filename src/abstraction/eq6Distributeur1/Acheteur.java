@@ -11,6 +11,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
@@ -19,6 +20,7 @@ import abstraction.fourni.Journal;
 public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	protected int i=0; //Nombre de tours de négociations
 	protected LinkedList<ChocolatDeMarque> produitTG;
+	protected List<ChocolatDeMarque> pasTG;
 
 	
 	
@@ -51,16 +53,14 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		
 	}
 	
-	//Elsa
+/*	//Elsa
 	public void choixTG() {
 		produitTG= new LinkedList<ChocolatDeMarque>();
 		double sommeQuantite=0;
 		double sommeTG=0;
 		Map<ChocolatDeMarque,Double> maxQuantites= new HashMap<ChocolatDeMarque,Double>();
-		for (ChocolatDeMarque produit : this.stock.keySet()) {
-			System.out.println(this.quantiteChocoVendue.get(produit));
-			double maxQuantite=(this.quantiteChocoVendue.get(produit)-this.stock.get(produit).getValeur())*1.15;
-			maxQuantites.put(produit, maxQuantite);
+		for (ChocolatDeMarque produit : this.getCatalogue()) {
+			maxQuantites.put(produit, maxQuantite(produit));
 			sommeQuantite+=maxQuantite;
 		}
 		while (sommeTG<0.08*sommeQuantite) {
@@ -68,13 +68,49 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			sommeTG+=maxQuantites.get(this.getCatalogue().get(rnd));
 			produitTG.add(this.getCatalogue().get(rnd));
 		}
+	}*/
+		
+	public double maxQuantite(ChocolatDeMarque choco) {
+		return (this.quantiteChocoVendue.get(choco)-this.stock.get(choco).getValeur())*1.15;
 	}
-
+	
+	//louis
+	//remplit la liste produitTG avec les ChocolatDeMarque a mettre en tete de gondole
+	public void choixTG() {
+		if (pasTG.size()==0) {
+			return;
+		}
+		ChocolatDeMarque moinsVendu = pasTG.get(0);
+		
+		for (ChocolatDeMarque choco : getCatalogue()) {
+			if(produitTG.size()==0 || (produitTG.size()!=0 && !produitTG.contains(choco))) {
+				if (this.quantiteChocoVendue.get(choco)<this.quantiteChocoVendue.get(moinsVendu)) {
+					moinsVendu=choco;
+				}
+			}
+		}
+		
+		double maxQuantiteProduitTG = 0;
+		if (produitTG.size()!=0) {
+			for (ChocolatDeMarque futurTG : produitTG) {
+				maxQuantiteProduitTG += maxQuantite(futurTG);
+			}
+		}
+		
+		if(maxQuantite(moinsVendu) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.01*quantiteEnVente()) {
+			produitTG.add(moinsVendu);
+			pasTG.remove(pasTG.indexOf(moinsVendu));
+			choixTG();
+		}
+		
+	}
 
 	//Louis
 	public void next() {
+		pasTG = this.getCatalogue();
+		produitTG=new LinkedList<ChocolatDeMarque>();
 		choixTG();
-		for (ChocolatDeMarque produit : this.stock.keySet()) {
+		for (ChocolatDeMarque produit : this.getCatalogue()) {
 			List<IActeur> vendeurs = new LinkedList<IActeur>();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
