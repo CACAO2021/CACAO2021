@@ -7,6 +7,7 @@ import abstraction.fourni.Variable;
 
 public class Producteur2Param extends Producteur2Banque {
 	
+	//ensemble fait par DIM
 	
 	public Producteur2Param() {
 		super();
