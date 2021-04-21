@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+
+
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
@@ -14,8 +15,6 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
-	
-	private SuperviseurVentesContratCadre supCCadre;
 	protected Stock stock;
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;
