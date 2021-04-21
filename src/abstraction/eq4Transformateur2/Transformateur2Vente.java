@@ -142,7 +142,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 			}
 			
 		}	
-		return 10000000.0 ; //si on ne vend pas ce produit 
+		return -1 ; //si on ne vend pas ce produit 
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
