@@ -33,8 +33,13 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	}
 
 	//thomas
-	public Double getQuantiteVendue(ChocolatDeMarque choco) {
-		return this.quantiteChocoVendue.get(choco);
+	public double getQuantiteVendue(ChocolatDeMarque choco) {
+		if ((choco!=null) && (this.quantiteChocoVendue.containsKey(choco))) {
+			return this.quantiteChocoVendue.get(choco);
+		}
+		else {
+			return 0;
+		}
 	}
 		
 	
@@ -64,7 +69,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		else {
 			return 0;
 
-		}//retourne la quantité du chocolat choco en vente
+		}//retourne la quantité du chocolat "choco" en vente
  	}
 
 	//thomas
