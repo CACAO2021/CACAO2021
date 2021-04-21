@@ -39,12 +39,6 @@ public class FiliereParDefaut extends Filiere {
 	
 	public FiliereParDefaut() {
 		super();
-		this.cfC = new ClientFinal(Categorie.CONFISERIE, 1627200000.0, 50.0, DISTRIBUTIONS_ANNUELLES_CONF);
-		this.ajouterActeur(cfC);
-		this.cfT = new ClientFinal(Categorie.TABLETTE, 4197600000.0, 32.0, DISTRIBUTIONS_ANNUELLES_TABL);
-		this.ajouterActeur(cfT);
-		this.cfP = new ClientFinal(Categorie.POUDRE, 1375200000.0, 63.0, DISTRIBUTIONS_ANNUELLES_POUD);
-		this.ajouterActeur(cfP);
 		this.ajouterActeur(new Producteur1());
 		this.ajouterActeur(new Producteur2());
 		this.ajouterActeur(new Transformateur1());
@@ -52,6 +46,12 @@ public class FiliereParDefaut extends Filiere {
 		this.ajouterActeur(new Transformateur3());
 		this.ajouterActeur(new Distributeur1());
 		this.ajouterActeur(new Distributeur2());
+		this.cfC = new ClientFinal(Categorie.CONFISERIE, 1627200000.0, 50.0, DISTRIBUTIONS_ANNUELLES_CONF);
+		this.ajouterActeur(cfC);
+		this.cfT = new ClientFinal(Categorie.TABLETTE, 4197600000.0, 32.0, DISTRIBUTIONS_ANNUELLES_TABL);
+		this.ajouterActeur(cfT);
+		this.cfP = new ClientFinal(Categorie.POUDRE, 1375200000.0, 63.0, DISTRIBUTIONS_ANNUELLES_POUD);
+		this.ajouterActeur(cfP);
 		this.ajouterActeur(new Romu());
 		this.superviseurAO = new SuperviseurVentesFevesAO();
 		this.ajouterActeur(this.superviseurAO);
