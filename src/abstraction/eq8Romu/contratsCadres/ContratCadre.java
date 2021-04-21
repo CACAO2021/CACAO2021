@@ -25,7 +25,7 @@ public class ContratCadre {
 	private boolean tg; //true si le produit est du ChocolatDeMarque et que l'acheteur s'engage a le placer en tete de gondole
 
 	private List<Echeancier> echeanciers ; // la liste des echeanciers 
-	// les echeanciers sont alternativement proposes par l'acheteur et le vendeur. Formellement : 
+	// les echeanciers sont alternativement proposes par l'acheteuret le vendeur. Formellement : 
 	// -- Pour tout k de [0, (echeanciers.size()-1)/2], echeanciers.get(2k) est un echeancier propose par l'acheteur. 
 	// -- Pour tout k de [0, (echeanciers.size()-1)/2], echeanciers.get(2k+1) est un echeancier propose par le vendeur. 
 
