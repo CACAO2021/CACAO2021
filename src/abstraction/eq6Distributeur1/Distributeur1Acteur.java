@@ -16,6 +16,7 @@ import abstraction.fourni.Variable;
 public class Distributeur1Acteur implements IActeur {
 	
 	protected int cryptogramme;
+	List<Variable> parametres = new ArrayList<Variable>();
 
 	public Distributeur1Acteur() {
 	}
@@ -36,7 +37,6 @@ public class Distributeur1Acteur implements IActeur {
 
 
 	public void initialiser() {
-		
 	}
 
 	public void next() {
@@ -64,8 +64,8 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
-		List<Variable> res=new ArrayList<Variable>();
-		return res;
+		
+		return parametres;
 	}
 
 	// Renvoie les journaux
