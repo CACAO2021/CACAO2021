@@ -1,20 +1,23 @@
 package abstraction.eq4Transformateur2;
 
 import java.util.LinkedList;
+import java.util.List;
+
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Gamme;
+import abstraction.fourni.IFabricantChocolatDeMarque;
+import abstraction.fourni.IMarqueChocolat;
 import abstraction.eq8Romu.produits.Categorie;
 import java.util.ArrayList;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 
 //Abigaëlle
-
-
-public class Transformateur2Vente extends Transformateur2Production implements IVendeurContratCadre {
+public class Transformateur2Vente extends Transformateur2Production implements IVendeurContratCadre,IMarqueChocolat, IFabricantChocolatDeMarque {
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
@@ -27,17 +30,21 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
 	
+	//on peut vendre ce produit
 	public boolean peutVendre(Object produit) {
 		if (produit instanceof ChocolatDeMarque) {
 			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
 				if (((ChocolatDeMarque) produit).getCategorie() != Categorie.POUDRE) {
-					return true; 
+					if (((ChocolatDeMarque) produit).getMarque() == "Boni Suci" ){
+						return true; 
+					}
 				}
 			}
 		}
 		return false;
 	}
 	
+	//on veut vendre ce produit à cet instant
 	public boolean vend(Object produit) {
 		if (produit instanceof ChocolatDeMarque) {
 			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
@@ -159,6 +166,23 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		
 		 return contrat.getEcheancier();
 		
+	}
+
+	@Override
+	public List<ChocolatDeMarque> getChocolatsProduits() {
+		List<ChocolatDeMarque> produits = new LinkedList<ChocolatDeMarque>();
+		produits.add(new ChocolatDeMarque(Chocolat.TABLETTE_BASSE, "Boni Suci"));
+		produits.add(new ChocolatDeMarque(Chocolat.TABLETTE_MOYENNE, "Boni Suci"));
+		produits.add(new ChocolatDeMarque(Chocolat.CONFISERIE_BASSE, "Boni Suci"));
+		produits.add(new ChocolatDeMarque(Chocolat.CONFISERIE_MOYENNE, "Boni Suci"));
+		return produits;
+	}
+
+	@Override
+	public List<String> getMarquesChocolat() {
+		List<String> marque = new LinkedList<String>();
+		marque.add("Boni Suci");
+		return marque;
 	}
 
 
