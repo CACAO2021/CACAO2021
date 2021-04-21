@@ -20,18 +20,15 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	private double qmax;
 	private double prixmax;
 	
-	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
-		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
-			throw new Exception("quantité trop faible");
+	public AcheteurFevesAO() {
+		this.quantite = quantite;
+		this.feve = feve;
+		this.qmax = qmax;
+		this.qmin = qmin ; //mettre qmin assez élevé
+		this.prixmax = prixmax;
 		}
-		else {
-			quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
-			this.feve = feve;
-			this.qmax = 1000000000;
-			this.qmin = qmin ; //mettre qmin assez élevé
-			this.prixmax = prixmax;
-		}
-	}
+	
+	
 	
 	public double getQmin() {
 		return this.quantite.getMin();
