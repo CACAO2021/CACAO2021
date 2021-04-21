@@ -31,7 +31,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		
 	}
 
-	// tout les tours on propose un contrat cadre par produit (pour l'instant jamais en tête de gondole)
+	// tout les tours on propose un contrat cadre par produit (pour l'instant jamais en tête de gondole) 
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
