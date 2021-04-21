@@ -73,7 +73,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
-			List<IActeur> vendeurs = new LinkedList();
+			List<IActeur> vendeurs = new LinkedList<IActeur>();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					vendeurs.add(acteur);
