@@ -17,6 +17,8 @@ public class Distributeur1Acteur implements IActeur {
 	
 	protected int cryptogramme;
 	List<Variable> parametres = new ArrayList<Variable>();
+	List<Variable> indicateurs = new ArrayList<Variable>();
+	List<Journal> journaux  = new ArrayList<Journal>();
 
 	public Distributeur1Acteur() {
 	}
@@ -41,7 +43,6 @@ public class Distributeur1Acteur implements IActeur {
 
 	public void next() {
 		
-		
 	}
 
 	
@@ -58,8 +59,7 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
-		List<Variable> res = new ArrayList<Variable>();
-		return res;
+		return indicateurs;
 	}
 
 	// Renvoie les paramètres
@@ -70,8 +70,7 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
-		List<Journal> res=new ArrayList<Journal>();
-		return res;
+		return journaux;
 	}
 
 	public void setCryptogramme(Integer crypto) {

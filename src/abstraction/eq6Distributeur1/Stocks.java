@@ -46,12 +46,16 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		super.initialiser();
 		initCatalogue();
 		initPrix();
+		int i=0;
+		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			i++;
+			this.indicateurs.add(new Variable(choco.getMarque().toString()+ " " + i +" Quantite stock CC",this,0.));
+		}
 	}
 	
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
-			stock.put(choco, new Variable(choco.getMarque()+" Quantite",this,0.));
-			this.parametres.add(new Variable(choco.getMarque()+" Quantite stock CC",this,0.));
+			stock.put(choco, new Variable(choco.getMarque()+" Quantite",this,10.));
 		}
 	}
 

@@ -35,8 +35,16 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			Echeancier e = contrat.getEcheancier();
 			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.15; //J'achete 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
 			if (e.getQuantite(e.getStepFin())>maxQuantite) {
-				e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));}
+				if(maxQuantite*(0.90+i/100)>((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER) {
+					e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));
+					}
+				
+				else {
+					e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
+				}
+			}
 			else {
+				
 				e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 			}
 			return e;
