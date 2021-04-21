@@ -7,6 +7,7 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
@@ -45,8 +46,12 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit() instanceof Chocolat) {
 			return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
-		} else {
-			 return 0;
+		} else { 
+			if (contrat.getProduit() instanceof ChocolatDeMarque){
+				return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), ((ChocolatDeMarque)contrat.getProduit()).getChocolat());
+			} else {
+				return 0;
+			}
 		}
 
 	}
@@ -68,12 +73,26 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		double qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
-		if(qdisp>0) {
-			Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
-			Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
-			this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
-			return qdisp;
+		double qdisp = 0;
+		if (produit instanceof Chocolat) {
+			qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
+			if(qdisp>0) {
+				Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+				Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
+				return qdisp;
+			}
+		} else {
+			if (produit instanceof ChocolatDeMarque) {
+				qdisp = Math.min(this.getStock().getStockChocolats(((ChocolatDeMarque)produit).getChocolat()), quantite);
+				if(qdisp>0) {
+					Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix);
+					return qdisp;
+				}
+
+			}
 		}
 		return 0.0;
 	}

@@ -118,8 +118,13 @@ public class Business {
 	public boolean sommesNousVendeur(Object produit) {
 		if (produit instanceof Chocolat) {
 			return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
+		} else {
+			if (produit instanceof ChocolatDeMarque) {
+				return (this.getStock().getStockChocolats(((ChocolatDeMarque) produit).getChocolat()) > 0);
+			} else {
+				return false;
+			}
 		}
-		else return false;
 	}
 	
 	public void venteDeChocolat() {
@@ -201,14 +206,8 @@ public class Business {
 			if (contrat.getProduit() instanceof Chocolat) {
 				Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
 				stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
-			} else {
-				if (contrat.getProduit() instanceof ChocolatDeMarque) {
-					Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
-					stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
-				}
-			}
-			
-		}
+			} 
+		}	
 		return stockafournir; 
 	}
 	
