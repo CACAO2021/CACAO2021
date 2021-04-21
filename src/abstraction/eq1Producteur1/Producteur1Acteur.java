@@ -12,55 +12,33 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Producteur1Acteur implements IActeur {
+public abstract class Producteur1Acteur implements IActeur {
 	private int cryptogramme;
 	private Color couleur = new Color(26, 188, 156);
-	private Stock stock_F_M_E;
-	private Stock stock_F_M;
-	private Stock stock_F_B;
-	private Stock stock_P_M_E;
-	private Stock stock_P_M;
 	private Transformation transformation;
-	protected HashMap<Object, Stock> stocks; //dictionnaire qui contient tous nos stocks.
 	protected int step_actuel;
 	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
 	private List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
 	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
-	protected JournauxEq1 journaux;
+
 	
 	public Producteur1Acteur() {
-		this.init_stocks(this);
 		this.init_historiques();
 		this.step_actuel = 0;
-		this.init_journaux();
+		
 	}
 	
-	public Journal getJournal(int i) {
-		return journaux.getJournal(i);
+	public Producteur1Acteur(boolean b) {
+		
 	}
+	
+
 
 	public void initialiser() {
 		transformation = new Transformation();
 
 	}
-	/**
-	 * @author Alb1x
-	 * On crée un stock pour chaque chose que l'on produit.
-	 * On range ensuite les stock dans un dictionnaire stocks.
-	 */
-	private void init_stocks(IActeur a) {
-		this.stock_F_M_E = new Stock("Stock F_M_E",0, a); //stock que l'on possède au départ
-		this.stock_F_M = new Stock("Stock F_M",0, a);
-		this.stock_F_B = new Stock("Stock F_B",0, a);
-		this.stock_P_M_E = new Stock("Stock P_M_E",0, a);
-		this.stock_P_M = new Stock("Stock P_M",0, a);
-		this.stocks = new HashMap<Object, Stock>();
-		this.stocks.put(Feve.FEVE_MOYENNE_EQUITABLE, stock_F_M_E);
-		this.stocks.put(Feve.FEVE_MOYENNE, stock_F_M);
-		this.stocks.put(Feve.FEVE_BASSE, stock_F_B);
-		this.stocks.put(Chocolat.POUDRE_MOYENNE_EQUITABLE, stock_P_M_E);
-		this.stocks.put(Chocolat.POUDRE_MOYENNE, stock_P_M);
-	}
+	
 	/**
 	 * @author Alb1x
 	 * On crée un historique de vente par AO pour chaque fève que l'on vend par AO.
@@ -93,32 +71,14 @@ public class Producteur1Acteur implements IActeur {
 	 * @author lebra pour l'ajout dans le journal
 	 */
 	private void produireFeve() {
-		this.stocks.get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
-		this.stocks.get(Feve.FEVE_MOYENNE).addQuantite(67500000);
-		this.stocks.get(Feve.FEVE_BASSE).addQuantite(60000000);
-		this.journaux.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
-		this.journaux.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
-		this.journaux.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
+		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
+		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(67500000);
+		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(60000000);
+		this.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
+		this.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
+		this.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
 	}
 	
-	private void init_journaux() {
-		this.journaux = new JournauxEq1();
-		this.journaux.addJournal("Ghanao Production", this);
-		this.journaux.getJournal(0).ajouter(couleur, Color.black, "==== Journal de la production ===");
-		this.journaux.addJournal("Ghanao Transformation", this);
-		this.journaux.getJournal(1).ajouter(couleur, Color.black,"==== Journal de la transformation ===");
-		this.journaux.addJournal("Ghanao VenteAO", this);
-		this.journaux.getJournal(2).ajouter(couleur, Color.black,"==== Journal des ventes par offre d'achat ===");
-		this.journaux.addJournal("Ghanao VenteContratCadre", this);
-		this.journaux.getJournal(3).ajouter(couleur, Color.black,"==== Journal des ventes par contrat cadre ===");
-		this.journaux.addJournal("Ghanao coûts de stockage", this);
-		this.journaux.getJournal(4).ajouter(couleur, Color.black,"==== Journal des coûts de stockage ===");
-	}
-	
-	protected HashMap<Object, Stock> getStocks() {
-		return stocks;
-	}
-
 	public String getNom() {
 		return "EQ1";
 	}
@@ -155,7 +115,7 @@ public class Producteur1Acteur implements IActeur {
 
 	public List<Variable> getIndicateurs() {
 		List<Variable> res=new ArrayList<Variable>();
-		for (Stock stck : stocks.values()) { //On ajoute les valeurs des stocks.
+		for (Stock stck : this.getStocks().values()) { //On ajoute les valeurs des stocks.
 			res.add(stck.getVariable());
 		}
 		return res;
@@ -164,10 +124,6 @@ public class Producteur1Acteur implements IActeur {
 	public List<Variable> getParametres() {
 		List<Variable> res=new ArrayList<Variable>();
 		return res; 
-	}
-
-	public List<Journal> getJournaux() {
-		return journaux.getJournaux();
 	}
 
 	public void notificationFaillite(IActeur acteur) {
@@ -195,4 +151,12 @@ public class Producteur1Acteur implements IActeur {
 			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
 		}
 	}
+	/**
+	 * @param i
+	 * @return
+	 */
+	public abstract Journal getJournal(int i);
+	public abstract List<Journal> getJournaux();
+	public abstract Stock getStock(Object o);
+	public abstract HashMap<Object, Stock> getStocks();
 } 
