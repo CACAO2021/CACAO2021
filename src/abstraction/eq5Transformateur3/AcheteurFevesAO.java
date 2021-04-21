@@ -9,10 +9,11 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
 
-public class  AcheteurFevesAO extends Transformateur3Stock implements IAcheteurFevesAO {
+public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implements IAcheteurFevesAO {
 	private Variable quantite;
 	private Feve feve;
 	private double qmin;
@@ -46,10 +47,17 @@ public class  AcheteurFevesAO extends Transformateur3Stock implements IAcheteurF
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.25);
 				}
 			}
-			for(ExemplaireContratCadre contrat : this.getContrats
-			
-		}
-		return null;
+			for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
+					quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+				}
+			if(quantite.getValeur()!=0) {
+				this.JournalOA.ajouter("offre d'achat =" + OA);
+				return OA;
+			}
+			else {
+				this.JournalOA.ajouter("pas d'offre d'achat");
+				return null;
+			}
 	}
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
