@@ -1,4 +1,3 @@
-
 package abstraction.eq7Distributeur2;
 
 import java.awt.Color;
