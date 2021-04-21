@@ -1,6 +1,6 @@
 package abstraction.eq4Transformateur2;
 
-
+//Antoine C
 public class Transformateur2 extends Transformateur2AchatAO {
 
 	
