@@ -112,6 +112,7 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 
 			}
 		}
+		
 	}
 
 	/*@Override
