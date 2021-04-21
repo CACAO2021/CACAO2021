@@ -90,6 +90,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			//Si les ventes sont bonnes on augmente le prix de vente de 10%
 		}
 	}
-	
+	public void next() {
+		super.next();
+		this.quantitevendue=0;
+	}
 }
 
