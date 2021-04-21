@@ -14,7 +14,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	protected static int dureeDePeremption = 6;
 	protected static double limiteStocks = 1000000000;
-	protected static double prixStockage = 10;
+	protected static double prixStockage = 0.0000001;
 	protected static double limiteEnTG = 9.5; // en pourcent
 	
 	
@@ -41,22 +41,23 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		int etape = Filiere.LA_FILIERE.getEtape();
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
 			stocksParMarque.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +" [W&S]", acteur,0));
-			stocksEnTG.put(chocoDeMarq, new Variable("Stocks en TG de " + chocoDeMarq.name() +" [W&S]", acteur,0));
 			acteur.journalStocks.ajouter(Journal.texteColore(infoColor, Color.BLACK,"[CRÉATION] Création d'un stock pour le " + chocoDeMarq + "."));
-			//chocolatRecuEtape.put(chocoDeMarq, new Variable("quantite de " + chocoDeMarq.name() + "Recu",acteur,0));
 			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
 			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
 			nouveauChocoParEtape.put(0, Init);
 		}
+		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			stocksEnTG.put(choco, new Variable("Stocks en TG de " + choco.name() +" [W&S]", acteur,0));
+		}
 	}		
 	
 	public void next() {
+		HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
+		int etape = Filiere.LA_FILIERE.getEtape();
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
-			int etape = Filiere.LA_FILIERE.getEtape();
-			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
 			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
-			nouveauChocoParEtape.put(etape, Init);
 		}
+		nouveauChocoParEtape.put(etape, Init);
 		this.jeterChocolatPerime();
 		this.CoutStockage();
 		this.majTGSuiteASuppression();
@@ -108,8 +109,8 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	public double getQuantiteTotaleStockEtape(int etape) {
 		double res = 0.0;
-		for(ChocolatDeMarque chocoDM : acteur.getCatalogue()) {
-			res+= this.nouveauChocoParEtape.get(etape).get(chocoDM).getValeur();
+		for(Variable qte : this.nouveauChocoParEtape.get(etape).values()) {
+			res+= qte.getValeur();
 		}return res;
 		
 	}
@@ -148,12 +149,13 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		double limiteTG = this.getParametre("limiteEnTG");
 		for(ChocolatDeMarque choco : acteur.getCatalogue()) {
 			if(this.stocksEnTG.containsKey(choco)) {
+
 				double qteTG = acteur.quantiteEnVenteTG(choco);
 				double qteStocksGeneral = acteur.quantiteEnVente(choco);
 				if(qteTG/qteStocksGeneral>=limiteTG) {
-				double qteAEnlever = qteTG-(limiteTG*qteStocksGeneral);
-				this.stocksEnTG.get(choco).retirer(acteur, qteAEnlever);
-				acteur.journalStocks.ajouter(Journal.texteColore(Color.RED, Color.BLACK, "[REAJUSTEMENT TG] " + Journal.doubleSur(qteAEnlever,2) + " de " + choco.name() + "ont été enlevés de TG, [TOTAL] : " + Journal.doubleSur(acteur.quantiteEnVenteTG(choco),2) + " De Choco en TG"));
+					double qteAEnlever = qteTG-(limiteTG*qteStocksGeneral);
+					this.stocksEnTG.get(choco).retirer(acteur, qteAEnlever);
+					acteur.journalStocks.ajouter(Journal.texteColore(Color.RED, Color.BLACK, "[REAJUSTEMENT TG] " + Journal.doubleSur(qteAEnlever,2) + " de " + choco.name() + "ont été enlevés de TG, [TOTAL] : " + Journal.doubleSur(acteur.quantiteEnVenteTG(choco),2) + " De Choco en TG"));
 				}
 				
 			}
@@ -171,21 +173,13 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		if (this.getStockChocolatDeMarque(chocolatDeMarque)>qte) { //on vérifie déjà que l'action soit possible
-			this.stocksEnTG.get(chocolatDeMarque).setValeur(acteur, acteur.quantiteEnVente(chocolatDeMarque)*this.getParametre("limiteEnTG")/100);
+			if(this.stocksEnTG.get(chocolatDeMarque).getValeur()!=0) {
+			this.stocksEnTG.get(chocolatDeMarque).setValeur(acteur, acteur.quantiteEnVente(chocolatDeMarque)*(this.getParametre("limiteEnTG")-0.01)/100);
+			}
 			if(this.getQuantiteChocoEnTG(chocolatDeMarque)<0) { // on dit que lorsqu'un chocolat est vendu, c'est qu'il était d'abord en TG
 				this.setQuantiteChocoEnTG(chocolatDeMarque, 0.0);
 			}
-			for(int i=0; i<=etape; i++){// on prend les étapes dans l'odre.
-				double quantiteAvantSuppression = this.nouveauChocoParEtape.get(i).get(chocolatDeMarque).getValeur();
-				if(quantiteAvantSuppression!=0.0) {
-					if(quantiteAvantSuppression>=qte) { //c'est bon, on peut enlever la quantité souhaitée.
-						this.nouveauChocoParEtape.get(i).get(chocolatDeMarque).retirer(acteur, qte);
-					}else { //sinon, c'est que la quanité dispo est inférieure à celle qu'on veut enlever.
-					this.nouveauChocoParEtape.get(i).get(chocolatDeMarque).ajouter(acteur, -quantiteAvantSuppression); // on enleve ce qu'on peut
-					supprimerChocolatDeMarque(chocolatDeMarque, qte-quantiteAvantSuppression); //on recommence avec ce qu'il reste à enlever
-					}
-				}
-			}
+			enleverParEtape(chocolatDeMarque,qte); // voir juste en dessous (boucle sur les étapes pour supprimer petit à petit)
 			this.stocksParMarque.get(chocolatDeMarque).retirer(acteur, qte);
 			acteur.journalStocks.ajouter(Journal.texteColore(removeStockColor, Color.BLACK, "[SUPPRESSION] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
 			this.majTGSuiteASuppression();
@@ -193,20 +187,31 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			acteur.journalStocks.ajouter(Journal.texteColore(alertColor, Color.BLACK, "[PAS ASSEZ DE STOCKS] Impossible de supprimer" + Journal.doubleSur(qte,2) +" de "+ chocolatDeMarque.name()+ " à l'étape " + Journal.entierSur6(etape)));
 		}
 	}
+	
+	public void enleverParEtape(ChocolatDeMarque chocolatDeMarque,double qte ) {
+		int etape = Filiere.LA_FILIERE.getEtape();
+		for(int i=0; i<=etape; i++){// on prend les étapes dans l'odre.
+			double quantiteAvantSuppression = this.nouveauChocoParEtape.get(i).get(chocolatDeMarque).getValeur();
+			if(quantiteAvantSuppression!=0.0) {
+				if(quantiteAvantSuppression>=qte) { //c'est bon, on peut enlever la quantité souhaitée.
+					this.nouveauChocoParEtape.get(i).get(chocolatDeMarque).retirer(acteur, qte);
+				}else { //sinon, c'est que la quanité dispo est inférieure à celle qu'on veut enlever.
+				this.nouveauChocoParEtape.get(i).get(chocolatDeMarque).ajouter(acteur, -quantiteAvantSuppression); // on enleve ce qu'on peut
+				enleverParEtape(chocolatDeMarque, qte-quantiteAvantSuppression); //on recommence avec ce qu'il reste à enlever
+				}
+			}
+		}
+	}
 
 
 	@Override
 	public void jeterChocolatPerime() {
 		int etape = Filiere.LA_FILIERE.getEtape();
-		int dureePeremption = dureeDePeremption;
-		for(Variable var : acteur.getParametres()) {
-			if (var.getNom().equals("dureeDePeremption")) {
-				dureePeremption = (int)var.getValeur();
-			}
-		}
+		int dureePeremption = (int)this.getParametre("dureeDePeremption");
 		int etapeImpactee = etape-dureePeremption;
 		if (etape>=dureePeremption) {
 			for (ChocolatDeMarque chocoDM : acteur.getCatalogue()) {
+				if(this.nouveauChocoParEtape.get(etapeImpactee).containsKey(chocoDM)) {
 				double valeurRecue = this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).getValeur();
 				acteur.journalStocks.ajouter(Journal.texteColore(peremptionColor,Color.BLACK,"[PEREMPTION] " + Journal.doubleSur(valeurRecue,2) + " de " + chocoDM.name() +" datants de l'étape " + Journal.entierSur6(etapeImpactee) + " ont été jetés"));
 				this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).retirer(acteur, valeurRecue);
@@ -214,8 +219,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 				if(this.getQuantiteChocoEnTG(chocoDM)>this.getStockChocolatDeMarque(chocoDM)) {
 					this.setQuantiteChocoEnTG(chocoDM, this.getStockChocolatDeMarque(chocoDM));
 				}
+				}
 			}this.majTGSuiteASuppression();
 		}
+		//this.nouveauChocoParEtape.remove(etapeImpactee);
 	}
 
 	//A LIER AVEC LE COMPTE BANCAIRE
@@ -223,7 +230,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	public void CoutStockage() {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		double prixDeStockage = this.getParametre("limiteStocks");
-		if(etape!=0) {
+		if(etape!=0 && etape!=1) {
 			double cout = this.getQuantiteTotaleStockEtape(etape-1) * prixDeStockage;
 			// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
 			if(cout>0) {
