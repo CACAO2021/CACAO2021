@@ -8,9 +8,11 @@ import java.util.Set;
 import java.util.Map;
 
 import abstraction.eq8Romu.clients.ClientFinal;
+import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Banque;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
+import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
@@ -26,7 +28,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
 		this.quantiteTotaleVendue=0;
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
-		for (int i=0; i<12; i++) {
+		for (int i=0; i<.getCatalogue().size(); i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 0.0);
 		}
 		this.q=new HashMap <ChocolatDeMarque,Double>();
@@ -34,7 +36,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
 		*/
 		
-		for (int i=0; i<12; i++) {
+		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.q.put(this.getCatalogue().get(i), 0.2*this.quantiteEnVente(this.getCatalogue().get(i)));
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
@@ -106,6 +108,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.setPrix(choco, prix*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
+		if (this.stockTG.get(choco).getValeur()>0) {
+			this.setPrix(choco, 0.9*prix);
+		}//baisse le prix de 10% si le produit est en tete de gondole
 	}
 	
 	//thomas
@@ -113,6 +118,15 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		super.next();
 		this.quantiteTotaleVendue=0;
 		this.quantiteChocoVendue.clear();
-	}//méthode next qui remet les quantités à 0
+	}//méthode next qui remets les quantités à 0
+	
+	
+	
+	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
+		int i=0;
+		ajouterStock(produit, quantite,contrat.getTeteGondole());
+		journaux.add(new Journal("vente de "+quantite+" "+produit.toString()+" a "+contrat..toString()+" pour un prix de "+contrat.getPrix(),this));
+		
+	}
 }
 
