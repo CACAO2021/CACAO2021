@@ -36,6 +36,9 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 
 	@Override
 	public boolean vend(Object produit) {
+		if (!this.getChocolats().keySet().contains(produit)) {
+			return false;
+		}
 		if (this.getChocolats().get(produit).getValeur()>0) {
 			return true;}
 		else { return false;}
