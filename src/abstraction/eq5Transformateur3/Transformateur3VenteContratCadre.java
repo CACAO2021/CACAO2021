@@ -14,7 +14,8 @@ import abstraction.fourni.Variable;
 
 //Léna
 
-public class Transformateur3VenteContratCadre extends Transformateur3Stock implements IVendeurContratCadre{
+public class Transformateur3VenteContratCadre extends Transformateur3AchatContratCadre implements IVendeurContratCadre{
+
 	protected HashMap<ExemplaireContratCadre, Integer> contrats ;
 	
 	public Transformateur3VenteContratCadre() {

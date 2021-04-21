@@ -22,7 +22,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
 	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ;
-	
 
 
 	public Transformateur3Acteur() {
@@ -42,7 +41,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 2500);
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
-
 
 	}
 
@@ -64,29 +62,35 @@ public abstract class Transformateur3Acteur implements IActeur {
 	public void initialiser() {
 		
 	}
-
 	
-	
-	/*public void next() {
-		int index = this.getIndicateurs().indexOf(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE));
-		Variable feve = this.getIndicateurs().get(index+1); }
+	public void actualiserJournaux() {
+		this.JournalAjoutStock.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
+		this.JournalRetraitStock.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
+		this.JournalAchatContratCadre.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
+		this.JournalVenteContratCadre.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
+	}
 
-	if(feve.getValeur()-100>0) { //garder au minimum 100kg
-			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, feve.getValeur()-100 ); //retirer le surplus de fèves 
-			this.ajouter(Chocolat.TABLETTE_HAUTE_EQUITABLE, (feve.getValeur()-100)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
-		}
+
+
+	public void next() {
+		this.actualiserJournaux();
 		
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(feve.getValeur()-100)*coefficient_transformation.getValeur()/1000);
-		
-		index = this.getIndicateurs().indexOf(Feve.FEVE_MOYENNE);
-		feve = this.getIndicateurs().get(index+1);
+		Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
-			this.retirer(Feve.FEVE_MOYENNE, feve.getValeur()-100 ); //retirer le surplus de fèves 
-			this.ajouter(Chocolat.TABLETTE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
-			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (feve.getValeur()-100)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); }
+			double transfo = feve.getValeur()-100;
+			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
+			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(transfo)*coefficient_transformation.getValeur()/1000); }
 		
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*((feve.getValeur()-100)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(feve.getValeur()-100)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur())/1000);
-	}*/
+		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
+		if(feve.getValeur()-100>0) { //garder au minimum 100kg
+			double transfo = feve.getValeur()-100; 
+			this.retirer(Feve.FEVE_MOYENNE, transfo); //retirer le surplus de fèves 
+			this.ajouter(Chocolat.TABLETTE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); 
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*((transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur())/1000);
+		}
+	}
 
 	
 
@@ -150,6 +154,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	
 	public abstract void retirer(Feve feve, double delta);
 	public abstract void ajouter(Chocolat chocolat, double delta);
+	public abstract HashMap<Feve, Variable> getFeves();
 
 }
 
