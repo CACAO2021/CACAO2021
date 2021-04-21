@@ -23,6 +23,9 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 	 * On applique la stratégie mise en place dans le cahier des charges.
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
+		if (step_actuel==1) {
+			return 0;
+		}
 		double res = 0;
 		Feve feve = oa.getFeve();
 		double q = oa.getQuantiteKG();		
@@ -65,7 +68,7 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 		hist.get(hist.size()-1).set_prixVente(proposition.getMontant());
 
 		this.getStocks().get(proposition.getFeve()).removeQuantite(proposition.getQuantiteKg());//on retire les fèves vendues de notre stock.
-		this.getJournaux().getJournal(2).ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
+		this.getJournal(2).ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
 	}
 
 }
