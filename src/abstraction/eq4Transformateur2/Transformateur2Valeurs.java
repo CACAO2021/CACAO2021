@@ -48,7 +48,7 @@ public class Transformateur2Valeurs {
 	
 	protected static double charges_fixes;
 	protected static double capacite_production;
-	protected static double cout_transformation = 1.0;
+	protected static double cout_transformation = 0.5;
 	
 	//Vente
 	
