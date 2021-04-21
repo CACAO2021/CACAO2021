@@ -8,6 +8,8 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 
 public class Producteur2TestDesVentesAO  extends Filiere {
+	
+	// ensemble fait par DIM
 
 		public Producteur2TestDesVentesAO() { 
 			super();

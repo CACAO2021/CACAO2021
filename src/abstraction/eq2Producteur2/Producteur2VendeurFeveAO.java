@@ -7,6 +7,8 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 
 public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
+	
+	// ensemble fait par max
 
 
 	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
