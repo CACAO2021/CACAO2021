@@ -1,6 +1,7 @@
 package abstraction.eq1Producteur1;
 
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
@@ -79,16 +80,16 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} else {
 				double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				Echeancier e = new Echeancier (contrat.getEcheancier());
+				/*int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 Echeancier e = new Echeancier (contrat.getEcheancier());
 				 int i;
 				 for (i=e.getStepDebut(); i<step_milieu; i++) {
 					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
 				 }
 				 for (i=step_milieu; i<=e.getStepFin(); i++) {
 					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }
+				 }*/
 				return e;
 			} 
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
@@ -98,16 +99,16 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} else {
 				double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				Echeancier e = new Echeancier (contrat.getEcheancier());
+				/*int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 Echeancier e = new Echeancier (contrat.getEcheancier());
-				 int i;
-				 for (i=e.getStepDebut(); i<step_milieu; i++) {
-					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				 }
-				 for (i=step_milieu; i<=e.getStepFin(); i++) {
-					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }
+				int i;
+				for (i=e.getStepDebut(); i<step_milieu; i++) {
+					e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
+				}
+				for (i=step_milieu; i<=e.getStepFin(); i++) {
+					e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
+				}*/
 				return e;
 			}
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
@@ -117,22 +118,22 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} else {
 				double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
+				Echeancier e = new Echeancier (contrat.getEcheancier());
+				/*int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
 				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 Echeancier e = new Echeancier (contrat.getEcheancier());
-				 int i;
-				 for (i=e.getStepDebut(); i<step_milieu; i++) {
-					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				 }
-				 for (i=step_milieu; i<=e.getStepFin(); i++) {
-					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }
+				int i;
+				for (i=e.getStepDebut(); i<step_milieu; i++) {
+					e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
+				}
+				for (i=step_milieu; i<=e.getStepFin(); i++) {
+					e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
+				}*/
 				return e;
 			}
 			
 		}
 		else {
-			return null;
+			return contrat.getEcheancier();
 		}
 	}
 
@@ -168,7 +169,9 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		List<Double> liste_prix = contrat.getListePrix();
+		return contrat.getPrix();
+	}
+	/*	List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
 		if (moyenne>VendeurContratCadre1.PRIX_PALIER_F_E) {
@@ -177,10 +180,14 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		else {
 			return (liste_prix.get(n-2)+VendeurContratCadre1.PRIX_PALIER_F_E)/2;
 		}
-	}
+	} */
+
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		if (this.mesCC==null) {
+			this.mesCC= new LinkedList<ExemplaireContratCadre>();
+		}
 		this.mesCC.add(contrat);
 
 	}
