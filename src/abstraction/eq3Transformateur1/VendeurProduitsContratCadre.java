@@ -37,7 +37,9 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// on accepte toujours la 1ere proposition d'échéancier pour l'instant
+		if(contrat.getEcheancier().getNbEcheances()<4) {
+			return null;
+		}
 		
 		return contrat.getEcheancier();
 	}
@@ -58,8 +60,10 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// On accepte la premiere proposition pour l'instant
-		return contrat.getPrix();
+		if(contrat.getPrix()<0.98*contrat.getListePrix().get(0)) {
+			return 0.98*contrat.getListePrix().get(0);
+		}
+		else { return contrat.getPrix(); }
 	}
 
 	@Override
