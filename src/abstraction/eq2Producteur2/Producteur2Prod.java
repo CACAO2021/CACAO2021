@@ -15,6 +15,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesB;
 	private LinkedList<Feve> listeProd; 
 	
+	// ensemble fait par DIM
+	
 	public Producteur2Prod() {
 		super();
 		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
@@ -118,6 +120,9 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//long de la simulation mais va plutôt varier selon les saisons et des paramètres aléatoires
 		
 		return qttArbre(p) * prodParArbre(p);
+		// pour tenir compte du rnedement changeant
+		// boucle a faire sur chaque arbre
+		//utiliser  rendement (step, p);
 	}
 
 	private double prodParArbre(Object p) {		
@@ -137,13 +142,14 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 	
 	// pas encore utilisé
-	protected int rendement(int step) {
+	protected double rendement(int step, Object p) {
+		// step correspond à l'age de larbre
 		if (step<TPS_BON_RENDEMENT_ARBRE) {
 			return 0;
 		}else if(step < TPS_RENDEMENT_MAX_ARBRE) {
-			return 0;// a faire
+			return  prodParArbre(p) - ((TPS_RENDEMENT_MAX_ARBRE - step)/(TPS_RENDEMENT_MAX_ARBRE - TPS_BON_RENDEMENT_ARBRE+1) * prodParArbre(p));// fonctionnement OK
 		}else if(step<TPS_RENOUVELLEMENT_ARBRE) {
-			return PROD_ARBRE;
+			return prodParArbre(p);
 		}else {
 			return 0;
 		}
