@@ -18,7 +18,7 @@ import abstraction.fourni.Variable;
 
 
 
-// Paul GIRAUD
+// Jonathan
 public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadre {
 
 	
@@ -92,7 +92,6 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		System.out.println("cette fonction est bien lancée");
 		if (produit instanceof Feve) {
 			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix()/contrat.getQuantiteTotale())); // pour avoir le prix du KG
 			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());
