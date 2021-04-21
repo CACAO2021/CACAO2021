@@ -28,7 +28,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
 		this.quantiteTotaleVendue=0;
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
-		for (int i=0; i<.getCatalogue().size(); i++) {
+		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 0.0);
 		}
 		this.q=new HashMap <ChocolatDeMarque,Double>();
