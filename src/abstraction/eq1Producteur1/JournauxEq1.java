@@ -10,7 +10,7 @@ import abstraction.fourni.Journal;
  * classe JournauxEq1 pour manipuler plus facilement nos journaux.
  */
 
-public class JournauxEq1 {
+public class JournauxEq1 extends CreationJournaux {
 
 	private ArrayList<Journal> journaux;
 
@@ -31,7 +31,7 @@ public class JournauxEq1 {
 		this.journaux.add(journal);
 	}
 
-	public ArrayList<Journal> getJournaux(){
+	public ArrayList<Journal> getListeJournaux(){
 		return journaux;
 	}
 
