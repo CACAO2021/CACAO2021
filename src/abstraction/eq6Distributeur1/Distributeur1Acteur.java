@@ -74,6 +74,7 @@ public class Distributeur1Acteur implements IActeur {
 		//journaux.add(journalStocks);
 		//journaux.add(journalAchats);
 		return journaux;
+
 	}
 
 	public void setCryptogramme(Integer crypto) {

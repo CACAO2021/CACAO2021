@@ -98,8 +98,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 					e.set(step, contrat.getEcheancier().getQuantite(step));
 				}
 				else {
-					e.set(step, maxQuantite*(0.90+i/100));
-				}
+					e.set(step, maxQuantite*(0.90+i/100));}
 			}
 
 			else {
@@ -119,7 +118,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		return e;
 
 	}
-
+	
 
 	//Elsa
 	@Override
