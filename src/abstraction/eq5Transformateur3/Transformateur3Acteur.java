@@ -19,13 +19,11 @@ public abstract class Transformateur3Acteur implements IActeur {
 	protected int cryptogramme;
 	private String nom;
 	private String description;
-<<<<<<< HEAD
-	protected Variable prix_max_fèves;
+
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
-=======
 	protected Variable prix_max_fèves, stock_min_feves, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ;
-	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre;
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
+	
+
 
 	public Transformateur3Acteur() {
 		this.nom = "EQ5";
