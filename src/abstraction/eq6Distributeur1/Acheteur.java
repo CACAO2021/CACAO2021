@@ -79,7 +79,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 					vendeurs.add(acteur);
 				}
 			}
-			int rnd = new Random().nextInt(vendeurs.size()+1);
+			int rnd = new Random().nextInt(vendeurs.size());
 			IActeur vendeur = vendeurs.get(rnd);
 			
 			if (produitTG.contains(produit)) {
