@@ -46,7 +46,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	@Override
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		if (choco!=null && this.stock.get(choco)!=null) {
+		if (choco!=null) {
 			return this.stock.get(choco).getValeur();
 		}
 		else {
