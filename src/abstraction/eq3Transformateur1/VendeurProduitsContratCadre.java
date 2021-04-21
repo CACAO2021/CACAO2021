@@ -7,21 +7,26 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
-public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
+public class VendeurProduitsContratCadre extends Transformateur1Marque implements IVendeurContratCadre {
 	
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
-		MarqueTransformateur1 M = new MarqueTransformateur1(); //on rappelle la classe marquetransformateur1
-		List<Chocolat> L = M.getProduits(); //liste des produits
-		if(L.contains(produit)) {
-			return true;
+		if ((produit instanceof Chocolat)) {
+			if (((Chocolat)produit).getGamme() != Gamme.BASSE) {
+			return true;	
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	@Override
@@ -32,9 +37,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		if(contrat.getEcheancier().getNbEcheances()<4) {
-			return null;
-		}
+		// on accepte toujours la 1ere proposition d'échéancier pour l'instant
 		
 		return contrat.getEcheancier();
 	}
@@ -43,18 +46,20 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit() instanceof Chocolat) {
 			return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
-		} else {
-			 return 0;
+		} else { 
+			if (contrat.getProduit() instanceof ChocolatDeMarque){
+				return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), ((ChocolatDeMarque)contrat.getProduit()).getChocolat());
+			} else {
+				return 0;
+			}
 		}
 
 	}
 
 	@Override
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		if(contrat.getPrix()<0.98*contrat.getListePrix().get(0)) {
-			return 0.98*contrat.getListePrix().get(0);
-		}
-		else { return contrat.getPrix(); }
+		// On accepte la premiere proposition pour l'instant
+		return contrat.getPrix();
 	}
 
 	@Override
@@ -68,12 +73,26 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		double qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
-		if(qdisp>0) {
-			Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
-			Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
-			this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
-			return qdisp;
+		double qdisp = 0;
+		if (produit instanceof Chocolat) {
+			qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
+			if(qdisp>0) {
+				Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+				Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
+				return qdisp;
+			}
+		} else {
+			if (produit instanceof ChocolatDeMarque) {
+				qdisp = Math.min(this.getStock().getStockChocolats(((ChocolatDeMarque)produit).getChocolat()), quantite);
+				if(qdisp>0) {
+					Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix);
+					return qdisp;
+				}
+
+			}
 		}
 		return 0.0;
 	}
@@ -81,3 +100,5 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	
 
 }
+
+
