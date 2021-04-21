@@ -13,7 +13,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesME;
 	private LinkedList<Stock> arbrePlantesM; 
 	private LinkedList<Stock> arbrePlantesB;
-	private LinkedList<Feve> listeProd;
+	private LinkedList<Feve> listeProd; 
 	
 	public Producteur2Prod() {
 		super();
