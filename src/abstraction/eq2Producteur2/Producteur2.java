@@ -22,4 +22,7 @@ public class Producteur2 extends Producteur2Param  {
 		verifPeremption();
 		coutStockage();
 	}
+	public String toString() {
+		return this.getNom();
+	}
 }

@@ -5,4 +5,8 @@ public class Transformateur3 extends Transformateur3Stock {
 	public Transformateur3() {
 		super();
 	}
+	public String toString() {
+		return this.getNom();
+	}
+
 }
