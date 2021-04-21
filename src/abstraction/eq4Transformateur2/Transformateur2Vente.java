@@ -170,16 +170,27 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 						return contrat.getEcheancier();
 					}	
 					else {
-						List<Double> liste = new LinkedList<Double>();
-						int deb = contrat.getEcheancier().getStepDebut();
-						liste.add(0, get_stock(choco));
-						liste.add(1,contrat.getEcheancier().getQuantite(1) + (contrat.getEcheancier().getQuantite(0) - get_stock(choco)));
-						for (int i = 2; i< contrat.getEcheancier().getNbEcheances(); i++ ) {
-							liste.add(i, contrat.getEcheancier().getQuantite(i));
+						if (contrat.getEcheancier().getNbEcheances() >1){
+							List<Double> liste = new LinkedList<Double>();
+							int deb = contrat.getEcheancier().getStepDebut();
+							liste.add(0, get_stock(choco));
+							liste.add(1,contrat.getEcheancier().getQuantite(1) + (contrat.getEcheancier().getQuantite(0) - get_stock(choco)));
+							for (int i = 2; i< contrat.getEcheancier().getNbEcheances(); i++ ) {
+								liste.add(i, contrat.getEcheancier().getQuantite(i));
+							}
+							Echeancier ech = new Echeancier(deb, liste);
+							return ech;
 						}
-						Echeancier ech = new Echeancier(deb, liste);
+						else {
+							List<Double> liste = new LinkedList<Double>();
+							int deb = contrat.getEcheancier().getStepDebut();
+							liste.add(0, get_stock(choco));
+							liste.add(1, (contrat.getEcheancier().getQuantite(0) - get_stock(choco)));
+							Echeancier ech = new Echeancier(deb, liste);
+							return ech;
+							
+						}
 						
-						return ech;
 					
 					}	
 			}
