@@ -20,6 +20,7 @@ public interface IVendeurContratCadre extends IActeur {
 	 * a cette etape pour ce type de produit (retourne true si il est pret a
 	 * negocier un contrat cadre pour ce type de produit).
 	 */
+	
 	public boolean vend(Object produit);
 	
 	/**

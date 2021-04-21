@@ -15,10 +15,8 @@ public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
 	}
-	protected LinkedList<Double> echeancier_tablette_basse;
-	protected LinkedList<Double> echeancier_tablette_moyenne;
-	protected LinkedList<Double> echeancier_confiserie_basse;
-	protected LinkedList<Double> echeancier_confiserie_moyenne;
+	protected LinkedList<Double> echeancier_basse;
+	protected LinkedList<Double> echeancier_moyenne;
 	protected LinkedList<Double> echeancier_total;
 	
 	protected static double Prix_max_achat;

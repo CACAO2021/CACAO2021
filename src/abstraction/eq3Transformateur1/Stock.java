@@ -18,7 +18,8 @@ import java.util.ArrayList;
 public class Stock {
 	
 	protected Business financier;
-	private List<Variable> indicateurs;	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
+	private List<Variable> indicateurs;	
+	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
 	protected Map<Feve,Double> coutFeves;
 	protected Map<Chocolat,Double> coutChocolat;
@@ -204,9 +205,13 @@ public class Stock {
 		}
 	}
 	
+	public double stockRestant() {
+		return 0.30*this.getActeur().STOCK_MAX - this.getStockFeves(); 
+	}
+	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
 		ArrayList<Variable> QuantitePrix = new ArrayList<>();
-		if (quantite.getValeur()+this.getStockChocolats() >= 0) {
+		if (quantite.getValeur()+this.getStockChocolats(chocolat) >= 0) {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockChocolats.get(chocolat).add(QuantitePrix);
@@ -328,6 +333,22 @@ public class Stock {
 		} 
 		prix = prix/compteur;
 		return prix;
+	}
+	
+	public double prixDejaVenduKG(Chocolat chocolat) {
+		
+		double prix = 0.0;
+		Integer compteur = 0;
+		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
+		for ( ArrayList<Variable> quantPrix: stockChocolats) {
+			if (quantPrix.get(0).getValeur() < 0) {
+				compteur += 1;
+				prix += quantPrix.get(1).getValeur();
+			}
+		} 
+		prix = prix/compteur;
+		return prix;
 	}	
+	
 	
 }

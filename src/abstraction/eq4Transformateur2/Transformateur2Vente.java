@@ -12,6 +12,8 @@ import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.IFabricantChocolatDeMarque;
 import abstraction.fourni.IMarqueChocolat;
 import abstraction.eq8Romu.produits.Categorie;
+import java.util.ArrayList;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 
 //Abigaëlle
@@ -28,21 +30,25 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
 	
+	//on peut vendre ce produit
 	public boolean peutVendre(Object produit) {
-		if (produit instanceof Chocolat) {
-			if (((Chocolat) produit).getGamme() != Gamme.HAUTE) {
-				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
-					return true; 
+		if (produit instanceof ChocolatDeMarque) {
+			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
+				if (((ChocolatDeMarque) produit).getCategorie() != Categorie.POUDRE) {
+					if (((ChocolatDeMarque) produit).getMarque() == "Boni Suci" ){
+						return true; 
+					}
 				}
 			}
 		}
 		return false;
 	}
 	
+	//on veut vendre ce produit à cet instant
 	public boolean vend(Object produit) {
-		if (produit instanceof Chocolat) {
-			if (((Chocolat) produit).getGamme() != Gamme.HAUTE) {
-				if (((Chocolat) produit).getCategorie() != Categorie.POUDRE) {
+		if (produit instanceof ChocolatDeMarque) {
+			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
+				if (((ChocolatDeMarque) produit).getCategorie() != Categorie.POUDRE) {
 					return true; 
 				}
 				
@@ -53,30 +59,31 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		this.contrats.add(contrat);
-		Object produit = contrat.getProduit();
-		if (produit instanceof Chocolat) {
+		Object choco = contrat.getProduit();
+		if (choco instanceof ChocolatDeMarque) {
+			Chocolat produit = ((ChocolatDeMarque) choco).getChocolat(); 
 			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_confiserie_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_confiserie_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
+					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i))); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_confiserie_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_confiserie_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
+					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i))); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_tablette_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_tablette_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
+					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i))); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_tablette_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_tablette_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
+					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i))); 
 				}
 			}
 			
@@ -85,22 +92,24 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		double livre = 0;
-		if (produit instanceof Chocolat) {
-			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
+		if (produit instanceof ChocolatDeMarque) {
+			Chocolat choco = ((ChocolatDeMarque) produit).getChocolat();
+			
+			if ((Chocolat) choco == Chocolat.CONFISERIE_BASSE) {
 				livre = Math.min(get_stock(Chocolat.CONFISERIE_BASSE), quantite);
-				delete_stock(produit, quantite);
+				delete_stock(choco, quantite);
 			}
-			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
+			if ((Chocolat) choco == Chocolat.CONFISERIE_MOYENNE) {
 				livre = Math.min(get_stock(Chocolat.CONFISERIE_MOYENNE), quantite);
-				delete_stock(produit, quantite);
+				delete_stock(choco, quantite);
 			}
-			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
+			if ((Chocolat) choco == Chocolat.TABLETTE_BASSE) {
 				livre = Math.min(get_stock(Chocolat.TABLETTE_BASSE), quantite);
-				delete_stock(produit, quantite);
+				delete_stock(choco, quantite);
 			}
-			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
+			if ((Chocolat) choco == Chocolat.TABLETTE_MOYENNE) {
 				livre = Math.min(get_stock(Chocolat.TABLETTE_MOYENNE), quantite);
-				delete_stock(produit, quantite);
+				delete_stock(choco, quantite);
 			}
 		}	
 		return livre;
@@ -117,8 +126,9 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	}
 	
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		Object produit = contrat.getProduit();
-		if (produit instanceof Chocolat) {
+		Object choco = contrat.getProduit();
+		if (choco instanceof ChocolatDeMarque) {
+			Chocolat produit = ((ChocolatDeMarque) choco).getChocolat(); 
 			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
 				return prix_min_confiserie_basse * 1.4 ;
 			}
