@@ -24,8 +24,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	public Vendeur() {
 		super();
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
-		this.quantiteTotaleVendue=0;
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
+		this.quantiteTotaleVendue=0;
 		for (int i=0; i<12; i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 0.0);
 		}
@@ -48,8 +48,10 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	//thomas
 	public List<ChocolatDeMarque> getCatalogue() {
-		Set<ChocolatDeMarque> Catalogue = stock.keySet();
-		List<ChocolatDeMarque> c = new ArrayList<>(Catalogue);
+		List<ChocolatDeMarque> c = new ArrayList<ChocolatDeMarque>();
+		for (ChocolatDeMarque choco : stock.keySet()) {
+			c.add(choco);
+		}
 		return c;
 	}//retourne le catalogue (liste des produits disponibles)
 

@@ -78,9 +78,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					vendeurs.add(acteur);
+					System.out.println("ajout de l'acteur" + acteur + "pour le chocolat" + produit);
 				}
 			}
-			/*int rnd = new Random().nextInt(vendeurs.size());
+			int rnd = new Random().nextInt(vendeurs.size());
 			IActeur vendeur = vendeurs.get(rnd);
 			
 			if (produitTG.contains(produit)) {
@@ -88,7 +89,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			}
 			else {
 				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
-			}*/
+			}
 		}
 
 	}
@@ -113,7 +114,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		i=0;
 		ajouterStock(produit, quantite,contrat.getTeteGondole());
-		journaux.add(new Journal("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix(),this));
+		//journaux.add(new Journal("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix(),this));
 		
 	}
 	
