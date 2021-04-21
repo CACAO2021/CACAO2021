@@ -29,13 +29,11 @@ public class Stocks extends Distributeur1Acteur{
 	}
 	
 	//Louis
-	public void ajouterStock(Object produit, double quantite, boolean tg) {
-		//peut-etre que caster produit en ChocolatDeMarque va faire une erreur, il faudrait mettre des verifications ou le caster avant d'utiliser cette methode
-		//si tg==true alors on ajoute le produit en tête de gondole, sinon simplement en rayon
+	public void ajouterStock(ChocolatDeMarque produit, double quantite, boolean tg) {
 		if (tg) {
-			stockTG.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
+			stockTG.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
 		}
-		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
+		stock.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
 
 	}
 	
@@ -49,10 +47,8 @@ public class Stocks extends Distributeur1Acteur{
 		super.initialiser();
 		initCatalogue();
 		initPrix();
-		int i=0;
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
-			i++;
-			this.indicateurs.add(new Variable(choco.getMarque().toString()+ " " + i +" Quantite stock CC",this,stock.get(choco).getValeur()));
+			this.indicateurs.add(stock.get(choco));
 		}
 	}
 	
@@ -60,7 +56,7 @@ public class Stocks extends Distributeur1Acteur{
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 
-			stock.put(choco, new Variable(choco.getMarque()+" Quantite",this,10.));
+			stock.put(choco, new Variable(choco.toString(),this,10.));
 
 		}
 	}
