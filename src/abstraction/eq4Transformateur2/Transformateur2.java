@@ -8,5 +8,7 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		super();
 	}
 
-	
+	public String toString() {
+		return this.getNom();
+	}
 }

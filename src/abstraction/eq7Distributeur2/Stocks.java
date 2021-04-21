@@ -32,32 +32,59 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		public Color infoColor = Color.YELLOW;
 		public Color peremptionColor = Color.MAGENTA;
 	
-
+//
 	public Stocks(Distributeur2Acteur acteur) {
 		this.acteur = acteur;
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
 		nouveauChocoParEtape = new HashMap<Integer, HashMap<ChocolatDeMarque, Variable>>();
-		stocksEnTG = new HashMap<ChocolatDeMarque, Variable>();		
+		stocksEnTG = new HashMap<ChocolatDeMarque, Variable>();
 		int etape = Filiere.LA_FILIERE.getEtape();
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
-			stocksParMarque.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +" [W&S]", acteur,0));
-			acteur.journalStocks.ajouter(Journal.texteColore(infoColor, Color.BLACK,"[CRÉATION] Création d'un stock pour le " + chocoDeMarq + "."));
-			HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
-			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
-			nouveauChocoParEtape.put(0, Init);
+//			System.out.println(chocoDeMarq.name());
+				stocksParMarque.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +" [W&S]", acteur,0));
+				acteur.journalStocks.ajouter(Journal.texteColore(infoColor, Color.BLACK,"[CRÉATION] Création d'un stock pour le " + chocoDeMarq + "."));
+				if(nouveauChocoParEtape.get(0)==null) {
+					HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
+					Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
+					nouveauChocoParEtape.put(0, Init);
+				}
+				else {
+					HashMap<ChocolatDeMarque, Variable> Init = nouveauChocoParEtape.get(0);
+					Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
+					nouveauChocoParEtape.put(0, Init);
+				}
 		}
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			stocksEnTG.put(choco, new Variable("Stocks en TG de " + choco.name() +" [W&S]", acteur,0));
 		}
-	}		
+	}
+	
 	
 	public void next() {
-		HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
+		
+		if(Filiere.LA_FILIERE.getEtape()==0) {
+			for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
+				if(!chocoDeMarq.name().equals(acteur.getChocoProduit().name())){
+					this.stocksParMarque.get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)/2);
+					acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, "[AJOUT] " + Journal.doubleSur(Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)/2,2) + " de " + chocoDeMarq.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocoDeMarq).getValeur(),2) + " "));
+					this.nouveauChocoParEtape.get(0).get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)/2);
+				}
+			}
+			
+		}
 		int etape = Filiere.LA_FILIERE.getEtape();
 		for (ChocolatDeMarque chocoDeMarq : acteur.getCatalogue()) {
-			Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
+			if(nouveauChocoParEtape.get(etape)==null) {
+				HashMap<ChocolatDeMarque, Variable> Init = new HashMap<ChocolatDeMarque, Variable>();
+				Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
+				nouveauChocoParEtape.put(etape, Init);
+			}
+			else {
+				HashMap<ChocolatDeMarque, Variable> Init = nouveauChocoParEtape.get(etape);
+				Init.put(chocoDeMarq, new Variable("Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]", acteur,0));
+				nouveauChocoParEtape.put(etape, Init);
+			}
 		}
-		nouveauChocoParEtape.put(etape, Init);
 		this.jeterChocolatPerime();
 		this.CoutStockage();
 		this.majTGSuiteASuppression();
@@ -145,6 +172,13 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		this.stocksEnTG.get(choco).retirer(acteur, qte);
 	}
 	
+	public double qtePossibleTG(ChocolatDeMarque choco){
+		double qteDejaEnTG = this.getQuantiteChocoEnTG(choco);
+		double limiteTG = this.getParametre("limiteEnTG");
+		double qteDeChocoAvant = this.getStockChocolatDeMarque(choco);
+		return (qteDeChocoAvant*limiteTG/100)-qteDejaEnTG;
+	}
+	
 	public void majTGSuiteASuppression() {
 		double limiteTG = this.getParametre("limiteEnTG");
 		for(ChocolatDeMarque choco : acteur.getCatalogue()) {
@@ -172,7 +206,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	@Override
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
 		int etape = Filiere.LA_FILIERE.getEtape();
-		if (this.getStockChocolatDeMarque(chocolatDeMarque)>qte) { //on vérifie déjà que l'action soit possible
+		if (this.getStockChocolatDeMarque(chocolatDeMarque)>=qte) { //on vérifie déjà que l'action soit possible
 			if(this.stocksEnTG.get(chocolatDeMarque).getValeur()!=0) {
 			this.stocksEnTG.get(chocolatDeMarque).setValeur(acteur, acteur.quantiteEnVente(chocolatDeMarque)*(this.getParametre("limiteEnTG")-0.01)/100);
 			}
@@ -213,12 +247,14 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			for (ChocolatDeMarque chocoDM : acteur.getCatalogue()) {
 				if(this.nouveauChocoParEtape.get(etapeImpactee).containsKey(chocoDM)) {
 				double valeurRecue = this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).getValeur();
-				acteur.journalStocks.ajouter(Journal.texteColore(peremptionColor,Color.BLACK,"[PEREMPTION] " + Journal.doubleSur(valeurRecue,2) + " de " + chocoDM.name() +" datants de l'étape " + Journal.entierSur6(etapeImpactee) + " ont été jetés"));
-				this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).retirer(acteur, valeurRecue);
-				this.stocksParMarque.get(chocoDM).retirer(acteur, valeurRecue);
-				if(this.getQuantiteChocoEnTG(chocoDM)>this.getStockChocolatDeMarque(chocoDM)) {
-					this.setQuantiteChocoEnTG(chocoDM, this.getStockChocolatDeMarque(chocoDM));
-				}
+					if(valeurRecue!=0.0) {
+						acteur.journalStocks.ajouter(Journal.texteColore(peremptionColor,Color.BLACK,"[PEREMPTION] " + Journal.doubleSur(valeurRecue,2) + " de " + chocoDM.name() +" datants de l'étape " + Journal.entierSur6(etapeImpactee) + " ont été jetés"));
+						this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).retirer(acteur, valeurRecue);
+						this.stocksParMarque.get(chocoDM).retirer(acteur, valeurRecue);
+						if(this.getQuantiteChocoEnTG(chocoDM)>this.getStockChocolatDeMarque(chocoDM)) {
+							this.setQuantiteChocoEnTG(chocoDM, this.getStockChocolatDeMarque(chocoDM));
+						}
+					}
 				}
 			}this.majTGSuiteASuppression();
 		}

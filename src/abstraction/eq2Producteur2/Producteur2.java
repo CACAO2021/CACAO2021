@@ -23,10 +23,11 @@ public class Producteur2 extends Producteur2Param  {
 		coutStockage();
 	}
 
+
 	@Override
 	public String toString() {
 		return "Producteur2, " + getNom() ;
 	}
 	
-	
+
 }
