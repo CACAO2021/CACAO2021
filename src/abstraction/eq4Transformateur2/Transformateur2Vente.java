@@ -166,14 +166,14 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 			if (24 - contrat.getEcheancier().getStepDebut() + Filiere.LA_FILIERE.getEtape() - contrat.getEcheancier().getNbEcheances() >= 0) {
 					ChocolatDeMarque produit = (ChocolatDeMarque) contrat.getProduit();
 					Chocolat choco = produit.getChocolat();
-					if (get_stock(choco) > contrat.getEcheancier().getQuantite(contrat.getEcheancier().getStepDebut())){
+					if (get_stock(choco) > contrat.getEcheancier().getQuantite(0)){
 						return contrat.getEcheancier();
 					}	
 					else {
 						List<Double> liste = new LinkedList<Double>();
 						int deb = contrat.getEcheancier().getStepDebut();
 						liste.add(0, get_stock(choco));
-						liste.add(1,contrat.getEcheancier().getQuantite(1)+(contrat.getEcheancier().getQuantite(0) - get_stock(choco)));
+						liste.add(1,contrat.getEcheancier().getQuantite(1) + (contrat.getEcheancier().getQuantite(0) - get_stock(choco)));
 						for (int i = 2; i< contrat.getEcheancier().getNbEcheances(); i++ ) {
 							liste.add(i, contrat.getEcheancier().getQuantite(i));
 						}
