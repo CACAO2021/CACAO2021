@@ -82,9 +82,6 @@ public abstract class Producteur1Acteur implements IActeur {
 	public String getNom() {
 		return "EQ1";
 	}
-	public String toString() {
-		return this.getNom();
-	}
 
 	public String getDescription() {
 		return "Producteur Ghanao";
