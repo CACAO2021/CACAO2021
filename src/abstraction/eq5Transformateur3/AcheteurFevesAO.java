@@ -1,6 +1,7 @@
 package abstraction.eq5Transformateur3;
 //Charlotte
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -39,7 +40,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public double getQmax() {
 		return this.quantite.getMax();
 	}
-
+    // cette méthode permet de garantir une quantité minimale de fèves en stock pour chaque type de fèves
+	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
+	
 	public OffreAchatFeves getOffreAchat() {
 		OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
@@ -64,18 +67,31 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		this.JournalOA.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 		
-	
-
-	@Override
+	//On va choisir ici la proposition la moins chère pour être cohérent avec notre objectif de rentabilité
+	// on choisit cependant des AO dont les quantités respectent les quantités voulues initialement 
+	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
-		// TODO Auto-generated method stub
+		double delta = this.getQmax()-this.getQmin();
+		if (propositions.size()>0) {
+			for(PropositionVenteFevesAO proposition : propositions) {
+				if(proposition.getPrixKG()< this.prixmax 
+						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
+						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta) {
+		}
+			
+				
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
-		// TODO Auto-generated method stub
-		return null;
+		if (superviseur!=null) { 
+			return cryptogramme;
+		}
+		return Integer.valueOf(0);
+		
 	}
 
 	@Override
