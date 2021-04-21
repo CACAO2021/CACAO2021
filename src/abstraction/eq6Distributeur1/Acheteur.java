@@ -59,7 +59,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		}
 	}
 
-	//est ce que on peut mettre next() ici?
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
