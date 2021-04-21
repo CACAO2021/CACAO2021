@@ -9,7 +9,7 @@ import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
-//Antoine C
+//Tout le monde
 
 public class Transformateur2Valeurs {
 	
