@@ -2,69 +2,61 @@ package abstraction.eq2Producteur2;
 
 
 import java.util.LinkedList;
-import java.util.Map;
-
-import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
-import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
-import abstraction.eq8Romu.produits.Feve;
 
-public class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
+public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 
-	protected LinkedList<ExemplaireContratCadre> mesContratsAO;
-	public LinkedList<PropositionVenteFevesAO> mesContratsAORefuses;
-	public LinkedList<PropositionVenteFevesAO> mesContratsAOAcceptes;
-	//nbOffres=nbOffres.SuperviseurVentesFevesAO;
 
-	public Producteur2VendeurFeveAO() { 
+	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
+	public LinkedList<PropositionVenteFevesAO> mesContratsAORefusess;
+
+	public Producteur2VendeurFeveAO() {
 		super();
-		this.mesContratsAO = new LinkedList<ExemplaireContratCadre>();
+		this.mesContratsAO = new LinkedList<PropositionVenteFevesAO>();
+		this.mesContratsAORefusess = new LinkedList<PropositionVenteFevesAO>();
 	}
 
 	/**	@author Maxime Boillot
-	 
+
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-		/**Feve feveachetee=oa.getFeve();
-	int nbOffres=nbOffres.get(acheteurs.get(acheteurCourant));
-	
-	if ((feveachetee==Feve.FEVE_HAUTE_BIO_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_BIO_EQUITABLE)>oa.getQuantiteKG())) {
-		return PRIX_ESPERE_FEVE_HBE;
-	}
-	else if ((feveachetee==Feve.FEVE_HAUTE_EQUITABLE)&&(qttTotale(Feve.FEVE_HAUTE_EQUITABLE)>oa.getQuantiteKG())) {
-		return PRIX_ESPERE_FEVE_HE;
-	}
-	else if ((feveachetee==Feve.FEVE_MOYENNE_EQUITABLE)&&(qttTotale(Feve.FEVE_MOYENNE_EQUITABLE)>oa.getQuantiteKG())) {
-		return PRIX_ESPERE_FEVE_ME;
-	}
-	else if ((feveachetee==Feve.FEVE_MOYENNE)&&(qttTotale(Feve.FEVE_MOYENNE)>oa.getQuantiteKG())) {
-		return PRIX_ESPERE_FEVE_M;
-	}
-	else if ((feveachetee==Feve.FEVE_BASSE)&&(qttTotale(Feve.FEVE_BASSE)>oa.getQuantiteKG())) {
-		return PRIX_ESPERE_FEVE_B;
-	}
-	else {
-		return 0.0;
-	}*/
-		return 0;
-	}
-	
-/**	@author Maxime Boillot
-	 
-	 
-	 */
-	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
-		this.mesContratsAORefuses.add(proposition);
+		double stock = qttTotale(oa.getFeve()).getValeur();
+		if (stock >= oa.getQuantiteKG() ) {
+			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
+				if (c.getAcheteur() == oa.getAcheteur()) {
+					double p = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
+					double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve());
+					if (p >= min) {return p;}else {return min;}
+				}
+			} return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
+		}else {
+			return 0.0;
+		}
 	}
 
 	/**	@author Maxime Boillot
-	 
+
+	 */
+	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
+		this.mesContratsAORefusess.add(proposition);
+	}
+
+	/**	@author Maxime Boillot
+
 	 */
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		this.mesContratsAOAcceptes.add(proposition);
-		
+		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur().getNom() + " qtt = " + Math.floor(proposition.getQuantiteKg()) + proposition.getFeve()
+		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );
+		this.mesContratsAO.add(proposition);
+		vente(proposition.getQuantiteKg(), proposition.getFeve());
+		for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
+			if (c.getAcheteur() == proposition.getAcheteur()) {
+				this.mesContratsAORefusess.remove(c);
+			}
+		}
 	}
-	
 }
+
+

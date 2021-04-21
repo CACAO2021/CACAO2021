@@ -11,9 +11,9 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesHBE;
 	private LinkedList<Stock> arbrePlantesHE;
 	private LinkedList<Stock> arbrePlantesME;
-	private LinkedList<Stock> arbrePlantesM;
+	private LinkedList<Stock> arbrePlantesM; 
 	private LinkedList<Stock> arbrePlantesB;
-	private LinkedList<Feve> listeProd;
+	private LinkedList<Feve> listeProd; 
 	
 	public Producteur2Prod() {
 		super();
@@ -38,7 +38,111 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.listeProd.add(Feve.FEVE_BASSE);
 		}
 	
-	public double qttArbre(Object produit) { // ok 
+	/**
+	 * @return the listeProd
+	 */
+	protected LinkedList<Feve> getListeProd() {
+		return listeProd;
+	}
+
+	public void prod() {
+		for (Object p : listeProd) {
+			double qtt = prodParStep(p);
+			addStock(qtt, p); 
+			JournalProd.ajouter(""+ p +" "+qtt);	
+			coutProd(qtt, p);
+			majStock(p);
+		}		
+		}
+	
+	protected void coutProd(double qtt, Object p) {
+		double cout = coutProdUnitaire(p) * qtt;
+		perdreArgent(cout);
+	}
+	
+	private double coutProdUnitaire(Object p) {  
+		if(estFeveHBE(p)) {
+			return COUT_PRODUCTION_FEVE_HBE;
+		} else if(estFeveHE(p)) {
+			return COUT_PRODUCTION_FEVE_HE;
+		} else if(estFeveME(p)) {
+			return COUT_PRODUCTION_FEVE_ME;
+		} else if(estFeveM(p)) {
+			return COUT_PRODUCTION_FEVE_M;
+		}else if(estFeveB(p)) {
+			return COUT_PRODUCTION_FEVE_B;
+		} else { // un produit que l'on ne vend pas
+			return 0;
+		}
+	}
+
+	public void renouvellement() {
+		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
+		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
+		//une longue période sans pouvoir espérer de bénéfice.
+		
+		
+		int step = Filiere.LA_FILIERE.getEtape();
+		for (Stock s : arbrePlantesHBE) {
+			if (step - s.getStep() == ARBRE_TPS_VIE_HBE) {
+				s.setStep(step);
+				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
+			}}
+		for (Stock s : arbrePlantesHE) {
+			if (step - s.getStep() == ARBRE_TPS_VIE_HE) {
+				s.setStep(step);
+				perdreArgent(COUT_CHANGEMENT_ARBRE_HE);
+			}}
+		for (Stock s : arbrePlantesME) {
+			if (step - s.getStep() == ARBRE_TPS_VIE_ME) {
+				s.setStep(step);
+				perdreArgent(COUT_CHANGEMENT_ARBRE_ME);
+			}}
+		for (Stock s : arbrePlantesM) {
+			if (step - s.getStep() == ARBRE_TPS_VIE_M) {
+				s.setStep(step);
+				perdreArgent(COUT_CHANGEMENT_ARBRE_M);
+			}}
+		for (Stock s : arbrePlantesB) {
+			if (step - s.getStep() == ARBRE_TPS_VIE_B) {
+				s.setStep(step);
+				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
+			}}
+	}
+	
+	private double prodParStep(Object p) {
+		// prod en fonction de la qtt darbre plante
+		//production réfléchie en fct de la demande a faire
+		
+		// a faire production ne va pas être constante tout au 
+		//long de la simulation mais va plutôt varier selon les saisons et des paramètres aléatoires
+		
+		return qttArbre(p) * prodParArbre(p);
+	}
+
+	private double prodParArbre(Object p) {		
+		if(estFeveHBE(p)) {
+			return PROD_HBE;
+		} else if(estFeveHE(p)) {
+			return PROD_HE;
+		} else if(estFeveME(p)) {
+			return PROD_ME;
+		} else if(estFeveM(p)) {
+			return PROD_M;
+		}else if(estFeveB(p)) {
+			return PROD_B;
+		} else { // un produit que l'on ne vend pas
+			return 0;
+		}
+	}
+	
+	public double qttArbre(Object produit) {
+		// a prendre en compte pour la suite :
+		
+		//il faut du temps avant que le nouvel arbre pousse et produise des fèves
+		//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
+		// cela vainfluencer le nombre darbre qui produit effectivement
+		
 		double nb = 0;
 		if (estFeveHBE(produit)) {			
 			for (Stock s : this.arbrePlantesHBE) {
@@ -63,63 +167,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}		
 		return nb;
 		}
-
-
-	public void prod() {
-		for (Object p : listeProd) {
-			double qtt = prodParStep(p);
-			addStock(qtt, p);
-			JournalProd.ajouter(""+ p +" "+qtt);	
-			coutProd(qtt, p);
-			majStock(p);
-		}		
-		}
-	
-	private void coutProd(double qtt, Object p) {
-		double cout = coutProdUnitaire(p) * qtt;
-		perdreArgent(cout);
-	}
-	
-	private double coutProdUnitaire(Object p) { // a faire 
-		if(estFeveHBE(p)) {
-			return COUT_PRODUCTION_FEVE_HBE;
-		} else if(estFeveHE(p)) {
-			return COUT_PRODUCTION_FEVE_HE;
-		} else if(estFeveME(p)) {
-			return COUT_PRODUCTION_FEVE_ME;
-		} else if(estFeveM(p)) {
-			return COUT_PRODUCTION_FEVE_M;
-		}else if(estFeveB(p)) {
-			return COUT_PRODUCTION_FEVE_B;
-		} else { // un produit que l'on ne vend pas
-			return 0;
-		}
-	}
-
-	public void renouvellement() {
-		//  a faire plus tard 
-	}
-	
-	private double prodParStep(Object p) {
-		// prod en fonction de la qtt darbre plante
-		return qttArbre(p) * prodParArbre(p);
-	}
-
-	private double prodParArbre(Object p) {
-		if(estFeveHBE(p)) {
-			return PROD_HBE;
-		} else if(estFeveHE(p)) {
-			return PROD_HE;
-		} else if(estFeveME(p)) {
-			return PROD_ME;
-		} else if(estFeveM(p)) {
-			return PROD_M;
-		}else if(estFeveB(p)) {
-			return PROD_B;
-		} else { // un produit que l'on ne vend pas
-			return 0;
-		}
-	}
 		
 	
 	

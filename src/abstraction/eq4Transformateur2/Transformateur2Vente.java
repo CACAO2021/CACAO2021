@@ -46,11 +46,10 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	//on veut vendre ce produit à cet instant
 	public boolean vend(Object produit) {
-		if (produit instanceof ChocolatDeMarque) {
-			if (((ChocolatDeMarque) produit).getGamme() != Gamme.HAUTE) {
-				if (((ChocolatDeMarque) produit).getCategorie() != Categorie.POUDRE) {
-					return true; 
-				}
+		if (peutVendre(produit)) {
+				Chocolat choco = ((ChocolatDeMarque) produit).getChocolat();
+				if (get_stock(choco) > 0) {
+					return true;
 				
 			}
 		}
@@ -143,7 +142,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 			}
 			
 		}	
-		return 10000000.0 ; //si on ne vend pas ce produit 
+		return -1 ; //si on ne vend pas ce produit 
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
@@ -165,8 +164,8 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		
 		 return contrat.getEcheancier();
-		
-	}
+	}	
+
 
 	@Override
 	public List<ChocolatDeMarque> getChocolatsProduits() {
