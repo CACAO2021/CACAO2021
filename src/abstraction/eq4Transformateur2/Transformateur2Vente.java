@@ -147,8 +147,8 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		double prixA = contrat.getListePrix().get(-1);
-		double prixV = contrat.getListePrix().get(-2);
+		double prixA = contrat.getListePrix().get(contrat.getListePrix().size()-1);
+		double prixV = contrat.getListePrix().get(contrat.getListePrix().size()-2);
 		if ((prixV - prixA) <= prixV*0.1 ) {
 			return prixA; // pas de négociation car écart faible entre les deux prop
 		}
