@@ -59,12 +59,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				return null;
 			}
 	}
-	
-	//public OffreAchatFeves getOffreAchat() {
-	//	OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeurs());
-	//	if 
-		
-	//}
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
 		this.JournalOA.ajouter("--> aucune proposition de vente pour l'offre "+oa);
