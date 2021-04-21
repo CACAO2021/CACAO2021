@@ -6,7 +6,7 @@ import abstraction.eq8Romu.produits.Beurre;
 
 // Elo
 
-public class Producteur2Transfo extends Producteur2Prod {
+public abstract class Producteur2Transfo extends Producteur2Prod {
 	private LinkedList<Stock> FevesHEtransformees;
 	private LinkedList<Stock> FevesMtransformees;
 	private LinkedList<Stock> FevesMEtransformees;
@@ -31,6 +31,8 @@ public class Producteur2Transfo extends Producteur2Prod {
 	
 	public void transfo() {
 		// a faire
+		// production réfléchie de poudre en fct de la demande
+		// en attente de voir cmt font les transformateur avant d'implémeenter totalement cette partie
 	}
 	
 	public double qteFeves(Object produit) {
@@ -77,12 +79,10 @@ public class Producteur2Transfo extends Producteur2Prod {
 	}
 	
 	public double coutTransf(Object produit) {
-		return coutEntretien;
+		return coutMachines;
 	}
 
-	@Override
-	public void perdreArgent(double montant) {
-	}
+
 
 }
 
