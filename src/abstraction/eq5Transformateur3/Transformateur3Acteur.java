@@ -1,5 +1,7 @@
 package abstraction.eq5Transformateur3;
 
+//Manuelo
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
