@@ -47,6 +47,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				
 				e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 			}
+
 			return e;
 		
 	}
