@@ -67,14 +67,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
-			if(this.getQuantiteVendue()!=0 || this.getQuantiteVendue()>q) {
 				this.ajouterStock(choco, (-1)*quantite, false);
 				historique.put(choco, quantite);
 				this.quantitevendue+=quantite;
-			}
-			else {
-				
-			}
 		}
 	}
 
@@ -84,7 +79,13 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
-	
+	public void NouveauPrix(ChocolatDeMarque choco, double prix, int QuantiteVendue) {
+		//prix correspond au prix de vente initial
+		if (this.getQuantiteVendue()==0 || this.getQuantiteVendue()<q) {
+			this.setPrix(choco, prix*0.9); 
+			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
+		}
+	}
 	
 }
 
