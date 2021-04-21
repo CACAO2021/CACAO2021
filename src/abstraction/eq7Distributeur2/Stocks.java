@@ -146,7 +146,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	}
 	
 	public double qtePossibleTG(ChocolatDeMarque choco){
-		return 0.0;
+		double qteDejaEnTG = this.getQuantiteChocoEnTG(choco);
+		double limiteTG = this.getParametre("limiteEnTG");
+		double qteDeChocoAvant = this.getStockChocolatDeMarque(choco);
+		return (qteDeChocoAvant*limiteTG/100)-qteDejaEnTG;
 	}
 	
 	public void majTGSuiteASuppression() {
