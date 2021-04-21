@@ -12,6 +12,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
+// Chloe
 public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAcheteurFevesAO {
 	
 	
