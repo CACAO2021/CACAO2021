@@ -130,6 +130,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
 
+		//Martin Collemare
 		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
 		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
 			this.getMontantMin().setValeur(this, this.getSolde()/2);
@@ -208,6 +209,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
 	
+	//Martin Collemare
 	//Renvoie true si après la future transaction, le solde total est supérieur au montantMin 
 	public boolean getAutorisationTransaction(double prix) {
 		if(this.getSolde() - prix >= this.getMontantMin().getValeur()) {
