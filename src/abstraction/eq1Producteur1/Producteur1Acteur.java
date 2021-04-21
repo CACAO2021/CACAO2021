@@ -79,6 +79,27 @@ public abstract class Producteur1Acteur implements IActeur {
 		this.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
 	}
 	
+<<<<<<< HEAD
+=======
+	private void init_journaux() {
+		this.journaux = new JournauxEq1();
+		this.journaux.addJournal("Ghanao Production", this);
+		this.journaux.getJournal(0).ajouter(couleur, Color.black, "==== Journal de la production ===");
+		this.journaux.addJournal("Ghanao Transformation", this);
+		this.journaux.getJournal(1).ajouter(couleur, Color.black,"==== Journal de la transformation ===");
+		this.journaux.addJournal("Ghanao VenteAO", this);
+		this.journaux.getJournal(2).ajouter(couleur, Color.black,"==== Journal des ventes par offre d'achat ===");
+		this.journaux.addJournal("Ghanao VenteContratCadre", this);
+		this.journaux.getJournal(3).ajouter(couleur, Color.black,"==== Journal des ventes par contrat cadre ===");
+		this.journaux.addJournal("Ghanao coûts de stockage", this);
+		this.journaux.getJournal(4).ajouter(couleur, Color.black,"==== Journal des coûts de stockage ===");
+	}
+	
+	protected HashMap<Object, Stock> getStocks() {
+		return stocks;
+	}
+
+>>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
 	public String getNom() {
 		return "EQ1";
 	}
