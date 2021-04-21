@@ -9,7 +9,6 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 
-
 //Antoine C
 
 public class Transformateur2AchatAO extends Transformateur2AchatCC implements IAcheteurFevesAO {

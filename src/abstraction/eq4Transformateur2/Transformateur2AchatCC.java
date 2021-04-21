@@ -19,7 +19,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		int j = 0;
 		for (int i=contrat.getEcheancier().getStepDebut();i<contrat.getEcheancier().getStepDebut()+12;i++) {
-			if (contrat.getEcheancier().getQuantite(i) > 1000 || contrat.getEcheancier().getQuantite(i) < 0) {
+			if (contrat.getEcheancier().getQuantite(i) < 1000) {
 				j = 1;
 			}
 		}
