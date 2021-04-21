@@ -10,6 +10,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
 //Antoine C
+
 public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
@@ -19,6 +20,8 @@ public class Transformateur2Valeurs {
 	protected LinkedList<Double> echeancier_confiserie_basse;
 	protected LinkedList<Double> echeancier_confiserie_moyenne;
 	protected LinkedList<Double> echeancier_total;
+	
+	protected static double Prix_max_achat;
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 	protected int cryptogramme;
@@ -32,29 +35,22 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_moyen;
 	
 
-	//Achat 
-	
-	protected static double cout_max_feve_basse ; 
-	protected static double cout_max_feve_moyenne;
-
 	protected static double cout_stockage_unite_feve;
 	protected static double cout_stockage_unite_choco;
 	
 	protected static double cout_fixe_entrepot_feve;
 	protected static double cout_fixe_entrepot_choco;
-
-
-
-
-
 	
+	//Achat 
+	
+	protected static double cout_max_feve_basse ; 
+	protected static double cout_max_feve_moyenne;
+
 	//Production
 	
 	protected static double charges_fixes;
 	protected static double capacite_production;
 	protected static double cout_transformation = 1.0;
-	
-
 	
 	//Vente
 	
