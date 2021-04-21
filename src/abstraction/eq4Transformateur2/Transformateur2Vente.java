@@ -7,12 +7,9 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.eq8Romu.produits.Categorie;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
-=======
 
->>>>>>> branch 'master' of https://github.com/Romaric-Moyeuvre/CACAO2021
 
 //Abigaëlle
 
