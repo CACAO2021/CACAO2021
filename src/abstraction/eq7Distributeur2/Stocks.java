@@ -84,6 +84,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			this.stocksParMarque.get(chocolatDeMarque).ajouter(acteur, qte);
 			acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, "[AJOUT] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
 			int etape = Filiere.LA_FILIERE.getEtape();
+			System.out.println(this.nouveauChocoParEtape.get(etape)+" "+this.nouveauChocoParEtape.get(etape).get(chocolatDeMarque));
 			this.nouveauChocoParEtape.get(etape).get(chocolatDeMarque).ajouter(acteur, qte);
 			}else {acteur.journalStocks.ajouter(Journal.texteColore(alertColor, Color.BLACK, "[LIMITE STOCK ATTEINTE] Impossible d'ajouter : " + Journal.doubleSur(qte,2) +" de "+ chocolatDeMarque.name()));
 		}
