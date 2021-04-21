@@ -2,11 +2,13 @@ package abstraction.eq2Producteur2;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.clients.FiliereTestClientFinal;
 import abstraction.eq8Romu.contratsCadres.FiliereTestContratCadre;
 import abstraction.eq8Romu.fevesAO.FiliereTestAOFeves;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -92,5 +94,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	}
 	
 	public abstract void perdreArgent(double montant) ;
+	
+	protected abstract LinkedList<Feve> getListeProd();
 
 }
