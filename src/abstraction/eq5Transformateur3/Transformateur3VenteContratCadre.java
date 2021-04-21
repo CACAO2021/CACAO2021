@@ -7,6 +7,7 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
@@ -14,7 +15,7 @@ import abstraction.fourni.Variable;
 
 //Léna
 
-public class Transformateur3VenteContratCadre extends Transformateur3AchatContratCadre implements IVendeurContratCadre{
+public class Transformateur3VenteContratCadre extends Transformateur3Fabricant implements IVendeurContratCadre{
 
 	protected HashMap<ExemplaireContratCadre, Integer> contrats ;
 	
@@ -36,12 +37,19 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 
 	@Override
 	public boolean vend(Object produit) {
-		if (!this.getChocolats().keySet().contains((Chocolat)produit)) {
+		Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
+		System.out.println(produit);
+		if (!this.getChocolatsProduits().contains(produit)) {
+			System.out.println("false");
 			return false;
 		}
-		if (this.getChocolats().get((Chocolat)produit).getValeur()>0) {
-			return true;}
-		else { return false;}
+		else if(this.getChocolats().get(choco).getValeur()>0){
+			System.out.println("true");
+			return true;
+		}
+		else { 
+			System.out.println("false2");
+			return false;}
 
 	}
 
@@ -102,5 +110,6 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 		}
 		return livre;
 	}
+	
 }
 	
