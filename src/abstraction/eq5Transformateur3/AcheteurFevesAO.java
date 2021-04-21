@@ -85,6 +85,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
 			}
+			return null;
 	}
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
@@ -102,6 +103,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
 						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta)
 						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve(){
+					
 					
 		}
 			
