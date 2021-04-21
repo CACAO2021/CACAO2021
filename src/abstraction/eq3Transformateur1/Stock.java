@@ -18,7 +18,8 @@ import java.util.ArrayList;
 public class Stock {
 	
 	protected Business financier;
-	private List<Variable> indicateurs;	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
+	private List<Variable> indicateurs;	
+	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
 	protected Map<Feve,Double> coutFeves;
 	protected Map<Chocolat,Double> coutChocolat;
@@ -197,21 +198,25 @@ public class Stock {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockFeves.get(feve).add(QuantitePrix);
-			this.getActeur().ecritureJournalStock("On vient d'ajouter || " + feve.name() + "   " +String.valueOf(quantite.getValeur()));
-			this.getActeur().ecritureJournalStock(" Le nouveau stock de feve  || " + feve.name() + " est " +String.valueOf(this.getStockFeves(feve)));
+			this.getActeur().ecritureJournalStock("On vient d'ajouter " + String.valueOf(quantite.getValeur()) + "KG de "+ feve.name());
+			this.getActeur().ecritureJournalStock(" Le nouveau stock de " + feve.name() + " est " + String.valueOf(quantite.getValeur()) + " KG");
 		} else {
 			throw new IllegalArgumentException(" Stock trop faible");
 		}
 	}
 	
+	public double stockRestant() {
+		return 0.30*this.getActeur().STOCK_MAX - this.getStockFeves(); 
+	}
+	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix ) {
 		ArrayList<Variable> QuantitePrix = new ArrayList<>();
-		if (quantite.getValeur()+this.getStockChocolats() >= 0) {
+		if (quantite.getValeur()+this.getStockChocolats(chocolat) >= 0) {
 			QuantitePrix.add(quantite);
 			QuantitePrix.add(prix);
 			this.stockChocolats.get(chocolat).add(QuantitePrix);
-			this.getActeur().ecritureJournalStock("On vient d'ajouter || " + chocolat.name() + "   " + String.valueOf(quantite.getValeur()));
-			this.getActeur().ecritureJournalStock(" Le nouveau stock de chocolat  || " + chocolat.name() + " est " + String.valueOf(quantite.getValeur()));
+			this.getActeur().ecritureJournalStock("On vient d'ajouter " + String.valueOf(quantite.getValeur()) + "KG de "+ chocolat.name());
+			this.getActeur().ecritureJournalStock(" Le nouveau stock de " + chocolat.name() + " est " + String.valueOf(quantite.getValeur()) + " KG");
 		} else {
 			throw new IllegalArgumentException(" Stock trop faible");
 		}
@@ -272,7 +277,9 @@ public class Stock {
 				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
 				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
 				
-				Variable quantite = new Variable(this.getActeur().getNom(),this.getActeur(),quant);
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.7);
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
 				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
 				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
 				// on calcul les couts de transformations
@@ -280,7 +287,15 @@ public class Stock {
 				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 					cout = cout * COEFFICIENT_COUT_BIO;
 				}
-				double p = Math.random();
+				
+				Chocolat tablette = this.equivalentTabletteFeve(feve);
+				this.setStockChocolat(tablette, quantitetablette, prix);
+				Chocolat confiserie = this.equivalentConfiserieFeve(feve);
+				this.setStockChocolat(confiserie, quantiteconfiserie, prix);
+				Chocolat poudre = this.equivalentPoudreFeve(feve);
+				this.setStockChocolat(poudre, quantitepoudre, prix);
+				
+				/*double p = Math.random();
 				if( p <= 0.3) {
 					Chocolat chocolat = this.equivalentTabletteFeve(feve);
 					this.setStockChocolat(chocolat, quantite, prix);
@@ -291,9 +306,9 @@ public class Stock {
 					Chocolat chocolat = this.equivalentPoudreFeve(feve);
 					this.setStockChocolat(chocolat, quantite, prix);
 				}
-				
+				*/
 	
-				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
+				this.getActeur().ecritureJournalStock("stock de " + feve.name() + " = 0" );
 				if( cout > 0) {
 					Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
 					this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de " + String.valueOf(cout));
@@ -328,6 +343,22 @@ public class Stock {
 		} 
 		prix = prix/compteur;
 		return prix;
+	}
+	
+	public double prixDejaVenduKG(Chocolat chocolat) {
+		
+		double prix = 0.0;
+		Integer compteur = 0;
+		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
+		for ( ArrayList<Variable> quantPrix: stockChocolats) {
+			if (quantPrix.get(0).getValeur() < 0) {
+				compteur += 1;
+				prix += quantPrix.get(1).getValeur();
+			}
+		} 
+		prix = prix/compteur;
+		return prix;
 	}	
+	
 	
 }

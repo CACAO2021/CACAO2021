@@ -1,31 +1,38 @@
 package abstraction.eq3Transformateur1;
 
+
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.eq8Romu.produits.Gamme;
+import abstraction.fourni.Filiere;
+import abstraction.fourni.Variable;
 
 
-public class VendeurProduitsContratCadre extends Transformateur1Acteur implements IVendeurContratCadre {
-
-
+public class VendeurProduitsContratCadre extends Transformateur1Marque implements IVendeurContratCadre {
+	
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
-		MarqueTransformateur1 M = new MarqueTransformateur1(); //on rappelle la classe marquetransformateur1
-		List<Chocolat> L = M.getProduits(); //liste des produits
-		if(L.contains(produit)) {
-			return true;
+		if ((produit instanceof Chocolat)) {
+			if (((Chocolat)produit).getGamme() != Gamme.BASSE) {
+			return true;	
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	@Override
 	public boolean vend(Object produit) {
 		// Implementer une fonction booléenne qui indique s'il y a du stock dans un produit spécifique
-		return this.getStock().getFinancier().sommeNousVendeur(produit);
+		return this.getStock().getFinancier().sommesNousVendeur(produit);
 	}
 
 	@Override
@@ -37,7 +44,16 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
+		if (contrat.getProduit() instanceof Chocolat) {
+			return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
+		} else { 
+			if (contrat.getProduit() instanceof ChocolatDeMarque){
+				return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), ((ChocolatDeMarque)contrat.getProduit()).getChocolat());
+			} else {
+				return 0;
+			}
+		}
+
 	}
 
 	@Override
@@ -50,12 +66,34 @@ public class VendeurProduitsContratCadre extends Transformateur1Acteur implement
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
 		this.journalVendeur.ajouter("Offre de vente : "+contrat);
+		this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
+		
 	}
-
+	
+	
 	@Override
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-	//besoin d'une fonction du stock qui indique la quantité disponible
-	// pour l'instant on ne prend pas en compte les potentiels autres contrats qui partagent des echeanciers
+		double qdisp = 0;
+		if (produit instanceof Chocolat) {
+			qdisp = Math.min(this.getStock().getStockChocolats((Chocolat)produit), quantite);
+			if(qdisp>0) {
+				Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+				Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
+				return qdisp;
+			}
+		} else {
+			if (produit instanceof ChocolatDeMarque) {
+				qdisp = Math.min(this.getStock().getStockChocolats(((ChocolatDeMarque)produit).getChocolat()), quantite);
+				if(qdisp>0) {
+					Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
+					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix);
+					return qdisp;
+				}
+
+			}
+		}
 		return 0.0;
 	}
 	

@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
@@ -15,6 +14,8 @@ import abstraction.fourni.Variable;
 
 public class Transformateur1Acteur implements IActeur {
 	
+	
+	private SuperviseurVentesContratCadre supCCadre;
 	protected Stock stock;
 	protected Integer cryptogramme;
 	protected Journal journalAcheteur;
@@ -83,14 +84,7 @@ public class Transformateur1Acteur implements IActeur {
 	}
 	
 
-	public void next() {
-		
-		this.getStock().transformationFeveChocolat();
-		this.getStock().coutStock();
-		this.getStock().getFinancier().setIndicateurs();
-		this.getStock().setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getNom(), this, 3000),  new Variable(this.getNom(), this, 5000));
-		
-	}
+
 	
 	
 	public List<String> getNomsFilieresProposees() {
@@ -140,6 +134,12 @@ public class Transformateur1Acteur implements IActeur {
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
+	}
+
+	@Override
+	public void next() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
