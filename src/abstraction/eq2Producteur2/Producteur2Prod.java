@@ -84,27 +84,27 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		
 		int step = Filiere.LA_FILIERE.getEtape();
 		for (Stock s : arbrePlantesHBE) {
-			if (step - s.getStep() == ARBRE_TPS_VIE_HBE) {
+			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
 			}}
 		for (Stock s : arbrePlantesHE) {
-			if (step - s.getStep() == ARBRE_TPS_VIE_HE) {
+			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HE);
 			}}
 		for (Stock s : arbrePlantesME) {
-			if (step - s.getStep() == ARBRE_TPS_VIE_ME) {
+			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_ME);
 			}}
 		for (Stock s : arbrePlantesM) {
-			if (step - s.getStep() == ARBRE_TPS_VIE_M) {
+			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_M);
 			}}
 		for (Stock s : arbrePlantesB) { 
-			if (step - s.getStep() == ARBRE_TPS_VIE_B) {
+			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step);
 				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
 			}}
@@ -132,6 +132,19 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}else if(estFeveB(p)) {
 			return PROD_B;
 		} else { // un produit que l'on ne vend pas
+			return 0;
+		}
+	}
+	
+	// pas encore utilisé
+	protected int rendement(int step) {
+		if (step<TPS_BON_RENDEMENT_ARBRE) {
+			return 0;
+		}else if(step < TPS_RENDEMENT_MAX_ARBRE) {
+			return 0;// a faire
+		}else if(step<TPS_RENOUVELLEMENT_ARBRE) {
+			return PROD_ARBRE;
+		}else {
 			return 0;
 		}
 	}
