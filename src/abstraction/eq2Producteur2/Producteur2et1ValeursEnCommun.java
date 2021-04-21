@@ -19,40 +19,38 @@ public class Producteur2et1ValeursEnCommun {
 	public double COUT_CHANGEMENT_ARBRE_M = 0;
 	public double COUT_CHANGEMENT_ARBRE_B = 0;
 	
-	protected int ARBRE_TPS_VIE_HBE = 40*48;
-	protected int ARBRE_TPS_VIE_HE = 40*48;
-	protected int ARBRE_TPS_VIE_ME=40*48;
-	protected int ARBRE_TPS_VIE_M=40*48;
-	protected int ARBRE_TPS_VIE_B=40*48;
-	
 	//production par tour par arbre 
-	protected int PROD_HBE = 6;
-	protected int PROD_HE = 6;
-	protected int PROD_ME = 6; 
-	protected int PROD_M = 6;
-	protected int PROD_B = 6;
+	public int PROD_ARBRE = 6;
+	//si on decide de donner des valeurs différentes:
+	public int PROD_HBE = 6;
+	public int PROD_HE = 6;
+	public int PROD_ME = 6; 
+	public int PROD_M = 6;
+	public int PROD_B = 6;
 	
 	// partie transformation
-	protected double coefHE = 0.4; //(à affiner)
-	protected double coefM = 0.4;
-	protected double coefME = 0.4;
+	public double coefHE = 0.4; //(à affiner)
+	public double coefM = 0.4;
+	public double coefME = 0.4;
 	
-	protected int qteParStepHE = 15000; //quantité que l'on peut transformer en un step (100kg/h, 10h/jour)
-	protected int qteParStepM = 15000;
-	protected int qteParStepME = 15000;
+	public int qteParStepHE = 15000; //quantité que l'on peut transformer en un step (100kg/h, 10h/jour)
+	public int qteParStepM = 15000;
+	public int qteParStepME = 15000;
 	
-	protected double coutMachines = 21; // coût de transformation des fèves en poudre, un seul coût: entretien des machines
+	public double coutMachines = 21; // coût de transformation des fèves en poudre, un seul coût: entretien des machines
 
-	protected int nbEtapeAvPeremption=14;
+	public int nbEtapeAvPeremption=14;
 	// cout stockage
-	protected double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
+	public double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
 	
 	
 	//cout renouvellment arbre
 	//Cacaotier durée de vie 40 ans, bonne culture à partir de 5 ans et rendement maximal à partir de 7 ans. 
-	protected int TPS_RENOUVELLEMENT_ARBRE=40*2;
-	protected int TPS_BON_RENDEMENT_ARBRE=5*2;
-	protected int TPS_RENDEMENT_MAX_ARBRE=7*2;
+	public int TPS_RENOUVELLEMENT_ARBRE=40*24;
+	public int TPS_BON_RENDEMENT_ARBRE=3*24;
+	public int TPS_RENDEMENT_MAX_ARBRE=6*24;
+	
+
 	
 	
 }

@@ -12,6 +12,7 @@ import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
+import abstraction.fourni.IFabricantChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
@@ -52,6 +53,10 @@ public class Romu implements IActeur {
 		journal.ajouter("Qui vend des chocolat via contrat cadre :");
 		for (ChocolatDeMarque c : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			journal.ajouter("---choco :"+c+" -->"+supcc.getVendeurs(c));
+		}
+		journal.ajouter("Que produisent les fabriquants :");
+		for (IFabricantChocolatDeMarque f : Filiere.LA_FILIERE.getFabricantsChocolatDeMarque()) {
+			journal.ajouter(" fabriquant : "+f+" fabrique : "+f.getChocolatsProduits());
 		}
 	}
 
