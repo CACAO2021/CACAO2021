@@ -39,6 +39,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
+		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 
 		}
 		
@@ -62,7 +63,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			}
 			
 		}
-		
 		this.majDemande();
 		this.nouveauContrat();
 	}
@@ -82,7 +82,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
 			if(wonka.stocks.getStockChocolatDeMarque(choco) <= quantiteLimite.get(choco).getValeur()) {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco)));
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - stocks.getStockChocolatDeMarque(choco)));
 			}
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
@@ -98,7 +98,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			if (vendeurs.size()!=0){
 				int i = (int) (Math.random()*vendeurs.size()) ;
 				IVendeurContratCadre vendeur = vendeurs.get(i);
-				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, besoinsChoco.get(choco).getValeur()/10);
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
 				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+vendeur.toString()+"Acheteur :"+wonka.toString()+"Produit :"+choco.toString()+"Echeancier :"+echeancier.toString());
 			}
