@@ -135,144 +135,16 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			this.stockPoudreM.add(s);
 		}else {
 			System.out.println("erreur");
-		}		
-	}
-	
-	//Dim
-	public void vente(double qtt, Object produit) {
-		if (estFeveHBE(produit)) {
-			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockFeveHBE.get(0).setQtt((this.stockFeveHBE.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					qtt -= this.stockFeveHBE.get(0).getQtt() ;
-					this.stockFeveHBE.remove(0);
-				}
-			}							
-		} else if (estFeveHE(produit)) {
-			double q = this.stockFeveHE.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockFeveHE.get(0).setQtt((this.stockFeveHE.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveHE.get(0).getQtt() ;
-					this.stockFeveHE.remove(0);
-				}
-			}		
-		}else if (estFeveME(produit)) {
-			double q = this.stockFeveME.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockFeveME.get(0).setQtt((this.stockFeveME.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveME.get(0).getQtt() ;
-					this.stockFeveME.remove(0);
-				}
-			}		
-		}else if (estFeveM(produit)) {
-			double q = this.stockFeveM.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockFeveM.get(0).setQtt((this.stockFeveM.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveM.get(0).getQtt() ;
-					this.stockFeveM.remove(0);
-				}
-			}		
-		}else if (estFeveB(produit)) {
-			double q = this.stockFeveB.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockFeveB.get(0).setQtt((this.stockFeveB.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveB.get(0).getQtt() ;
-					this.stockFeveB.remove(0);
-				}
-			}		
-		}else if (estPoudreHE(produit)) {
-			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockPoudreHE.get(0).setQtt((this.stockPoudreHE.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockPoudreHE.get(0).getQtt() ;
-					this.stockPoudreHE.remove(0);
-				}
-			}		
-		}else if (estPoudreM(produit)) {
-			double q = this.stockPoudreM.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				if (q>0) {
-					this.stockPoudreM.get(0).setQtt((this.stockPoudreM.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockPoudreM.get(0).getQtt() ;
-					this.stockPoudreM.remove(0);
-				}
-			}	
-		}else {
-			System.out.println("erreur");
-		}	
-	}
-	
-	
-	/**
-	 * @author Maxime Boillot
-	 * on retire tous les léléments périmés de la liste 
-	 */
-	public void verifPeremption() {
-		//LinkedList<Stock> feveHBE = stockFeveHBE;
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE);
-			for (Stock st:this.stockFeveHBE) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveHBE2.remove(st);
-				}
-			}this.stockFeveHBE = stockFeveHBE2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveHE2 = new LinkedList<Stock>(this.stockFeveHE);
-			for (Stock st:this.stockFeveHE) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveHE2.remove(st);
-				}
-			}this.stockFeveHE = stockFeveHE2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveME.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveME2 = new LinkedList<Stock>(this.stockFeveME);
-			for (Stock st:this.stockFeveME) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveME2.remove(st);
-				}
-			}this.stockFeveME = stockFeveME2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveM.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveM2 = new LinkedList<Stock>(this.stockFeveM);
-			for (Stock st:this.stockFeveM) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveM2.remove(st);
-				}
-			}this.stockFeveM = stockFeveM2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveB.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveB2 = new LinkedList<Stock>(this.stockFeveB);
-			for (Stock st:this.stockFeveB) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveB2.remove(st);
-				}
-			}this.stockFeveB = stockFeveB2;
 		}
 		
 	}
 	
+	public void verifPeremption() {
+		//LinkedList<Stock> feveHBE = stockFeveHBE;
+		return;
+	}
 
-
+	@Override
+	public abstract void perdreArgent(double montant) ;
 
 }

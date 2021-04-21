@@ -18,19 +18,16 @@ public class Stock {
 		return qtt;
 	}
 	/**
-	 * @param d the qtt to set
+	 * @param qtt the qtt to set
 	 */
-	public void setQtt(double d) {
-		this.qtt = d;
+	public void setQtt(int qtt) {
+		this.qtt = qtt;
 	}
 	/**
 	 * @return the step
 	 */
 	public int getStep() {
 		return step;
-	}
-	public void setStep(int step) {
-		this.step = step;
 	}
 
 }
