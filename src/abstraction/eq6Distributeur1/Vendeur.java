@@ -85,6 +85,10 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.setPrix(choco, prix*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
+		if(this.getQuantiteVendue()>2*q) {
+			this.setPrix(choco, prix*1.1);
+			//Si les ventes sont bonnes on augmente le prix de vente de 10%
+		}
 	}
 	
 }
