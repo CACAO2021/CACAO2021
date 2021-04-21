@@ -15,9 +15,12 @@ public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
 	}
+	
 	protected LinkedList<Double> echeancier_basse;
-	protected LinkedList<Double> echeancier_moyenne;
-	protected LinkedList<Double> echeancier_total;
+	protected LinkedList<Double> echeancier_moyenne ;
+	protected LinkedList<Double> echeancier_total ; 
+	
+	
 	
 	protected static double Prix_max_achat;
 	
