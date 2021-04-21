@@ -37,6 +37,10 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
 
 	}
+	
+	public void setPrix(ChocolatDeMarque choco, double prix) {
+		this.prix.put(choco, prix);
+	}
 
 	public void initialiser() {
 		super.initialiser();

@@ -1,5 +1,9 @@
 package abstraction.eq6Distributeur1;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
@@ -35,6 +39,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
+			List<IActeur> vendeurs = new LinkedList();
+			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
+				if (acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
+					vendeurs.add(acteur);
+				}
+			}
+			IActeur vendeur = vendeurs.get(vendeurs.size()*Random)
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
