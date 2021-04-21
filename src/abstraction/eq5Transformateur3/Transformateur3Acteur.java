@@ -71,8 +71,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.actualiserJournaux();
 		
 		Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		/*int index = this.getIndicateurs().indexOf(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE));
-		Variable feve = this.getIndicateurs().get(index);*/
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
 			double transfo = feve.getValeur()-100;
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
@@ -81,8 +79,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 		}
 		
 		
-		
-		/*index = this.getIndicateurs().indexOf(this.getFeves().get(Feve.FEVE_MOYENNE));*/
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
 			double transfo = feve.getValeur()-100; 
