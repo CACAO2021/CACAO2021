@@ -230,39 +230,44 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	public void verifPeremption() {
 		//LinkedList<Stock> feveHBE = stockFeveHBE;
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
+			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE);
 			for (Stock st:this.stockFeveHBE) {
 				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					this.stockFeveHBE.remove(st);
+					stockFeveHBE2.remove(st);
 				}
-			}
+			}this.stockFeveHBE = stockFeveHBE2;
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
+			LinkedList<Stock> stockFeveHE2 = new LinkedList<Stock>(this.stockFeveHE);
 			for (Stock st:this.stockFeveHE) {
 				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					this.stockFeveHE.remove(st);
+					stockFeveHE2.remove(st);
 				}
-			}
+			}this.stockFeveHE = stockFeveHE2;
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveME.get(0).getStep()>nbEtapeAvPeremption) {
+			LinkedList<Stock> stockFeveME2 = new LinkedList<Stock>(this.stockFeveME);
 			for (Stock st:this.stockFeveME) {
 				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					this.stockFeveME.remove(st);
+					stockFeveME2.remove(st);
 				}
-			}
+			}this.stockFeveME = stockFeveME2;
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveM.get(0).getStep()>nbEtapeAvPeremption) {
+			LinkedList<Stock> stockFeveM2 = new LinkedList<Stock>(this.stockFeveM);
 			for (Stock st:this.stockFeveM) {
 				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					this.stockFeveM.remove(st);
+					stockFeveM2.remove(st);
 				}
-			}
+			}this.stockFeveM = stockFeveM2;
 		}
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveB.get(0).getStep()>nbEtapeAvPeremption) {
+			LinkedList<Stock> stockFeveB2 = new LinkedList<Stock>(this.stockFeveB);
 			for (Stock st:this.stockFeveB) {
 				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					this.stockFeveB.remove(st);
+					stockFeveB2.remove(st);
 				}
-			}
+			}this.stockFeveB = stockFeveB2;
 		}
 		
 	}
