@@ -13,11 +13,13 @@ import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
 
 //Antoine C
 public class Transformateur2AchatCC extends Transformateur2Vente implements IAcheteurContratCadre{
 
 	private SuperviseurVentesContratCadre supCCadre;
+	
 	public Transformateur2AchatCC() {
 		super();
 	}
@@ -55,6 +57,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 		
 	}
 	public void next() {
+		/*
 		List<Feve> feves = new LinkedList<Feve>();
 		feves.add(Feve.FEVE_BASSE);
 		feves.add(Feve.FEVE_MOYENNE);
@@ -68,5 +71,6 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 				supCCadre.demande((IAcheteurContratCadre)this, vendeur, feve, echeancier, this.cryptogramme, false);
 			}
 		}
+		*/
 	}
 }
