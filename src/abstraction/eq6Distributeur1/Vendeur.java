@@ -72,6 +72,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
+
 		}//retourne la quantité du chocolat choco en vente
  	}
 
