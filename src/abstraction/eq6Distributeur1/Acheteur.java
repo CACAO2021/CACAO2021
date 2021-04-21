@@ -33,17 +33,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 			i++;
 			Echeancier e = contrat.getEcheancier();
-<<<<<<< HEAD
 			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.15; //J'achete 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
 			if (e.getQuantite(e.getStepFin())>maxQuantite) {
 				e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));}
 			else {
 				e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 			}
-=======
-			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.1; //J'achete 10% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
-			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2);// on propose d'acheter 2 fois plus si le vendeur n'est pas content. A modifier par la suite
->>>>>>> branch 'master' of https://github.com/CACAO2021/CACAO2021
 			return e;
 		
 	}
