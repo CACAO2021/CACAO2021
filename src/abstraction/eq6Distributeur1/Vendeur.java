@@ -16,43 +16,58 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	protected Map<ChocolatDeMarque,Double> historique;
-	protected int quantitevendue; // quantite vendue en une période
-	protected int q;//Quantité à définir à partir duquel les ventes sont convenables
-	
-	public int getQuantiteVendue() {
-		return this.quantitevendue;
-	}
+	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
+	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite par chocolat vendue
+	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère que les ventes convenables
 	
 	public Vendeur() {
 		super();
 		this.historique=new HashMap <ChocolatDeMarque,Double>();
-		this.quantitevendue=0;
+		this.quantiteTotaleVendue=0;
+		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
+		for (int i=0; i<12; i++) {
+			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 0.0);
+		}
+		this.q=new HashMap <ChocolatDeMarque,Double>();
+		/*On initialise l'historique, la quantité totale vendue et 
+		Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
+		*/
+		
+		for (int i=0; i<12; i++) {
+			this.q.put(this.getCatalogue().get(i), 0.2*this.quantiteEnVente(this.getCatalogue().get(i)));
+		}
+		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 	}
-
+	
+	public Double getQuantiteVendue(ChocolatDeMarque choco) {
+		return this.quantiteChocoVendue.get(choco);
+	}
+		
+	
 	@Override
 	public List<ChocolatDeMarque> getCatalogue() {
 		Set<ChocolatDeMarque> Catalogue = stock.keySet();
 		List<ChocolatDeMarque> c = new ArrayList<>(Catalogue);
 		return c;
-	}
+	}//retourne le catalogue (liste des produits disponibles)
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
 			return prix.get(choco);
 		}else {
-		return 0;
+			return 0;
 		}
 	}//retourne le prix de vente du chocolat "choco"
 
 	@Override
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		if (choco!=null && this.stock.get(choco)!=null) {
+		if (choco!=null) {
 			return this.stock.get(choco).getValeur();
 		}
 		else {
 			return 0;
-		}//retourne la quantité totale de chocolat en vente
+		}//retourne la quantité du chocolat choco en vente
 	}
 
 	@Override
@@ -62,19 +77,18 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		else {
 			return 0;
-		} //retourne la quantité disponible de chocolat en tete de gondole
+		}//retourne la quantité disponible du chocolat choco en tete de gondole
 	}
 
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
-
 				this.ajouterStock(choco, (-1)*quantite, false);
 				historique.put(choco, quantite);
-				this.quantitevendue+=quantite;
+				this.quantiteTotaleVendue+=quantite;
+				this.quantiteChocoVendue.put(choco, this.getQuantiteVendue(choco)+quantite);
 		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
-
-	}
+	}// on actualise aussi quantiteChocoVendue
 
 	@Override
 	public void notificationRayonVide(ChocolatDeMarque choco) {
@@ -84,18 +98,14 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	}	
 	public void NouveauPrix(ChocolatDeMarque choco, double prix, int QuantiteVendue) {
 		//prix correspond au prix de vente initial
-		if (this.getQuantiteVendue()==0 || this.getQuantiteVendue()<q) {
+		if (this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) {
 			this.setPrix(choco, prix*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
-		}
-		if(this.getQuantiteVendue()>2*q) {
-			this.setPrix(choco, prix*1.1);
-			//Si les ventes sont bonnes on augmente le prix de vente de 10%
 		}
 	}
 	public void next() {
 		super.next();
-		this.quantitevendue=0;
-	}
+		this.quantiteTotaleVendue=0;
+		this.quantiteChocoVendue.clear();
+	}//méthode next qui remet les quantités à 0	
 }
-
