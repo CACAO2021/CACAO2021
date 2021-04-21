@@ -15,17 +15,18 @@ public class Cout extends CreationJournaux {
 	private static double COUT_PRODUCTION_FEVE_M =Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_M;
 	private static double COUT_PRODUCTION_FEVE_ME =Producteur2et1ValeursEnCommun.COUT_PRODUCTION_FEVE_ME;
 	private static double COUT_STOCKAGE_FEVE = 0.02;
+	
 	public static void PayerProducteurs(Producteur1Acteur producteur1Acteur){
-		double valeur=(COUT_PRODUCTION_FEVE_B*60000000)+(COUT_PRODUCTION_FEVE_M*67500000)+(COUT_PRODUCTION_FEVE_ME*22500000);
+		double valeur=(COUT_PRODUCTION_FEVE_B*48333000)+(COUT_PRODUCTION_FEVE_M*48333000)+(COUT_PRODUCTION_FEVE_ME*1000000);
 		producteur1Acteur.perteargent(valeur);
-		producteur1Acteur.getJournal(0).ajouter("Les producteurs ont été payés d'un montant de "+valeur+"€");
+		producteur1Acteur.getJournal(4).ajouter("Les producteurs ont été payés d'un montant de "+valeur+"€");
 
 	}
 
 
 	public static void cout(Producteur1Acteur a){
 		Cout.PayerProducteurs(a);
-		Cout.payerStockage(a);
+		//Cout.payerStockage(a);
 	}
 	
 /**

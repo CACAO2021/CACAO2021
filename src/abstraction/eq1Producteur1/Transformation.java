@@ -2,6 +2,7 @@ package abstraction.eq1Producteur1;
 
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 
 /**
@@ -11,6 +12,7 @@ import abstraction.fourni.IActeur;
  */
 
 public class Transformation {
+	Producteur1Acteur nous = (Producteur1Acteur)Filiere.LA_FILIERE.getActeur("EQ1");
 	
 	public Transformation() {
 	}
@@ -20,12 +22,14 @@ public class Transformation {
 			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 			producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
 			producteur1Acteur.perteargent(0.5*quantite);
+			nous.getJournal(4).ajouter("La transformation de feves moyenne a couté "+0.5*quantite+"€");
 			producteur1Acteur.getJournal(1).ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
 			}
 		if (f.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
 			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 			producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).addQuantite(quantite);
 			producteur1Acteur.perteargent(0.5*quantite);
+			nous.getJournal(4).ajouter("La transformation de feves moyenne équitables a couté "+0.5*quantite+"€");
 			producteur1Acteur.getJournal(1).ajouter(quantite + " kg de fèves de moyenne qualité équitable ont été transformés en " + quantite + "kg de poudre de moyenne qualité équitable ");
 		}
 		

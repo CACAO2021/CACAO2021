@@ -71,12 +71,12 @@ public abstract class Producteur1Acteur implements IActeur {
 	 * @author lebra pour l'ajout dans le journal
 	 */
 	private void produireFeve() {
-		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(22500000);
-		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(67500000);
-		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(60000000);
-		this.getJournal(0).ajouter("Ajout de 22500000 fèves de qualité moyenne équitable");
-		this.getJournal(0).ajouter("Ajout de 67500000 fèves de qualité moyenne ");
-		this.getJournal(0).ajouter("Ajout de 60000000 fèves de qualité basse");
+		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(1000000);
+		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(48333000);
+		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(48333000);
+		this.getJournal(0).ajouter("Ajout de 1000000 fèves de qualité moyenne équitable");
+		this.getJournal(0).ajouter("Ajout de 48333000 fèves de qualité moyenne ");
+		this.getJournal(0).ajouter("Ajout de 48333000 fèves de qualité basse");
 	}
 	
 	public String getNom() {
