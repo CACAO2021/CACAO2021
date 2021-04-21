@@ -6,9 +6,8 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 
-//DIM
 
-public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
+public class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 		protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
@@ -17,6 +16,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	public Producteur2VeudeurFeveCC() {
 		super();
 		this.mesContratsCC = new LinkedList<ExemplaireContratCadre>();
+		System.out.println("test");
 	}
 
 	@Override
@@ -115,20 +115,9 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		return prod;
 	}
 	
-	public double aProduireAuStep(Object produit, int step) { // servira plus tard
-		double prod = 0;
-		for (ExemplaireContratCadre e: mesContratsCC) {
-			if (e.getProduit() == produit) {
-				prod += e.getEcheancier().getQuantite(step);
-			}
-		}
-		return prod;
-	}
-	
-	//DIM
+
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// cette partie est très basique et tend à être modifiée par la suite
 		Object produit = contrat.getProduit();	
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
 		double qttDispo = qttTotale(produit).getValeur();
@@ -141,14 +130,8 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur
 			Echeancier e = contrat.getEcheancier();
-			double qdm = qttDemandee;
-			int i =0;
-			while ( qdm < qtt && i< e.getStepFin()) { // on divise par 2 la qtt a fournir à chaque step jusqua pvr fournir
-				e.set(e.getStepDebut()+i, e.getQuantite(e.getStepDebut()+i) / 2);
-				i++;
-				qdm = e.getQuantiteTotale();
-			}		
-			boolean cond2 = e.getQuantiteTotale() < qtt;
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2.5); // exemple random de modif du premier step
+			boolean cond2 = true;
 			if(cond2) {				
 				return e;
 			} else { //on ne souhaite pas vendeur donc on retourne null
@@ -167,7 +150,6 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	@Override
 	//Dim
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// cette partie est très basique et tend à être modifiée par la suite
 		Object produit = contrat.getProduit();		
 		double prixPropose = contrat.getPrix();
 		boolean cond = estAcceptable(prixPropose , produit);
@@ -177,13 +159,13 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			// comparer au cout de production des ressources vendues ( ne pas vendre a perte + payer correctement les producteurs)
 			// prendre en compte le nombre de step ou lon na pas vendu et notre tresorerie
 			// prendre en compte le prix minima accepte
-			double prix = contrat.getListePrix().get(contrat.getListePrix().size() - 2) - difAcceptee(produit); 
-			double min = minAcceptee(produit);					
+			double min = minAcceptee(produit);		
+			double prix = 0; // calculer un prix a proposer
 			boolean cond2 = min<prix;
 			if(cond2) {				
 				return prix;
-			} else { //on retourne le minimum accepte au cas ou l'acheteur accepte ce prix
-				return minAcceptee(produit);
+			} else { //on ne souhaite pas vendeur donc on retourne null
+				return -2;
 		}}
 	}
 
@@ -192,19 +174,20 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		// maj var mesContrats
 		this.mesContratsCC.add(contrat);
-		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur().getNom() + " qtt = " +
-		Math.floor(contrat.getQuantiteTotale()) + contrat.getProduit()
-		+ " pour " + contrat.getPrix() + "euro au kg, en " + contrat.getEcheancier().getNbEcheances()
-		+" échéances" );
+		System.out.println("youpi un contrat");
+		// garder en mémoire la production future a assumer
+		contrat.getQuantiteTotale(); // va falloir produire ca
+		contrat.getEcheancier().getStepFin(); // dernier step ou on doit fournir
+		this.JournalVente.ajouter("nouvelle vente avec " + contrat.getAcheteur());
 	}
 
 	@Override
 	// Dim
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// reflcechir pour transmettre lage de la feve a lachteur? vrmt utile?
-		double stock = qttTotale(produit).getValeur();
+		double stock = 0;
 		if (stock >= quantite ) {
-			vente(quantite, produit);
+			// maj stock a faire ici
+			// ecouler en priorite les stocks ancien
 			return quantite;
 		}else {
 			return stock;
