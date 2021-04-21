@@ -7,7 +7,6 @@ import java.util.Map;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
-import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
@@ -118,13 +117,8 @@ public class Business {
 	public boolean sommesNousVendeur(Object produit) {
 		if (produit instanceof Chocolat) {
 			return (this.getStock().getStockChocolats((Chocolat) produit) > 0);
-		} else {
-			if (produit instanceof ChocolatDeMarque) {
-				return (this.getStock().getStockChocolats(((ChocolatDeMarque) produit).getChocolat()) > 0);
-			} else {
-				return false;
-			}
 		}
+		else return false;
 	}
 	
 	public void venteDeChocolat() {
@@ -161,7 +155,7 @@ public class Business {
 	public void miseAJourContratVendeur() {
 		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
-			if(contrat.getQuantiteRestantALivrer()== 0.0 && contrat.getMontantRestantARegler()==0.0) {
+			if(contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
 				contratsObsoletes.add(contrat);
 			}
 		}
@@ -206,8 +200,8 @@ public class Business {
 			if (contrat.getProduit() instanceof Chocolat) {
 				Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
 				stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
-			} 
-		}	
+			}
+		}
 		return stockafournir; 
 	}
 	

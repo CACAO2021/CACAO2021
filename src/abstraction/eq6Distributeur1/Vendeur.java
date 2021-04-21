@@ -47,7 +47,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	@Override
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		if (choco!=null) {
+		if (choco!=null && this.stock.get(choco)!=null) {
 			return this.stock.get(choco).getValeur();
 		}
 		else {
@@ -68,10 +68,12 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	@Override
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
+
 				this.ajouterStock(choco, (-1)*quantite, false);
 				historique.put(choco, quantite);
 				this.quantitevendue+=quantite;
 		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
+
 	}
 
 	@Override
