@@ -21,24 +21,19 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	private double prixmax;
 	
 	public AcheteurFevesAO() {
-		this.quantite = quantite;
-		this.feve = feve;
-		this.qmax = qmax;
-		this.qmin = qmin ; //mettre qmin assez élevé
-		this.prixmax = prixmax;
 		}
 	
 	
 	
-	public double getQmin() {
+	/*public double getQmin() {
 		return this.quantite.getMin();
 	}
 	public double getQmax() {
 		return this.quantite.getMax();
-	}
+	}*/
 
 	public OffreAchatFeves getOffreAchat() {
-		OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
+		/*OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
@@ -54,7 +49,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			else {
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
-			}
+			}*/
+			return null;
 	}
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
