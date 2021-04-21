@@ -6,6 +6,7 @@ import abstraction.eq8Romu.produits.Beurre;
 import abstraction.fourni.Filiere;
 
 public class Producteur2TestDesVentesCC extends Filiere {
+	// ensemble fait par DIM
 	
 	private SuperviseurVentesContratCadre superviseurCC;
 	

@@ -22,6 +22,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockPHE;
 	protected Variable stockPM;
 
+	// ensemble fait par DIM
 	
 	//Dim
 	/**
