@@ -91,6 +91,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
 			}*/
 		}
+
 	}
 	
 	//Elsa
