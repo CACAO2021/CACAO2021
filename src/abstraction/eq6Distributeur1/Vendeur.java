@@ -90,7 +90,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	//thomas
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		if (quantiteEnVente(choco)==0) {
-			System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
+		//	System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
 	

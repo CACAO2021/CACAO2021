@@ -78,7 +78,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					vendeurs.add(acteur);
-					System.out.println("ajout de l'acteur" + acteur + "pour le chocolat" + produit);
+	//				System.out.println("ajout de l'acteur" + acteur + "pour le chocolat" + produit);
 				}
 			}
 		/*	int rnd = new Random().nextInt(vendeurs.size());
