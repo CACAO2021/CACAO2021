@@ -23,6 +23,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private double paiements; //variable servant à connaître réellement l'état du compte en banque
 	private HashMap<ChocolatDeMarque, LinkedList<Double>> prixParChocolat; //pour avoir une moyenne du prix d'achat par chocolat
 	private LinkedList<Double> prixChocolat; //idem 
+	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on a pas encore en stock alors qu'il arrive dans x étapes selon l'échéancier d'un contrat déjà signé
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -38,24 +39,39 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
 		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
+//			System.out.println(recherche_superviseur.getNom());
 			if(recherche_superviseur.getNom().equals("Sup.CCadre")) {
+//			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
+//				System.out.println(recherche_superviseur);
 				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);
 			}
 		}
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
+
+		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 		this.prixParChocolat = new HashMap<ChocolatDeMarque, LinkedList<Double>>();
 		this.prixChocolat = new LinkedList<Double>();
+		this.quantiteARecevoir = new HashMap<ChocolatDeMarque, Double>() ;
+		
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			this.quantiteARecevoir.put(choco, 0.);
+		}
 		
 		for(ChocolatDeMarque nosChoco : wonka.getCatalogue()) {
 			this.prixParChocolat.put(nosChoco, this.prixChocolat);
 			}
 
+
 		}
 		
 	
 	public void next() {
+		for(ExemplaireContratCadre contrat : contrats) {
+			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+			this.quantiteARecevoir.put(choco, contrat.getQuantiteRestantALivrer());
+		}
 		this.mettreAJourContrats(); //supprime les contrats caduques
 		paiements = this.paiementsEnAttente();
 		//Modifie les quantités min et max pour chaque chocolat en fonction de l'année précédente
@@ -77,7 +93,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			}
 			
 		}
-		
 		this.majDemande();
 		this.nouveauContrat();
 //		for (ChocolatDeMarque choco : wonka.getCatalogue()) {
@@ -103,8 +118,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-			if(wonka.stocks.getStockChocolatDeMarque(choco) <= quantiteLimite.get(choco).getValeur()) {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco)));
+			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
 			}
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
@@ -138,24 +153,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			if (vendeurs.size()!=0 && this.besoinsChoco.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
 				int i = (int) (Math.random()*vendeurs.size());
 				IVendeurContratCadre vendeur = vendeurs.get(i);
+
+
 				//on répartie la valeur totale commandée sur 5 étapes 
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
+
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
-			}
-		}
-	}
-	
-	//Nouveau contrat avec chocolat en tête de gondole
-	public void nouveauContratenTG() {
-		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
-			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
-			if (vendeurs.size()!=0 && this.besoinsChoco.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
-				int i = (int) (Math.random()*vendeurs.size());
-				IVendeurContratCadre vendeur = vendeurs.get(i);
-				//on répartie la valeur totale commandée sur 5 étapes 
-				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
-				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), true);
 				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 			}
 		}
@@ -214,7 +217,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
 		
-		if((ancienPrix * 1.10 <= prix && ancienPrix != 0 )|| !wonka.getAutorisationTransaction(prix + paiements)) {
+		if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction(prix + paiements)) {
 			return contrat.getPrix()*0.90;
 		}
 		
