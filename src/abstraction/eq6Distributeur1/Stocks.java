@@ -41,6 +41,7 @@ public class Stocks extends Distributeur1Acteur{
 	public void setPrix(ChocolatDeMarque choco, double prix) {
 		this.prix.put(choco, prix);
 	}
+	
 
 	//Louis
 	public void initialiser() {
@@ -57,6 +58,7 @@ public class Stocks extends Distributeur1Acteur{
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 
 			stock.put(choco, new Variable(choco.toString(),this,10.));
+			stockTG.put(choco, new Variable(choco.toString(),this,0.));
 
 		}
 	}

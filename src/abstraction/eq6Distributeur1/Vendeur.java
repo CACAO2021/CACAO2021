@@ -18,27 +18,26 @@ import abstraction.fourni.Variable;
 
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
-	protected Map<ChocolatDeMarque,Double> historique;
+
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
-	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite par chocolat vendue
-	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère que les ventes convenables
+	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
+	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère les ventes convenables
 	
 	//thomas
 	public Vendeur() {
 		super();
-		this.historique=new HashMap <ChocolatDeMarque,Double>();
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
 		this.q=new HashMap <ChocolatDeMarque,Double>();
 		
 	}
 	
-	
+	//thomas, louis
 	public void initialiser() {
 		super.initialiser();
 		this.quantiteTotaleVendue=0;
 
 		for (int i=0; i<this.getCatalogue().size(); i++) {
-			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 0.0);
+			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 100.0);
 		}
 		
 		/*On initialise l'historique, la quantité totale vendue et 
@@ -50,6 +49,17 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 	}
+	
+	//thomas
+	public void next() {
+		super.next();
+		this.quantiteTotaleVendue=0;
+		for(ChocolatDeMarque choco : getCatalogue()) {
+			NouveauPrix(choco);
+		}
+		
+	}//méthode next qui remets les quantités à 0
+	
 
 	//thomas
 	public double getQuantiteVendue(ChocolatDeMarque choco) {
@@ -61,6 +71,14 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 	}
 		
+	//thomas
+	public double prix(ChocolatDeMarque choco) {
+		if(choco!=null) {
+			return prix.get(choco);
+		}else {
+			return 0;
+		}
+	}//retourne le prix de vente du chocolat "choco"
 	
 	//thomas
 	public List<ChocolatDeMarque> getCatalogue() {
@@ -71,14 +89,6 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		return c;
 	}//retourne le catalogue (liste des produits disponibles)
 
-	//thomas
-	public double prix(ChocolatDeMarque choco) {
-		if(choco!=null) {
-			return prix.get(choco);
-		}else {
-			return 0;
-		}
-	}//retourne le prix de vente du chocolat "choco"
 
 	//thomas
 	public double quantiteEnVente(ChocolatDeMarque choco) {
@@ -106,9 +116,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
 			this.ajouterStock((ChocolatDeMarque)choco, (-1)*quantite, false);
 			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
-			historique.put(choco, quantite);
 			this.quantiteTotaleVendue+=quantite;
-			this.quantiteChocoVendue.put(choco, this.getQuantiteVendue(choco)+quantite);
+			this.quantiteChocoVendue.put(choco, quantite);
 		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
 	}// on actualise aussi quantiteChocoVendue
 
@@ -120,23 +129,14 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	}	
 	
 	//thomas
-	public void NouveauPrix(ChocolatDeMarque choco, double prix, int QuantiteVendue) {
+	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
 		if (this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) {
-			this.setPrix(choco, prix*0.9); 
+			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
-		if (this.stockTG.get(choco).getValeur()>0) {
-			this.setPrix(choco, 0.9*prix);
-		}//baisse le prix de 10% si le produit est en tete de gondole
+		
 	}
-	
-	//thomas
-	public void next() {
-		super.next();
-		this.quantiteTotaleVendue=0;
-		this.quantiteChocoVendue.clear();
-	}//méthode next qui remets les quantités à 0
 	
 }
 

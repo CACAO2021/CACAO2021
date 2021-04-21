@@ -32,7 +32,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 			i++;
 			Echeancier e = contrat.getEcheancier();
-			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.15; //J'achete 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
+			double maxQuantite= (this.quantiteChocoVendue.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.15; //J'achete 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
 			if (e.getQuantite(e.getStepFin())>maxQuantite) {
 				if(maxQuantite*(0.90+i/100)>((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER) {
 					e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));
@@ -58,7 +58,8 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		double sommeTG=0;
 		Map<ChocolatDeMarque,Double> maxQuantites= new HashMap<ChocolatDeMarque,Double>();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
-			double maxQuantite=(this.historique.get(produit)-this.stock.get(produit).getValeur())*1.15;
+			System.out.println(this.quantiteChocoVendue.get(produit));
+			double maxQuantite=(this.quantiteChocoVendue.get(produit)-this.stock.get(produit).getValeur())*1.15;
 			maxQuantites.put(produit, maxQuantite);
 			sommeQuantite+=maxQuantite;
 		}
@@ -72,7 +73,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	//Louis
 	public void next() {
-		super.next();
 		choixTG();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
 			List<IActeur> vendeurs = new LinkedList<IActeur>();
@@ -87,14 +87,14 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				IActeur vendeur = vendeurs.get(rnd);
 
 				if (produitTG.contains(produit)) {
-					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, true);
+					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, 2000.0), cryptogramme, true);
 				}
 				else {
-					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
+					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, 2000.0), cryptogramme, false);
 				}
 			}
 		}
-
+		super.next();
 	}
 	
 	//Elsa
