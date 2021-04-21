@@ -40,22 +40,42 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public double getQmax() {
 		return this.quantite.getMax();
 	}
+	public Feve getFeve(Chocolat chocolat) {
+			if(chocolat == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
+				return Feve.FEVE_HAUTE_BIO_EQUITABLE;
+			}
+			if(chocolat == Chocolat.TABLETTE_MOYENNE && chocolat == Chocolat.CONFISERIE_MOYENNE){
+				return Feve.FEVE_MOYENNE;
+			}
+			else {
+				return null;
+			}		
+	}
     // cette méthode permet de garantir une quantité minimale de fèves en stock pour chaque type de fèves
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 	
 	public OffreAchatFeves getOffreAchat() {
-		OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
-				if(this.getChocolats().get(chocolat).getValeur()*0.25 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
-					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.25);
+				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
+				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
+					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
+					feve = getFeve(chocolat);
+					if(quantite.getValeur()!=0){
+						this.JournalOA.ajouter("offre d'achat =" + OA);
+						return OA;
+					}
 				}
 			}
 			for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
-					quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
+				quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+				if(contrat.getProduit() instanceof Chocolat) {
+					feve = getFeve((Chocolat) (contrat.getProduit()));
+					if(quantite.getValeur()!=0){
+						this.JournalOA.ajouter("offre d'achat =" + OA);
+						return OA;
+					}
 				}
-			if(quantite.getValeur()!=0) {
-				this.JournalOA.ajouter("offre d'achat =" + OA);
-				return OA;
 			}
 			else {
 				this.JournalOA.ajouter("pas d'offre d'achat");
@@ -76,7 +96,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			for(PropositionVenteFevesAO proposition : propositions) {
 				if(proposition.getPrixKG()< this.prixmax 
 						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
-						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta) {
+						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta)
+						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve(){
+					
 		}
 			
 				

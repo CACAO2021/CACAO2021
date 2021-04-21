@@ -134,6 +134,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		res.add(this.JournalRetraitStock);
 		res.add(this.JournalAchatContratCadre);
 		res.add(this.JournalVenteContratCadre);
+		res.add(this.JournalOA);
 		return res;
 	}
 
