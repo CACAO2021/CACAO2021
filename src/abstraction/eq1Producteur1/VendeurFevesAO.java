@@ -44,7 +44,7 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 				}
 			}
 		}
-		return 10;
+		return res;
 	}
 
 	/**
