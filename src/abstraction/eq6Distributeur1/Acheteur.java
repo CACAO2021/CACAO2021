@@ -26,7 +26,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 			Echeancier e = contrat.getEcheancier();
 			double maxQuantite= (this.historique.get((ChocolatDeMarque)contrat.getProduit())-this.stock.get((ChocolatDeMarque)contrat.getProduit()).getValeur())*1.1; //J'achete 10% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
-			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*2);// on propose d'acheter 2 fois plus si le vendeur n'est pas content. A modifier par la suite
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepDebut())*1.3);// on propose d'acheter 1.3 fois plus si le vendeur n'est pas content. A modifier par la suite
 			return e;
 		
 	}
