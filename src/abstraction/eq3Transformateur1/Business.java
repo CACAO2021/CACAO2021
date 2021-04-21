@@ -120,7 +120,7 @@ public class Business {
 			return (this.getStock().getStockChocolats((Chocolat) produit) > 1000);
 		} else {
 			if (produit instanceof ChocolatDeMarque) {
-				return (this.getStock().getStockChocolats(((ChocolatDeMarque) produit).getChocolat()) > 1000);
+				return (this.getStock().getStockChocolats(((ChocolatDeMarque) produit).getChocolat()) > 1000 && (((ChocolatDeMarque) produit).getMarque() == "Eticao"));
 			} else {
 				return false;
 			}

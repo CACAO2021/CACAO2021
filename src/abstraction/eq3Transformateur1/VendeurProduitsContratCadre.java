@@ -31,9 +31,9 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public boolean vend(Object produit) {
-		// Implementer une fonction booléenne qui indique s'il y a du stock dans un produit spécifique
 		return this.getStock().getFinancier().sommesNousVendeur(produit);
 	}
+	
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
