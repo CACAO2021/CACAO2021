@@ -23,7 +23,7 @@ public class Distributeur1Acteur implements IActeur {
 	public Color descriptionColor = Color.ORANGE;
 	public Color warningColor = Color.YELLOW;
 	
-	protected Journal journalVentes, journalStocks, journalAchats;
+	/*protected Journal journalVentes, journalStocks, journalAchats;
 	
 	public void initialisationJournaux() {
 
@@ -43,7 +43,7 @@ public class Distributeur1Acteur implements IActeur {
 		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Gestion des Stocks"));
 		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
 
-	}
+	}*/
 	
 
 	public Distributeur1Acteur() {
@@ -96,10 +96,9 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
-		List<Journal> journaux = new ArrayList<Journal>();
-		journaux.add(journalVentes);
-		journaux.add(journalStocks);
-		journaux.add(journalAchats);
+		//journaux.add(journalVentes);
+		//journaux.add(journalStocks);
+		//journaux.add(journalAchats);
 		return journaux;
 	}
 

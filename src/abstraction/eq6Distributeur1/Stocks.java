@@ -52,7 +52,7 @@ public class Stocks extends Distributeur1Acteur{
 		int i=0;
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			i++;
-			this.indicateurs.add(new Variable(choco.getMarque().toString()+ " " + i +" Quantite stock CC",this,0.));
+			this.indicateurs.add(new Variable(choco.getMarque().toString()+ " " + i +" Quantite stock CC",this,stock.get(choco).getValeur()));
 		}
 	}
 	

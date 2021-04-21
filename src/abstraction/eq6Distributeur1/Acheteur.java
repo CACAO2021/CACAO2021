@@ -81,7 +81,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 					System.out.println("ajout de l'acteur" + acteur + "pour le chocolat" + produit);
 				}
 			}
-			int rnd = new Random().nextInt(vendeurs.size());
+		/*	int rnd = new Random().nextInt(vendeurs.size());
 			IActeur vendeur = vendeurs.get(rnd);
 			
 			if (produitTG.contains(produit)) {
@@ -89,7 +89,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			}
 			else {
 				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
-			}
+			}*/
 		}
 
 	}
