@@ -28,7 +28,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	}
 	
 
-	
+	//Elsa
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 			i++;
@@ -52,6 +52,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		
 	}
 	
+	//Elsa
 	public void choixTG() {
 		produitTG= new LinkedList<ChocolatDeMarque>();
 		double sommeQuantite=0;
@@ -70,7 +71,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	}
 
 
-	// tout les tours on demande à acheter tout les chocolats de nos stocks à un vendeur au hasard.
+	//Elsa
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
@@ -90,7 +91,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
 			}*/
 		}
-	} 
+	}
+	
+	//Elsa
 
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
@@ -104,7 +107,8 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			return contrat.getPrix(); 
 		}
 	}
-
+	
+	//Elsa
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		i=0;
