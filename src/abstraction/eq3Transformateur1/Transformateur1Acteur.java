@@ -83,14 +83,7 @@ public class Transformateur1Acteur implements IActeur {
 	}
 	
 
-	public void next() {
-		
-		this.getStock().transformationFeveChocolat();
-		this.getStock().coutStock();
-		this.getStock().getFinancier().setIndicateurs();
-		this.getStock().setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getNom(), this, 3000),  new Variable(this.getNom(), this, 5000));
-		
-	}
+
 	
 	
 	public List<String> getNomsFilieresProposees() {
@@ -140,6 +133,12 @@ public class Transformateur1Acteur implements IActeur {
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(this, this.cryptogramme);
+	}
+
+	@Override
+	public void next() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
