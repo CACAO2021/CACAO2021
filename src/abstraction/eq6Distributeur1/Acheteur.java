@@ -41,16 +41,14 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		for (ChocolatDeMarque produit : this.stock.keySet()) {
 			List<IActeur> vendeurs = new LinkedList();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
+				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					vendeurs.add(acteur);
 				}
 			}
-			IActeur vendeur = vendeurs.get(vendeurs.size()*Random)
-			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-					((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
-				}
-			}
+			int rnd = new Random().nextInt(vendeurs.size());
+			IActeur vendeur = vendeurs.get(rnd);
+			((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 5.0), cryptogramme, false);
+		
 		}
 	}
 
