@@ -110,6 +110,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 		this.majDemande();
 		this.nouveauContrat();
+		this.nouveauContratEnTG();
 //		for (ChocolatDeMarque choco : wonka.getCatalogue()) {
 //		System.out.println(choco.name());
 //		System.out.println(this.quantiteLimite.get(choco).getValeur());
