@@ -192,7 +192,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		// maj var mesContrats
 		this.mesContratsCC.add(contrat);
-		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur().getNom());
+		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur().getNom() + " qtt = " +
+		Math.floor(contrat.getQuantiteTotale()) + contrat.getProduit()
+		+ " pour " + contrat.getPrix() + "euro au kg, en " + contrat.getEcheancier().getNbEcheances()
+		+" échéances" );
 	}
 
 	@Override

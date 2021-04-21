@@ -2,7 +2,7 @@ package abstraction.eq2Producteur2;
 
 import abstraction.fourni.Filiere;
 
-public class Producteur2Banque extends Producteur2VeudeurFeveCC {
+public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 
 	public Producteur2Banque() {
 		super();
