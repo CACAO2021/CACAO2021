@@ -139,7 +139,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
-			//afin de ne pas polluer démesurement on annulle la commande si le volume n'est pas conséquent
+			//afin de ne pas polluer démesurément on annule la commande si le volume n'est pas conséquent
 			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
