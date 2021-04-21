@@ -227,7 +227,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
-		return this.achat.moyennePrixChoco( choco)/this.marges.get(choco.getChocolat());
+		return this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat());
 	}
 
 	//On considere que tout le stock d'un produit est en vente
@@ -309,5 +309,9 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	 */
 	public ChocolatDeMarque getChocoProduit() {
 		return chocoProduit;
+	}
+	
+	public String toString() {
+		return this.getNom();
 	}
 }

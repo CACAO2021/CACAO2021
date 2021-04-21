@@ -24,7 +24,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private HashMap<ChocolatDeMarque, LinkedList<Double>> prixParChocolat; //pour avoir une moyenne du prix d'achat par chocolat
 	private LinkedList<Double> prixChocolat; //idem 
 	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on a pas encore en stock alors qu'il arrive dans x étapes selon l'échéancier d'un contrat déjà signé
-	private HashMap<ChocolatDeMarque,Double> quantiteEnRouteTG; // quantité de choco à mettre en tete de gondole en cours de livraison
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -35,7 +34,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	
 	
-	//Ugo Broqua & Martin Collemare & Elio Granger
+
 	public Achat(Distributeur2Acteur wonka) {
 		this.wonka = wonka;
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
@@ -50,21 +49,14 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
-		this.quantiteEnRouteTG = new HashMap<ChocolatDeMarque, Double>();
-		
+
 		//Premiere commande de l'année en fonction de 12 mois auparavant, quantité limite = 1/3 de l'an passé
 		this.prixParChocolat = new HashMap<ChocolatDeMarque, LinkedList<Double>>();
 		this.prixChocolat = new LinkedList<Double>();
-		this.prixChocolat.add(1.45);
-		
 		this.quantiteARecevoir = new HashMap<ChocolatDeMarque, Double>() ;
 		
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
 			this.quantiteARecevoir.put(choco, 0.);
-		}
-		
-		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-			this.quantiteEnRouteTG.put(choco, 0.);
 		}
 		
 		for(ChocolatDeMarque nosChoco : wonka.getCatalogue()) {
@@ -74,21 +66,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 		}
 		
-	//Ugo Broqua & Martin Collemare
+	
 	public void next() {
-		
 		for(ExemplaireContratCadre contrat : contrats) {
 			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 			this.quantiteARecevoir.put(choco, contrat.getQuantiteRestantALivrer());
 		}
-		
-		for(ExemplaireContratCadre contrat : contrats) {
-			if (contrat.getTeteGondole()) {
-				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
-				this.quantiteEnRouteTG.put(choco, contrat.getQuantiteRestantALivrer());
-			}
-		}
-		
 		this.mettreAJourContrats(); //supprime les contrats caduques
 		paiements = this.paiementsEnAttente();
 		//Modifie les quantités min et max pour chaque chocolat en fonction de l'année précédente
@@ -108,12 +91,16 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)  - wonka.quantiteEnVente(choco) );
 				quantiteMax.put(choco, quantite);
 			}
+			
 		}
 		this.majDemande();
 		this.nouveauContrat();
-		this.nouveauContratEnTG();
-		
-		
+//		for (ChocolatDeMarque choco : wonka.getCatalogue()) {
+//		System.out.println(choco.name());
+//		System.out.println(this.quantiteLimite.get(choco).getValeur());
+//		System.out.println("------------");
+//		System.out.println(this.quantiteMax.get(choco).getValeur());
+//			}
 		}
 	
 	//public void init() {
@@ -128,25 +115,18 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//		
 	//	}
 	//}
-	
-	//Martin Collemare
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
 			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
 			}
 			else {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
-			}
-			//afin de ne pas polluer démesurement on annulle la commande si le volume n'est pas conséquent
-			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
 		}
 	}
 	
-	//Martin Collemare
 	//besoin de savoir ce qu'il nous reste à payer pour connaître l'état réel des comptes et non seulement le montant sur notre compte bancaire
 	public double paiementsEnAttente() {
 		double valeur = 0;
@@ -156,7 +136,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		return valeur;
 	}
 	
-	//Martin Collemare
 	//supprime les contrats caduques
 	public void mettreAJourContrats() {
 		for(ExemplaireContratCadre contrat : contrats) {
@@ -166,9 +145,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 	}
 	
-	
-	//Martin Collemare
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
+	// il faut encore prendre en compte le chocolat qui sera reçu aux prochaines étapes A CODER !!!
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
@@ -177,7 +155,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				IVendeurContratCadre vendeur = vendeurs.get(i);
 
 
-				//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
+				//on répartie la valeur totale commandée sur 5 étapes 
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
 
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
@@ -186,28 +164,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 	}
 	
-	
-	//Martin Collemare
-	//Chercher des nouveaux contrats pour des chocolats en tête de gondole
-	public void nouveauContratEnTG() {
-		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-			double quantiteTG = wonka.stocks.qtePossibleTG(choco) - this.quantiteEnRouteTG.get(choco);
-			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
-			if (vendeurs.size()!=0 && quantiteTG >SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
-				int i = (int) (Math.random()*vendeurs.size());
-				IVendeurContratCadre vendeur = vendeurs.get(i);
-				
-				
-				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, quantiteTG/5);
-
-				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), true);
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre en TG :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
-			}
-		}
-	}
-	
-	
-	//Martin Collemare
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		Echeancier e = contrat.getEcheancier();
 		if(e.getNbEcheances()>=10) { //si l'échéancier est réparti sur plus de 10 étapes : trop long (arbitraire)
@@ -234,14 +190,13 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+e.toString());
 			return e;	
 		}
-		//Quantité comprise entre (0.9 * quantité voulue) et (1.1 * quantité voulue) : ok
+		//Quantité comprise entre 0.9 * quantité voulue et 1.1 * quantité voulue : ok
 		else {
 			return e;
 		}
 	}
 
 	
-	//Martin Collemare
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
 		if (Filiere.LA_FILIERE.getEtape()==0) {
@@ -284,8 +239,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 		
 	}
+// Il faut ajouter les quantités de chocolat reçues par mois selon l'échéancier de chaque contrat, 
+// et non ajouter la quantité totale de chocolat du contrat dès la signature
 
-	//Martin Collemare
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), quantite);
 		
@@ -294,8 +250,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public SuperviseurVentesContratCadre getSupCCadre() {
 		return supCCadre;
 	}
-	
-	//Martin Collemare
 	public double getMoyenne(LinkedList<Double> liste) {
 		double moy = 0;
 		for(double val : liste) {
@@ -303,14 +257,14 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 		return moy/(liste.size());
 	}
-	//Martin Collemare
+	
 	public double moyennePrixChoco(ChocolatDeMarque choco) {
 		LinkedList<Double> liste = this.prixParChocolat.get(choco);
 		return this.getMoyenne(liste);
 	}
 	
 
-	
+
 
 
 }
