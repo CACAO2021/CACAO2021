@@ -14,7 +14,7 @@ public class Transformateur1Marque extends Transformateur1FabricantChocolatDeMar
 	
 	public List<String> getMarquesChocolat() {
 		List<String> marques = new LinkedList<String>();
-		marques.add(super.getMarque());
+		marques.add(this.getMarque());
 		return marques;
 		}
 }
