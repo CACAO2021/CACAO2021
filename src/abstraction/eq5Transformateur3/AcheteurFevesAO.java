@@ -2,6 +2,7 @@ package abstraction.eq5Transformateur3;
 //Charlotte
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -11,6 +12,7 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
+import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
 
@@ -97,20 +99,25 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
 		double delta = this.getQmax()-this.getQmin();
+		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
 				if(proposition.getPrixKG()< this.prixmax 
 						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
-						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta)
-						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve(){
-					
-					
+						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
+						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
+							propositions_interessantes.add(proposition);
 		}
-			
-				
 			}
 		}
-		return null;
+		if(propositions_interessantes.size()!=0) {
+			int hasard = (int)(Math.random()*propositions_interessantes.size());
+			return propositions_interessantes.get(hasard);
+				
+			}
+		else{
+			return null;
+		}
 	}
 
 	@Override
@@ -124,11 +131,13 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 
 	@Override
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		// TODO Auto-generated method stub
+		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
+		this.journal.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+	}
 		
 	}
 	
-}
+
 
 		
 
