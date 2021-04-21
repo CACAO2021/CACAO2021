@@ -15,6 +15,7 @@ public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
 	}
+	
 	protected LinkedList<Double> echeancier_basse;
 	protected LinkedList<Double> echeancier_moyenne;
 	protected LinkedList<Double> echeancier_total;
