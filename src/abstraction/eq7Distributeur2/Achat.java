@@ -38,9 +38,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Ugo Broqua & Martin Collemare & Elio Granger
 	public Achat(Distributeur2Acteur wonka) {
 		this.wonka = wonka;
-		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
+		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();	
+		
+		//recherche de l'acteur superviseur
 		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
-//			System.out.println(recherche_superviseur.getNom());
 			if(recherche_superviseur.getNom().equals("Sup.CCadre")) {
 //			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
 //				System.out.println(recherche_superviseur);
@@ -159,11 +160,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	//supprime les contrats caduques
 	public void mettreAJourContrats() {
+		List<ExemplaireContratCadre> aSupprimer = new LinkedList<ExemplaireContratCadre>();
 		for(ExemplaireContratCadre contrat : contrats) {
 			if(contrat.getMontantRestantARegler() == 0 && contrat.getQuantiteRestantALivrer() == 0) {
-				contrats.remove(contrat);
+				aSupprimer.add(contrat);
 			}
-		}
+		}contrats.removeAll(aSupprimer);
 	}
 	
 	

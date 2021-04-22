@@ -32,7 +32,11 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		public Color infoColor = Color.YELLOW;
 		public Color peremptionColor = Color.MAGENTA;
 	
-//
+		
+		
+// fait par Elio Granger
+// Initialise toutes les variables correctement. dont les doubles hashmap
+		
 	public Stocks(Distributeur2Acteur acteur) {
 		this.acteur = acteur;
 		stocksParMarque = new HashMap<ChocolatDeMarque, Variable>();
@@ -59,6 +63,12 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}
 	}
 	
+	
+	
+	// fait par Elio Granger
+	// A chaque étape :
+	// Initialise la Hashmap nouveauChocoParEtape pour l'étape actuelle avec une quantité égale à 0 pour chaque produit.
+	// appelle les méthodes utiles : Peremption, cout de stockage, vérification des produits en TG
 	
 	public void next() {
 		
@@ -91,17 +101,23 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	}
 
 
-	@Override
+	
+	// fait par Elio Granger
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque) {
 		return this.stocksParMarque.get(chocolatDeMarque).getValeur();
 	}
 	
+	
+	// fait par Elio Granger
 	public double getStockChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, int etape) {
 		return this.nouveauChocoParEtape.get(etape).get(chocolatDeMarque).getValeur();
 	}
 
-
+	
+	
+	// fait par Elio Granger
 	// AJOUTE LA QUANTITE DE CHOCOLAT A LETAPE ACTUELLE ET DANS LE STOCK DE MARQUES
+	
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
 		double limiteDeStocks = limiteStocks;
 		for(Variable var : acteur.getParametres()) {
@@ -119,12 +135,21 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	}
 	
 	
+	
+	// fait par Elio Granger
+	// Ajoute le chocolat dans la quantité donnée en TG
+	// vérifie notamment que l'opération est possible avec la méthode verifNouveauChocoEnTG(chocolatDeMarque, qte).
+	
 	public void ajouterChocolatEnTG(ChocolatDeMarque chocolatDeMarque, double qte) { // Caractérise juste une partie du stock de TG
 		if(this.verifNouveauChocoEnTG(chocolatDeMarque, qte)) {
 		this.stocksEnTG.get(chocolatDeMarque).ajouter(acteur, qte);
 		acteur.journalStocks.ajouter(Journal.texteColore(TGColor, Color.BLACK, "[TG] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + "Est passé en TG, [TOTAL] : " + Journal.doubleSur(this.getQuantiteTotaleEnTG()/this.getQuantiteTotaleStocks(),5) + " De Choco en TG"));
 		}
 	}
+	
+	
+	// fait par Elio Granger
+	// donne la quantité totale de chocolat en stocks
 	
 	public double getQuantiteTotaleStocks() {
 		double res = 0.0;
@@ -134,6 +159,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	}
 	
 	
+	
+	// fait par Elio Granger
+	// donne la quantité totale en stocks pour une étape donnée
+	
 	public double getQuantiteTotaleStockEtape(int etape) {
 		double res = 0.0;
 		for(Variable qte : this.nouveauChocoParEtape.get(etape).values()) {
@@ -142,7 +171,11 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		
 	}
 	
+	
+	
+	// fait par Elio Granger
 	// returns yes si on peut mettre une telle quantité d'un tel chocolat en TG
+	
 	public boolean verifNouveauChocoEnTG(ChocolatDeMarque choco, double qte) {
 		double limiteTG = limiteEnTG;
 		for(Variable var : acteur.getParametres()) {
@@ -154,6 +187,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	}
 	
 	
+	
+	// fait par Elio Granger
+	// donne la quantité totale en TG
+	
 	public double getQuantiteTotaleEnTG() {
 		double res = 0.0;
 		for(ChocolatDeMarque chocoDM : acteur.getCatalogue()) {
@@ -161,10 +198,15 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}return res;
 	}
 	
+	
+	// fait par Elio Granger
+	// donne la quantité en TG pour un chocolat
 	public double getQuantiteChocoEnTG(ChocolatDeMarque choco) {
 		return this.stocksEnTG.get(choco).getValeur();
 	}
 	
+	
+	// fait par Elio Granger
 	public void setQuantiteChocoEnTG(ChocolatDeMarque choco,double qte) {
 		this.stocksEnTG.get(choco).setValeur(acteur, qte);
 	}
@@ -172,12 +214,21 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		this.stocksEnTG.get(choco).retirer(acteur, qte);
 	}
 	
+	
+	// fait par Elio Granger
+	// Renvoie la quantité possible à rajouter en TG, utile lors de la création de contrats d'achat
+	
 	public double qtePossibleTG(ChocolatDeMarque choco){
 		double qteDejaEnTG = this.getQuantiteChocoEnTG(choco);
 		double limiteTG = this.getParametre("limiteEnTG");
 		double qteDeChocoAvant = this.getStockChocolatDeMarque(choco);
 		return (qteDeChocoAvant*limiteTG/100)-qteDejaEnTG;
 	}
+	
+	
+	// fait par Elio Granger
+	// Vérifie que la quantité en TG de chaque produit respecte bien le pourcentage imposé
+	// si ce n'est pas le cas, des réajustements sont faits
 	
 	public void majTGSuiteASuppression() {
 		double limiteTG = this.getParametre("limiteEnTG");
@@ -198,12 +249,12 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	}
 		
-//"Stocks de " + chocoDeMarq.name() +"/ Etape d'ajout: "+ etape+ " [W&S]" --> Nom d'une variable de chocolat à une étape donnée (si besoin d'y accéder)
 	
 	
+	// fait par Elio Granger
 	//ON SUPPRIME DU CHOCOLAT EN COMMENCANT PAR LE PLUS VIEUX AYANT ETE RECU.
-
-	@Override
+	// Si le chocolat est en TG, on considère que c'est le produit en TG qui a été acheté
+	
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		if (this.getStockChocolatDeMarque(chocolatDeMarque)>=qte) { //on vérifie déjà que l'action soit possible
@@ -222,6 +273,11 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		}
 	}
 	
+	
+	
+	// fait par Elio Granger
+	// Parcourt toutes les étapes dans l'ordre croissant pour supprimer une quantité de chocolat donnée
+	
 	public void enleverParEtape(ChocolatDeMarque chocolatDeMarque,double qte ) {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		for(int i=0; i<=etape; i++){// on prend les étapes dans l'odre.
@@ -238,7 +294,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	}
 
 
-	@Override
+	
+	// fait par Elio Granger
+	// méthode qui supprime le chocolat périmé 
+	
 	public void jeterChocolatPerime() {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		int dureePeremption = (int)this.getParametre("dureeDePeremption");
@@ -261,8 +320,12 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		//this.nouveauChocoParEtape.remove(etapeImpactee);
 	}
 
-	//A LIER AVEC LE COMPTE BANCAIRE
-	@Override
+	
+	
+	
+	// fait par Elio Granger
+	// méthode qui calcule et demande une déduction du coût de stockage du compte bancaire
+	
 	public void CoutStockage() {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		double prixDeStockage = this.getParametre("limiteStocks");
@@ -274,6 +337,10 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 			}
 		}
 	}
+	
+	
+	// fait par Elio Granger
+	// méthode qui renvoie la valeur du parametre recherché
 	
 	public double getParametre(String indicateur){
 		double indicateurV = 0.0;
