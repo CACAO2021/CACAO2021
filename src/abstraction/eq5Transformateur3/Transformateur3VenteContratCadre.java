@@ -31,19 +31,39 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	}
 	
 	public boolean peutVendre(Object produit) {
-		if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
+		/*if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
 			return true; }
-		else { return false; }
+		else { return false; }*/
+		if (this.getChocolatsProduits().contains(produit)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean vend(Object produit) {
-		if (!this.getChocolats().keySet().contains(produit)) {
+		/*if (!this.getChocolats().keySet().contains(produit)) {
 			return false;
 		}
 		if (this.getChocolats().get(produit).getValeur()>0) {
 			return true;}
-		else { return false; }}
+		else { return false; }*/
+		if (produit instanceof ChocolatDeMarque) {
+			Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
+			if (!this.peutVendre(produit)) {
+				return false;
+			} else if (this.getChocolats().get(choco).getValeur()>0) {
+				return true;
+			} else {
+				return false;
+			}	
+		}
+		
+		else {
+			return false;
+		}
+	}
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {

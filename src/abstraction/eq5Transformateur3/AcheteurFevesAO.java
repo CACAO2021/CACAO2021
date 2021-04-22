@@ -42,7 +42,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	}
 	
 	public double getQmin() {
-		return this.quantite.getMin();
+		return qmin;
+		//return this.quantite.getMin();
 	}
 	public double getQmax() {
 		return this.quantite.getMax();
@@ -64,16 +65,16 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 
 	public OffreAchatFeves getOffreAchat() {
-		int nb_OA = 0;
+		/*int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
 					feve = getFeve(chocolat);
 					if(quantite.getValeur()!=0){
-						this.JournalOA.ajouter("offre d'achat =" + OA);
+						//this.JournalOA.ajouter("offre d'achat =" + OA);
 						nb_OA+=1;
-						return OA;
+						return null; //OA;
 					}
 				}
 			}
@@ -92,7 +93,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			if(nb_OA==0){
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
-			}
+			}*/
 			return null;
 	}
 
@@ -121,10 +122,11 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 		if(propositions_interessantes.size()!=0) {
 			int hasard = (int)(Math.random()*propositions_interessantes.size());
-			return propositions_interessantes.get(hasard);
-				
-			}
-		} 
+			return propositions_interessantes.get(hasard);	
+		} else {
+			return null;
+		}
+	} 
 
 	@Override
 	public void notifierVente(PropositionVenteFevesAO proposition) {
