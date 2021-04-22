@@ -87,7 +87,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//louis
-	//remplit la liste produitTG avec les ChocolatDeMarque a mettre en tete de gondole
+	//fonction recursive qui remplit la liste produitTG avec les ChocolatDeMarque a mettre en tete de gondole
 	public void choixTG() {
 		if (pasTG.size()==0) {
 			return;
@@ -109,7 +109,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			}
 		}
 
-		if(maxQuantite(moinsVendu) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.001*quantiteEnVente()) {
+		if(maxQuantite(moinsVendu) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.1*quantiteEnVente()) {
 			produitTG.add(moinsVendu);
 			pasTG.remove(pasTG.indexOf(moinsVendu));
 			choixTG();
@@ -123,20 +123,22 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		produitTG=new LinkedList<ChocolatDeMarque>();
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		choixTG();
+		//System.out.println("produitTG " +produitTG.toString());
 		for (ChocolatDeMarque produit : this.getCatalogue()) {
 			List<IActeur> vendeurs = new LinkedList<IActeur>();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
 					vendeurs.add(acteur);
-					//System.out.println("ajout de l'acteur " + acteur + " pour le chocolat " + produit);
+					
 				}
 			}
 			if (vendeurs.size()!=0) {
 				int rnd = new Random().nextInt(vendeurs.size());
 				IActeur vendeur = vendeurs.get(rnd);
-				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) { //jamais vrai
+				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) {
 					if (produitTG.contains(produit)) {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, true);
+						System.out.println("vente tg");
 					}
 					else {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);

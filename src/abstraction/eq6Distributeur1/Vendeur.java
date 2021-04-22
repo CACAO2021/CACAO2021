@@ -1,17 +1,11 @@
 package abstraction.eq6Distributeur1;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
-
 import abstraction.eq8Romu.clients.ClientFinal;
-import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
-import abstraction.fourni.Banque;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
@@ -41,7 +35,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		journalVentes.ajouter("toutes les ventes conclues");
 
 		for (int i=0; i<this.getCatalogue().size(); i++) {
-			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 100.0);
+			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 5000.0);
 		}
 
 		/*On initialise l'historique, la quantité totale vendue et 
@@ -65,11 +59,13 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
 		}
+		//mise à jour de l'indicateur "pourcentage Tete de Gondole"
 		for (Variable indic : this.getIndicateurs()) {
 			if (indic.getNom().equals("Pourcentage Tete de Gondole")) {
 					indic.setValeur(this, quantiteEnVenteTG()/quantiteEnVente());
 			}
 		}
+		//System.out.println("TG "+quantiteEnVenteTG()+" / pas TG "+quantiteEnVente());
 
 
 	}
@@ -145,7 +141,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	//thomas
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
-		if(choco!=null && quantite>0 && quantite<this.quantiteEnVente(choco)) {
+		if(choco!=null && quantite>0 && quantite<=this.quantiteEnVente(choco)) {
 			this.ajouterStock((ChocolatDeMarque)choco, (-1)*quantite, false);
 			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
 			this.quantiteTotaleVendue+=quantite;

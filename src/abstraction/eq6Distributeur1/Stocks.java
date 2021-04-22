@@ -48,8 +48,20 @@ public class Stocks extends Distributeur1Acteur{
 		initCatalogue();
 		initPrix();
 
-		for (Variable var : stock.values()) { 
-			this.indicateurs.add(var);
+		for (ChocolatDeMarque choco : stock.keySet()) { 
+			this.indicateurs.add(stock.get(choco));
+		}
+	}
+	
+	//Louis
+	public void next() {
+		super.next();
+		for (ChocolatDeMarque choco : stock.keySet()) { 
+			for (Variable indic : this.getIndicateurs()) {
+				if (indic.equals(stock.get(choco))) {
+						indic.setValeur(this, stock.get(choco).getValeur());
+				}
+			}
 		}
 	}
 	
@@ -57,7 +69,7 @@ public class Stocks extends Distributeur1Acteur{
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 
-			stock.put(choco, new Variable(choco.toString(),this,10.));
+			stock.put(choco, new Variable(choco.toString(),this,5000.));
 			stockTG.put(choco, new Variable(choco.toString(),this,0.));
 
 		}
