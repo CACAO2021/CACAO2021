@@ -331,16 +331,21 @@ public class Stock {
 	
 	
 	public double prixDeVenteKG(Chocolat chocolat) {
-		// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
-		double prix = 0.0;
-		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
-		for ( ArrayList<Variable> quantPrix: stockChocolats) {
-			if (quantPrix.get(0).getValeur() > 0) {
-				prix += quantPrix.get(1).getValeur();
-			}
-		} 
-		prix = prix/this.getStockChocolats(chocolat);
-		return prix;
+		if (this.getStockChocolats(chocolat) != 0) {
+			// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
+			double prix = 0.0;
+			ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
+			for ( ArrayList<Variable> quantPrix: stockChocolats) {
+				if (quantPrix.get(0).getValeur() > 0) {
+					prix += quantPrix.get(1).getValeur();
+				}
+			} 
+			prix = prix/this.getStockChocolats(chocolat);
+			return prix;
+		} else {
+			return 100000000;
+		}
+
 	}
 	
 	public double prixDejaVenduKG(Chocolat chocolat) {
@@ -354,8 +359,13 @@ public class Stock {
 				prix += quantPrix.get(1).getValeur();
 			}
 		} 
-		prix = prix/stockvendu;
-		return prix;
+		if (stockvendu != 0) {
+			prix = prix/stockvendu;
+			return prix;
+		} else {
+			return 0;
+		}
+
 	}	
 	
 	
