@@ -15,7 +15,7 @@ import abstraction.fourni.Variable;
 
 //Léna
 
-public class Transformateur3VenteContratCadre extends Transformateur3AchatContratCadre implements IVendeurContratCadre{
+public class Transformateur3VenteContratCadre extends Transformateur3Fabricant implements IVendeurContratCadre{
 
 	protected HashMap<ExemplaireContratCadre, Integer> contrats ;
 	
@@ -37,12 +37,29 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 
 	@Override
 	public boolean vend(Object produit) {
+<<<<<<< HEAD
 		if (!this.getChocolats().keySet().contains(produit)) {
+=======
+		Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
+		System.out.println(produit);
+		if (!this.getChocolatsProduits().contains(produit)) {
+			System.out.println("false");
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 			return false;
 		}
+<<<<<<< HEAD
 		if (this.getChocolats().get(produit).getValeur()>0) {
 			return true;}
 		else { return false;}
+=======
+		else if(this.getChocolats().get(choco).getValeur()>0){
+			System.out.println("true");
+			return true;
+		}
+		else { 
+			System.out.println("false2");
+			return false;}
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 
 	}
 
@@ -103,5 +120,6 @@ public class Transformateur3VenteContratCadre extends Transformateur3AchatContra
 		}
 		return livre;
 	}
+	
 }
 	

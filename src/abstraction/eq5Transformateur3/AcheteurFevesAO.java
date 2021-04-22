@@ -24,6 +24,10 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	private double qmax;
 	private double prixmax;
 	
+	public AcheteurFevesAO() {
+		
+	}
+	
 	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
@@ -124,8 +128,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 
 	@Override
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		this.journal.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		//stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
+		//this.JournalOAajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
 	}
 
 	@Override
