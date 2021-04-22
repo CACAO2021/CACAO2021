@@ -78,10 +78,13 @@ public class Business {
 	}
 	
 	public double prixVente(Double quantite, Chocolat chocolat) {
+		// on renvoie le prix au kg qui multiplie la quantite pour avoir le prix de la quantite
 		return quantite*this.getStock().prixDeVenteKG(chocolat);
 	}
 	
 	public boolean sommesNousVendeur(Object produit) {
+		// on regarde si on a plus de 1000 de stock, car nous ne pouvons pas vendre en dessous de 1000 kg
+		// on regarde si c'est un chocolat sans marque ou avec marque
 		if (produit instanceof Chocolat) {
 			return (this.getStock().getStockChocolats((Chocolat) produit) > 1000);
 		} else {
@@ -99,29 +102,36 @@ public class Business {
 }
 	
 	public void setIndicateurs() {
+		// on met à jour tous les indicateurs
 		Integer compteur = 0;
 		for (Feve feve : this.getStock().nosFeves()) {
+			// on set la valeur de votre variable avec la nouvelle valeur du stock de cette feve
 			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockFeves(feve));
 			compteur += 1;
 		}
 		for(Chocolat chocolat: this.getStock().nosChocolats()) {
+			// on set la valeur de votre variable avec la nouvelle valeur du stock de ce chocolat
 			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockChocolats(chocolat));
 			compteur += 1;
 		}
+		// on set la valeur du prix de stockage
 		this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getPrixStockage().getValeur());
 		
 		for (Chocolat chocolat : this.getStock().nosChocolats()) {
 			compteur +=1;
+			// On set la valeur du prix de vente au kg de ce chocolat
 			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().prixDeVenteKG(chocolat));
 		}
 	}
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {
+		//  on ajout nos nouveaux contrats à notre liste
 		this.mesContratEnTantQueVendeur.add(contrat);
 		this.getStock().getActeur().journalVendeur.ajouter("Nouveau Contrat :"+contrat);
 	}
 	
 	public void miseAJourContratVendeur() {
+		// on supprime nos contrats obseletes (tout a été payé et tout a été livré)
 		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
 			if(contrat.getQuantiteRestantALivrer()== 0.0 && contrat.getMontantRestantARegler()==0.0) {
@@ -139,11 +149,13 @@ public class Business {
 	}
 	
 	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
+	//  on ajout nos nouveaux contrats à notre liste
 		this.mesContratEnTantQueAcheteur.add(contrat);
 		this.getStock().getActeur().journalAcheteur.ajouter("Nouveau contrat :"+contrat);
 	}
 	
 	public void miseAJourContratAcheteur() {
+		// on supprime nos contrats obseletes (tout a été payé et tout a été livré)
 		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueAcheteur) {
 			if(contrat.getQuantiteRestantALivrer()==0.0 && contrat.getMontantRestantARegler()==0.0) {
@@ -161,6 +173,7 @@ public class Business {
 	}
 	
 	public Map<Chocolat, Double> stockAFournir(int step) {
+		// on regarde la quantite de toutes les feves à livrer à un certain step
 		Map<Chocolat, Double> stockafournir = new HashMap<Chocolat, Double>();
 		for (Chocolat chocolat : this.getStock().nosChocolats()) {
 			stockafournir.put(chocolat, 0.0);
@@ -175,6 +188,7 @@ public class Business {
 	}
 	
 	public Map<Feve, Double> stockARecevoir(int step) {
+		// on regarde la quantite de toutes les feves à recevoir à un certain step
 		Map<Feve, Double> stockarecevoir = new HashMap<Feve, Double>();
 		for (Feve feve : this.getStock().nosFeves()) {
 			stockarecevoir.put(feve, 0.0);
@@ -189,10 +203,12 @@ public class Business {
 	}
 	
 	public double differenceStockArrivePart(Feve feve, int step) {
+		// difference entre ce qui va sortir et ce qui va rentrer pour un type de feve
 		return this.stockARecevoir(step).get(feve) - this.stockAFournir(step).get(this.getStock().equivalentConfiserieFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentTabletteFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentPoudreFeve(feve));
 	}
 	
 	public  Map<Feve, Double> listeDifferenceStockArrivePart() {
+		// on regarde sur une période de 10 steps les feves ou on vend plus qu'on achete, et on retour une Map des feves et des différences entre les quantités
 		Map<Feve, Double> listedifstock = new HashMap<Feve, Double>(); 
 		for (Feve feve : this.getStock().nosFeves()) {
 			double difference = 0;
@@ -206,11 +222,12 @@ public class Business {
 	}
 	
 	public Map<Feve, Double> quantitefeveAAcheter() {
+		// si nos différences sont négatives on les ajoute à notre map avec la quantité à acheter (1.5 fois celle qui nous manque)
 		Map<Feve, Double> stockaacheter = new HashMap<Feve, Double>(); 
 		for (Feve feve : this.getStock().nosFeves()) {
 			double diff = this.listeDifferenceStockArrivePart().get(feve);
 			if (diff < 0) {
-				stockaacheter.put(feve,this.listeDifferenceStockArrivePart().get(feve)*1.5);
+				stockaacheter.put(feve,-diff*1.5);
 			} else if (diff == 0) {
 				stockaacheter.put(feve, QUANTITE_INI);
 			}
@@ -219,6 +236,7 @@ public class Business {
 	}
 	
 	public ArrayList<Feve> feveAAcheter() {
+		// on retourne la liste de toutes les fèves qu'on doit acheter
 		ArrayList<Feve> listefeve = new ArrayList<Feve>();
 		for (Feve feve : this.getStock().nosFeves()) {
 			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
