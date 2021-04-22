@@ -285,8 +285,10 @@ public class Stock {
 			if (this.getStockFeves(feve) > 0) {
 				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
 				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
-				
-				Variable quantite = new Variable(this.getActeur().getNom(),this.getActeur(),quant);
+				// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.7);
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
 				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
 				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
 				// on calcul les couts de transformations
@@ -294,8 +296,15 @@ public class Stock {
 				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 					cout = cout * COEFFICIENT_COUT_BIO;
 				}
+				Chocolat tablette = this.equivalentTabletteFeve(feve);
+				Chocolat confiserie = this.equivalentConfiserieFeve(feve);
+				Chocolat poudre = this.equivalentPoudreFeve(feve);
+				this.setStockChocolat(tablette, quantitetablette, prix);
+				this.setStockChocolat(confiserie, quantiteconfiserie, prix);
+				this.setStockChocolat(poudre, quantitepoudre, prix);
+				
 				// on transforme de maniere aléatoire en tablette ou poudre ou confiserie
-				double p = Math.random();
+				/*double p = Math.random();
 				if( p <= 0.3) {
 					Chocolat chocolat = this.equivalentTabletteFeve(feve);
 					this.setStockChocolat(chocolat, quantite, prix);
@@ -305,7 +314,7 @@ public class Stock {
 				} else {
 					Chocolat chocolat = this.equivalentPoudreFeve(feve);
 					this.setStockChocolat(chocolat, quantite, prix);
-				}
+				}*/
 				
 	
 				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
