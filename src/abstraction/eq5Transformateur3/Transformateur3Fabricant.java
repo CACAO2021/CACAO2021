@@ -16,7 +16,7 @@ import abstraction.fourni.Variable;
 
 //Léna
 
-public abstract class Transformateur3Fabricant extends Transformateur3Acteur implements IFabricantChocolatDeMarque {
+public class Transformateur3Fabricant extends Transformateur3AchatContratCadre implements IFabricantChocolatDeMarque {
 	private List<ChocolatDeMarque> chocolats;
 	private String marque;
 	
