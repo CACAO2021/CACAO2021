@@ -9,8 +9,6 @@ import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
-import abstraction.fourni.IDistributeurChocolatDeMarque;
-import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Variable;
 
 public class Stocks extends Distributeur1Acteur{
@@ -26,6 +24,7 @@ public class Stocks extends Distributeur1Acteur{
 		this.stock=new HashMap<ChocolatDeMarque, Variable>(); 
 		this.prix=new HashMap<ChocolatDeMarque, Double>();
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>(); 
+		
 	}
 	
 	//Louis
@@ -48,8 +47,9 @@ public class Stocks extends Distributeur1Acteur{
 		super.initialiser();
 		initCatalogue();
 		initPrix();
-		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
-			this.indicateurs.add(stock.get(choco));
+
+		for (Variable var : stock.values()) { 
+			this.indicateurs.add(var);
 		}
 	}
 	

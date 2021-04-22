@@ -22,43 +22,57 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
 	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère les ventes convenables
-
+	private Journal journalVentes;
+	
 	//thomas
 	public Vendeur() {
 		super();
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
 		this.q=new HashMap <ChocolatDeMarque,Double>();
-
+		this.journalVentes = new Journal("Journal ventes", this);
+		
 	}
 
 	//thomas, louis
 	public void initialiser() {
 		super.initialiser();
 		this.quantiteTotaleVendue=0;
+		journaux.add(journalVentes);
+		journalVentes.ajouter("toutes les ventes conclues");
 
 		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 100.0);
 		}
 
 		/*On initialise l'historique, la quantité totale vendue et 
-		Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
+		 *Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
 		 */
 
 		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.q.put(this.getCatalogue().get(i), 0.2*this.quantiteEnVente(this.getCatalogue().get(i)));
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
+		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
+
+
 	}
 
 	//thomas
+	//remets les quantités à 0 à chaque début de tour
 	public void next() {
 		super.next();
 		this.quantiteTotaleVendue=0;
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
 		}
+		for (Variable indic : this.getIndicateurs()) {
+			if (indic.getNom().equals("Pourcentage Tete de Gondole")) {
+					indic.setValeur(this, quantiteEnVenteTG()/quantiteEnVente());
+			}
+		}
 
-	}//méthode next qui remets les quantités à 0
+
+	}
 
 
 	//thomas
@@ -136,6 +150,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
 			this.quantiteTotaleVendue+=quantite;
 			this.quantiteChocoVendue.put(choco, quantite);
+			journalVentes.ajouter("vente de "+quantite+" "+choco.name()+" a "+client.getNom()+" pour un prix de "+ montant);
+			
 		}//on retire du stock ce qui a été vendu, on note ca dans l'historique et on ajoute la quantite à quantiteVendue
 	}// on actualise aussi quantiteChocoVendue
 
@@ -155,6 +171,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 
 	}
+	
 
 }
 
