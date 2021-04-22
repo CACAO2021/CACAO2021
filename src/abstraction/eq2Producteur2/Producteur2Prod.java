@@ -87,8 +87,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		int step = Filiere.LA_FILIERE.getEtape();
 		for (Stock s : arbrePlantesHBE) {
 			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				System.out.println("renou");
+				s.setStep(step); // on change le step de l'arbre pour simuler le fait quil soit replanté
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
 			}}
 		for (Stock s : arbrePlantesHE) {

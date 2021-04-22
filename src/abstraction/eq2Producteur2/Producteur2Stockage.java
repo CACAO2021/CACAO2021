@@ -241,7 +241,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	 * @author Maxime Boillot
 	 * on retire tous les léléments périmés de la liste 
 	 */
-	public void verifPeremption() {
+	public void verifPeremption() {// sans cette fonction le stock augmente indéfiniement
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
 			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
 			for (Stock st:this.stockFeveHBE) {
