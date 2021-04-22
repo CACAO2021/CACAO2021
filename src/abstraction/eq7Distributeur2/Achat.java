@@ -309,7 +309,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	public double moyennePrixChoco(ChocolatDeMarque choco) {
 		LinkedList<Double> liste = this.prixParChocolat.get(choco);
-		return this.getMoyenne(liste);
+		return liste == null ? 0.0 : this.getMoyenne(liste);
 	}
 	
 
