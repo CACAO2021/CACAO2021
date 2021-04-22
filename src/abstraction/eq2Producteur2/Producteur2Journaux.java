@@ -9,6 +9,8 @@ import abstraction.fourni.Variable;
 
 public abstract class Producteur2Journaux extends Producteur2Acteur {
 	protected Journal JournalProd, JournalVente;
+	
+	// ensemble fait par DIM
 
 	public Producteur2Journaux() {
 		super();

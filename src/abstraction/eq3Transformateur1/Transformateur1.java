@@ -27,4 +27,7 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 	public void initialiser() {
 		this.setSupCCadre();
 	}
+	public String toString() {
+		return this.getNom();
+	}
 }

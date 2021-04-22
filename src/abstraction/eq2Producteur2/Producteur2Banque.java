@@ -8,7 +8,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		super();
 	}
 
-
+	// DIM
 	public void perdreArgent(double montant) {
 		Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
 	}

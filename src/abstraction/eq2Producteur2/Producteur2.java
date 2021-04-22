@@ -1,5 +1,6 @@
 package abstraction.eq2Producteur2;
 
+//DIM
 
 public class Producteur2 extends Producteur2Param  {
 
@@ -11,6 +12,7 @@ public class Producteur2 extends Producteur2Param  {
 		initJournaux();
 	}
 	
+	//DIM
 	public void next() {
 		majJournaux();
 		// faire fonction probleme : intemperie,...
@@ -20,4 +22,12 @@ public class Producteur2 extends Producteur2Param  {
 		verifPeremption();
 		coutStockage();
 	}
+
+
+	@Override
+	public String toString() {
+		return "Producteur2, " + getNom() ;
+	}
+	
+
 }
