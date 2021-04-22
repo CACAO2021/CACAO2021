@@ -13,7 +13,16 @@ import abstraction.fourni.IMarqueChocolat;
 
 public class ExempleTransformateurContratCadreVendeurWS extends ExempleTransformateurContratCadre implements IVendeurContratCadre,IFabricantChocolatDeMarque,IMarqueChocolat{
 
-
+/*
+ * ---------------------------------
+ * Fait par Elio Granger
+ * ---------------------------------
+ * 
+ * Recopie d'une partie du code fourni mais implémentation de 
+ * "IFabricantChocolatDeMarque,IMarqueChocolat"
+ * pour que l'acteur vende des chocolats de marque
+ * 
+ */
 			protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 			
 			public ExempleTransformateurContratCadreVendeurWS(Object produit) {
@@ -82,6 +91,10 @@ public class ExempleTransformateurContratCadreVendeurWS extends ExempleTransform
 			public boolean peutVendre(Object produit) {
 				return super.produit.equals(produit);
 			}
+			
+			//----------------------//
+			//Partie ajoutée :      //
+			//----------------------//
 
 			@Override
 			public List<ChocolatDeMarque> getChocolatsProduits() {
