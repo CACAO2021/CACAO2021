@@ -9,8 +9,12 @@ import java.util.List;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
-import abstraction.fourni.Journal;
-import abstraction.fourni.Variable;
+
+
+
+//----------------------//
+//fait par Elio Granger //
+//----------------------//
 
 public abstract class AbsDistributeur2 {
 	
@@ -44,10 +48,14 @@ public abstract class AbsDistributeur2 {
 		public Color warningColor = Color.ORANGE;
 		public Color behaviorColor = Color.BLUE;
 	
+		
+		
+	// Nous cherchons les marques de chocolat dans la filière qui correspondent aux types de chocolat que nous proposons
+	// pour créer notre catalogue
+		
 		public void initialiserCatalogue() {
 			for(Chocolat nosChocolats : this.chocolatPropose) {
 				for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
-					//System.out.println(chocolatDeLaFiliere.name());
 					if(chocolatDeLaFiliere.getChocolat().toString().equals(nosChocolats.name())) {
 						catalogue.add(chocolatDeLaFiliere);
 					}
@@ -56,6 +64,9 @@ public abstract class AbsDistributeur2 {
 			}
 			
 		}
+		
+		
+	// Nous créons une liste de marge pour chaque type de chocolat proposés dans l'odre de la liste "chocolatPropose" plus haut
 		
 		public void initialiserMarges() {
 			ArrayList<Double> valeurs = new ArrayList<>(Arrays. asList(0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2));
