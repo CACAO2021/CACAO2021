@@ -32,7 +32,7 @@ public enum Chocolat {
 	}
 	public Categorie getCategorie() {
 		return this.categorie;
-	}			
+	}
 	public Gamme getGamme() {
 		return this.gamme;
 	}
