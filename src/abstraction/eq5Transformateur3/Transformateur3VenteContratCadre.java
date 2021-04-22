@@ -8,6 +8,7 @@ import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
@@ -37,31 +38,12 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 
 	@Override
 	public boolean vend(Object produit) {
-<<<<<<< HEAD
 		if (!this.getChocolats().keySet().contains(produit)) {
-=======
-		Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
-		System.out.println(produit);
-		if (!this.getChocolatsProduits().contains(produit)) {
-			System.out.println("false");
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 			return false;
 		}
-<<<<<<< HEAD
 		if (this.getChocolats().get(produit).getValeur()>0) {
 			return true;}
-		else { return false;}
-=======
-		else if(this.getChocolats().get(choco).getValeur()>0){
-			System.out.println("true");
-			return true;
-		}
-		else { 
-			System.out.println("false2");
-			return false;}
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
-
-	}
+		else { return false; }}
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {

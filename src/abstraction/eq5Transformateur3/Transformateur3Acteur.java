@@ -5,8 +5,13 @@ package abstraction.eq5Transformateur3;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
+import abstraction.eq8Romu.contratsCadres.Echeancier;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 
 import abstraction.eq8Romu.produits.Feve;
@@ -88,6 +93,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(transfo)*coefficient_transformation.getValeur()/1000); }
+	
 		
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
 		if(feve.getValeur()-100>0) { //garder au minimum 100kg
@@ -96,10 +102,16 @@ public abstract class Transformateur3Acteur implements IActeur {
 			this.ajouter(Chocolat.TABLETTE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); 
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*((transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur())/1000);
-		}
-	}
-
-	
+		} 
+		
+		SuperviseurVentesContratCadre SupCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
+		if(feve.getValeur()<this.stock_min_feves.getValeur()) {
+			IVendeurContratCadre vendeur = null;
+			List<IVendeurContratCadre> vendeurs = SupCCadre.getVendeurs(Feve.FEVE_MOYENNE);
+			vendeur=vendeurs.get(0);
+			SupCCadre.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); }
+	} 
 
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
