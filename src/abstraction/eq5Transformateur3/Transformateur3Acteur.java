@@ -109,7 +109,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		if(feve.getValeur()<this.stock_min_feves.getValeur()) {
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre.getVendeurs(Feve.FEVE_MOYENNE);
-			vendeur=vendeurs.get(0);
+			vendeur=vendeurs.get(0); //prend le premier vendeur de la liste...à modifier
 			SupCCadre.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); }
 	} 
 
