@@ -159,11 +159,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	//supprime les contrats caduques
 	public void mettreAJourContrats() {
+		List<ExemplaireContratCadre> aSupprimer = new LinkedList<ExemplaireContratCadre>();
 		for(ExemplaireContratCadre contrat : contrats) {
 			if(contrat.getMontantRestantARegler() == 0 && contrat.getQuantiteRestantALivrer() == 0) {
-				contrats.remove(contrat);
+				aSupprimer.add(contrat);
 			}
-		}
+		}contrats.removeAll(aSupprimer);
 	}
 	
 	
