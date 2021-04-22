@@ -93,12 +93,9 @@ public class Business {
 		}
 	}
 	
-	public void venteDeChocolat() {
-
-	}
 	
 	public List<Variable> getIndicateurs() {;
-	return this.indicateurs;
+		return this.indicateurs;
 }
 	
 	public void setIndicateurs() {
