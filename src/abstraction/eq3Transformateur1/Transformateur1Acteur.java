@@ -83,12 +83,6 @@ public class Transformateur1Acteur implements IActeur {
 	public void ecritureJournalTresorie(String s) {
 		this.journalTresorie.ajouter(s);
 	}
-	public String toString(){
-		return this.getNom();
-	}
-	
-
-
 	
 	
 	public List<String> getNomsFilieresProposees() {

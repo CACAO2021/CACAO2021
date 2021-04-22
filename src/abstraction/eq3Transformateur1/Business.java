@@ -24,46 +24,12 @@ public class Business {
 	
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 	protected List<ExemplaireContratCadre> mesContratEnTantQueAcheteur;
-	private Variable prixVenteTabletteBasse;
-	private Variable prixVenteTabletteMoyenne;
-	private Variable prixVenteTabletteMoyenneEquitable;
-	private Variable prixVenteTabletteHauteEquitable;
-	private Variable prixVenteTabletteHauteBioEquitable;
-	
-	private Variable prixVenteConfiserieBasse;
-	private Variable prixVenteConfiserieMoyenne;
-	private Variable prixVenteConfiserieMoyenneEquitable;
-	private Variable prixVenteConfiserieHauteEquitable;
-	private Variable prixVenteConfiserieHauteBioEquitable;
-	
-	private Variable prixVentePoudreBasse;
-	private Variable prixVentePoudreMoyenne;
-	private Variable prixVentePoudreMoyenneEquitable;
-	private Variable prixVentePoudreHauteEquitable;
-	private Variable prixVentePoudreHauteBioEquitable;
+
 	
 	
 	public Business(Stock stock) {
 		this.stock = stock;
-		
-		this.prixVenteConfiserieBasse = new Variable(this.getStock().getActeur().getNom() + " prixVenteConfiserieBasse au KG", this.getStock().getActeur(), 0);
-		this.prixVenteConfiserieMoyenne = new Variable(this.getStock().getActeur().getNom() + "prixVenteConfiserieMoyenne au KG", this.getStock().getActeur(), 0);
-		this.prixVenteConfiserieMoyenneEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVenteConfiserieMoyenneEquitable au KG", this.getStock().getActeur(), 0);
-		this.prixVenteConfiserieHauteEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVenteConfiserieHauteEquitable au KG", this.getStock().getActeur(), 0);
-		this.prixVenteConfiserieHauteBioEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVenteConfiserieHauteBioEquitable au KG", this.getStock().getActeur(), 0);
-		
-		this.prixVenteTabletteBasse = new Variable(this.getStock().getActeur().getNom() + "prixVenteTabletteBasse au KG", this.getStock().getActeur(), 0);
-		this.prixVenteTabletteMoyenne = new Variable(this.getStock().getActeur().getNom() + "prixVenteTabletteMoyenne au KG", this.getStock().getActeur(), 0);
-		this.prixVenteTabletteMoyenneEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVenteTabletteMoyenneEquitable au KG", this.getStock().getActeur(), 0);
-		this.prixVenteTabletteHauteEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVenteTabletteHauteEquitable au KG", this.getStock().getActeur(), 0);
-		this.prixVenteTabletteHauteBioEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVenteTabletteHauteBioEquitable au KG", this.getStock().getActeur(), 0);
-		
-		this.prixVentePoudreBasse = new Variable(this.getStock().getActeur().getNom() + "prixVentePoudreBasse au KG", this.getStock().getActeur(), 0);
-		this.prixVentePoudreMoyenne = new Variable(this.getStock().getActeur().getNom() + "prixVentePoudreMoyenne au KG", this.getStock().getActeur(), 0);
-		this.prixVentePoudreMoyenneEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVentePoudreMoyenneEquitable au KG", this.getStock().getActeur(), 0);
-		this.prixVentePoudreHauteEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVentePoudreHauteEquitable au KG", this.getStock().getActeur(), 0);
-		this.prixVentePoudreHauteBioEquitable = new Variable(this.getStock().getActeur().getNom() + "prixVentePoudreHauteBioEquitable au KG", this.getStock().getActeur(), 0);
-		
+
 		this.indicateurs = new ArrayList<Variable>();
 		
 		this.indicateurs.add(0,new Variable(this.getStock().getActeur().getNom() + " Stock fève basse qualité", this.getStock().getActeur(), 0));
