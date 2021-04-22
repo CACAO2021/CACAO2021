@@ -7,6 +7,16 @@ import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 
+//----------------------//
+//fait par Elio Granger //
+//----------------------//
+
+/*
+ * 
+ * Filiere pour tester l'achat de contrats cadres et la vente au client final
+ * 
+ */
+
 public class FiliereTestContratCadreWS extends Filiere{
 	
 	private SuperviseurVentesContratCadre superviseurCC;
