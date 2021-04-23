@@ -165,7 +165,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);
 					}
 				}
-			}
+			} 
 		}
 		super.next();
 	}
