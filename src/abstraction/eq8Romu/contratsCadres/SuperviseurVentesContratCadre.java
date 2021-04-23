@@ -168,6 +168,10 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	public void gererLesEcheancesDesContratsEnCours() {
 		this.journal.ajouter("Step "+Filiere.LA_FILIERE.getEtape()+" GESTION DES ECHEANCES DES CONTRATS EN COURS ========");
 		for (ContratCadre cc : this.contratsEnCours) {
+			Banque banque = Filiere.LA_FILIERE.getBanque();
+			if ((banque.aFaitFaillite(cc.getVendeur()) || banque.aFaitFaillite(cc.getAcheteur()) || (cc.getMontantRestantARegler()==0.0 && cc.getQuantiteRestantALivrer()==0.0)) ){
+			this.journal.ajouter(Color.white,Color.RED, "gestion d'un contrat qui aurait du etre archive");	
+			} else {	
 			this.journal.ajouter("- contrat :"+cc.oneLineHtml());
 			double aLivrer = cc.getQuantiteALivrerAuStep();
 			if (aLivrer>0.0) {
@@ -187,7 +191,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 			double aPayer = cc.getPaiementAEffectuerAuStep();
 			if (aPayer>0.0) {
 				IAcheteurContratCadre acheteur = cc.getAcheteur();
-				Banque banque = Filiere.LA_FILIERE.getBanque();
+				//Banque banque = Filiere.LA_FILIERE.getBanque();
 				boolean virementOk = banque.virer(acheteur, cc.getCryptogramme(), cc.getVendeur(),aPayer);
 				double effectivementPaye = virementOk ? aPayer : 0.0; 
 				this.journal.ajouter("  a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
@@ -196,6 +200,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 				}
 			} else {
 				this.journal.ajouter("- rien a payer a cette etape");
+			}
 			}
 		}		
 	}
