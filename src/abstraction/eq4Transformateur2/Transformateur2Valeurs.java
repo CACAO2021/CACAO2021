@@ -32,8 +32,8 @@ public class Transformateur2Valeurs {
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
-	protected double mini_stock_bas;
-	protected double mini_stock_moyen;
+	protected double mini_stock_bas = 10000.0;
+	protected double mini_stock_moyen = 10000.0;
 	
 
 	protected static double cout_stockage_unite_feve = 0.006;
