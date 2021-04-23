@@ -10,8 +10,8 @@ import java.util.Set;
 import control.CtrlDecouvertAutorise;
 
 public class Banque implements IActeur {
-	public static final double SOLDE_MAX = 1000000000;
-	public static final double SOLDE_INITIAL = 1000000;
+	public static final double SOLDE_MAX =    100000000000.0;
+	public static final double SOLDE_INITIAL = 10000000000.0;
 	private HashMap<IActeur, Variable> comptes; // Memorise le solde bancaire de chaque acteur
 	private HashMap<IActeur, Integer> decouvertsConsecutifs; // Memorise le nombre d'etapes consecutives a decouvert. Revient a 0 des que le solde redevient positif.  
 	private HashMap<IActeur, Integer> cryptogramme; // Nombre personnel a chaque acteur, a communiquer pour avoir la permission d'effectuer une operation sur le compte 
