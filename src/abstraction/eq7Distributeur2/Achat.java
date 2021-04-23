@@ -253,32 +253,33 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			this.prixChocolat.add(contrat.getPrix());
 			this.prixParChocolat.put(choco, this.prixChocolat);
 			return contrat.getPrix();
-		}else {
+		}
+		else {
 		
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		//On compare le prix d'achat par rapport au prix d'achat moyen de ce produit : si trop différent on demande moins cher
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
 		
-		if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction(prix + paiements)) {
-			wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
-			return contrat.getPrix()*0.90;
-		}
+			if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction(prix + paiements)) {
+				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
+				return contrat.getPrix()*0.90;
+			}
 		
-		else {
-			//les comptes sont suffisants pour accepter le contrat tel quel, la contre proposition reste inchangée
-			//De plus, la proposition est convenable par rapport au prix moyen du produit : on achète
-			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
-			contrats.add(contrat);
-			//on ajoute le contrat aux contrats signés
+			else {
+				//les comptes sont suffisants pour accepter le contrat tel quel, la contre proposition reste inchangée
+				//De plus, la proposition est convenable par rapport au prix moyen du produit : on achète
+				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
+				contrats.add(contrat);
+				//on ajoute le contrat aux contrats signés
 			
 		
-			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
-			this.prixChocolat = this.prixParChocolat.get(choco);
-			this.prixChocolat.add(contrat.getPrix());
-			this.prixParChocolat.put(choco, this.prixChocolat);
-			return contrat.getPrix();
-		}
+				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+				this.prixChocolat = this.prixParChocolat.get(choco);
+				this.prixChocolat.add(contrat.getPrix());
+				this.prixParChocolat.put(choco, this.prixChocolat);
+				return contrat.getPrix();
+			}
 		}
 
 		
