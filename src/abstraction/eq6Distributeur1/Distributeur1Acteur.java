@@ -3,55 +3,26 @@ package abstraction.eq6Distributeur1;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
-import abstraction.eq8Romu.contratsCadres.Echeancier;
-import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
-import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
-import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Distributeur1Acteur implements IActeur {
-	
+
 	protected int cryptogramme;
 	List<Variable> parametres = new ArrayList<Variable>();
 	List<Variable> indicateurs = new ArrayList<Variable>();
 	List<Journal> journaux  = new ArrayList<Journal>();
-	public Color titleColor = Color.BLACK;
-	public Color descriptionColor = Color.ORANGE;
-	public Color warningColor = Color.YELLOW;
 	Journal operationBancaire;
-	
-	/*protected Journal journalVentes, journalStocks, journalAchats;
-	
-	public void initialisationJournaux() {
 
 
-		
-		journalVentes = new Journal("Registre des ventes", this);
-		journalVentes.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Journal des ventes"));
-		journalVentes.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les ventes de produits"));
-		
-		
-		journalAchats = new Journal("Registre des achats ", this);
-		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Journal des acahats"));
-		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
-		
-
-		journalStocks= new Journal("Registre des Stocks ", (IActeur)this);
-		journalStocks.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ6 : Gestion des Stocks"));
-		journalStocks.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal regroupe toutes les variations du Stock"));
-
-	}*/
-	
 
 	public Distributeur1Acteur() {
 		this.operationBancaire = new Journal("Cacaocaisse : toutes les opération bancaires", this);
 	}
-	
-	
+
+
 	public String getNom() {
 
 		return "EQ6";
@@ -71,10 +42,10 @@ public class Distributeur1Acteur implements IActeur {
 	}
 
 	public void next() {
-		
+
 	}
 
-	
+
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
@@ -93,7 +64,7 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
-		
+
 		return parametres;
 	}
 
@@ -116,9 +87,9 @@ public class Distributeur1Acteur implements IActeur {
 	// quand la banque fait un dépot ou un retrait cette methode est appelée avec le montant en param, pour si on veut l'utiliser pour quelque chose
 	public void notificationOperationBancaire(double montant) {
 		operationBancaire.ajouter("nouveau virement de "+ montant);
-		
+
 	}
-	
+
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
