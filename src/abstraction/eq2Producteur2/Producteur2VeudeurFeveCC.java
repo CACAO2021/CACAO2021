@@ -150,7 +150,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			}		
 			boolean cond2 = e.getQuantiteTotale() < qtt;
 			if(cond2) {				
-				return e;
+				return e; 
 			} else { //on ne souhaite pas vendeur donc on retourne null
 			return null; 
 		}}
