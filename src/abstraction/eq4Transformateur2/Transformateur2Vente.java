@@ -115,6 +115,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		return livre;
 	}
 	
+	/*
 	public void next() {
 		LinkedList<ExemplaireContratCadre> contratsObsoletes=new LinkedList<ExemplaireContratCadre>();
 		for (ExemplaireContratCadre contrat : this.contrats) {
@@ -124,6 +125,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		}
 		this.contrats.removeAll(contratsObsoletes);
 	}
+	*/
 	
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		Object choco = contrat.getProduit();
