@@ -217,9 +217,9 @@ public class SuperviseurVentesContratCadre implements IActeur {
 
 	public void next() {
 		//		etablirDeNouveauxContrats();
+		archiverContrats();
 		recapitulerContratsEnCours();
 		gererLesEcheancesDesContratsEnCours();
-		archiverContrats();
 	}
 
 	public String getDescription() {

@@ -22,6 +22,7 @@ public class Distributeur1Acteur implements IActeur {
 	public Color titleColor = Color.BLACK;
 	public Color descriptionColor = Color.ORANGE;
 	public Color warningColor = Color.YELLOW;
+	Journal operationBancaire;
 	
 	/*protected Journal journalVentes, journalStocks, journalAchats;
 	
@@ -47,6 +48,7 @@ public class Distributeur1Acteur implements IActeur {
 	
 
 	public Distributeur1Acteur() {
+		this.operationBancaire = new Journal("Cacaocaisse : toutes les opération bancaires", this);
 	}
 	
 	
@@ -65,6 +67,7 @@ public class Distributeur1Acteur implements IActeur {
 
 
 	public void initialiser() {
+		journaux.add(operationBancaire);
 	}
 
 	public void next() {
@@ -112,6 +115,8 @@ public class Distributeur1Acteur implements IActeur {
 
 	// quand la banque fait un dépot ou un retrait cette methode est appelée avec le montant en param, pour si on veut l'utiliser pour quelque chose
 	public void notificationOperationBancaire(double montant) {
+		operationBancaire.ajouter("nouveau virement de "+ montant);
+		
 	}
 	
 	// Renvoie le solde actuel de l'acteur
