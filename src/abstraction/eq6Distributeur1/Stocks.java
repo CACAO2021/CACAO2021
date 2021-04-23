@@ -69,7 +69,7 @@ public class Stocks extends Distributeur1Acteur{
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 
-			stock.put(choco, new Variable(choco.toString(),this,5000.));
+			stock.put(choco, new Variable(choco.toString(),this,500000.));
 			stockTG.put(choco, new Variable(choco.toString(),this,0.));
 
 		}
