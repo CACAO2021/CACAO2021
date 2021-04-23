@@ -152,7 +152,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			if(cond2) {				
 				return e;
 			} else { //on ne souhaite pas vendeur donc on retourne null
-			return null;
+			return null; 
 		}}
 
 	}
