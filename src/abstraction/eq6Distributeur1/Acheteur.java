@@ -138,7 +138,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) {
 					if (produitTG.contains(produit)) {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, true);
-						System.out.println("vente tg");
+						//System.out.println("vente tg");
 					}
 					else {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);

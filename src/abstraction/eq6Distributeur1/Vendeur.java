@@ -124,6 +124,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
 		if (choco!=null && this.stockTG.get(choco)!=null) {
 			return this.stockTG.get(choco).getValeur();
+			
 		}
 		else {
 			return 0;
