@@ -143,6 +143,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
+			System.out.println(choco + " : " + besoinsChoco.get(choco).getValeur());
 		}
 	}
 	
@@ -180,9 +181,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 				//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
+				
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 			}
 		}
 	}
@@ -200,9 +202,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				
 				
 				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, quantiteTG/5);
+				
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre en TG :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 
 				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), true);
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre en TG :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 			}
 		}
 	}
