@@ -159,11 +159,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	//supprime les contrats caduques
 	public void mettreAJourContrats() {
+		List<ExemplaireContratCadre> aSupprimer = new LinkedList<ExemplaireContratCadre>();
 		for(ExemplaireContratCadre contrat : contrats) {
 			if(contrat.getMontantRestantARegler() == 0 && contrat.getQuantiteRestantALivrer() == 0) {
-				contrats.remove(contrat);
+				aSupprimer.add(contrat);
 			}
-		}
+		}contrats.removeAll(aSupprimer);
 	}
 	
 	
@@ -306,7 +307,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	public double moyennePrixChoco(ChocolatDeMarque choco) {
 		LinkedList<Double> liste = this.prixParChocolat.get(choco);
-		return this.getMoyenne(liste);
+		return liste == null ? 0.0 : this.getMoyenne(liste);
 	}
 	
 

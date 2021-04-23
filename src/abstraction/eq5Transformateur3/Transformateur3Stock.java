@@ -78,5 +78,7 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 	public HashMap<Feve, Variable> getFeves() {
 		return feves;
 	}
+
+	
 	
 }
