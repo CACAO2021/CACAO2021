@@ -12,11 +12,12 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 public class Stocks extends Distributeur1Acteur{
-	
-	
+
+
 	protected Map<ChocolatDeMarque, Variable> stock; // tout les stocks, y compris le contenu de stockTG
 	protected Map<ChocolatDeMarque, Double> prix;
 	protected Map<ChocolatDeMarque,Variable> stockTG;
+
 
 	//Louis
 	public Stocks() {
@@ -24,9 +25,10 @@ public class Stocks extends Distributeur1Acteur{
 		this.stock=new HashMap<ChocolatDeMarque, Variable>(); 
 		this.prix=new HashMap<ChocolatDeMarque, Double>();
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>(); 
-		
+
 	}
-	
+
+
 	//Louis
 	public void ajouterStock(ChocolatDeMarque produit, double quantite, boolean tg) {
 		if (tg) {
@@ -35,12 +37,15 @@ public class Stocks extends Distributeur1Acteur{
 		stock.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
 
 	}
-	
+
+
+
 	//Louis
 	public void setPrix(ChocolatDeMarque choco, double prix) {
 		this.prix.put(choco, prix);
 	}
-	
+
+
 
 	//Louis
 	public void initialiser() {
@@ -52,19 +57,23 @@ public class Stocks extends Distributeur1Acteur{
 			this.indicateurs.add(stock.get(choco));
 		}
 	}
-	
+
+
+
 	//Louis
 	public void next() {
 		super.next();
 		for (ChocolatDeMarque choco : stock.keySet()) { 
 			for (Variable indic : this.getIndicateurs()) {
 				if (indic.equals(stock.get(choco))) {
-						indic.setValeur(this, stock.get(choco).getValeur());
+					indic.setValeur(this, stock.get(choco).getValeur());
 				}
 			}
 		}
 	}
-	
+
+
+
 	//Louis
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
@@ -74,6 +83,8 @@ public class Stocks extends Distributeur1Acteur{
 
 		}
 	}
+
+
 
 	//Louis
 	public void initPrix() {
@@ -127,12 +138,12 @@ public class Stocks extends Distributeur1Acteur{
 
 			}
 		}
-		
+
 	}
 
 }
-	
 
-	
-	
+
+
+
 
