@@ -207,6 +207,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			vente(quantite, produit);
 			return quantite;
 		}else {
+			vente(stock, produit);
 			return stock;
 		}
 	}
