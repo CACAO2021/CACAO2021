@@ -20,6 +20,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	private Journal journal, journalEcheances;
 	private List<ContratCadre> contratsEnCours;
 	private List<ContratCadre> contratsTermines;
+	private Integer crypto;
 	//	private long cryptogramme;
 
 
@@ -178,9 +179,16 @@ public class SuperviseurVentesContratCadre implements IActeur {
 				this.journalEcheances.ajouter("- contrat :"+cc.oneLineHtml());
 				double aLivrer = cc.getQuantiteALivrerAuStep();
 				if (aLivrer>0.0) {
+					if (cc.getEcheancier().getStepFin()<Filiere.LA_FILIERE.getEtape()-24) {
+						this.journal.ajouter(Color.RED, Color.white,""+cc.getVendeur()+" fait faillite car il n'a pas honore ses echeances 24 etapes apres la fin du contrat");
+						banque.faireFaillite(cc.getVendeur());
+					}					
 					IVendeurContratCadre vendeur = cc.getVendeur();
 					double effectivementLivre = vendeur.livrer(cc.getProduit(), aLivrer, new ExemplaireContratCadre(cc));
 					this.journalEcheances.ajouter("  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
+					if (aLivrer!=effectivementLivre) {
+						this.journal.ajouter("Defaut de livraison de "+cc.getVendeur()+" :  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
+					}
 					if (effectivementLivre>0.0) {
 						IAcheteurContratCadre acheteur = cc.getAcheteur();
 						acheteur.receptionner(cc.getProduit(), effectivementLivre, new ExemplaireContratCadre(cc));
@@ -204,6 +212,9 @@ public class SuperviseurVentesContratCadre implements IActeur {
 					boolean virementOk = banque.virer(acheteur, cc.getCryptogramme(), cc.getVendeur(),aPayer);
 					double effectivementPaye = virementOk ? aPayer : 0.0; 
 					this.journalEcheances.ajouter("  a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
+					if (aPayer!=effectivementPaye) {
+						this.journal.ajouter("Defaut de paiement de "+cc.getAcheteur()+" : a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
+					}
 					if (effectivementPaye>0.0) {
 						cc.payer(effectivementPaye);
 					}
@@ -226,7 +237,15 @@ public class SuperviseurVentesContratCadre implements IActeur {
 		Banque banque = Filiere.LA_FILIERE.getBanque();
 		List<ContratCadre> aArchiver = new ArrayList<ContratCadre>();
 		for (ContratCadre cc : this.contratsEnCours) {
-			if (banque.aFaitFaillite(cc.getVendeur()) || banque.aFaitFaillite(cc.getAcheteur()) || (cc.getMontantRestantARegler()==0.0 && cc.getQuantiteRestantALivrer()==0.0)) {
+			if (banque.aFaitFaillite(cc.getVendeur()) && !banque.aFaitFaillite(cc.getAcheteur()) && cc.getQuantiteRestantALivrer()>0.0) {
+				cc.getAcheteur().receptionner(cc.getProduit(), cc.getQuantiteRestantALivrer(), new ExemplaireContratCadre(cc));
+				this.journal.ajouter("livraison de "+cc.getQuantiteRestantALivrer()+" "+cc.getProduit()+" a "+cc.getAcheteur()+" suite a la faillite de "+cc.getVendeur());
+				aArchiver.add(cc);
+			} else if (!banque.aFaitFaillite(cc.getVendeur()) && banque.aFaitFaillite(cc.getAcheteur()) && cc.getMontantRestantARegler()>0.0) {
+				banque.virer(this, this.crypto, cc.getVendeur(),cc.getMontantRestantARegler());
+				this.journal.ajouter("paiement de "+cc.getMontantRestantARegler()+" a "+cc.getVendeur()+" suite a la faillite de "+cc.getAcheteur());
+				aArchiver.add(cc);
+			} else if (banque.aFaitFaillite(cc.getVendeur()) || banque.aFaitFaillite(cc.getAcheteur()) || (cc.getMontantRestantARegler()==0.0 && cc.getQuantiteRestantALivrer()==0.0)) {
 				aArchiver.add(cc);
 			}
 		}
@@ -276,6 +295,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	}
 
 	public void setCryptogramme(Integer crypto) {
+		this.crypto=crypto;
 	}
 
 	public void notificationFaillite(IActeur acteur) {
