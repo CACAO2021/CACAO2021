@@ -186,7 +186,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				return minAcceptee(produit);
 		}}
 	}
-
+ 
 	@Override
 	//Dim
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
