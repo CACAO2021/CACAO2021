@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import abstraction.eq8Romu.contratsCadres.ContratCadre;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
+import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
@@ -110,16 +112,19 @@ public abstract class Transformateur3Acteur implements IActeur {
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre1.getVendeurs(Feve.FEVE_MOYENNE);
 			vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend le premier vendeur de la liste...à modifier
-			SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); }
+			ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); 
+			this.JournalAchatContratCadre.ajouter(contratCadre.toString());
+		}
 		
-		SuperviseurVentesContratCadre SupCCadre2 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		//SuperviseurVentesContratCadre SupCCadre2 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		feve=this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		if(feve.getValeur()<this.stock_min_feves.getValeur()) {
 			IVendeurContratCadre vendeur = null;
-			List<IVendeurContratCadre> vendeurs = SupCCadre2.getVendeurs(Feve.FEVE_MOYENNE);
+			List<IVendeurContratCadre> vendeurs = SupCCadre1.getVendeurs(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 			vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend le premier vendeur de la liste...à modifier
-			SupCCadre2.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); }
-	
+			ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false);
+			this.JournalAchatContratCadre.ajouter(contratCadre.toString());
+		}
 	
 	
 	} 
