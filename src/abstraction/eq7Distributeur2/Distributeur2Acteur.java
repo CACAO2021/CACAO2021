@@ -243,17 +243,17 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
-		return this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat());
+		return this.marges.keySet().contains(choco.getChocolat()) ? this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat()) : Double.MAX_VALUE;
 	}
 
 	//On considere que tout le stock d'un produit est en vente
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		return (this.stocks.getStockChocolatDeMarque(choco));
+		return (this.stocks.getStockChocolatDeMarque(choco))<0.0 ? 0.0 : (this.stocks.getStockChocolatDeMarque(choco));
 	}
 
 	@Override
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		return this.stocks.getQuantiteChocoEnTG(choco);
+		return this.stocks.getQuantiteChocoEnTG(choco)<0.0 ? 0.0 : this.stocks.getQuantiteChocoEnTG(choco);
 	}
 
 	
