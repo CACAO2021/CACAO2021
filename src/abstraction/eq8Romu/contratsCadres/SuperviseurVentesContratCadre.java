@@ -185,7 +185,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 					}					
 					IVendeurContratCadre vendeur = cc.getVendeur();
 					double effectivementLivre = vendeur.livrer(cc.getProduit(), aLivrer, new ExemplaireContratCadre(cc));
-					this.journalEcheances.ajouter("  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
+					this.journalEcheances.ajouter(Color.WHITE, (aLivrer==effectivementLivre?Color.BLACK:Color.RED),"  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
 					if (aLivrer!=effectivementLivre) {
 						this.journal.ajouter("Defaut de livraison de "+cc.getVendeur()+" :  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
 					}
@@ -211,7 +211,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 					//Banque banque = Filiere.LA_FILIERE.getBanque();
 					boolean virementOk = banque.virer(acheteur, cc.getCryptogramme(), cc.getVendeur(),aPayer);
 					double effectivementPaye = virementOk ? aPayer : 0.0; 
-					this.journalEcheances.ajouter("  a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
+					this.journalEcheances.ajouter(Color.WHITE, (aPayer==effectivementPaye?Color.BLACK:Color.RED),"  a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
 					if (aPayer!=effectivementPaye) {
 						this.journal.ajouter("Defaut de paiement de "+cc.getAcheteur()+" : a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
 					}
