@@ -178,6 +178,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				}
 				if (this.stockFeveHBE.size() == 0) {
 					System.out.println("y a pb, on a plus de stock");
+					break;
 				}
 			}							
 		} else if (estFeveHE(produit)) {
@@ -195,6 +196,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveHE.get(0).getQtt() ;
 					this.stockFeveHE.remove(0);
 				}
+				if (this.stockFeveHE.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}
 			//System.out.println(qttTotale(produit).getValeur());
 		}else if (estFeveME(produit)) {
@@ -208,6 +213,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveME.get(0).getQtt() ;
 					this.stockFeveME.remove(0);
 				}
+				if (this.stockFeveME.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estFeveM(produit)) {
 			double q = this.stockFeveM.get(0).getQtt() - qtt;
@@ -219,6 +228,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				} else {
 					q = qtt - this.stockFeveM.get(0).getQtt() ;
 					this.stockFeveM.remove(0);
+				}
+				if (this.stockFeveM.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
 				}
 			}		
 		}else if (estFeveB(produit)) {
@@ -232,6 +245,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveB.get(0).getQtt() ;
 					this.stockFeveB.remove(0);
 				}
+				if (this.stockFeveB.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estPoudreHE(produit)) {
 			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
@@ -244,6 +261,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockPoudreHE.get(0).getQtt() ;
 					this.stockPoudreHE.remove(0);
 				}
+				if (this.stockPoudreHE.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estPoudreM(produit)) {
 			double q = this.stockPoudreM.get(0).getQtt() - qtt;
@@ -255,6 +276,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				} else {
 					q = qtt - this.stockPoudreM.get(0).getQtt() ;
 					this.stockPoudreM.remove(0);
+				}
+				if (this.stockPoudreM.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
 				}
 			}	
 		}else {
