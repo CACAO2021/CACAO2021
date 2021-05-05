@@ -36,10 +36,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			this.prixmax = prixmax;
 		}
 	}
-	
-	
-
-	
 
 	public double getQmin() {
 		return this.quantite.getMin();
@@ -138,8 +134,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 
 	@Override
 	public void notifierVente(PropositionVenteFevesAO proposition) {
-		stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		this.journal.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		Feve feve = proposition.getFeve();
+		this.ajouter(feve, proposition.getQuantiteKg());
+		this.JournalOA.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.getFeves().get(feve).getValeur(), 4));
 	}
 		
 	}
