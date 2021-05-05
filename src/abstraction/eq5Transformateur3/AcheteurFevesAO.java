@@ -40,10 +40,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			this.prixmax = prixmax;
 		}
 	}
-	
+
 	public double getQmin() {
-		return qmin;
-		//return this.quantite.getMin();
+		return this.quantite.getMin();
 	}
 	public double getQmax() {
 		return this.quantite.getMax();
@@ -65,16 +64,16 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 
 	public OffreAchatFeves getOffreAchat() {
-		/*int nb_OA = 0;
+		int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
 					feve = getFeve(chocolat);
 					if(quantite.getValeur()!=0){
-						//this.JournalOA.ajouter("offre d'achat =" + OA);
+						this.JournalOA.ajouter("offre d'achat =" + OA);
 						nb_OA+=1;
-						return null; //OA;
+						return OA;
 					}
 				}
 			}
@@ -93,7 +92,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			if(nb_OA==0){
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
-			}*/
+			}
 			return null;
 	}
 
@@ -129,18 +128,18 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	} 
 
 	@Override
-	public void notifierVente(PropositionVenteFevesAO proposition) {
-		//stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		//this.JournalOAajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
-	}
-
-	@Override
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-		
+
+	@Override
+	public void notifierVente(PropositionVenteFevesAO proposition) {
+		Feve feve = proposition.getFeve();
+		this.ajouter(feve, proposition.getQuantiteKg());
+		this.JournalOA.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.getFeves().get(feve).getValeur(), 4));
 	}
+}
 	
 
 
