@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import abstraction.eq8Romu.produits.Feve;
 /**
  * Classe modelisant un journal. 
  * Un journal sert a garder trace de messages qu'on y depose.
@@ -193,7 +190,7 @@ public class Journal {
 		}
 		nombre=nombre-(long)nombre;
 		for (int d = 0; d<caracteresApresLaVirgule; d++) {
-			apresLaVirgule= apresLaVirgule+(  (int)(hashMap*10.0));
+			apresLaVirgule= apresLaVirgule+(  (int)(nombre*10.0));
 			nombre=nombre*10.0;
 			nombre=nombre-(int)(nombre);
 		}
