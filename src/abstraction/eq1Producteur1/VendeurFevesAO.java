@@ -95,7 +95,7 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 		hist.get(hist.size()-1).set_prixVente(proposition.getMontant());
 
 		this.getStocks().get(proposition.getFeve()).removeQuantite(proposition.getQuantiteKg());//on retire les fèves vendues de notre stock.
-		this.getJournal(2).ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
+		this.getJournal("Ghanao VenteAO").ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
 	}
 
 }
