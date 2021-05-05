@@ -10,7 +10,6 @@ public class FiliereParDefaultTest {
 	@Test
 	public void testNext() {
 		Filiere.LA_FILIERE = null;
-		System.out.println(Filiere.LA_FILIERE.getMois());
 		Filiere.LA_FILIERE = new FiliereParDefaut();
 		Filiere.LA_FILIERE.initialiser();
 		for (int i=0; i<300; i++)
