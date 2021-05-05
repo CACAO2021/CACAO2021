@@ -24,11 +24,11 @@ public class Producteur2et1ValeursEnCommun {
 	public static final int PROD_ARBRE = 6/24;
 	
 	//si on decide de donner des valeurs différentes:
-	public static final int PROD_HBE = 6/24;
-	public static final int PROD_HE = 6/24;
-	public static final int PROD_ME = 6/24; 
-	public static final int PROD_M = 6/24;
-	public static final int PROD_B = 6/24;
+	public static final double PROD_HBE = 6./24.;
+	public static final double PROD_HE = 6./24.;
+	public static final double PROD_ME = 6./24.; 
+	public static final double PROD_M = 6./24.;
+	public static final double PROD_B = 6./24.;
 	
 	// partie transformation
 	public static final double coefHE = 0.4; //(à affiner)
