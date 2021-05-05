@@ -33,6 +33,7 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 			stock_chocolat.replace((Chocolat) o, stock_chocolat.get(o) + quantite);
 		}
 	}
+
 	
 	public void delete_stock(Object o, double quantite) {
 		if (o instanceof Feve) {

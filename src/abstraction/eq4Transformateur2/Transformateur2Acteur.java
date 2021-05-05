@@ -40,20 +40,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		this.cryptogramme = crypto;
 	}
 	
-	public void next() {
-		getIndicateurs().get(0).setValeur(this, stock_feve.get(Feve.FEVE_BASSE));
-		getIndicateurs().get(1).setValeur(this, stock_feve.get(Feve.FEVE_MOYENNE));
-		getIndicateurs().get(2).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_BASSE));
-		getIndicateurs().get(3).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
-		getIndicateurs().get(4).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
-		getIndicateurs().get(5).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), -(cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), -(cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
-
-		// à mettre à la toute fin
-		this.update_echeanciers();
-	}
-	
 	public List<String> getNomsFilieresProposees() {
 		return new ArrayList<String>();
 	}
@@ -65,12 +51,12 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public List<Variable> getIndicateurs() {
 		// on choisit les indicateurs qui nous seront donnés lors de la simu
 		List<Variable> res=new ArrayList<Variable>();
-		res.add(new Variable("STOCK_FEVE_BASSE", this, 0, 100000, stock_feve.get(Feve.FEVE_BASSE)));
-		res.add(new Variable("STOCK_FEVE_MOYENNE", this, 0, 100000, stock_feve.get(Feve.FEVE_MOYENNE)));
-		res.add(new Variable("STOCK_TABLETTE_BASSE", this, 0, 100000, stock_chocolat.get(Chocolat.TABLETTE_BASSE)));
-		res.add(new Variable("STOCK_TABLETTE_MOYENNE", this, 0, 100000, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE)));
-		res.add(new Variable("STOCK_CONFISERIE_BASSE", this, 0, 100000, stock_chocolat.get(Chocolat.CONFISERIE_BASSE)));
-		res.add(new Variable("STOCK_CONFISERIE_MOYENNE", this, 0, 100000, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)));
+		res.add(new Variable("STOCK_FEVE_BASSE", this, 0, 10000000, stock_feve.get(Feve.FEVE_BASSE)));
+		res.add(new Variable("STOCK_FEVE_MOYENNE", this, 0, 10000000, stock_feve.get(Feve.FEVE_MOYENNE)));
+		res.add(new Variable("STOCK_TABLETTE_BASSE", this, 0, 10000000, stock_chocolat.get(Chocolat.TABLETTE_BASSE)));
+		res.add(new Variable("STOCK_TABLETTE_MOYENNE", this, 0, 10000000, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE)));
+		res.add(new Variable("STOCK_CONFISERIE_BASSE", this, 0, 10000000, stock_chocolat.get(Chocolat.CONFISERIE_BASSE)));
+		res.add(new Variable("STOCK_CONFISERIE_MOYENNE", this, 0, 10000000, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)));
 		return res;
 	}
 	
@@ -113,5 +99,19 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		echeancier_basse.set(23, 0.0);
 		echeancier_moyenne.set(23, 0.0);
 		echeancier_total.set(23, 0.0);
+	}
+	
+	public void next() {
+		getIndicateurs().get(0).setValeur(this, stock_feve.get(Feve.FEVE_BASSE));
+		getIndicateurs().get(1).setValeur(this, stock_feve.get(Feve.FEVE_MOYENNE));
+		getIndicateurs().get(2).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_BASSE));
+		getIndicateurs().get(3).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
+		getIndicateurs().get(4).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
+		getIndicateurs().get(5).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
+		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), -(cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
+		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), -(cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
+
+		// à mettre à la toute fin
+		this.update_echeanciers();
 	}
 }
