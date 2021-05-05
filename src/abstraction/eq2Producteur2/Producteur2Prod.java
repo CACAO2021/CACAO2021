@@ -113,7 +113,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			}}
 	}
 	
-	private double prodParStep(Object p) {
+	protected double prodParStep(Object p) {
 		// prod en fonction de la qtt darbre plante
 		//production réfléchie en fct de la demande a faire
 		
