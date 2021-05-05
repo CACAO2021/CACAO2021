@@ -90,7 +90,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.actualiserJournaux();
 		
 		Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		if(feve.getValeur()- 1000>0) { //garder au minimum 1000kg
+		if(feve.getValeur()- 500>0) { //garder au minimum 1000kg
 			double transfo = feve.getValeur()-500;
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
@@ -98,7 +98,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	
 		
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
-		if(feve.getValeur()-1000>0) { //garder au minimum 10000kg
+		if(feve.getValeur()-500>0) { //garder au minimum 10000kg
 			double transfo = feve.getValeur()-500; 
 			this.retirer(Feve.FEVE_MOYENNE, transfo); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
