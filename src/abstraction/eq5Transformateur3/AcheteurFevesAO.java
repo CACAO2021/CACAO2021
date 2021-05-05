@@ -1,5 +1,5 @@
 package abstraction.eq5Transformateur3;
-//Charlott
+//Charlotte
 
 
 import java.awt.Color;
