@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 public abstract class Plantations extends Stocks{
 	
-	private LinkedList<Arbre> arbresmq;
-	private LinkedList<Arbre> arbresmqe;
-	private LinkedList<Arbre> arbresbq;
+	private LinkedList<Arbre> arbresmq; //Création des arbres produisant des fèves moyennes
+	private LinkedList<Arbre> arbresmqe; //Création des arbres produisant des fèves moyenne équitables
+	private LinkedList<Arbre> arbresbq; //Création des arbres produisant des fèves basse qualité
 	
 	public Plantations() {
 		this.arbresmq = new LinkedList<Arbre>();
