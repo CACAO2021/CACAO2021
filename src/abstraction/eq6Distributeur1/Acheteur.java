@@ -143,7 +143,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	//Elsa
 	
 	/**
-	 * Permet de négocier le prix d’achat des produits avec les transformateurs. Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
+	 * Permet de négocier le prix d’achat des produits avec les transformateurs. 
+	 * Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. 
+	 * Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). 
+	 * Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
 	 */
 	
 	@Override
@@ -239,7 +242,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	//Louis
 	
 	/**
-	 * Permet de créer une liste contenant les produits que nous allons mettre en tête de gondole. Pour cela, nous prenons les chocolats que nous vendons le moins et nous vérifions que la quantité que nous achèterons si le contrat est accepté est inférieur à 10% de la quantité totale que nous aurions dans ce cas. Remarque: la vente en tête de gondole est désactivée pour cette version, car la proportion mise en rayon excède tout de même parfois les 10% de la quantité totale vendue.
+	 * Permet de créer une liste contenant les produits que nous allons mettre en tête de gondole. 
+	 * Pour cela, nous prenons les chocolats que nous vendons le moins et nous vérifions que la quantité que nous achèterons si le contrat est accepté est inférieur à 10% de la quantité totale que nous aurions dans ce cas. 
+	 * Remarque: la vente en tête de gondole est désactivée pour cette version, car la proportion mise en rayon excède tout de même parfois les 10% de la quantité totale vendue.
 	 */
 	
 	public void choixTG() {

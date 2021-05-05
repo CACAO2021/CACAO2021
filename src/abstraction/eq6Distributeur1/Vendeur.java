@@ -135,7 +135,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	//Thomas
 	
 	/**
-	 *Retourne d’une part la quantité totale en Kg de chocolat vendue et d’autre part, la quantité de ce même chocolat en tête de gondole uniquement. Les mêmes fonctions sans argument retournent les quantités totales vendues (tout chocolat confondu) respectivement en tout ou en tête de gondole.
+	 *Retourne d’une part la quantité totale en Kg de chocolat vendue et d’autre part, la quantité de ce même chocolat en tête de gondole uniquement. 
+	 *Les mêmes fonctions sans argument retournent les quantités totales vendues (tout chocolat confondu) respectivement en tout ou en tête de gondole.
 	 */
 	
 	public double quantiteEnVente(ChocolatDeMarque choco) {
