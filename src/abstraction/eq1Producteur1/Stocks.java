@@ -27,9 +27,9 @@ public abstract class Stocks extends VendeurContratCadre1{
 	 * On range ensuite les stock dans un dictionnaire stocks.
 	 */
 		private void init_stocks(IActeur a) {
-		this.stock_F_M_E = new Stock("Stock F_M_E",0, a); //stock que l'on possède au départ
-		this.stock_F_M = new Stock("Stock F_M",0, a);
-		this.stock_F_B = new Stock("Stock F_B",0, a);
+		this.stock_F_M_E = new Stock("Stock F_M_E",25000000, a); //stock que l'on possède au départ
+		this.stock_F_M = new Stock("Stock F_M",75000000, a);
+		this.stock_F_B = new Stock("Stock F_B",66666666, a);
 		this.stock_P_M_E = new Stock("Stock P_M_E",0, a);
 		this.stock_P_M = new Stock("Stock P_M",0, a);
 		this.stocks = new HashMap<Object, Stock>();
