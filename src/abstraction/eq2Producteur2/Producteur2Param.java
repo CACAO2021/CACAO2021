@@ -7,6 +7,7 @@ import abstraction.fourni.Variable;
 
 public class Producteur2Param extends Producteur2Banque {
 	
+	//ensemble fait par DIM
 	
 	public Producteur2Param() {
 		super();
@@ -14,6 +15,8 @@ public class Producteur2Param extends Producteur2Banque {
 
 	public List<Variable> getIndicateurs() {
 		List<Variable> res=new ArrayList<Variable>();
+		// for (Object p : getListeProd()) {majStock(p);}
+		// aparement boucle inutile
 		res.add(stockFHBE);
 		res.add(stockFHE);
 		res.add(stockFME);

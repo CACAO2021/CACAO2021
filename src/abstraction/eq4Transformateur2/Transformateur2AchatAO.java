@@ -9,10 +9,9 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 
-
 //Antoine C
 
-public class Transformateur2AchatAO extends Transformateur2Vente implements IAcheteurFevesAO {
+public class Transformateur2AchatAO extends Transformateur2AchatCC implements IAcheteurFevesAO {
 
 	public Transformateur2AchatAO() {
 		super();
@@ -20,8 +19,15 @@ public class Transformateur2AchatAO extends Transformateur2Vente implements IAch
 	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
-		
-		return new OffreAchatFeves(this, Feve.FEVE_BASSE, (double) 1000);
+		if (get_stock(Feve.FEVE_BASSE) < mini_stock_bas) {
+			return new OffreAchatFeves(this, Feve.FEVE_BASSE, mini_stock_bas-get_stock(Feve.FEVE_BASSE));
+		}
+		if (get_stock(Feve.FEVE_MOYENNE) < mini_stock_moyen) {
+			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, mini_stock_moyen-get_stock(Feve.FEVE_MOYENNE));
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -38,6 +44,12 @@ public class Transformateur2AchatAO extends Transformateur2Vente implements IAch
 				prix_min = propositions.get(i).getPrixKG();
 				prop = i;
 			}
+		}
+		if (prix_min > cout_max_feve_basse && propositions.get(prop).getFeve() == Feve.FEVE_BASSE) {
+			return null;
+		}
+		if (prix_min > cout_max_feve_moyenne && propositions.get(prop).getFeve() == Feve.FEVE_MOYENNE) {
+			return null;
 		}
 		return propositions.get(prop);
 	}

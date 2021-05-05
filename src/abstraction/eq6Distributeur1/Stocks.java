@@ -8,45 +8,85 @@ import java.util.Map;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Gamme;
-import abstraction.fourni.IDistributeurChocolatDeMarque;
-import abstraction.fourni.IMarqueChocolat;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
-public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
-	
-	
-	protected Map<ChocolatDeMarque, Variable> stock;
+public class Stocks extends Distributeur1Acteur{
+
+
+	protected Map<ChocolatDeMarque, Variable> stock; // tout les stocks, y compris le contenu de stockTG
 	protected Map<ChocolatDeMarque, Double> prix;
 	protected Map<ChocolatDeMarque,Variable> stockTG;
 
-	
+
+	//Louis
 	public Stocks() {
 		super();
-		this.stock=new HashMap<ChocolatDeMarque, Variable>();
+		this.stock=new HashMap<ChocolatDeMarque, Variable>(); 
 		this.prix=new HashMap<ChocolatDeMarque, Double>();
-		this.stockTG=new HashMap<ChocolatDeMarque, Variable>();
+		this.stockTG=new HashMap<ChocolatDeMarque, Variable>(); 
+
 	}
-	
-	public void ajouterStock(Object produit, double quantite, boolean tg) {
-		//peut-etre que caster produit en ChocolatDeMarque va faire une erreur, il faudrait mettre des verifications ou le caster avant d'utiliser cette methode
-		//si tg==true alors on ajoute le produit en tête de gondole, sinon simplement en rayon
+
+
+	//Louis
+	public void ajouterStock(ChocolatDeMarque produit, double quantite, boolean tg) {
 		if (tg) {
-			stockTG.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
+			stockTG.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
 		}
-		stock.put((ChocolatDeMarque)produit, new Variable(((ChocolatDeMarque)produit).getMarque()+" Quantite", this, stock.get((ChocolatDeMarque)produit).getValeur()+quantite));
+		stock.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
 
 	}
 
+
+
+	//Louis
+	public void setPrix(ChocolatDeMarque choco, double prix) {
+		this.prix.put(choco, prix);
+	}
+
+
+
+	//Louis
 	public void initialiser() {
 		super.initialiser();
 		initCatalogue();
 		initPrix();
-	}
-	
-	public void initCatalogue() {
-		
+
+		for (ChocolatDeMarque choco : stock.keySet()) { 
+			this.indicateurs.add(stock.get(choco));
+		}
 	}
 
+
+
+	//Louis
+	public void next() {
+		super.next();
+		for (ChocolatDeMarque choco : stock.keySet()) { 
+			for (Variable indic : this.getIndicateurs()) {
+				if (indic.equals(stock.get(choco))) {
+					indic.setValeur(this, stock.get(choco).getValeur());
+				}
+			}
+		}
+	}
+
+
+
+	//Louis
+	public void initCatalogue() {
+		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
+
+			stock.put(choco, new Variable(choco.toString(),this,500000.));
+			stockTG.put(choco, new Variable(choco.toString(),this,0.));
+
+		}
+	}
+
+
+
+	//Louis
 	public void initPrix() {
 		for(ChocolatDeMarque choco : stock.keySet()) {
 			if(choco.getCategorie()==Categorie.TABLETTE) {
@@ -98,17 +138,12 @@ public class Stocks extends Distributeur1Acteur /*implements IMarqueChocolat*/{
 
 			}
 		}
+
 	}
 
-	/*@Override
-	public List<String> getMarquesChocolat() {
-		List marque = new ArrayList<String>();
-		marque.add("CacaoCaisse");
-		return marque;
-		}*/
 }
-	
 
-	
-	
+
+
+
 

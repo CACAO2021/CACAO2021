@@ -2,12 +2,19 @@ package abstraction.eq2Producteur2;
 
 
 import abstraction.eq8Romu.produits.Categorie;
+import java.util.HashMap; // import the HashMap class
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
-	public Producteur2Valeurs() {super();}
+	public Producteur2Valeurs() {
+		super();
+		HashMap<String, Double> QTT_DEPART = new HashMap<String, Double>();
+		QTT_DEPART.put("FEVE_HBE", QTT_FEVE_TOTALE*0.03);		
+		
+	}
 	
+	// respo : eme
 	
 	// partie stockage
 	
@@ -20,7 +27,8 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected static double QTT_FEVE_B_DEPART = QTT_FEVE_TOTALE*0.483333;
 	
 	protected static double QTT_POUDRE_HE_DEPART = 0;
-	protected static double QTT_POUDRE_M_DEPART = 0;
+	protected static double QTT_POUDRE_M_DEPART = 0;	
+	
 	
 	
 	// partie vente des fèves par kilo en euros
@@ -60,13 +68,11 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected int production_par_arbre= 6/24;
 	
 	// partie production
-	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/100000/6;
-	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/100000/6;
-	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/100000/6;
-	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/100000/6;
-	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/100000/6; //triche j'ai pris le nombre d'arbres qu'on doit avoir pour avoir la production de départ
-
-	
+	protected int ARBRE_DEBUT_HBE = (int)QTT_FEVE_HBE_DEPART/6;
+	protected int ARBRE_DEBUT_HE = (int)QTT_FEVE_HE_DEPART/6;
+	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/6;
+	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/6;
+	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; 
 
 	
 	
@@ -82,8 +88,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	
 	public static boolean estPoudreHE(Object produit) {return produit.equals(Chocolat.POUDRE_HAUTE_EQUITABLE);}
 	public static boolean estPoudreM(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE);}
-	public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}
-	
+	public static boolean estPoudreME(Object produit) {return produit.equals(Chocolat.POUDRE_MOYENNE_EQUITABLE);}	
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	

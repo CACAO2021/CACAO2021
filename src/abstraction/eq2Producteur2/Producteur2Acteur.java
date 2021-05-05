@@ -2,11 +2,13 @@ package abstraction.eq2Producteur2;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.clients.FiliereTestClientFinal;
 import abstraction.eq8Romu.contratsCadres.FiliereTestContratCadre;
 import abstraction.eq8Romu.fevesAO.FiliereTestAOFeves;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
@@ -14,7 +16,9 @@ import abstraction.fourni.Variable;
 
 public abstract class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	protected int cryptogramme;
-
+	
+	//ensemble fait par DIM
+	
 	public Producteur2Acteur() {
 		super();
 	}
@@ -28,7 +32,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Les meilleurs producteurs";
 	}
 
 	public Color getColor() {
@@ -92,5 +96,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	}
 	
 	public abstract void perdreArgent(double montant) ;
+	
+	protected abstract LinkedList<Feve> getListeProd();
 
 }

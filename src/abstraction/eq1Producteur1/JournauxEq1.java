@@ -7,15 +7,17 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 /**
  * @author arthurlemgit
- * classe JournauxEq1 pour manipuler plus facilement nos journaux.
+ * classe l_journauxEq1 pour manipuler plus facilement nos l_journaux.
  */
 
 public class JournauxEq1 {
 
 	private HashMap<Object, Journal> journaux;
 
+
 	public JournauxEq1() {
 		this.journaux = new HashMap<Object, Journal>();
+
 	}
 
 	public JournauxEq1 (HashMap<Object, Journal> journaux) {
@@ -30,6 +32,7 @@ public class JournauxEq1 {
 		Journal journal = new Journal(n, a);
 		this.journaux.put(n, journal);
 	}
+
 
 	public HashMap<Object,Journal> getJournaux(){
 		return journaux;

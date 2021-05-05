@@ -1,5 +1,7 @@
 package abstraction.eq2Producteur2;
 
+//ensemble fait par DIM
+
 public class Stock {
 	private double qtt;
 	private int step;
@@ -18,16 +20,19 @@ public class Stock {
 		return qtt;
 	}
 	/**
-	 * @param qtt the qtt to set
+	 * @param d the qtt to set
 	 */
-	public void setQtt(int qtt) {
-		this.qtt = qtt;
+	public void setQtt(double d) {
+		this.qtt = d;
 	}
 	/**
 	 * @return the step
 	 */
 	public int getStep() {
 		return step;
+	}
+	public void setStep(int step) {
+		this.step = step;
 	}
 
 }

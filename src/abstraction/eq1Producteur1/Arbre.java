@@ -9,6 +9,9 @@ public class Arbre {
 	private double nombre_arbre;
 	private Feve feve;
 	
+	public Arbre() {
+		
+	}
 	/**
 	 * @return the nombre_arbre
 	 */

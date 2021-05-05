@@ -3,6 +3,10 @@ package abstraction.eq7Distributeur2;
 
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
+//----------------------//
+//fait par Elio Granger //
+//----------------------//
+
 public interface IStocks {
 	
 	
