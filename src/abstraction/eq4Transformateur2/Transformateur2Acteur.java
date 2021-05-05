@@ -41,8 +41,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		this.cryptogramme = crypto;
 	}
 	
-	public void next() {	
-	}
 	
 	public List<String> getNomsFilieresProposees() {
 		return new ArrayList<String>();
@@ -104,4 +102,11 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		echeancier_moyenne.set(23, 0.0);
 		echeancier_total.set(23, 0.0);
 	}
+
+	@Override
+	public void next() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
