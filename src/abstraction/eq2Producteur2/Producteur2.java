@@ -15,11 +15,7 @@ public class Producteur2 extends Producteur2Aleas  {
 	//DIM
 	public void next() {
 		majJournaux();
-<<<<<<< HEAD
-		// faire fonction probleme : intemperie,...
-=======
 		lesProblemes();
->>>>>>> branch 'master' of https://github.com/CACAO2021/CACAO2021
 		prod();
 		transfo(); // vide pour le moment
 		renouvellement();
