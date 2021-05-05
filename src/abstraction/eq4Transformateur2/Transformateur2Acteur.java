@@ -20,12 +20,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public Transformateur2Acteur() {
 		super();
 		this.journal = new Journal(this.getNom(), this);
-		var_stock_feve_basse = new Variable("stock feve basse", this, quantite_init_feve_basse);
-		var_stock_feve_basse = new Variable("stock feve moyenne", this, quantite_init_feve_moyenne);
-		var_stock_feve_basse = new Variable("stock tablette basse", this, quantite_init_tablette_basse);
-		var_stock_feve_basse = new Variable("stock tablette moyenne", this, quantite_init_tablette_moyenne);
-		var_stock_feve_basse = new Variable("stock confiserie basse", this, quantite_init_confiserie_basse);
-		var_stock_feve_basse = new Variable("stock conifserie moyenne", this, quantite_init_confiserie_moyenne);
 	}
 
 	public void initialiser() {

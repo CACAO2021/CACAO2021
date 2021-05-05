@@ -16,6 +16,12 @@ import abstraction.eq8Romu.produits.Chocolat;
 public class Transformateur2Valeurs {
 	
 	public Transformateur2Valeurs() {
+		var_stock_feve_basse = new Variable("stock feve basse", this, quantite_init_feve_basse);
+		var_stock_feve_moyenne = new Variable("stock feve moyenne", this, quantite_init_feve_moyenne);
+		var_stock_tablette_basse = new Variable("stock tablette basse", this, quantite_init_tablette_basse);
+		var_stock_tablette_moyenne = new Variable("stock tablette moyenne", this, quantite_init_tablette_moyenne);
+		var_stock_confiserie_basse = new Variable("stock confiserie basse", this, quantite_init_confiserie_basse);
+		var_stock_confiserie_moyenne = new Variable("stock conifserie moyenne", this, quantite_init_confiserie_moyenne);
 	}
 	
 	protected LinkedList<Double> echeancier_basse;
