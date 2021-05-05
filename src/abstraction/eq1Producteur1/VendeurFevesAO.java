@@ -24,7 +24,8 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 	 * On applique la stratégie mise en place dans le cahier des charges.
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-		if (Filiere.LA_FILIERE.getEtape()==1) {
+		System.out.println(Filiere.LA_FILIERE.getEtape());
+		if (Filiere.LA_FILIERE.getEtape()==0) {
 			return 0;
 		}
 		double res = 0;
@@ -32,11 +33,11 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 		double q = oa.getQuantiteKG();		
 		if ((feve==Feve.FEVE_BASSE || feve==Feve.FEVE_MOYENNE)  //On ne veut que 2 types de fèves par AO.
 				&& (this.getStocks().get(feve).getQuantite()>q)) { //Si on a la quantité de fève demandée alors on étudie l'oa.
-			if(this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-2).etatVente()) {  //Si au step précédent la vente a été conclue alors on repropose le prix initial.
+			if(this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-1).etatVente()) {  //Si au step précédent la vente a été conclue alors on repropose le prix initial.
 				res = feve==Feve.FEVE_MOYENNE ? PRIX_I_F_M*q : PRIX_I_F_B*q;
 			}
 			else {
-				double nouveau_prix = this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-2).prixVente()-PAS_DE_NEGO*q;
+				double nouveau_prix = this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-1).prixVente()-PAS_DE_NEGO*q;
 				if(nouveau_prix>(feve==Feve.FEVE_MOYENNE ? PRIX_P_F_M : PRIX_P_F_B)) {// Si le précedent prix moins le pas de négo est toujours supérieur au pris palier alors on propose ce prix.
 					res = nouveau_prix;
 				}
