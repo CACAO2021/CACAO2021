@@ -43,21 +43,15 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 
 	@Override
 	public boolean vend(Object produit) {
-		/*if (!this.getChocolats().keySet().contains(produit)) {
-			return false;
-		}
-		if (this.getChocolats().get(produit).getValeur()>0) {
-			return true;}
-		else { return false; }*/
-		if (produit instanceof ChocolatDeMarque) {
-			Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
+			if (produit instanceof ChocolatDeMarque) {
+				Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
 			if (!this.peutVendre(produit)) {
 				return false;
 			} else if (this.getChocolats().get(choco).getValeur()>0) {
 				return true;
 			} else {
-				return false;
-			}	
+				return false;}	
+			
 		}
 		
 		else {
