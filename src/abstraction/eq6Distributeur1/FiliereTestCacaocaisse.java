@@ -39,7 +39,9 @@ public class FiliereTestCacaocaisse extends Filiere {
 
 		super();
 		this.ajouterActeur(new Distributeur1());
-		this.ajouterActeur(new ExempleTransformateurContratCadreVendeur(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"test1")));
+		this.ajouterActeur(new ExempleTransformateurContratCadreVendeur(new ChocolatDeMarque(Chocolat.TABLETTE_HAUTE_EQUITABLE,"test1")));
+		this.ajouterActeur(new ExempleTransformateurContratCadreVendeur(new ChocolatDeMarque(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE,"test1")));
+		this.ajouterActeur(new ExempleTransformateurContratCadreVendeur(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"test2")));
 		this.cfC = new ClientFinal(Categorie.CONFISERIE, 1627200000.0, 50.0, DISTRIBUTIONS_ANNUELLES_CONF);
 		this.ajouterActeur(cfC);
 		this.cfT = new ClientFinal(Categorie.TABLETTE, 4197600000.0, 32.0, DISTRIBUTIONS_ANNUELLES_TABL);

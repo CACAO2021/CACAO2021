@@ -56,8 +56,8 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 		add_stock(produit, quantite);
 		
 	}
-	public void next() {
-		/*
+	/*public void next() {
+		
 		List<Feve> feves = new LinkedList<Feve>();
 		feves.add(Feve.FEVE_BASSE);
 		feves.add(Feve.FEVE_MOYENNE);
@@ -71,6 +71,6 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 				supCCadre.demande((IAcheteurContratCadre)this, vendeur, feve, echeancier, this.cryptogramme, false);
 			}
 		}
-		*/
-	}
+		
+	}*/
 }

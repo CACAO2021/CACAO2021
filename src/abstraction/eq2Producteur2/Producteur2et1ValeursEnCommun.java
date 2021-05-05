@@ -14,11 +14,11 @@ public class Producteur2et1ValeursEnCommun {
 	public static double COUT_PRODUCTION_FEVE_HBE = 3/1000.;
 	
 	//cout changement arbre
-	public double COUT_CHANGEMENT_ARBRE_HBE = 0;
-	public double COUT_CHANGEMENT_ARBRE_HE = 0;
-	public double COUT_CHANGEMENT_ARBRE_ME = 0;
-	public double COUT_CHANGEMENT_ARBRE_M = 0;
-	public double COUT_CHANGEMENT_ARBRE_B = 0;
+	public double COUT_CHANGEMENT_ARBRE_HBE = 0.1; // pour ne pas mettre 0€
+	public double COUT_CHANGEMENT_ARBRE_HE = 0.1;
+	public double COUT_CHANGEMENT_ARBRE_ME = 0.1;
+	public double COUT_CHANGEMENT_ARBRE_M = 0.1;
+	public double COUT_CHANGEMENT_ARBRE_B = 0.1;
 	
 	//production par tour par arbre 
 	public int PROD_ARBRE = 6;
