@@ -63,16 +63,14 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public double getQmin() {
 		return this.quantite.getMin();
 	}
-	public double getQmax() {
-		return this.quantite.getMax();
-	}
+	
 	
 	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
 	public Feve getFeve(Chocolat chocolat) {
 			if(chocolat == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
 				return Feve.FEVE_HAUTE_BIO_EQUITABLE;
 			}
-			if(chocolat == Chocolat.TABLETTE_MOYENNE && chocolat == Chocolat.CONFISERIE_MOYENNE){
+			if(chocolat == Chocolat.TABLETTE_MOYENNE || chocolat == Chocolat.CONFISERIE_MOYENNE){
 				return Feve.FEVE_MOYENNE;
 			}
 			else {
@@ -153,7 +151,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
-		double delta = this.getQmax()-this.getQmin();
+		/*double delta = this.getQmax()-this.getQmin();
 		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
@@ -170,7 +168,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			return propositions_interessantes.get(hasard);	
 		} else {
 			return null;
-		}
+		}*/
+		return null;
 	} 
 
 	@Override
