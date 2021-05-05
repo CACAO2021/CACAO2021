@@ -68,6 +68,21 @@ public class Business {
 		this.indicateurs.add(33,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreMoyenneEquitable au KG", this.getStock().getActeur(), 0));
 		this.indicateurs.add(34,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreHauteEquitable au KG", this.getStock().getActeur(), 0));
 		this.indicateurs.add(35,new Variable(this.getStock().getActeur().getNom() + " prixVentePoudreHauteBioEquitable au KG", this.getStock().getActeur(), 0));
+		this.indicateurs.add(36,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de tablette basse qualité", this.getStock().getActeur(), 0));
+		this.indicateurs.add(37,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de tablette moyenne qualité", this.getStock().getActeur(), 0));
+		this.indicateurs.add(38,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de tablette moyenne qualité equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(39,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de tablette haute qualité equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(40,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de tablette haute qualité équitable et bio", this.getStock().getActeur(), 0));
+		this.indicateurs.add(41,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de confiserie basse qualité", this.getStock().getActeur(), 0));
+		this.indicateurs.add(42,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de confiserie moyenne qualité", this.getStock().getActeur(), 0));
+		this.indicateurs.add(43,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de confiserie moyenne qualité equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(44,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de confiserie haute qualité equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(45,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de confiserie haute qualité équitable et bio", this.getStock().getActeur(), 0));
+		this.indicateurs.add(46,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre basse qualité", this.getStock().getActeur(), 0));
+		this.indicateurs.add(47,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre moyenne qualité", this.getStock().getActeur(), 0));
+		this.indicateurs.add(48,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre moyenne qualité equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(49,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(50,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité équitable et bio", this.getStock().getActeur(), 0));
  
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
 		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;		
@@ -106,21 +121,27 @@ public class Business {
 		Integer compteur = 0;
 		for (Feve feve : this.getStock().nosFeves()) {
 			// on set la valeur de votre variable avec la nouvelle valeur du stock de cette feve
-			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockFeves(feve));
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockFeves(feve));
 			compteur += 1;
 		}
 		for(Chocolat chocolat: this.getStock().nosChocolats()) {
 			// on set la valeur de votre variable avec la nouvelle valeur du stock de ce chocolat
-			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockChocolats(chocolat));
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockChocolats(chocolat));
 			compteur += 1;
 		}
 		// on set la valeur du prix de stockage
-		this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getPrixStockage().getValeur());
+		this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getPrixStockage().getValeur());
 		
 		for (Chocolat chocolat : this.getStock().nosChocolats()) {
 			compteur +=1;
 			// On set la valeur du prix de vente au kg de ce chocolat
 			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().prixDeVenteKG(chocolat));
+		}
+		
+		for (Chocolat chocolat : this.getStock().nosChocolats()) {
+			compteur +=1;
+
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().setStockJete(chocolat));
 		}
 	}
 	
