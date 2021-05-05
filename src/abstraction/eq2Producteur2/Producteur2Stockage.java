@@ -136,7 +136,8 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			this.stockPoudreM.add(s);
 		}else {
 			System.out.println("erreur");
-		}		
+		}	
+		
 	}
 	
 	//Dim
