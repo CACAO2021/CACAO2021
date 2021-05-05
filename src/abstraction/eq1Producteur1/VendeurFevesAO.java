@@ -1,5 +1,7 @@
 package abstraction.eq1Producteur1;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
@@ -9,6 +11,9 @@ import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
 public abstract class VendeurFevesAO extends Producteur1Acteur implements IVendeurFevesAO  {
+	protected List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
+	protected List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
+	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
 	private static double PRIX_I_F_M=1.70;//prix de vente initial en €/kg des fèves moyenne qualité non équitable.
 	private static double PRIX_I_F_B=1.52;//idem pour les fèves basse qualité non équitable.
 	private static double PRIX_P_F_M=1.05;//prix plancher en €/kg des fèves moyenne qualité non équitable.
@@ -18,13 +23,33 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 	
 	/**
 	 * @author Alb1x
+	 * On crée un historique de vente par AO pour chaque fève que l'on vend par AO.
+	 * On range ensuite les historiques dans un dictionnaire historiques.
+	 */
+	protected void init_historiques() {
+		this.historique_AO_F_M  = new ArrayList<VenteAO>();
+		this.historique_AO_F_B  = new ArrayList<VenteAO>();
+		this.historiques = new HashMap<Feve,List<VenteAO>>();
+		this.historiques.put(Feve.FEVE_MOYENNE, this.historique_AO_F_M);
+		this.historiques.put(Feve.FEVE_BASSE, historique_AO_F_B);
+	}
+	
+	/**
+	 * @author Alb1x
+	 * On rajoute une vente non conclue, cela sera changé si une vente est conclue au cours du step.
+	 */
+	protected void majHist_AO() {
+		this.historique_AO_F_M.add(new VenteAO());
+		this.historique_AO_F_B.add(new VenteAO());
+	}
+	/**
+	 * @author Alb1x
 	 * Par appel d'offres on vend les fèves non équitables
 	 * càd les fèves moyenne qualité non équitable et les
 	 * fèves basse qualité non équitable.
 	 * On applique la stratégie mise en place dans le cahier des charges.
 	 */
 	public double proposerPrix(OffreAchatFeves oa) {
-		System.out.println(Filiere.LA_FILIERE.getEtape());
 		if (Filiere.LA_FILIERE.getEtape()==0) {
 			return 0;
 		}
