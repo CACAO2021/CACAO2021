@@ -35,8 +35,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				&& ( (((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)
 						|| (((Feve)produit) == Feve.FEVE_MOYENNE)
 						|| (((Feve)produit) == Feve.FEVE_BASSE)
-					)
-			) {
+					)) {
 				return(true);
 		}
 		else if ((produit instanceof Chocolat)
@@ -83,14 +82,16 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} 
 		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE)) ) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+			/*if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
 				double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
 				Echeancier e = new Echeancier (contrat.getEcheancier());
 				return e;
-			} 
+				
+			} */
+		return contrat.getEcheancier();
 		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_BASSE)) ) {
 			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.5*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite()) {
 				double nvlleqte = 0.40*this.getStocks().get(contrat.getProduit()).getQuantite();
@@ -136,7 +137,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				prix=2150;
 			}
 			else if ((Feve)produit == Feve.FEVE_MOYENNE) {
-				prix = 1800;
+				prix = 800;
 			}
 			else if ((Feve)produit == Feve.FEVE_BASSE) {
 				prix = 1500;
@@ -161,8 +162,18 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+<<<<<<< HEAD
 		return contrat.getPrix();
 		/*
+=======
+<<<<<<< HEAD
+		return contrat.getPrix();
+		/*
+=======
+		//*
+		System.out.println("**");
+>>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
+>>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
 		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
@@ -171,7 +182,16 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		}
 		else {
 			return (liste_prix.get(n-2)+PRIX_PALIER_F_E)/2;
+<<<<<<< HEAD
 		}*/
+=======
+<<<<<<< HEAD
+		}
+		*/
+=======
+		}//*/
+>>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
+>>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
 	}
 
 
@@ -195,21 +215,35 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
-				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
 				}
+			return livre;
+		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
+			if (livre>0) {
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
+			}
+			return livre;
+		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_BASSE))) {
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
+			if (livre>0) {
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
+			}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
-				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
 			}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
-				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit);
+				this.getJournal(3).ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
 			}
 			return livre;
 		}
