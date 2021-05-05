@@ -7,32 +7,32 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 /**
  * @author arthurlemgit
- * classe JournauxEq1 pour manipuler plus facilement nos journaux.
+ * classe l_journauxEq1 pour manipuler plus facilement nos l_journaux.
  */
 
 public class JournauxEq1 {
 
-	private ArrayList<Journal> journaux;
+	private ArrayList<Journal> l_journaux;
 
 	public JournauxEq1() {
-		this.journaux = new ArrayList<>();
+		this.l_journaux = new ArrayList<Journal>();
 	}
 
-	public JournauxEq1 (ArrayList<Journal> journaux) {
-		this.journaux = journaux;
+	public JournauxEq1 (ArrayList<Journal> l_journaux) {
+		this.l_journaux = l_journaux;
 	}
 
 	public Journal getJournal(int i) {
-		return this.journaux.get(i);
+		return this.l_journaux.get(i);
 	}
 
 	public void addJournal(String n, IActeur a) {
 		Journal journal = new Journal(n, a);
-		this.journaux.add(journal);
+		this.l_journaux.add(journal);
 	}
 
-	public ArrayList<Journal> getJournaux(){
-		return journaux;
+	public ArrayList<Journal> getListeJournaux(){
+		return l_journaux;
 	}
 
 }

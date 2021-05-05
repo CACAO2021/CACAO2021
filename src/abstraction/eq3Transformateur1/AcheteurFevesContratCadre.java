@@ -18,7 +18,7 @@ import abstraction.fourni.Variable;
 
 
 
-// Paul GIRAUD
+// Jonathan
 public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadre {
 
 	
@@ -42,7 +42,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		// Si l'echeancier est juste plus long de 2 step ou plus court de 2 on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
+		// Si l'echeancier est juste  plus court de 2 step que l'échéancier demandé (10) on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
 		if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
@@ -92,7 +92,6 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		System.out.println("cette fonction est bien lancée");
 		if (produit instanceof Feve) {
 			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix()/contrat.getQuantiteTotale())); // pour avoir le prix du KG
 			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());

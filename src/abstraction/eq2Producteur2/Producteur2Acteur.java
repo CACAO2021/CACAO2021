@@ -16,7 +16,9 @@ import abstraction.fourni.Variable;
 
 public abstract class Producteur2Acteur extends Producteur2Valeurs implements IActeur {
 	protected int cryptogramme;
-
+	
+	//ensemble fait par DIM
+	
 	public Producteur2Acteur() {
 		super();
 	}
@@ -30,7 +32,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Les meilleurs producteurs";
 	}
 
 	public Color getColor() {

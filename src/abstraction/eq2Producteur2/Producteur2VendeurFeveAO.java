@@ -7,6 +7,8 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 
 public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
+	
+	// ensemble fait par max
 
 
 	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
@@ -51,10 +53,11 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );
 		this.mesContratsAO.add(proposition);
 		vente(proposition.getQuantiteKg(), proposition.getFeve());
+		LinkedList<PropositionVenteFevesAO> rem = new LinkedList<PropositionVenteFevesAO>();
 		for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
 			if (c.getAcheteur() == proposition.getAcheteur()) {
-				this.mesContratsAORefusess.remove(c);
-			}
+				rem.add(c);
+			}this.mesContratsAORefusess.removeAll(rem);
 		}
 	}
 }
