@@ -293,7 +293,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			else {
 				//les comptes sont suffisants pour accepter le contrat tel quel, la contre proposition reste inchangée
 				//De plus, la proposition est convenable par rapport au prix moyen du produit : on achète
-				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
+				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
 				contrats.add(contrat);
 				//on ajoute le contrat aux contrats signés
 			
