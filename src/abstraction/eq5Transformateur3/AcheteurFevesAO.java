@@ -30,7 +30,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public AcheteurFevesAO() {
 		super();
 		
-	}
 	
 	//public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
 		//if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
@@ -44,6 +43,21 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			//this.prixmax = prixmax;
 		//}
 	// }
+		
+	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
+		System.out.println("tito");
+		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
+			throw new Exception("quantité trop faible");
+		}
+		else {
+			System.out.println("toto");
+			this.quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
+			this.feve = feve;
+			this.qmax = qmax;
+			this.qmin = qmin ; //mettre qmin assez élevé
+			this.prixmax = prixmax;
+		}
+	}
 
 	public double getQmin() {
 		return this.quantite.getMin();
@@ -67,7 +81,20 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
     // cette méthode permet de garantir une quantité minimale de fèves en stock pour chaque type de fèves
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 
-	/*public OffreAchatFeves getOffreAchat() {
+/*OffreAchatFeves getOffreAchat() {
+=======
+	public OffreAchatFeves getOffreAchat() { 
+		Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
+		OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, (double)10);
+		if (feve.getValeur()<1000000) {
+			this.JournalOA.ajouter("offre d'achat =" + OA);
+			return OA; }
+		else { 
+			this.JournalOA.ajouter("pas d'offre d'achat");
+			return null; }
+		}
+	
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 		int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				OffreAchatFeves OA = new OffreAchatFeves(this, feve, this.quantite.getValeur());
