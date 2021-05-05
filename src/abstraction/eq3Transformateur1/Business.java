@@ -122,7 +122,6 @@ public class Business {
 			// On set la valeur du prix de vente au kg de ce chocolat
 			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().prixDeVenteKG(chocolat));
 		}
-		System.out.println(compteur);
 	}
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {

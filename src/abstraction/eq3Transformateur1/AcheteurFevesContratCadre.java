@@ -51,7 +51,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		if( contrat.getPrix() >= this.getSolde()) {
+		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde() || contrat.getPrix() > 100) {
 			return 0;
 		} else {
 			return contrat.getPrix();
@@ -93,7 +93,6 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		if (produit instanceof Feve) {
-			System.out.println(contrat.getPrix());
 			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix())); // pour avoir le prix du KG
 			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());
 		}
