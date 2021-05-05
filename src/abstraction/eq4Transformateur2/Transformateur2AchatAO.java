@@ -17,6 +17,8 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 		super();
 	}
 	
+	// BANANE FLAMBEE
+	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
 		if (get_stock(Feve.FEVE_BASSE) < mini_stock_bas) {
