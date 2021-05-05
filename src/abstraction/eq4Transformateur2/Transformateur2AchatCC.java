@@ -1,29 +1,32 @@
 package abstraction.eq4Transformateur2;
 
 
+import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
+import abstraction.fourni.IActeur;
 
 //Antoine C
 public class Transformateur2AchatCC extends Transformateur2Vente implements IAcheteurContratCadre{
 
+	private SuperviseurVentesContratCadre supCCadre;
+	
 	public Transformateur2AchatCC() {
 		super();
 	}
 	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		int j = 0;
-		for (int i=contrat.getEcheancier().getStepDebut();i<contrat.getEcheancier().getStepDebut()+12;i++) {
-			if (contrat.getEcheancier().getQuantite(i) > 1000 || contrat.getEcheancier().getQuantite(i) < 0) {
-				j = 1;
-			}
-		}
-		if (contrat.getEcheancier().getNbEcheances() > 24 || j == 1) {
+		if (contrat.getEcheancier().getNbEcheances() > 24 || contrat.getEcheancier().getQuantiteTotale() < 1000) {
 			return null;
 		}
 		else {
@@ -53,7 +56,21 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 		add_stock(produit, quantite);
 		
 	}
-	public void next() {
+	/*public void next() {
 		
-	}
+		List<Feve> feves = new LinkedList<Feve>();
+		feves.add(Feve.FEVE_BASSE);
+		feves.add(Feve.FEVE_MOYENNE);
+		for(Feve feve : feves ) {
+			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.supCCadre.getVendeurs(feve);
+			if (vendeurs.size()!=0){
+				int i = (int) (Math.random()*vendeurs.size());
+				IVendeurContratCadre vendeur = vendeurs.get(i);
+				List<Double> besoin = new LinkedList<Double>();
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 24, mini_stock_bas);
+				supCCadre.demande((IAcheteurContratCadre)this, vendeur, feve, echeancier, this.cryptogramme, false);
+			}
+		}
+		
+	}*/
 }

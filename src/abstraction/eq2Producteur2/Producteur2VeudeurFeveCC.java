@@ -152,7 +152,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			if(cond2) {				
 				return e;
 			} else { //on ne souhaite pas vendeur donc on retourne null
-			return null;
+			return null; 
 		}}
 
 	}
@@ -161,7 +161,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		double prix = prixEspere(contrat.getProduit());
-		return prix;
+		return prix * 5000; // on profite du fait qu'ils achetent quoi quil arrive pour devenir riche
 	}
 
 	@Override
