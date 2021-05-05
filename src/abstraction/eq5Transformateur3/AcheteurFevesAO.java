@@ -102,11 +102,18 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 	//Remi
 	
-	public OffreAchatFeves getOffreAchat()){
-		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()<this.sto) {
-			
+	public OffreAchatFeves getOffreAchat(){
+		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
+			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
+			}
+		if (this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()< this.stock_min_feves_HBE.getValeur() ) {
+			return new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, this.stock_min_feves_HBE.getValeur()-this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur());
+			}
+		else {
+			return  null;}
 		}
-	}
+		
+
 
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
 		this.JournalOA.ajouter("--> aucune proposition de vente pour l'offre "+oa);
