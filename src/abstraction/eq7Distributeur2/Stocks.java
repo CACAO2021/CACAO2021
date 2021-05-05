@@ -77,7 +77,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 				if(!chocoDeMarq.name().equals(acteur.getChocoProduit().name())){
 					this.stocksParMarque.get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)*1.2);
 					acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, "[AJOUT] " + Journal.doubleSur(Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)/2,2) + " de " + chocoDeMarq.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocoDeMarq).getValeur(),2) + " "));
-					this.nouveauChocoParEtape.get(0).get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)*5);
+					this.nouveauChocoParEtape.get(0).get(chocoDeMarq).ajouter(acteur, Filiere.LA_FILIERE.getVentes(chocoDeMarq,-24)*10);
 				}
 			}
 			
