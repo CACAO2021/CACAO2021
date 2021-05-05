@@ -29,6 +29,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 	public AcheteurFevesAO() {
 		super();
+	}
 		
 	
 	//public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
