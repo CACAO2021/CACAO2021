@@ -28,7 +28,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	private double prixmax;
 	
 	public AcheteurFevesAO() {
-		super()
+		super();
 		
 	}
 	
