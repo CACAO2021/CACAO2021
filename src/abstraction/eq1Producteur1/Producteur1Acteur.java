@@ -17,7 +17,6 @@ public abstract class Producteur1Acteur extends Producteur2Valeurs implements IA
 	private int cryptogramme;
 	private Color couleur = new Color(26, 188, 156);
 	private Transformation transformation;
-	protected int step_actuel;
 	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
 	private List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
 	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
@@ -25,7 +24,6 @@ public abstract class Producteur1Acteur extends Producteur2Valeurs implements IA
 	
 	public Producteur1Acteur() {
 		this.init_historiques();
-		this.step_actuel = 0;
 		
 	}
 	
@@ -51,12 +49,6 @@ public abstract class Producteur1Acteur extends Producteur2Valeurs implements IA
 		this.historiques = new HashMap<Feve,List<VenteAO>>();
 		this.historiques.put(Feve.FEVE_MOYENNE, this.historique_AO_F_M);
 		this.historiques.put(Feve.FEVE_BASSE, historique_AO_F_B);
-	}
-	/**
-	 * @author Alb1x
-	 */
-	private void stepSuivant() {
-		this.step_actuel += 1;
 	}
 
 	/**
@@ -99,7 +91,6 @@ public abstract class Producteur1Acteur extends Producteur2Valeurs implements IA
 
 
 	public void next() {
-		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
 		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
