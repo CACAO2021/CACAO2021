@@ -20,12 +20,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public Transformateur2Acteur() {
 		super();
 		this.journal = new Journal(this.getNom(), this);
-		var_stock_feve_basse = new Variable("stock feve basse", this, quantite_init_feve_basse);
-		var_stock_feve_basse = new Variable("stock feve moyenne", this, quantite_init_feve_moyenne);
-		var_stock_feve_basse = new Variable("stock tablette basse", this, quantite_init_tablette_basse);
-		var_stock_feve_basse = new Variable("stock tablette moyenne", this, quantite_init_tablette_moyenne);
-		var_stock_feve_basse = new Variable("stock confiserie basse", this, quantite_init_confiserie_basse);
-		var_stock_feve_basse = new Variable("stock conifserie moyenne", this, quantite_init_confiserie_moyenne);
+
 	}
 
 	public void initialiser() {
@@ -49,7 +44,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	
 
 	public void next() {
-		
 		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
 		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
 
