@@ -13,7 +13,7 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public abstract class Producteur1Acteur extends Producteur2Valeurs implements IActeur {
+public abstract class Producteur1Acteur extends Producteur1Valeurs implements IActeur {
 	private int cryptogramme;
 	private Color couleur = new Color(26, 188, 156);
 	private Transformation transformation;
