@@ -22,7 +22,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 			majStock(p);
 			sum += qttTotale(p).getValeur();
 		}
-		double var = sum * 0; // a determiner
+		double var = sum * COUT_STOCKAGE_FEVE; // a determiner
 		perdreArgent(var + fixe + 0.1); //+0.1 a enlever qd la valeur sera positive 
 	}
 	
