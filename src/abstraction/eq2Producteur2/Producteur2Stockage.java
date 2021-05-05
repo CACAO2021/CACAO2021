@@ -157,6 +157,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else {
 			System.out.println("erreur");
 		}	
+		
 		majStock(produit);
 		
 	}
