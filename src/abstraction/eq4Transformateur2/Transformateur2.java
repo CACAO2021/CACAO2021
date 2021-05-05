@@ -22,13 +22,21 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		return this.getNom();
 	}
 	public void next() {
-		transformation_feve(get_stock(Feve.FEVE_BASSE)*0.75, Chocolat.TABLETTE_BASSE);
-		transformation_feve(get_stock(Feve.FEVE_BASSE)*0.25, Chocolat.CONFISERIE_BASSE);
-		transformation_feve(get_stock(Feve.FEVE_MOYENNE)*0.75, Chocolat.TABLETTE_MOYENNE);
-		transformation_feve(get_stock(Feve.FEVE_MOYENNE)*0.25, Chocolat.CONFISERIE_MOYENNE);
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
-		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
-
+		if (get_stock(Feve.FEVE_BASSE) > 0) {
+			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.75, Chocolat.TABLETTE_BASSE);
+			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.25, Chocolat.CONFISERIE_BASSE);
+		}
+		if (get_stock(Feve.FEVE_MOYENNE) > 0) {
+			transformation_feve(get_stock(Feve.FEVE_MOYENNE)*0.75, Chocolat.TABLETTE_MOYENNE);
+			transformation_feve(get_stock(Feve.FEVE_MOYENNE)*0.25, Chocolat.CONFISERIE_MOYENNE);
+		}
+		if (cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve > 0.0) {
+			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
+		}
+		if (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco > 0) {
+			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
+		}
+		
 		// à mettre à la toute fin
 		this.update_echeanciers();
 	}
