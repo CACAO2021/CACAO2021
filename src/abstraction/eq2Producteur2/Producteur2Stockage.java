@@ -1,7 +1,9 @@
 package abstraction.eq2Producteur2;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
@@ -21,6 +23,8 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockFB;
 	protected Variable stockPHE;
 	protected Variable stockPM;
+	
+	private LinkedList<Feve> listeProd; 
 
 	// ensemble fait par DIM
 	
@@ -48,6 +52,13 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreM = new LinkedList<Stock>();
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
 		
+		this.listeProd = new LinkedList<Feve>();
+		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE);
+		this.listeProd.add(Feve.FEVE_BASSE);			
+		
 		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
 		stockFHE = new Variable("stock feve HE", this, QTT_FEVE_HE_DEPART);
 		stockFME = new Variable("stock feve ME", this, QTT_FEVE_ME_DEPART);
@@ -56,6 +67,16 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		
 		stockPHE = new Variable("stock poudre HE", this, QTT_POUDRE_HE_DEPART);
 		stockPM = new Variable("stock poudre B", this, QTT_POUDRE_M_DEPART);
+		
+		// au final on n'utilise pas la HashMap pour ne pas réécrire le code
+		HashMap<Feve, Variable> stock_FP = new HashMap<Feve, Variable>();
+		stock_FP.put(listeProd.get(0), stockFHBE);
+		stock_FP.put(listeProd.get(1), stockFHE);
+		stock_FP.put(listeProd.get(2), stockFME);
+		stock_FP.put(listeProd.get(3), stockFM);
+		stock_FP.put(listeProd.get(4), stockFB);
+		//stock_FP.put("POUDRE_HE", stockPHE);
+		//stock_FP.put("POUDRE_M", stockPM);
 	}
 	
 	//Dim
@@ -72,8 +93,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveM(produit)) {			
 			return stockFM;
 		}else if (estFeveB(produit)) {			
-			return stockFB;
-			
+			return stockFB;			
 		}else if (estPoudreHE(produit)) {
 			return stockPHE;
 		}else if (estPoudreM(produit)) {
