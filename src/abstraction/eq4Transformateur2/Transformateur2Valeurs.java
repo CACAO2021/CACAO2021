@@ -83,11 +83,11 @@ public class Transformateur2Valeurs {
 	protected Variable var_stock_confiserie_basse;
 	protected Variable var_stock_confiserie_moyenne;
 	
-	protected static double quantite_init_feve_basse;
-	protected static double quantite_init_feve_moyenne;
-	protected static double quantite_init_tablette_basse;
-	protected static double quantite_init_tablette_moyenne;
-	protected static double quantite_init_confiserie_basse;
-	protected static double quantite_init_confiserie_moyenne;
+	protected static double quantite_init_feve_basse = 100000.0;
+	protected static double quantite_init_feve_moyenne = 100000.0;
+	protected static double quantite_init_tablette_basse = 100000.0;
+	protected static double quantite_init_tablette_moyenne = 100000.0;
+	protected static double quantite_init_confiserie_basse = 100000.0;
+	protected static double quantite_init_confiserie_moyenne = 100000.0;
 }
 	
