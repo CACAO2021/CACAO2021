@@ -27,7 +27,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	protected int j;
 	private Journal journalAchats;
 
-
+	//Elsa
 
 	public Acheteur() {
 		super();
@@ -37,6 +37,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
+	
+	/**
+	 * initialiser les journaux
+	 */
+	
 	public void initialiser() {
 		super.initialiser();
 		journaux.add(journalAchats);
@@ -46,6 +51,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
+	
+	/**
+	 * Est appelée au début de chaque tour, on tire au sort un transformateur pour chaque ChocolatDeMarque de notre catalogue et on initialise un contrat cadre d’une durée de un step. 
+	 */
+	
 	public void next() {
 		pasTG = this.chocolatVendu();
 		produitTG=new LinkedList<ChocolatDeMarque>();
@@ -82,6 +92,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Elsa
+	
+	/**
+	 * Permet de négocier la quantité de produit voulu. On essaie de ne pas dépasser une quantité de produit égale à 15% de plus que ce qui s’est vendu au tour précédent (grâce à l’historique) en enlevant la quantité de ce même produit qu’il nous reste en stock. On vérifie aussi que cette quantité est supérieure à la quantité minimale demandée par le superviseur. Remarque: en l’état actuel des choses, cette méthode n’est jamais appelée lors de la création d’un contrat cadre, comme si les transformateurs acceptaient directement chaque proposition de quantité.
+	 */
+	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
@@ -121,6 +136,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	
 
 	//Elsa
+	
+	/**
+	 * Permet de négocier le prix d’achat des produits avec les transformateurs. Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
+	 */
+	
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		i=0;
@@ -141,6 +161,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
+	
+	/**
+	 * Permet de modifier le stock en utilisant ajouterStock(Object   produit, double   quantite, boolean     tg) de la classe stocks. Elle permet aussi de mettre à jour le journal des achats.
+	 */
+	
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
@@ -150,6 +175,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
+	
+	/**
+	 * Définit la quantité maximale du ChocolatDeMarque “choco” que l’on souhaite acheter.
+	 * @param choco
+	 * @return
+	 */
+	
 	public double maxQuantite(ChocolatDeMarque choco) {
 		//J'achete au maximum 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
 		return (this.quantiteChocoVendue.get(choco)-this.stock.get(choco).getValeur())*1.15;
@@ -158,8 +190,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 
-	//louis
-	//retourne la liste de tout les chocolat vendus par les transformateurs à cette étape
+	//Louis
+	
+	/**
+	 * Renvoie la liste des chocolats qui sont vendus par les transformateurs durant le step en cours.
+	 * @return
+	 */
+	
 	public List<ChocolatDeMarque> chocolatVendu() {
 		ArrayList<ChocolatDeMarque> chocoVendu = new ArrayList<ChocolatDeMarque>();
 		for (ChocolatDeMarque choco : this.getCatalogue()) {
@@ -175,7 +212,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	//retourne la liste des transformateurs
+	
+	/**
+	 * Renvoie la liste des transformateurs de la filière
+	 * @return
+	 */
+	
 	public List<IVendeurContratCadre> getTransformateurs(){
 		LinkedList<IVendeurContratCadre> transf = new LinkedList<IVendeurContratCadre>();
 		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
@@ -188,8 +230,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 
-	//louis
-	//fonction recursive qui remplit la liste produitTG avec les ChocolatDeMarque a mettre en tete de gondole
+	//Louis
+	
+	/**
+	 * Permet de créer une liste contenant les produits que nous allons mettre en tête de gondole. Pour cela, nous prenons les chocolats que nous vendons le moins et nous vérifions que la quantité que nous achèterons si le contrat est accepté est inférieur à 10% de la quantité totale que nous aurions dans ce cas. Remarque: la vente en tête de gondole est désactivée pour cette version, car la proportion mise en rayon excède tout de même parfois les 10% de la quantité totale vendue.
+	 */
+	
 	public void choixTG() {
 		if (pasTG.size()==0) {
 			return;
