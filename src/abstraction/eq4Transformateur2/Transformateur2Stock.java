@@ -14,12 +14,12 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 		super();
 		stock_feve = new HashMap<Feve, Double>();
 		stock_chocolat = new HashMap<Chocolat, Double>();
-		stock_feve.put(Feve.FEVE_BASSE, 5000.0);
-		stock_feve.put(Feve.FEVE_MOYENNE, 5000.0);
-		stock_chocolat.put(Chocolat.CONFISERIE_BASSE, 5000.0);
-		stock_chocolat.put(Chocolat.CONFISERIE_MOYENNE, 5000.0);
-		stock_chocolat.put(Chocolat.TABLETTE_BASSE, 5000.0);
-		stock_chocolat.put(Chocolat.TABLETTE_MOYENNE, 5000.0);
+		stock_feve.put(Feve.FEVE_BASSE, (1627200000.0+4197600000.0)/48.0);
+		stock_feve.put(Feve.FEVE_MOYENNE, (1627200000.0+4197600000.0)/48.0);
+		stock_chocolat.put(Chocolat.CONFISERIE_BASSE, 1627200000.0/48);
+		stock_chocolat.put(Chocolat.CONFISERIE_MOYENNE, 1627200000.0/48);
+		stock_chocolat.put(Chocolat.TABLETTE_BASSE, 4197600000.0/48);
+		stock_chocolat.put(Chocolat.TABLETTE_MOYENNE, 4197600000.0/48);
 		echeancier_basse = new LinkedList<Double>();
 		echeancier_moyenne = new LinkedList<Double>();
 		echeancier_total = new LinkedList<Double>();
