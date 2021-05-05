@@ -25,6 +25,24 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	protected Journal journal;
 	protected SuperviseurVentesContratCadre supCCadre;
 	protected List<ExemplaireContratCadre> mesCC; 
+	protected HistCC cceq2;
+	protected HistCC cceq3;
+	protected HistCC cceq4;
+	protected HistCC cceq5;
+	protected HistCC cceq6;
+	protected HistCC cceq7;	
+	/**
+	 * @author arthurlemerle
+	 * On initialise la fidélité des clients
+	 */
+	private void initHistCC() {
+		this.cceq2 = new HistCC("EQ2");
+		this.cceq3=new HistCC("EQ3");
+		this.cceq4=new HistCC("EQ4");
+		this.cceq5=new HistCC("EQ5");
+		this.cceq6=new HistCC("EQ6");
+		this.cceq7=new HistCC("EQ7");
+	}
 	
 
 	/**
@@ -48,6 +66,37 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		}
 		
 	}
+	/**
+	 * @author arthurlemgit
+	 * Permet de déterminer si un client est assez fidèle.
+	 * Ici, le client
+	 */
+	public boolean assezfidele(ExemplaireContratCadre contrat) {
+		String client = contrat.getAcheteur().getNom();
+		List<HistCC> historique = new LinkedList<HistCC>();
+		historique.add(cceq2);
+		historique.add(cceq3);
+		historique.add(cceq4);
+		historique.add(cceq5);
+		historique.add(cceq6);
+		historique.add(cceq7);
+		int l = historique.size();
+		for (int i=1; i<l; i++) {
+			int x = historique.get(i).getNbcontrats();
+			int k = i;
+			while (k>0 && x<historique.get(k-1).getNbcontrats()) {
+				historique.set(k, historique.get(k-1));
+				k -= 1;
+			historique.set(k, historique.get(x));
+			}
+		}
+		if ((client.equals(historique.get(l-1).getActeur())) || (client.equals(historique.get(l-2).getActeur()))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * @author arthurlemgit
 	 * Dans un premier temps, on accepte de vendre par CC dès lors qu'on a du produit (donc que notre stock>0)
