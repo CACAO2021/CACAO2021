@@ -61,14 +61,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				}
 			}
 			if (vendeurs.size()!=0) {
-				System.out.println(vendeurs.toString());
+				//System.out.println(vendeurs.toString());
 				int rnd = new Random().nextInt(vendeurs.size());
 				IActeur vendeur = vendeurs.get(rnd);
-				if (vendeurs.contains(Filiere.LA_FILIERE.getActeur("EQ5"))) {
-					vendeur=Filiere.LA_FILIERE.getActeur("EQ5");
-					System.out.print(Filiere.LA_FILIERE.getActeur("EQ5").getNom());
-				}
-				if (/*maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER*/ vendeur==Filiere.LA_FILIERE.getActeur("EQ5")) {
+
+				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) {
 					if (produitTG.contains(produit)) {
 						//pour l'instant on ne met rien en tg sinon ça bug et on ne peut pas pull request
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, true);
@@ -90,7 +87,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println("contre proposition");   <= method never called, execept maybe for cote d'imt
+		//System.out.println("contre proposition"); //  <= method never called, execept maybe for cote d'imt
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		j=0;
 		Echeancier e = contrat.getEcheancier();
