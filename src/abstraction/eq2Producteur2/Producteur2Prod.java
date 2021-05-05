@@ -48,11 +48,13 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void prod() {
 		for (Object p : listeProd) {
-			double qtt = prodParStep(p);
-			addStock(qtt, p); 
-			JournalProd.ajouter(""+ p +" "+qtt);	
-			coutProd(qtt, p);
-			majStock(p);
+			double qtt = prodParStep(p)*12;
+			if ((Filiere.LA_FILIERE.getMois()=="fevrier") || (Filiere.LA_FILIERE.getMois()=="septembre")  ) {
+				addStock(qtt, p); 
+				JournalProd.ajouter(""+ p +" "+qtt);	
+				coutProd(qtt, p);
+				majStock(p);
+			}
 		}		
 		}
 	
