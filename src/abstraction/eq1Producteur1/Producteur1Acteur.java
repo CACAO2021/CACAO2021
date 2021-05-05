@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import abstraction.eq2Producteur2.Producteur2Valeurs;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
@@ -12,22 +13,19 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public abstract class Producteur1Acteur implements IActeur {
+public abstract class Producteur1Acteur extends Producteur1Valeurs implements IActeur {
 	private int cryptogramme;
 	private Color couleur = new Color(26, 188, 156);
 	private Transformation transformation;
-	protected int step_actuel;
-	private List<VenteAO> historique_AO_F_M; //historique des appels d'offre pour les fèves de moyenne qualité non équitable.(0.0 : pas de vente, !=0 : vente à ce prix.)
-	private List<VenteAO> historique_AO_F_B; //historique des appels d'offre pour les fèves de basse qualité non équitable. idem
-	protected HashMap<Feve,List<VenteAO>> historiques; //dictionnaire qui contient les historiques de ventes par AO.
+	
+	
 
 	
 	public Producteur1Acteur() {
 		this.init_historiques();
-		this.step_actuel = 0;
 		
 	}
-	
+
 	public Producteur1Acteur(boolean b) {
 		
 	}
@@ -39,33 +37,8 @@ public abstract class Producteur1Acteur implements IActeur {
 
 	}
 	
-	/**
-	 * @author Alb1x
-	 * On crée un historique de vente par AO pour chaque fève que l'on vend par AO.
-	 * On range ensuite les historiques dans un dictionnaire historiques.
-	 */
-	private void init_historiques() {
-		this.historique_AO_F_M  = new ArrayList<VenteAO>();
-		this.historique_AO_F_B  = new ArrayList<VenteAO>();
-		this.historiques = new HashMap<Feve,List<VenteAO>>();
-		this.historiques.put(Feve.FEVE_MOYENNE, this.historique_AO_F_M);
-		this.historiques.put(Feve.FEVE_BASSE, historique_AO_F_B);
-	}
-	/**
-	 * @author Alb1x
-	 */
-	private void stepSuivant() {
-		this.step_actuel += 1;
-	}
 
-	/**
-	 * @author Alb1x
-	 * On rajoute une vente non conclue, cela sera changé si une vente est conclue au cours du step.
-	 */
-	private void majHist_AO() {
-		this.historique_AO_F_M.add(new VenteAO());
-		this.historique_AO_F_B.add(new VenteAO());
-	}
+	
 	/**
 	 * @author Alb1x
 	 * @author lebra pour l'ajout dans le journal
@@ -98,7 +71,6 @@ public abstract class Producteur1Acteur implements IActeur {
 
 
 	public void next() {
-		this.stepSuivant();
 		this.majHist_AO();
 		this.produireFeve();
 		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
@@ -159,4 +131,6 @@ public abstract class Producteur1Acteur implements IActeur {
 	public abstract List<Journal> getJournaux();
 	public abstract Stock getStock(Object o);
 	public abstract HashMap<Object, Stock> getStocks();
+	protected abstract void init_historiques();
+	protected abstract void majHist_AO();
 } 
