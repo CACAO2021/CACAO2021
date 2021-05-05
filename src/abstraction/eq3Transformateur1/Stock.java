@@ -128,6 +128,16 @@ public class Stock {
 		list.add(Feve.FEVE_BASSE);
 		return list;
 	}
+	// liste contenant tous les types de fèves que l'on souhaite  acheter en CC
+	public ArrayList<Feve> nosFevesCC() {
+		ArrayList<Feve> list = new ArrayList<Feve>();
+		list.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		list.add(Feve.FEVE_HAUTE_EQUITABLE);
+		list.add(Feve.FEVE_MOYENNE_EQUITABLE);
+		list.add(Feve.FEVE_MOYENNE);
+		return list;
+		
+	}
 	
 	// liste contenant tout les types de chocolats
 	public ArrayList<Chocolat> nosChocolats() {

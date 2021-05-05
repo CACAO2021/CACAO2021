@@ -238,7 +238,7 @@ public class Business {
 	public ArrayList<Feve> feveAAcheter() {
 		// on retourne la liste de toutes les fèves qu'on doit acheter
 		ArrayList<Feve> listefeve = new ArrayList<Feve>();
-		for (Feve feve : this.getStock().nosFeves()) {
+		for (Feve feve : this.getStock().nosFevesCC()) {
 			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
 				listefeve.add(feve);
 			} 
