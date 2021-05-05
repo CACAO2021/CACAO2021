@@ -164,11 +164,6 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 		return contrat.getPrix();
 		/*
-<<<<<<< HEAD
-=======
-		//*
-=======
->>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
 		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
@@ -177,12 +172,8 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		}
 		else {
 			return (liste_prix.get(n-2)+PRIX_PALIER_F_E)/2;
-<<<<<<< HEAD
-
 		}
 		*/
-
-
 	}
 
 
