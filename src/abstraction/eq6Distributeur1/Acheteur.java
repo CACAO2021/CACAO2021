@@ -76,10 +76,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				IActeur vendeur = vendeurs.get(rnd);
 
 				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) {
-					if (produitTG.contains(produit)) {
+					if (produitTG.contains(produit) && verifTG(produit)) {
 						//pour l'instant on ne met rien en tg sinon ça bug et on ne peut pas pull request
-						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, true);
+						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape(), Filiere.LA_FILIERE.getEtape()+1, maxQuantite(produit)), cryptogramme, true);
 						//System.out.println("vente tg");
+						produitTG.remove(produit);
 					}
 					else {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);
@@ -261,23 +262,27 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 			}
 		}
 
+		if(verifTG(moinsVendu)) {
+			produitTG.add(moinsVendu);
+			pasTG.remove(pasTG.indexOf(moinsVendu));
+			choixTG();
+		}
 
-
+	}
+	
+	public boolean verifTG(ChocolatDeMarque choco) {
+		
 		double maxQuantiteProduitTG = 0;
 		if (produitTG.size()!=0) {
 			for (ChocolatDeMarque futurTG : produitTG) {
 				maxQuantiteProduitTG += maxQuantite(futurTG);
 			}
 		}
-
-
-
-		if(maxQuantite(moinsVendu) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.1*quantiteEnVente()) {
-			produitTG.add(moinsVendu);
-			pasTG.remove(pasTG.indexOf(moinsVendu));
-			choixTG();
+		
+		if(maxQuantite(choco) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.1*quantiteEnVente()) {
+			return true;
 		}
-
+		return false;
 	}
 
 
