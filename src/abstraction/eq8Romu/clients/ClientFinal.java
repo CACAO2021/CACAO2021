@@ -377,7 +377,14 @@ public class ClientFinal implements IActeur {
 		return j;
 	}
 	public void notificationFaillite(IActeur acteur) {
+		for (ChocolatDeMarque c : this.distributeursParChocolat.keySet()) {
+			if (this.distributeursParChocolat.get(c).contains(acteur)) {
+				this.distributeursParChocolat.get(c).remove(acteur);
+				JournalDistribution.ajouter(Color.WHITE, Color.RED, acteur.getNom()+" fait faillite : il est retire des distributeurs de "+c);
+			}
+		}
 	}
+
 	public void notificationOperationBancaire(double montant) {
 	}
 	public void setCryptogramme(Integer crypto) {

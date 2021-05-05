@@ -8,6 +8,7 @@ import abstraction.eq8Romu.produits.Feve;
 public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	public Producteur2Valeurs() {super();}
 	
+	// respo : eme
 	
 	// partie stockage
 	

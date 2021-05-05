@@ -13,6 +13,8 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
+
+// Gaspart
 public class Transformateur1Acteur implements IActeur {
 	
 	protected Stock stock;
@@ -20,7 +22,6 @@ public class Transformateur1Acteur implements IActeur {
 	protected Journal journalAcheteur;
 	protected Journal journalVendeur;
 	protected Journal journalStock;
-	protected Journal journalTransformation;
 	protected Journal journalTresorie;
 
 	
@@ -31,7 +32,6 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalAcheteur = new Journal(this.getNom()+" achat", this);
 		this.journalVendeur = new Journal(this.getNom()+" vente ", this);
 		this.journalStock = new Journal(this.getNom()+" stock ", this);
-		this.journalTransformation = new Journal(this.getNom()+" transformation", this);
 		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
 		this.stock = new Stock(this);
 
@@ -82,9 +82,6 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalTresorie.ajouter(s);
 	}
 	
-
-
-	
 	
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> res=  new ArrayList<String>();
@@ -112,7 +109,6 @@ public class Transformateur1Acteur implements IActeur {
 		List<Journal> res=new ArrayList<Journal>();
 		res.add(this.journalAcheteur);
 		res.add(this.journalVendeur);
-		res.add(this.journalTransformation);
 		res.add(this.journalStock);
 		res.add(this.journalTresorie);
 		return res;

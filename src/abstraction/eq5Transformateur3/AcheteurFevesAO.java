@@ -24,6 +24,10 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	private double qmax;
 	private double prixmax;
 	
+	public AcheteurFevesAO() {
+		
+	}
+	
 	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
@@ -37,17 +41,14 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 	}
 	
-	
-
-	
-
 	public double getQmin() {
-		return this.quantite.getMin();
+		return qmin;
+		//return this.quantite.getMin();
 	}
 	public double getQmax() {
 		return this.quantite.getMax();
-
 	}
+	
 	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
 	public Feve getFeve(Chocolat chocolat) {
 			if(chocolat == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
@@ -62,20 +63,18 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	}
     // cette méthode permet de garantir une quantité minimale de fèves en stock pour chaque type de fèves
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
-	
-
 
 	public OffreAchatFeves getOffreAchat() {
-		int nb_OA = 0;
+		/*int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
 					feve = getFeve(chocolat);
 					if(quantite.getValeur()!=0){
-						this.JournalOA.ajouter("offre d'achat =" + OA);
+						//this.JournalOA.ajouter("offre d'achat =" + OA);
 						nb_OA+=1;
-						return OA;
+						return null; //OA;
 					}
 				}
 			}
@@ -94,7 +93,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			if(nb_OA==0){
 				this.JournalOA.ajouter("pas d'offre d'achat");
 				return null;
-			}
+			}*/
 			return null;
 	}
 
@@ -105,8 +104,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 	//On va choisir ici la proposition la moins chère pour être cohérent avec notre objectif de rentabilité
 	// on choisit cependant des AO dont les quantités respectent les quantités voulues initialement 
-	//(j'ajoute ici une variable delta qui indique de cb peut varier la quantité demandée)
-	
+
+	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
 		double delta = this.getQmax()-this.getQmin();
@@ -123,27 +122,23 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 		if(propositions_interessantes.size()!=0) {
 			int hasard = (int)(Math.random()*propositions_interessantes.size());
-			return propositions_interessantes.get(hasard);
-				
-			}
-		else{
+			return propositions_interessantes.get(hasard);	
+		} else {
 			return null;
-		}}
-
-	@Override
-	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		}
+	} 
 
 	@Override
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		//stocksFeves.put(feve, stocksFeves.get(feve)+proposition.getQuantiteKg());
-		//this.journal.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
+		//this.JournalOAajouter("--> le stock de feve passe a "+Journal.doubleSur(this.stocksFeves.get(proposition.getFeve()), 4));
 	}
-		
+
+	@Override
+	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
+		// TODO Auto-generated method stub
+		return null;}
 	}
-	
 
 
 		

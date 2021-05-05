@@ -6,7 +6,7 @@ import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 
-//DIM
+//ensemble fait par DIM
 
 public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 		protected LinkedList<ExemplaireContratCadre> mesContratsCC;
@@ -152,7 +152,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			if(cond2) {				
 				return e;
 			} else { //on ne souhaite pas vendeur donc on retourne null
-			return null;
+			return null; 
 		}}
 
 	}
@@ -161,7 +161,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		double prix = prixEspere(contrat.getProduit());
-		return prix;
+		return prix * 5000; // on profite du fait qu'ils achetent quoi quil arrive pour devenir riche
 	}
 
 	@Override
