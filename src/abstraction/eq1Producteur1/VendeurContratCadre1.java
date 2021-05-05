@@ -181,9 +181,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 
 		}
 		*/
-=======
-		}*/
->>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
+
 
 	}
 
