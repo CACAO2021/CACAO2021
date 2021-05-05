@@ -42,12 +42,12 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	
 	public void next() {
 		
-		getIndicateurs().get(0).setValeur(this, stock_feve.get(Feve.FEVE_BASSE));
-		getIndicateurs().get(1).setValeur(this, stock_feve.get(Feve.FEVE_MOYENNE));
-		getIndicateurs().get(2).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_BASSE));
-		getIndicateurs().get(3).setValeur(this, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
-		getIndicateurs().get(4).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
-		getIndicateurs().get(5).setValeur(this, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
+		getIndicateurs().get(0);
+		getIndicateurs().get(1);
+		getIndicateurs().get(2);
+		getIndicateurs().get(3);
+		getIndicateurs().get(4);
+		getIndicateurs().get(5);
 		
 		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_feve + (stock_feve.get(Feve.FEVE_BASSE)+stock_feve.get(Feve.FEVE_MOYENNE))*cout_stockage_unite_feve));
 		Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
