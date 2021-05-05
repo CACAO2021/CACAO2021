@@ -260,10 +260,17 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
 		if (Filiere.LA_FILIERE.getEtape()==0) {
-			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
-			contrats.add(contrat);
-			//on ajoute le contrat aux contrats signés
+			double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
+			if(!wonka.getAutorisationTransaction(prix*contrat.getQuantiteTotale() + paiements)) {
+				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
+				return contrat.getPrix()*0.90;
+			}
+			else {
 			
+				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
+				contrats.add(contrat);
+				//on ajoute le contrat aux contrats signés
+			}
 		
 			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 			this.prixChocolat = this.prixParChocolat.get(choco);
