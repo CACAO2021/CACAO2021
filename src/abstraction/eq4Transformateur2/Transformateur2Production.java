@@ -10,12 +10,11 @@ public class Transformateur2Production extends Transformateur2Stock {
 
 	public Transformateur2Production() {
 		super();
-		
 	}
 	
 	public void transformation_feve(double quantite, Object o) {
 		if (o instanceof Chocolat) {
-			if ((o == Chocolat.TABLETTE_BASSE || o == Chocolat.CONFISERIE_BASSE) && get_stock(Feve.FEVE_BASSE) - quantite >= 0) {
+			if ((o == Chocolat.TABLETTE_BASSE || o == Chocolat.CONFISERIE_BASSE) && get_stock(Feve.FEVE_BASSE) - quantite > 0) {
 				add_stock((Chocolat) o, quantite);
 				delete_stock(Feve.FEVE_BASSE, quantite);
 				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), quantite*cout_transformation);
@@ -25,7 +24,7 @@ public class Transformateur2Production extends Transformateur2Stock {
 				delete_stock(Feve.FEVE_BASSE, get_stock(Feve.FEVE_BASSE));
 				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), get_stock(Feve.FEVE_BASSE)*cout_transformation);
 			}
-			if ((o == Chocolat.TABLETTE_MOYENNE || o == Chocolat.CONFISERIE_MOYENNE) && get_stock(Feve.FEVE_MOYENNE) - quantite >= 0) {
+			if ((o == Chocolat.TABLETTE_MOYENNE || o == Chocolat.CONFISERIE_MOYENNE) && get_stock(Feve.FEVE_MOYENNE) - quantite > 0) {
 				add_stock((Chocolat) o, quantite);
 				delete_stock(Feve.FEVE_MOYENNE, quantite);
 				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), quantite*cout_transformation);

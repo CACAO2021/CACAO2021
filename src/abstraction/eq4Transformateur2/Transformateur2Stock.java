@@ -29,10 +29,10 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 		if (o instanceof Feve) {
 			stock_feve.replace((Feve) o, stock_feve.get(o) + quantite);
 			if (o == Feve.FEVE_BASSE) {
-				var_stock_feve_basse.setValeur(this, var_stock_feve_basse.getValeur() + quantite);
+				var_stock_feve_basse.setValeur(this, stock_feve.get(Feve.FEVE_BASSE));
 			}
 			else {
-				var_stock_feve_moyenne.setValeur(this, var_stock_feve_moyenne.getValeur() + quantite);
+				var_stock_feve_moyenne.setValeur(this, stock_feve.get(Feve.FEVE_MOYENNE));
 			}
 		}
 		if (o instanceof Chocolat) {
