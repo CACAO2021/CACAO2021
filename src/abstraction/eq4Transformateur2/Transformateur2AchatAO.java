@@ -17,13 +17,15 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 		super();
 	}
 	
+	// BANANE FLAMBEE
+	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
-		if (get_stock(Feve.FEVE_BASSE) < mini_stock_bas) {
-			return new OffreAchatFeves(this, Feve.FEVE_BASSE, mini_stock_bas-get_stock(Feve.FEVE_BASSE));
+		if (get_stock(Feve.FEVE_BASSE) < quantite_totale_demandee_basse / nombre_step_total_basse) {
+			return new OffreAchatFeves(this, Feve.FEVE_BASSE,quantite_totale_demandee_basse-get_stock(Feve.FEVE_BASSE));
 		}
-		if (get_stock(Feve.FEVE_MOYENNE) < mini_stock_moyen) {
-			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, mini_stock_moyen-get_stock(Feve.FEVE_MOYENNE));
+		if (get_stock(Feve.FEVE_MOYENNE) < quantite_totale_demandee_moyenne / nombre_step_total_moyenne) {
+			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, quantite_totale_demandee_moyenne-get_stock(Feve.FEVE_MOYENNE));
 		}
 		else {
 			return null;
