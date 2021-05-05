@@ -16,6 +16,7 @@ import abstraction.fourni.Filiere;
 
 public class Transformateur2Acteur extends Transformateur2Valeurs implements IActeur {
 
+	
 	public Transformateur2Acteur() {
 		super();
 		this.journal = new Journal(this.getNom(), this);
@@ -68,6 +69,8 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public List<Variable> getIndicateurs() {
 		// on choisit les indicateurs qui nous seront donnés lors de la simu
 		List<Variable> res=new ArrayList<Variable>();
+		return res;
+		/*
 		res.add(var_stock_feve_basse);
 		res.add(var_stock_feve_moyenne);
 		res.add(var_stock_tablette_basse);
@@ -75,6 +78,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		res.add(var_stock_confiserie_basse);
 		res.add(var_stock_confiserie_moyenne);
 		return res;
+		*/
 	}
 	
 	public List<Variable> getParametres() {
