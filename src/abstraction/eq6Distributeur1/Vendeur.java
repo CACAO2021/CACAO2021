@@ -36,7 +36,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		journalVentes.ajouter("toutes les ventes conclues");
 
 		for (int i=0; i<this.getCatalogue().size(); i++) {
-			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 5000.0);
+			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 300000.0);
 		}
 
 		/*On initialise l'historique, la quantité totale vendue et 

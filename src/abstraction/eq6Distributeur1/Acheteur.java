@@ -61,19 +61,24 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				}
 			}
 			if (vendeurs.size()!=0) {
+				System.out.println(vendeurs.toString());
 				int rnd = new Random().nextInt(vendeurs.size());
 				IActeur vendeur = vendeurs.get(rnd);
-				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) {
+				if (vendeurs.contains(Filiere.LA_FILIERE.getActeur("EQ5"))) {
+					vendeur=Filiere.LA_FILIERE.getActeur("EQ5");
+					System.out.print(Filiere.LA_FILIERE.getActeur("EQ5").getNom());
+				}
+				if (/*maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER*/ vendeur==Filiere.LA_FILIERE.getActeur("EQ5")) {
 					if (produitTG.contains(produit)) {
 						//pour l'instant on ne met rien en tg sinon ça bug et on ne peut pas pull request
-						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);
+						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, true);
 						//System.out.println("vente tg");
 					}
 					else {
 						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);
 					}
 				}
-			} 
+			}
 		}
 		super.next();
 	}
@@ -82,8 +87,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Elsa
+	
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
+		//System.out.println("contre proposition");   <= method never called, execept maybe for cote d'imt
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		j=0;
 		Echeancier e = contrat.getEcheancier();
