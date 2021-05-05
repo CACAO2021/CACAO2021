@@ -19,7 +19,7 @@ public class Business {
 	
 	
 	private Stock stock;
-	private double QUANTITE_INI = 10000;
+	private double QUANTITE_INI = 100000;
 	protected List<Variable> indicateurs;
 	
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
@@ -122,6 +122,7 @@ public class Business {
 			// On set la valeur du prix de vente au kg de ce chocolat
 			this.getStock().getActeur().getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().prixDeVenteKG(chocolat));
 		}
+		System.out.println(compteur);
 	}
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {

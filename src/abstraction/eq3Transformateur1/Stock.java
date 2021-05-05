@@ -21,8 +21,6 @@ public class Stock {
 	private List<Variable> indicateurs;	
 	protected Map<Feve, ArrayList<ArrayList<Variable>>> stockFeves;
 	protected Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolats; 
-	protected Map<Feve,Double> coutFeves;
-	protected Map<Chocolat,Double> coutChocolat;
 	private Variable PrixTransformationFeve;
 	private Variable PrixStockage;
 	private Variable RapportTransformation;
@@ -73,6 +71,22 @@ public class Stock {
 		this.PrixStockage = new Variable(acteur.getNom() + " Coût du stockage", acteur, PRIX_STOCKAGE_FIXE);
 		this.RapportTransformation = new Variable(acteur.getNom() + " rapport entre quantité de fève et chocolat", acteur, RAPPORT_TRANSFORMATION);
 		
+
+	}
+	
+	public void initialiserLeStock() {
+		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.TABLETTE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.POUDRE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.POUDRE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
+		this.setStockChocolat(Chocolat.POUDRE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(), 20000));
 
 	}
 	
@@ -149,18 +163,26 @@ public class Stock {
 		
 	}
 	
-	public double getPrixMoyenFeve(Feve feve) {
-		
-		double total = 0;
-		Map<Feve, ArrayList<ArrayList<Variable>>> stockFevesT = this.stockFeves;
-		ArrayList<ArrayList<Variable>> stockFeves = stockFevesT.get(feve);
-		for(ArrayList<Variable> QuantitePrix : stockFeves) {
-			total += QuantitePrix.get(1).getValeur(); // on recupere combien l'ensemble de quantité de ce type de feve nous a couté
+	public double prixAchatKG(Feve feve) {
+	// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
+		double compteur = 0.0;
+		double prix = 0.0;
+		ArrayList<ArrayList<Variable>> stockfeve = this.stockFeves.get(feve);
+		for ( ArrayList<Variable> quantPrix: stockfeve) {
+			if (quantPrix.get(0).getValeur() > 0) {
+				prix += quantPrix.get(1).getValeur();
+				compteur += 1;
+			}
 		}
-		total = total/stockFeves.size();	// on divise le prix total par la quantité de feve pour savoir combien en moyenne le kilo de feve nous a couté
-		return total;
-		
+		if (compteur != 0) {
+			prix = prix/compteur;
+			return prix;
+		} else {
+			return 100000000;
+		}
+
 	}
+	
 	
 	public double getStockFeves() {
 		
@@ -290,7 +312,7 @@ public class Stock {
 				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
 				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
 				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
-				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
+				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.prixAchatKG(feve)*this.getMarge(feve));
 				// on calcul les couts de transformations
 				double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
 				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
@@ -340,17 +362,18 @@ public class Stock {
 	
 	
 	public double prixDeVenteKG(Chocolat chocolat) {
-		if (this.getStockChocolats(chocolat) != 0) {
-			// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
-			double prix = 0.0;
-			ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
-			for ( ArrayList<Variable> quantPrix: stockChocolats) {
-				if (quantPrix.get(0).getValeur() > 0) {
-					prix += quantPrix.get(1).getValeur();
-				}
-			} 
-			prix = prix/this.getStockChocolats(chocolat);
-			return prix;
+	// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
+		double compteur = 0.0;
+		double prix = 0.0;
+		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
+		for ( ArrayList<Variable> quantPrix: stockChocolats) {
+			if (quantPrix.get(0).getValeur() > 0) {
+				prix += quantPrix.get(1).getValeur();
+				compteur += 1;
+			}
+		}
+		if (compteur != 0) {
+			return prix/compteur;
 		} else {
 			return 100000000;
 		}
@@ -359,20 +382,19 @@ public class Stock {
 	
 	public double prixDejaVenduKG(Chocolat chocolat) {
 		// retourne le prix de vente en moyenne reel auquel on a vendu notre chocolat au KG
+		double compteur = 0.0;
 		double prix = 0.0;
-		double stockvendu = 0;
 		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
 		for ( ArrayList<Variable> quantPrix: stockChocolats) {
 			if (quantPrix.get(0).getValeur() < 0) {
-				stockvendu =  stockvendu - quantPrix.get(0).getValeur();
 				prix += quantPrix.get(1).getValeur();
+				compteur += 1;
 			}
-		} 
-		if (stockvendu != 0) {
-			prix = prix/stockvendu;
-			return prix;
+		}
+		if (compteur != 0) {
+			return prix/compteur;
 		} else {
-			return 0;
+			return 100000000;
 		}
 
 	}	
