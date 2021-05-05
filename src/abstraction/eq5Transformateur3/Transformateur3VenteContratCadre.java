@@ -52,9 +52,8 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 			} else if (this.getChocolats().get(choco).getValeur()>0) {
 				return true;
 			} else {
-				return false;
-			}	
-		}
+				return false;}	
+			}
 		}
 		
 		else {
