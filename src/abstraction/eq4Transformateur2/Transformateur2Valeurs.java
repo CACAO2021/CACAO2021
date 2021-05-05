@@ -43,8 +43,10 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_bas = 10000.0;
 	protected double mini_stock_moyen = 10000.0;
 	
-	protected double quantite_moyenne_demandee_echeancier_basse = -1;
-	protected double quantite_moyenne_demandee_echeancier_moyenne = -1;
+	protected double quantite_totale_demandee_basse = 0;
+	protected double quantite_totale_demandee_moyenne = 0;
+	protected double nombre_step_total_basse = 0;
+	protected double nombre_step_total_moyenne = 0;
 	
 	protected static double cout_stockage_unite_feve = 0.006;
 	protected static double cout_stockage_unite_choco = 0.006 ;
@@ -93,7 +95,6 @@ public class Transformateur2Valeurs {
 	protected static double quantite_init_tablette_moyenne = 100000.0;
 	protected static double quantite_init_confiserie_basse = 100000.0;
 	protected static double quantite_init_confiserie_moyenne = 100000.0;
-	
 
 }
 	
