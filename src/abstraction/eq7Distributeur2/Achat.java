@@ -19,7 +19,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private HashMap<ChocolatDeMarque, Variable> quantiteMax;
 	private LinkedList<ExemplaireContratCadre> contrats;
 	private SuperviseurVentesContratCadre supCCadre;
-	private HashMap<ChocolatDeMarque, Variable> quantiteMini;
+	private HashMap<ChocolatDeMarque, Variable> quantiteLimite;
 	private double paiements; //variable servant à connaître réellement l'état du compte en banque
 	private HashMap<ChocolatDeMarque, LinkedList<Double>> prixParChocolat; //pour avoir une moyenne du prix d'achat par chocolat
 	private LinkedList<Double> prixChocolat; //idem 
@@ -48,7 +48,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			}
 		}
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
-		this.quantiteMini = new HashMap<ChocolatDeMarque, Variable>();
+		this.quantiteLimite = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteMax = new HashMap<ChocolatDeMarque, Variable>();
 		this.quantiteEnRouteTG = new HashMap<ChocolatDeMarque, Double>();
 		
@@ -97,29 +97,31 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			Concurrents.remove((IDistributeurChocolatDeMarque)this);
 			//si les concurrents vendent le même chocolat que nous, on en commande moins que le total de l'année passée
 			if (Concurrents.size()!=0 && Concurrents.get(0).getCatalogue().contains(choco)) {
-				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)*0.25  - wonka.quantiteEnVente(choco) );
-				if(quantiteMin.getValeur() < 0) {
-					quantiteMin.setValeur(wonka, 0);
-				}
-				quantiteMini.put(choco, quantiteMin);
-				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)*0.75  - wonka.quantiteEnVente(choco) );
-				if(quantite.getValeur() < 0) {
-					quantite.setValeur(wonka, 0);
-				}
-				quantiteMax.put(choco, quantite);
-				//System.out.println(choco.toString()+ " : quantité min : " + quantiteMin.getValeur());
-				//System.out.println(choco.toString()+ " : quantité max : " + quantiteMin.getValeur());
-				//System.out.println(choco.toString() + Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24));
-
+				if(Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)<0.8*Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)-24)) {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)- 24)*0.25  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24) -24)*0.75  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+				}else {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()- 24)*0.25  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() -24)*0.75  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+					}
 			}
-			//Si ils ne vendent pas le même, on commande quasiment autant que l'année passée
 			else {
-				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/2  - wonka.quantiteEnVente(choco) );
-				quantiteMini.put(choco, quantiteMin);
-				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)  - wonka.quantiteEnVente(choco) );
-				quantiteMax.put(choco, quantite);
+				if(Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)<0.8*Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)-24)) {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)- 24)/2  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24) -24)  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+				}else {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()- 24)/2  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() -24)  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+					}
 			}
-			
 		}
 		this.majDemande();
 		this.nouveauContrat();
@@ -143,16 +145,15 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	//Martin Collemare
 	public void majDemande() {
-		//System.out.println(wonka.getCatalogue());
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteMini.get(choco).getValeur()) {
+			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
 			}
 			else {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
-			//afin de ne pas polluer démesurément on annule la commande si le volume n'est pas conséquent
+			//afin de ne pas polluer démesurement on annulle la commande si le volume n'est pas conséquent
 			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
 				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
 			}
@@ -182,7 +183,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	
 	//Martin Collemare
-	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteMini
+	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
@@ -277,7 +278,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
 		
-			if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction(prix + paiements)) {
+			if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction(prix*contrat.getQuantiteTotale() + paiements)) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
 				return contrat.getPrix()*0.90;
 			}
