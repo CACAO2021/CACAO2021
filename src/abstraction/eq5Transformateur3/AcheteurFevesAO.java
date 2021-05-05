@@ -103,7 +103,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 	//On va choisir ici la proposition la moins chère pour être cohérent avec notre objectif de rentabilité
 	// on choisit cependant des AO dont les quantités respectent les quantités voulues initialement 
-
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
