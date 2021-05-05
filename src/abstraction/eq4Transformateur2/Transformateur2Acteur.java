@@ -68,12 +68,12 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public List<Variable> getIndicateurs() {
 		// on choisit les indicateurs qui nous seront donnés lors de la simu
 		List<Variable> res=new ArrayList<Variable>();
-		res.add(new Variable("STOCK_FEVE_BASSE", this, 0, 100000, stock_feve.get(Feve.FEVE_BASSE)));
-		res.add(new Variable("STOCK_FEVE_MOYENNE", this, 0, 100000, stock_feve.get(Feve.FEVE_MOYENNE)));
-		res.add(new Variable("STOCK_TABLETTE_BASSE", this, 0, 100000, stock_chocolat.get(Chocolat.TABLETTE_BASSE)));
-		res.add(new Variable("STOCK_TABLETTE_MOYENNE", this, 0, 100000, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE)));
-		res.add(new Variable("STOCK_CONFISERIE_BASSE", this, 0, 100000, stock_chocolat.get(Chocolat.CONFISERIE_BASSE)));
-		res.add(new Variable("STOCK_CONFISERIE_MOYENNE", this, 0, 100000, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)));
+		res.add(var_stock_feve_basse);
+		res.add(var_stock_feve_moyenne);
+		res.add(var_stock_tablette_basse);
+		res.add(var_stock_tablette_moyenne);
+		res.add(var_stock_confiserie_basse);
+		res.add(var_stock_confiserie_moyenne);
 		return res;
 	}
 	
