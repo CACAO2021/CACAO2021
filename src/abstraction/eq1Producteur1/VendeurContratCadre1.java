@@ -72,7 +72,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * 
 	 */
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
+		if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE)) ) {
 			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.25*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.05*this.getStocks().get(contrat.getProduit()).getQuantite()) {
 				double nvlleqte = 0.15*this.getStocks().get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
@@ -81,7 +81,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				Echeancier e = new Echeancier (contrat.getEcheancier());
 				return e;
 			} 
-		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE)) ) {
+		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
 			/*if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
 				double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
@@ -162,13 +162,10 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-<<<<<<< HEAD
 		return contrat.getPrix();
 		/*
 =======
 		//*
-		System.out.println("**");
->>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
 		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
@@ -177,12 +174,10 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		}
 		else {
 			return (liste_prix.get(n-2)+PRIX_PALIER_F_E)/2;
-<<<<<<< HEAD
+
 		}
 		*/
-=======
-		}//*/
->>>>>>> branch 'master' of https://github.com/Alb1x/CACAO2021/
+
 	}
 
 
