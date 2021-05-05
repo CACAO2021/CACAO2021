@@ -1,6 +1,7 @@
 package abstraction.eq1Producteur1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
@@ -12,27 +13,33 @@ import abstraction.fourni.Journal;
 
 public class JournauxEq1 {
 
-	private ArrayList<Journal> l_journaux;
+	private HashMap<Object, Journal> journaux;
+
 
 	public JournauxEq1() {
-		this.l_journaux = new ArrayList<Journal>();
+		this.journaux = new HashMap<Object, Journal>();
+
 	}
 
-	public JournauxEq1 (ArrayList<Journal> l_journaux) {
-		this.l_journaux = l_journaux;
+	public JournauxEq1 (HashMap<Object, Journal> journaux) {
+		this.journaux = journaux;
 	}
 
-	public Journal getJournal(int i) {
-		return this.l_journaux.get(i);
+	public Journal getJournal(String nom) {
+		return this.journaux.get(nom);
 	}
 
 	public void addJournal(String n, IActeur a) {
 		Journal journal = new Journal(n, a);
-		this.l_journaux.add(journal);
+		this.journaux.put(n, journal);
 	}
 
-	public ArrayList<Journal> getListeJournaux(){
-		return l_journaux;
-	}
 
+	public ArrayList<Journal> getJournaux(){
+		ArrayList<Journal> list = new ArrayList<Journal>();
+		for (Object journal: this.journaux.keySet()) {
+			list.add(this.journaux.get(journal));
+		}
+		return list;
+	}
 }
