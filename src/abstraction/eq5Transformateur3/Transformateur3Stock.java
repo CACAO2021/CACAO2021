@@ -17,12 +17,12 @@ public class Transformateur3Stock extends Transformateur3Acteur {
 		this.chocolats = new HashMap<Chocolat, Variable>();
 		this.feves = new HashMap<Feve, Variable>();
 		
-		Variable value_Tablette_Haute_Bio_Equitable = new Variable("Stock de tablettes haute bio équitable", this, 50);
-		Variable value_Tablette_moyenne = new Variable("Stock de tablettes gamme moyenne", this, 50);
-		Variable value_Confiserie_moyenne = new Variable("Stock de confiseries", this, 50);
+		Variable value_Tablette_Haute_Bio_Equitable = new Variable("Stock de tablettes haute bio équitable", this, 50000);
+		Variable value_Tablette_moyenne = new Variable("Stock de tablettes gamme moyenne", this, 50000);
+		Variable value_Confiserie_moyenne = new Variable("Stock de confiseries", this, 50000);
 		
-		Variable value_Feve_Haute_Bio_Equitable = new Variable("Stock de fèves haute bio équitable", this, 50);
-		Variable value_Feve_Moyenne = new Variable("Stock de fèves gamme moyenne", this, 50);
+		Variable value_Feve_Haute_Bio_Equitable = new Variable("Stock de fèves haute bio équitable", this, 50000);
+		Variable value_Feve_Moyenne = new Variable("Stock de fèves gamme moyenne", this, 50000);
 		
 		this.chocolats.put(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, value_Tablette_Haute_Bio_Equitable);
 		this.chocolats.put(Chocolat.TABLETTE_MOYENNE, value_Tablette_moyenne);
