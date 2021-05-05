@@ -66,7 +66,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 
 	public OffreAchatFeves getOffreAchat() { 
 		Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
-		OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, (double)1000);
+		OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, (double)10);
 		if (feve.getValeur()<1000000) {
 			this.JournalOA.ajouter("offre d'achat =" + OA);
 			return OA; }
@@ -138,7 +138,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	} 
 
 	@Override
-	*/public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
+	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		// TODO Auto-generated method stub
 		return null;
 	}
