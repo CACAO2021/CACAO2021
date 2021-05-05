@@ -25,6 +25,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private LinkedList<Double> prixChocolat; //idem 
 	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on a pas encore en stock alors qu'il arrive dans x étapes selon l'échéancier d'un contrat déjà signé
 	private HashMap<ChocolatDeMarque,Double> quantiteEnRouteTG; // quantité de choco à mettre en tete de gondole en cours de livraison
+	private HashMap<ChocolatDeMarque, LinkedList<ExemplaireContratCadre>> contratsPropositionsParChoco; //permet de choisir le vendeur de façon non aléatoire pour un choco donné : comparaison des prix
 	
 	public Color titleColor = Color.BLACK;
 	public Color metaColor = Color.CYAN;
@@ -107,12 +108,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 					quantite.setValeur(wonka, 0);
 				}
 				quantiteMax.put(choco, quantite);
-				//System.out.println(choco.toString()+ " : quantité min : " + quantiteMin.getValeur());
-				//System.out.println(choco.toString()+ " : quantité max : " + quantiteMin.getValeur());
-				//System.out.println(choco.toString() + Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24));
+				System.out.println(choco.toString()+ " : quantité min : " + quantiteMin.getValeur());
+				System.out.println(choco.toString()+ " : quantité max : " + quantite.getValeur());
+				System.out.println(choco.toString() + Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24));
 
 			}
-			//Si ils ne vendent pas le même, on commande quasiment autant que l'année passée
+			//S'ils ne vendent pas le même, on commande quasiment autant que l'année passée
 			else {
 				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/2  - wonka.quantiteEnVente(choco) );
 				quantiteMini.put(choco, quantiteMin);
@@ -189,17 +190,18 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			if (vendeurs.size()!=0 && this.besoinsChoco.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
 				int i = (int) (Math.random()*vendeurs.size());
 				IVendeurContratCadre vendeur = vendeurs.get(i);
-
-
-				//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
-				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
+				//for(IVendeurContratCadre vendeur : vendeurs) {
 				
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
+					//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
+					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
+				
+					wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 
-				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+					supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+				}
 			}
 		}
-	}
+	
 	
 	
 	//Martin Collemare
