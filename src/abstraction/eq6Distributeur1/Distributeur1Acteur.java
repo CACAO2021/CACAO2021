@@ -3,27 +3,26 @@ package abstraction.eq6Distributeur1;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
-import abstraction.eq8Romu.contratsCadres.Echeancier;
-import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
-import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
-import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public class Distributeur1Acteur implements IActeur {
-	
+
 	protected int cryptogramme;
 	List<Variable> parametres = new ArrayList<Variable>();
 	List<Variable> indicateurs = new ArrayList<Variable>();
 	List<Journal> journaux  = new ArrayList<Journal>();
+	Journal operationBancaire;
+
+
 
 	public Distributeur1Acteur() {
+		this.operationBancaire = new Journal("Cacaocaisse : toutes les opération bancaires", this);
 	}
-	
-	
+
+
 	public String getNom() {
 
 		return "EQ6";
@@ -39,13 +38,14 @@ public class Distributeur1Acteur implements IActeur {
 
 
 	public void initialiser() {
+		journaux.add(operationBancaire);
 	}
 
 	public void next() {
-		
+
 	}
 
-	
+
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
@@ -64,12 +64,15 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
-		
+
 		return parametres;
 	}
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
+		//journaux.add(journalVentes);
+		//journaux.add(journalStocks);
+		//journaux.add(journalAchats);
 		return journaux;
 	}
 
@@ -83,8 +86,10 @@ public class Distributeur1Acteur implements IActeur {
 
 	// quand la banque fait un dépot ou un retrait cette methode est appelée avec le montant en param, pour si on veut l'utiliser pour quelque chose
 	public void notificationOperationBancaire(double montant) {
+		operationBancaire.ajouter("nouveau virement de "+ montant);
+
 	}
-	
+
 	// Renvoie le solde actuel de l'acteur
 	public double getSolde() {
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);

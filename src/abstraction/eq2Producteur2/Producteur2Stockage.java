@@ -141,31 +141,40 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	
 	//Dim
 	public void vente(double qtt, Object produit) {
+		// fonctionne mais les qtt d'achats sont tlmt faible que ca n'apparait pas sur les courbes
 		if (estFeveHBE(produit)) {
 			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveHBE.get(0).setQtt((this.stockFeveHBE.get(0).getQtt() - qtt )) ;
-					qtt = 0;
+					qtt = 0; break; // equivalent
 				} else {
 					qtt -= this.stockFeveHBE.get(0).getQtt() ;
 					this.stockFeveHBE.remove(0);
 				}
 			}							
 		} else if (estFeveHE(produit)) {
+			//System.out.println("av"+qttTotale(produit).getValeur());
 			double q = this.stockFeveHE.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
+					//System.out.println("ok " + this.stockFeveHE.get(0).getQtt());
 					this.stockFeveHE.get(0).setQtt((this.stockFeveHE.get(0).getQtt() - qtt )) ;
+					//System.out.println("ok2 " + this.stockFeveHE.get(0).getQtt());
 					qtt = 0;
 				} else {
+					//System.out.println("pas ok");
 					q = qtt - this.stockFeveHE.get(0).getQtt() ;
 					this.stockFeveHE.remove(0);
 				}
-			}		
+			}
+			//System.out.println(qttTotale(produit).getValeur());
 		}else if (estFeveME(produit)) {
 			double q = this.stockFeveME.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveME.get(0).setQtt((this.stockFeveME.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -177,6 +186,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveM(produit)) {
 			double q = this.stockFeveM.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveM.get(0).setQtt((this.stockFeveM.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -188,6 +198,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveB(produit)) {
 			double q = this.stockFeveB.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveB.get(0).setQtt((this.stockFeveB.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -199,6 +210,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estPoudreHE(produit)) {
 			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockPoudreHE.get(0).setQtt((this.stockPoudreHE.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -210,6 +222,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estPoudreM(produit)) {
 			double q = this.stockPoudreM.get(0).getQtt() - qtt;
 			while(qtt>0) {
+				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockPoudreM.get(0).setQtt((this.stockPoudreM.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -228,10 +241,9 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	 * @author Maxime Boillot
 	 * on retire tous les léléments périmés de la liste 
 	 */
-	public void verifPeremption() {
-		//LinkedList<Stock> feveHBE = stockFeveHBE;
+	public void verifPeremption() {// sans cette fonction le stock augmente indéfiniement
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE);
+			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
 			for (Stock st:this.stockFeveHBE) {
 				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
 					stockFeveHBE2.remove(st);

@@ -30,7 +30,7 @@ public class Stock {
 
 	private double PRIX_STOCKAGE_FIXE = 1000;
 	private double PRIX_STOCKAGE_VARIABLE = 6; // 6€/tonne/unité temporelle
-	private double COUT_TRANSFORMATION = 500;
+	private double COUT_TRANSFORMATION = 500; // 500€ pour 1000kg
 	private double COEFFICIENT_COUT_BIO = 1.15;
 	private double RAPPORT_TRANSFORMATION = 2.5;  // 0,04kg de fèves pour 0,1 kg de chocolat
 	private Transformateur1Acteur acteur;
@@ -104,6 +104,7 @@ public class Stock {
 		return this.indicateurs;
 	}
 	
+	// liste contenant tous les types de fèves
 	public ArrayList<Feve> nosFeves() {
 		ArrayList<Feve> list = new ArrayList<Feve>();
 		list.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
@@ -114,6 +115,7 @@ public class Stock {
 		return list;
 	}
 	
+	// liste contenant tout les types de chocolats
 	public ArrayList<Chocolat> nosChocolats() {
 		ArrayList<Chocolat> list = new ArrayList<Chocolat>();
 		list.add(Chocolat.CONFISERIE_BASSE);
@@ -138,10 +140,10 @@ public class Stock {
 	public double getStockFeves(Feve feve) {
 		
 		double total = 0;
-		Map<Feve, ArrayList<ArrayList<Variable>>> stockFevesT = this.stockFeves;
-		ArrayList<ArrayList<Variable>> stockFeves = stockFevesT.get(feve);
-		for(ArrayList<Variable> QuantitePrix : stockFeves) {
-			total += QuantitePrix.get(0).getValeur();
+		Map<Feve, ArrayList<ArrayList<Variable>>> stockFevesT = this.stockFeves; 
+		ArrayList<ArrayList<Variable>> stockFeves = stockFevesT.get(feve); // On recupere la liste contenant toutes les listes caractéristiques  pour une certaine feve de chaque ajout de feve contenant la quantité et le prix d'achat (on pourra rajouter d'autres informations comme les dates d'achat)
+		for(ArrayList<Variable> QuantitePrix : stockFeves) { 
+			total += QuantitePrix.get(0).getValeur(); // on somme tous premiers elements qui correspond à chaque quantité
 		}
 		return total;	
 		
@@ -153,9 +155,9 @@ public class Stock {
 		Map<Feve, ArrayList<ArrayList<Variable>>> stockFevesT = this.stockFeves;
 		ArrayList<ArrayList<Variable>> stockFeves = stockFevesT.get(feve);
 		for(ArrayList<Variable> QuantitePrix : stockFeves) {
-			total += QuantitePrix.get(1).getValeur();
+			total += QuantitePrix.get(1).getValeur(); // on recupere combien l'ensemble de quantité de ce type de feve nous a couté
 		}
-		total = total/stockFeves.size();
+		total = total/stockFeves.size();	// on divise le prix total par la quantité de feve pour savoir combien en moyenne le kilo de feve nous a couté
 		return total;
 		
 	}
@@ -165,7 +167,7 @@ public class Stock {
 		double total = 0;
 		ArrayList<Feve> ListFeve = this.nosFeves();
 		for(Feve feve : ListFeve) {
-			total += this.getStockFeves(feve);
+			total += this.getStockFeves(feve); // on somme tous les différents stock de feve pour avoir le stock total
 		}
 		return total;
 	}
@@ -174,9 +176,9 @@ public class Stock {
 		
 		double total = 0;
 		Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolatsT = this.stockChocolats;
-		ArrayList<ArrayList<Variable>> stockChocolats = stockChocolatsT.get(chocolat);
+		ArrayList<ArrayList<Variable>> stockChocolats = stockChocolatsT.get(chocolat); // On recupere la liste contenant toutes les listes caractéristiques  pour un certain chocolat de chaque ajout de ce chocolat contenant la quantité et le prix de transformation + achat si la quantite est positive ou de vente si la quantite est négative 
 		for(ArrayList<Variable> QuantitePrix : stockChocolats) {
-			total += QuantitePrix.get(0).getValeur();
+			total += QuantitePrix.get(0).getValeur(); // on somme tous premiers elements qui correspond à chaque quantité
 		}
 		return total;	
 		
@@ -187,7 +189,7 @@ public class Stock {
 		double total = 0;
 		ArrayList<Chocolat> ListChocolat = this.nosChocolats();
 		for(Chocolat chocolat : ListChocolat) {
-			total += this.getStockChocolats(chocolat);
+			total += this.getStockChocolats(chocolat); // on somme tous les différents stock de chocolat pour avoir le stock total
 		}
 		return total;
 	}
@@ -224,6 +226,7 @@ public class Stock {
 	
 	
 	public Chocolat equivalentTabletteFeve(Feve feve) {
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -234,6 +237,7 @@ public class Stock {
 	}
 	
 	public Chocolat equivalentConfiserieFeve(Feve feve) {
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -244,6 +248,7 @@ public class Stock {
 	}
 	
 	public Chocolat equivalentPoudreFeve(Feve feve) {
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -253,7 +258,11 @@ public class Stock {
 		return null;
 	}
 	
+
+		
 	public double getMarge(Feve feve) {
+		
+		// marge qu'on souhaite faire en fonction du type de feve
 		if (feve.equals(Feve.FEVE_BASSE)) {
 			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE)) {
@@ -276,8 +285,10 @@ public class Stock {
 			if (this.getStockFeves(feve) > 0) {
 				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
 				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
-				
-				Variable quantite = new Variable(this.getActeur().getNom(),this.getActeur(),quant);
+				// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.7);
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
 				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
 				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.getPrixMoyenFeve(feve)*this.getMarge(feve));
 				// on calcul les couts de transformations
@@ -285,7 +296,15 @@ public class Stock {
 				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 					cout = cout * COEFFICIENT_COUT_BIO;
 				}
-				double p = Math.random();
+				Chocolat tablette = this.equivalentTabletteFeve(feve);
+				Chocolat confiserie = this.equivalentConfiserieFeve(feve);
+				Chocolat poudre = this.equivalentPoudreFeve(feve);
+				this.setStockChocolat(tablette, quantitetablette, prix);
+				this.setStockChocolat(confiserie, quantiteconfiserie, prix);
+				this.setStockChocolat(poudre, quantitepoudre, prix);
+				
+				// on transforme de maniere aléatoire en tablette ou poudre ou confiserie
+				/*double p = Math.random();
 				if( p <= 0.3) {
 					Chocolat chocolat = this.equivalentTabletteFeve(feve);
 					this.setStockChocolat(chocolat, quantite, prix);
@@ -295,7 +314,7 @@ public class Stock {
 				} else {
 					Chocolat chocolat = this.equivalentPoudreFeve(feve);
 					this.setStockChocolat(chocolat, quantite, prix);
-				}
+				}*/
 				
 	
 				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
@@ -310,7 +329,7 @@ public class Stock {
 	}
 	
 	public void coutStock() {
-		
+		// on somme le cout fixe du stockage et on calcul le cout variable avec un simple produit en croix
 		double stockage = PRIX_STOCKAGE_FIXE + (this.getStockChocolats()+this.getStockFeves())*PRIX_STOCKAGE_VARIABLE/1000;
 		this.setPrixStockage(stockage);
 		Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
@@ -321,33 +340,41 @@ public class Stock {
 	
 	
 	public double prixDeVenteKG(Chocolat chocolat) {
-		
-		double prix = 0.0;
-		Integer compteur = 0;
-		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
-		for ( ArrayList<Variable> quantPrix: stockChocolats) {
-			if (quantPrix.get(0).getValeur() > 0) {
-				compteur += 1;
-				prix += quantPrix.get(1).getValeur();
-			}
-		} 
-		prix = prix/compteur;
-		return prix;
+		if (this.getStockChocolats(chocolat) != 0) {
+			// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
+			double prix = 0.0;
+			ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
+			for ( ArrayList<Variable> quantPrix: stockChocolats) {
+				if (quantPrix.get(0).getValeur() > 0) {
+					prix += quantPrix.get(1).getValeur();
+				}
+			} 
+			prix = prix/this.getStockChocolats(chocolat);
+			return prix;
+		} else {
+			return 100000000;
+		}
+
 	}
 	
 	public double prixDejaVenduKG(Chocolat chocolat) {
-		
+		// retourne le prix de vente en moyenne reel auquel on a vendu notre chocolat au KG
 		double prix = 0.0;
-		Integer compteur = 0;
+		double stockvendu = 0;
 		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
 		for ( ArrayList<Variable> quantPrix: stockChocolats) {
 			if (quantPrix.get(0).getValeur() < 0) {
-				compteur += 1;
+				stockvendu =  stockvendu - quantPrix.get(0).getValeur();
 				prix += quantPrix.get(1).getValeur();
 			}
 		} 
-		prix = prix/compteur;
-		return prix;
+		if (stockvendu != 0) {
+			prix = prix/stockvendu;
+			return prix;
+		} else {
+			return 0;
+		}
+
 	}	
 	
 	

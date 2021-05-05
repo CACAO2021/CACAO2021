@@ -32,7 +32,7 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	}
 
 	public String getDescription() {
-		return "Bla bla bla";
+		return "Les meilleurs producteurs";
 	}
 
 	public Color getColor() {

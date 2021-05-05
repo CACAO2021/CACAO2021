@@ -19,8 +19,10 @@ public class Transformateur2Valeurs {
 	}
 	
 	protected LinkedList<Double> echeancier_basse;
-	protected LinkedList<Double> echeancier_moyenne;
-	protected LinkedList<Double> echeancier_total;
+	protected LinkedList<Double> echeancier_moyenne ;
+	protected LinkedList<Double> echeancier_total ; 
+	
+	
 	
 	protected static double Prix_max_achat;
 	
@@ -32,8 +34,8 @@ public class Transformateur2Valeurs {
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
-	protected double mini_stock_bas;
-	protected double mini_stock_moyen;
+	protected double mini_stock_bas = 10000.0;
+	protected double mini_stock_moyen = 10000.0;
 	
 
 	protected static double cout_stockage_unite_feve = 0.006;
@@ -44,8 +46,8 @@ public class Transformateur2Valeurs {
 	
 	//Achat 
 	
-	protected static double cout_max_feve_basse = 2.3/1000 ; 
-	protected static double cout_max_feve_moyenne = 2.5/1000;
+	protected static double cout_max_feve_basse = 0.23 ; 
+	protected static double cout_max_feve_moyenne = 0.25;
 
 	//Production
 	

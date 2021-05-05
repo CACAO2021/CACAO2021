@@ -3,8 +3,11 @@ package abstraction.eq7Distributeur2;
 import java.awt.Color;
 
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
-import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Journal;
+
+//----------------------//
+//fait par Arnaud       //
+//----------------------//
 
 public class Vendeur extends Distributeur2Acteur {
 	

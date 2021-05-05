@@ -64,26 +64,26 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 			Chocolat produit = ((ChocolatDeMarque) choco).getChocolat(); 
 			if ((Chocolat) produit == Chocolat.CONFISERIE_BASSE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
-					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i))); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
-					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i))); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
-					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i))); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)));
-					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i))); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
+					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
 				}
 			}
 			
@@ -115,6 +115,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		return livre;
 	}
 	
+	/*
 	public void next() {
 		LinkedList<ExemplaireContratCadre> contratsObsoletes=new LinkedList<ExemplaireContratCadre>();
 		for (ExemplaireContratCadre contrat : this.contrats) {
@@ -124,6 +125,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		}
 		this.contrats.removeAll(contratsObsoletes);
 	}
+	*/
 	
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		Object choco = contrat.getProduit();
@@ -147,8 +149,8 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		double prixA = contrat.getListePrix().get(-1);
-		double prixV = contrat.getListePrix().get(-2);
+		double prixA = contrat.getListePrix().get(contrat.getListePrix().size()-1);
+		double prixV = contrat.getListePrix().get(contrat.getListePrix().size()-2);
 		if ((prixV - prixA) <= prixV*0.1 ) {
 			return prixA; // pas de négociation car écart faible entre les deux prop
 		}
