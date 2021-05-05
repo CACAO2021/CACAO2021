@@ -33,7 +33,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			throw new Exception("quantité trop faible");
 		}
 		else {
-			quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
+			this.quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
 			this.feve = feve;
 			this.qmax = qmax;
 			this.qmin = qmin ; //mettre qmin assez élevé
@@ -66,7 +66,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public OffreAchatFeves getOffreAchat() {
 		int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
-				OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
+				OffreAchatFeves OA = new OffreAchatFeves(this, feve, this.quantite.getValeur());
 				if(this.getChocolats().get(chocolat).getValeur()*0.4 < this.getQmin()) { //40 g de feves pour 100 g de chocolat (la valeur represente la quantite de chocolat il faut donc convertir pour pouvoir comparer a la quantité de fèves)
 					quantite.ajouter(this, this.getQmin()-this.getChocolats().get(chocolat).getValeur()*0.4);
 					feve = getFeve(chocolat);
