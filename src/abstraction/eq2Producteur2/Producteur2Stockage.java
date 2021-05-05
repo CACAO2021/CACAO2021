@@ -25,6 +25,8 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockPM;
 	
 	private LinkedList<Feve> listeProd; 
+	
+	protected HashMap<Feve, LinkedList<Stock>> stock_F;
 
 	// ensemble fait par DIM
 	
@@ -68,13 +70,13 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		stockPHE = new Variable("stock poudre HE", this, QTT_POUDRE_HE_DEPART);
 		stockPM = new Variable("stock poudre B", this, QTT_POUDRE_M_DEPART);
 		
-		// au final on n'utilise pas la HashMap pour ne pas réécrire le code
-		HashMap<Feve, Variable> stock_FP = new HashMap<Feve, Variable>();
-		stock_FP.put(listeProd.get(0), stockFHBE);
-		stock_FP.put(listeProd.get(1), stockFHE);
-		stock_FP.put(listeProd.get(2), stockFME);
-		stock_FP.put(listeProd.get(3), stockFM);
-		stock_FP.put(listeProd.get(4), stockFB);
+		// création hashmap
+		stock_F = new HashMap<Feve, LinkedList<Stock>>();
+		stock_F.put(listeProd.get(0), stockFeveHBE);
+		stock_F.put(listeProd.get(1), stockFeveHE);
+		stock_F.put(listeProd.get(2), stockFeveME);
+		stock_F.put(listeProd.get(3), stockFeveM);
+		stock_F.put(listeProd.get(4), stockFeveB);
 		//stock_FP.put("POUDRE_HE", stockPHE);
 		//stock_FP.put("POUDRE_M", stockPM);
 	}
@@ -163,8 +165,28 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	//Dim
-	public void vente(double qtt, Object produit) {return;}
+	//public void vente(double qtt, Object produit) {return;}
+	public void vente(double qtt, Object produit) { // tentative de simplification
+		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
+		while (qtt>0) {
+			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
+			if (q>0) {
+				(stock_F.get(produit)).get(0).setQtt(((stock_F.get(produit)).get(0).getQtt() - qtt )) ;
+				qtt = 0; 
+			} else {
+				qtt -= (stock_F.get(produit)).get(0).getQtt() ;
+				(stock_F.get(produit)).remove(0);
+			}
+			if ((stock_F.get(produit)).size() == 0) {
+				System.out.println("y a pb, on a plus de stock");
+				break;
+			}
+		}
+		//System.out.println("ok");
+		//fonctionnement semble ok
+	}
 	public void vente2(double qtt, Object produit) {
+		// ancienne version, la nvlle à l'air de fonctionner mais on garde au cas ou
 		if (estFeveHBE(produit)) {
 			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
 			while(qtt>0) {
