@@ -25,9 +25,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	private double prixmax;
 	
 	public AcheteurFevesAO() {
-	}
+	} 
 	
-	/*public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
+	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
 		System.out.println("tito");
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
@@ -47,7 +47,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	}
 	public double getQmax() {
 		return this.quantite.getMax();
-	}*/
+	}
 	
 	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
 	public Feve getFeve(Chocolat chocolat) {
@@ -64,7 +64,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
     // cette méthode permet de garantir une quantité minimale de fèves en stock pour chaque type de fèves
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 
-	public OffreAchatFeves getOffreAchat() {
+	public OffreAchatFeves getOffreAchat() { 
 		Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
 		OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, (double)1000);
 		if (feve.getValeur()<1000000) {
@@ -73,9 +73,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		else { 
 			this.JournalOA.ajouter("pas d'offre d'achat");
 			return null; }
-			
-			
 		}
+	
 		int nb_OA = 0;
 			for(Chocolat chocolat : this.getChocolats().keySet()) {
 				OffreAchatFeves OA = new OffreAchatFeves(this, feve, this.quantite.getValeur());
@@ -139,7 +138,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	} 
 
 	@Override
-	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
+	*/public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		// TODO Auto-generated method stub
 		return null;
 	}
