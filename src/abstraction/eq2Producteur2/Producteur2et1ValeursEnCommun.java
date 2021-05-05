@@ -7,11 +7,11 @@ public class Producteur2et1ValeursEnCommun {
 	// responsable emeline
 	
 	//cout prod
-	public static final double COUT_PRODUCTION_FEVE_B = 1.1/1000.;
-	public static final double COUT_PRODUCTION_FEVE_M = 1.3/1000.;
-	public static final double COUT_PRODUCTION_FEVE_ME = 2/1000.;
-	public static final double COUT_PRODUCTION_FEVE_HE = 2.5/1000.;
-	public static final double COUT_PRODUCTION_FEVE_HBE = 3/1000.;
+	public static final double COUT_PRODUCTION_FEVE_B = 1.1;
+	public static final double COUT_PRODUCTION_FEVE_M = 1.3;
+	public static final double COUT_PRODUCTION_FEVE_ME = 2.;
+	public static final double COUT_PRODUCTION_FEVE_HE = 2.5;
+	public static final double COUT_PRODUCTION_FEVE_HBE = 3.;
 	
 	//cout changement arbre
 	public static final double COUT_CHANGEMENT_ARBRE_HBE = 0.1; // pour ne pas mettre 0€
@@ -24,11 +24,11 @@ public class Producteur2et1ValeursEnCommun {
 	public static final int PROD_ARBRE = 6/24;
 	
 	//si on decide de donner des valeurs différentes:
-	public static final int PROD_HBE = 6/24;
-	public static final int PROD_HE = 6/24;
-	public static final int PROD_ME = 6/24; 
-	public static final int PROD_M = 6/24;
-	public static final int PROD_B = 6/24;
+	public static final double PROD_HBE = 6./24.;
+	public static final double PROD_HE = 6./24.;
+	public static final double PROD_ME = 6./24.; 
+	public static final double PROD_M = 6./24.;
+	public static final double PROD_B = 6./24.;
 	
 	// partie transformation
 	public static final double coefHE = 0.4; //(à affiner)
