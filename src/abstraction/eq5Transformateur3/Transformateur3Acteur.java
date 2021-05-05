@@ -109,7 +109,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		if(feve.getValeur()<this.stock_min_feves.getValeur()) {
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre1.getVendeurs(Feve.FEVE_MOYENNE);
-			vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend le premier vendeur de la liste...à modifier
+			vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //choisi un vendeur aléatoirement
 			SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); }
 		
 		SuperviseurVentesContratCadre SupCCadre2 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
@@ -117,7 +117,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		if(feve.getValeur()<this.stock_min_feves.getValeur()) {
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre2.getVendeurs(Feve.FEVE_MOYENNE);
-			vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend le premier vendeur de la liste...à modifier
+			vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //choisi un vendeur de manière aléatoire
 			SupCCadre2.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false); }
 	
 	
