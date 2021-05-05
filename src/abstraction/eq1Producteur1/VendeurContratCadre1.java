@@ -68,7 +68,8 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * @author arthurlemgit
 	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie, ou "pas assez";
 	 * propose un nouvel échéancier avec des quantités plus "raisonnables" de notre stock, en accord avec notre stratégie.
-	 * 
+	 * Pour les produits équitables, on s'assure que l'échelonnement de l'échancier fait plus de 8 steps -ventes dans la durée avec les tranformateurs-
+	 * Si l'échéancier proposé fait moins de 8 steps, on propose un nouvel échéancier de 8 steps; avec une répartition uniforme sur la durée du contrat.
 	 * 
 	 */
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
@@ -82,15 +83,21 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} 
 		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
-				double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
-				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
-				return e;
+			double duree = contrat.getEcheancier().getStepFin()-contrat.getEcheancier().getStepDebut();
+			if (duree > 8) {
+				if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+					double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
+					Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+					return e;
+				} else {
+					Echeancier e = new Echeancier (contrat.getEcheancier());
+					return e;
+					} 
 			} else {
-				Echeancier e = new Echeancier (contrat.getEcheancier());
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), 8, contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances());
 				return e;
-				
-			} 
+			}
+			
 		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_BASSE)) ) {
 			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.5*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite()) {
 				double nvlleqte = 0.40*this.getStocks().get(contrat.getProduit()).getQuantite();
@@ -101,14 +108,21 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} 
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *this.getStocks().get(contrat.getProduit()).getQuantite()) {
-				double nvlleqte = 0.2*this.getStocks().get(contrat.getProduit()).getQuantite();
-				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
-				return e;
+			double duree = contrat.getEcheancier().getStepFin()-contrat.getEcheancier().getStepDebut();
+			if (duree > 8) {
+				if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *this.getStocks().get(contrat.getProduit()).getQuantite()) {
+					double nvlleqte = 0.2*this.getStocks().get(contrat.getProduit()).getQuantite();
+					Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+					return e;
+				} else {
+					Echeancier e = new Echeancier (contrat.getEcheancier());
+					return e;
+				}
 			} else {
-				Echeancier e = new Echeancier (contrat.getEcheancier());
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), 8, contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances());
 				return e;
 			}
+			
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
 			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.60*this.getStocks().get(contrat.getProduit()).getQuantite()/contrat.getEcheancier().getNbEcheances() ) {
 				double nvlleqte = 0.8*this.getStocks().get(contrat.getProduit()).getQuantite();
@@ -161,8 +175,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		return contrat.getPrix();
-		/*
+		
 		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
@@ -172,7 +185,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		else {
 			return (liste_prix.get(n-2)+PRIX_PALIER_F_E)/2;
 		}
-		*/
+		
 	}
 
 
