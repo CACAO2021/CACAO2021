@@ -181,7 +181,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			//System.out.println("av"+qttTotale(produit).getValeur());
 			double q = this.stockFeveHE.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveHE.get(0).getQtt() - qtt;
 				if (q>0) {
 					//System.out.println("ok " + this.stockFeveHE.get(0).getQtt());
 					this.stockFeveHE.get(0).setQtt((this.stockFeveHE.get(0).getQtt() - qtt )) ;
@@ -197,7 +197,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveME(produit)) {
 			double q = this.stockFeveME.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveME.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveME.get(0).setQtt((this.stockFeveME.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -209,7 +209,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveM(produit)) {
 			double q = this.stockFeveM.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveM.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveM.get(0).setQtt((this.stockFeveM.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -221,7 +221,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveB(produit)) {
 			double q = this.stockFeveB.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveB.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveB.get(0).setQtt((this.stockFeveB.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -233,7 +233,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estPoudreHE(produit)) {
 			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveHE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockPoudreHE.get(0).setQtt((this.stockPoudreHE.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -245,7 +245,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estPoudreM(produit)) {
 			double q = this.stockPoudreM.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveM.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockPoudreM.get(0).setQtt((this.stockPoudreM.get(0).getQtt() - qtt )) ;
 					qtt = 0;
