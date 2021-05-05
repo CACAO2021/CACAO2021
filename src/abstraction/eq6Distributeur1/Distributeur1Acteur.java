@@ -74,7 +74,15 @@ public class Distributeur1Acteur implements IActeur {
 		//journaux.add(journalStocks);
 		//journaux.add(journalAchats);
 		return journaux;
+<<<<<<< Upstream, based on branch 'master' of https://github.com/ThomasYamini/CACAO2021
 
+=======
+		/*List<Journal> journaux = new ArrayList<Journal>();
+		journaux.add(journalVentes);
+		journaux.add(journalStocks);
+		journaux.add(journalAchats);*/
+		
+>>>>>>> 79cd39f modif
 	}
 
 	public void setCryptogramme(Integer crypto) {
