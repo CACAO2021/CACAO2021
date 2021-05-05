@@ -72,8 +72,7 @@ public class Stocks extends Distributeur1Acteur{
 		}
 	}
 
-
-
+	
 	//Louis
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {

@@ -203,7 +203,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.quantiteTotaleVendue+=quantite;
 			this.quantiteChocoVendue.put(choco, quantite);
 			journalVentes.ajouter("vente de "+quantite+" "+choco.name()+" a "+client.getNom()+" pour un prix de "+ montant);
-
+			
 		}//on retire du stock ce qui a été vendu, et on ajoute la quantite à quantiteTotaleVendue
 	}// on actualise aussi quantiteChocoVendue
 

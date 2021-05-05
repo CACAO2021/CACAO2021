@@ -37,11 +37,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * initialiser les journaux
 	 */
-	
+
 	public void initialiser() {
 		super.initialiser();
 		journaux.add(journalAchats);
@@ -51,11 +51,11 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * Est appelée au début de chaque tour, on tire au sort un transformateur pour chaque ChocolatDeMarque de notre catalogue et on initialise un contrat cadre d’une durée de un step. 
 	 */
-	
+
 	public void next() {
 		pasTG = this.chocolatVendu();
 		produitTG=new LinkedList<ChocolatDeMarque>();
@@ -78,8 +78,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				if (maxQuantite(produit) > superviseur.QUANTITE_MIN_ECHEANCIER) {
 					if (produitTG.contains(produit) && verifTG(produit)) {
 						//pour l'instant on ne met rien en tg sinon ça bug et on ne peut pas pull request
-						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape(), Filiere.LA_FILIERE.getEtape()+1, maxQuantite(produit)), cryptogramme, true);
-						//System.out.println("vente tg");
+						superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape(), Filiere.LA_FILIERE.getEtape()+1, maxQuantite(produit)), cryptogramme, false);
+						//System.out.print(produitTG);
+						//System.out.println("produit "+ produit +" vente tg: " + maxQuantite(produit) + " quantite totale + vente: " + (quantiteEnVente()+maxQuantite(produit)));
 						produitTG.remove(produit);
 					}
 					else {
@@ -94,7 +95,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 
-//Elsa
+	//Elsa
 	/**
 	 * Permet de négocier la quantité de produit voulu. 
 	 * On essaie de ne pas dépasser une quantité de produit égale à 15% de plus que ce qui s’est vendu au tour précédent (grâce à l’historique) en enlevant la quantité de ce même produit qu’il nous reste en stock. 
@@ -104,7 +105,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println("contre proposition"); //  <= method never called, execept maybe for cote d'imt
+		//System.out.println("contre proposition"); //  <= method never called
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		j=0;
 		Echeancier e = contrat.getEcheancier();
@@ -139,17 +140,17 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		return e;
 
 	}
-	
+
 
 	//Elsa
-	
+
 	/**
 	 * Permet de négocier le prix d’achat des produits avec les transformateurs. 
 	 * Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. 
 	 * Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). 
 	 * Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
 	 */
-	
+
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		i=0;
@@ -170,14 +171,15 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * Permet de modifier le stock en utilisant ajouterStock(Object produit, double quantite, boolean tg) de la classe stocks.
 	 * Elle permet aussi de mettre à jour le journal des achats.
 	 */
-	
+
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
+		//System.out.println(produit);
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
 		journalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
 	}
@@ -185,13 +187,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * Définit la quantité maximale du ChocolatDeMarque “choco” que l’on souhaite acheter.
 	 * @param choco
 	 * @return
 	 */
-	
+
 	public double maxQuantite(ChocolatDeMarque choco) {
 		//J'achete au maximum 15% de plus que ce que j'ai vendu moins ce qu'il me reste en stock
 		return (this.quantiteChocoVendue.get(choco)-this.stock.get(choco).getValeur())*1.15;
@@ -201,12 +203,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * Renvoie la liste des chocolats qui sont vendus par les transformateurs durant le step en cours.
 	 * @return
 	 */
-	
+
 	public List<ChocolatDeMarque> chocolatVendu() {
 		ArrayList<ChocolatDeMarque> chocoVendu = new ArrayList<ChocolatDeMarque>();
 		for (ChocolatDeMarque choco : this.getCatalogue()) {
@@ -222,12 +224,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * Renvoie la liste des transformateurs de la filière
 	 * @return
 	 */
-	
+
 	public List<IVendeurContratCadre> getTransformateurs(){
 		LinkedList<IVendeurContratCadre> transf = new LinkedList<IVendeurContratCadre>();
 		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
@@ -241,44 +243,44 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 
 	//Louis
-	
+
 	/**
 	 * Permet de créer une liste contenant les produits que nous allons mettre en tête de gondole. 
 	 * Pour cela, nous prenons les chocolats que nous vendons le moins et nous vérifions que la quantité que nous achèterons si le contrat est accepté est inférieur à 10% de la quantité totale que nous aurions dans ce cas. 
 	 * Remarque: la vente en tête de gondole est désactivée pour cette version, car la proportion mise en rayon excède tout de même parfois les 10% de la quantité totale vendue.
 	 */
-	
+
 	public void choixTG() {
 		if (pasTG.size()==0) {
 			return;
 		}
-		ChocolatDeMarque moinsVendu = pasTG.get(0);
+		ChocolatDeMarque plusVendu = pasTG.get(0);
 
 		for (ChocolatDeMarque choco : chocolatVendu()) {
 			if(produitTG.size()==0 || (produitTG.size()!=0 && !produitTG.contains(choco))) {
-				if (this.quantiteChocoVendue.get(choco)<this.quantiteChocoVendue.get(moinsVendu)) {
-					moinsVendu=choco;
+				if (this.quantiteChocoVendue.get(choco)>this.quantiteChocoVendue.get(plusVendu)) {
+					plusVendu=choco;
 				}
 			}
 		}
 
-		if(verifTG(moinsVendu)) {
-			produitTG.add(moinsVendu);
-			pasTG.remove(pasTG.indexOf(moinsVendu));
+		if(verifTG(plusVendu)) {
+			produitTG.add(plusVendu);
+			pasTG.remove(pasTG.indexOf(plusVendu));
 			choixTG();
 		}
 
 	}
-	
+
 	public boolean verifTG(ChocolatDeMarque choco) {
-		
+
 		double maxQuantiteProduitTG = 0;
 		if (produitTG.size()!=0) {
 			for (ChocolatDeMarque futurTG : produitTG) {
 				maxQuantiteProduitTG += maxQuantite(futurTG);
 			}
 		}
-		
+
 		if(maxQuantite(choco) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.1*quantiteEnVente()) {
 			return true;
 		}
