@@ -5,10 +5,7 @@ package abstraction.eq5Transformateur3;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-
-import abstraction.eq8Romu.contratsCadres.ContratCadre;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;

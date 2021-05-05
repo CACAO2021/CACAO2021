@@ -113,20 +113,19 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			}}
 	}
 	
-	private double prodParStep(Object p) {
+	protected double prodParStep(Object p) {
 		// prod en fonction de la qtt darbre plante
 		//production réfléchie en fct de la demande a faire
 		
 		// a faire production ne va pas être constante tout au 
 		//long de la simulation mais va plutôt varier selon les saisons et des paramètres aléatoires
-		
 		return qttArbre(p) * prodParArbre(p);
 		// pour tenir compte du rnedement changeant
 		// boucle a faire sur chaque arbre
 		//utiliser  rendement (step, p);
 	}
 
-	private double prodParArbre(Object p) {		
+	private double prodParArbre(Object p) {	
 		if(estFeveHBE(p)) {
 			return PROD_HBE;
 		} else if(estFeveHE(p)) {
@@ -138,6 +137,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}else if(estFeveB(p)) {
 			return PROD_B;
 		} else { // un produit que l'on ne vend pas
+			System.out.println("pb");
 			return 0;
 		}
 	}
