@@ -11,7 +11,6 @@ import abstraction.eq8Romu.produits.Feve;
  */
 
 public class Cout extends CreationJournaux {
-	private static double COUT_STOCKAGE_FEVE = 0.02;
 	
 	public static void PayerProducteurs(Producteur1Acteur producteur1Acteur){
 		double valeur=(COUT_PRODUCTION_FEVE_B*48333000)+(COUT_PRODUCTION_FEVE_M*48333000)+(COUT_PRODUCTION_FEVE_ME*1000000);

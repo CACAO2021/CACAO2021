@@ -2,7 +2,7 @@ package abstraction.eq1Producteur1;
 
 import abstraction.eq8Romu.produits.Feve;
 
-public class Arbre extends Cout {
+public class Arbre {
 	
 	private double age;
 	private double rendement;
