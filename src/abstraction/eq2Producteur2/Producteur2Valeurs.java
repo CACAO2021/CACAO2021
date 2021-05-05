@@ -8,9 +8,7 @@ import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	public Producteur2Valeurs() {
-		super();
-		HashMap<String, Double> QTT_DEPART = new HashMap<String, Double>();
-		QTT_DEPART.put("FEVE_HBE", QTT_FEVE_TOTALE*0.03);		
+		super();	
 		
 	}
 	
@@ -56,7 +54,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	
 	protected static double DIF_ACCEPTEE_FEVE_HBE = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_HE = 0.1;
-	protected static double DIF_ACCEPTEE_FEVE_ME = 0.1;
+	protected static double DIF_ACCEPTEE_FEVE_ME = 0.1; 
 	protected static double DIF_ACCEPTEE_FEVE_M = 0.1;
 	protected static double DIF_ACCEPTEE_FEVE_B = 0.1;	
 	
