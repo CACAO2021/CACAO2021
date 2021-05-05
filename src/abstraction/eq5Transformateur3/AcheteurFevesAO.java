@@ -103,7 +103,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//Remi
 	
 	public OffreAchatFeves getOffreAchat()){
-		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()<this.st) {
+		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()<this.sto) {
 			
 		}
 	}
