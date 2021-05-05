@@ -29,27 +29,27 @@ public abstract class Plantations extends Stocks{
 	public void maj_plantation(double new_mq, double new_mqe, double new_bq, Producteur1Acteur a) {
 		if (new_mq!=0) {
 			this.arbresmq.add(new Arbre(0,new_mq));
-			a.getJournal(5).ajouter("On a planté "+new_mq+" arbres de moyenne qualité");
+			a.getJournal("Ghanao Plantation").ajouter("On a planté "+new_mq+" arbres de moyenne qualité");
 			
 		}
 		if (new_mqe!=0) {
 			this.arbresmqe.add(new Arbre(0,new_mqe));
-			a.getJournal(5).ajouter("On a planté "+new_mqe+" arbres de moyenne qualité équitables");
+			a.getJournal("Ghanao Plantation").ajouter("On a planté "+new_mqe+" arbres de moyenne qualité équitables");
 		}
 		if (new_bq!=0) {
 			this.arbresbq.add(new Arbre(0,new_bq));
-			a.getJournal(5).ajouter("On a planté "+new_bq+" arbres de basse qualité");
+			a.getJournal("Ghanao Plantation").ajouter("On a planté "+new_bq+" arbres de basse qualité");
 		}
 		
-		a.getJournal(5).ajouter(this.arbresmq.remove().getNombre_arbre()+" arbres de moyenne qualité sont morts");
+		a.getJournal("Ghanao Plantation").ajouter(this.arbresmq.remove().getNombre_arbre()+" arbres de moyenne qualité sont morts");
 		for (Arbre arbre : this.arbresmq) {
 				arbre.augmenter_age();
 		}
-		a.getJournal(5).ajouter(this.arbresmqe.remove().getNombre_arbre()+" arbres de moyenne qualité équitables sont morts");
+		a.getJournal("Ghanao Plantation").ajouter(this.arbresmqe.remove().getNombre_arbre()+" arbres de moyenne qualité équitables sont morts");
 		for (Arbre arbre : this.arbresmqe) {
 				arbre.augmenter_age();
 		}
-		a.getJournal(5).ajouter(this.arbresbq.remove().getNombre_arbre()+" arbres de basse qualité sont morts");
+		a.getJournal("Ghanao Plantation").ajouter(this.arbresbq.remove().getNombre_arbre()+" arbres de basse qualité sont morts");
 		for (Arbre arbre : this.arbresbq) {
 				arbre.augmenter_age();
 		}

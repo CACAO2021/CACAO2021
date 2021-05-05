@@ -30,6 +30,8 @@ public class CreationJournaux extends Plantations {
 		this.journaux.getJournal("Ghanao VenteContratCadre").ajouter(couleur, Color.black,"==== Journal des ventes par contrat cadre ===");
 		this.journaux.addJournal("Ghanao Coûts", this);
 		this.journaux.getJournal("Ghanao Coûts").ajouter(couleur, Color.black,"==== Journal des coûts ===");
+		this.journaux.addJournal("Ghanao Plantation", this);
+		this.journaux.getJournal("Ghanao Plantation").ajouter(couleur, Color.black,"==== Journal de la plantation ===");
 	}
 	
 	public CreationJournaux() {
