@@ -15,7 +15,7 @@ public class Producteur2 extends Producteur2Param  {
 	//DIM
 	public void next() {
 		majJournaux();
-		// faire fonction probleme : intemperie,...
+		//lesProblemes();		// faire fonction probleme : intemperie,...
 		prod();
 		transfo(); // vide pour le moment
 		renouvellement();

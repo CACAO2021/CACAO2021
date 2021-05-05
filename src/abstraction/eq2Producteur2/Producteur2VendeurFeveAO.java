@@ -26,13 +26,17 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 	public double proposerPrix(OffreAchatFeves oa) {
 		double stock = qttTotale(oa.getFeve()).getValeur();
 		if (stock >= oa.getQuantiteKG() ) {
+			double p = 0;
+			double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve()); 
 			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
 				if (c.getAcheteur() == oa.getAcheteur()) {
-					double p = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
-					double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve());
-					if (p >= min) {return p;}else {return min;}
+					p = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
 				}
-			} return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
+			}if (p>0) {
+				if (p >= min) {return p;}else {return min;}
+			}else{
+				return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
+			}
 		}else {
 			return 0.0;
 		}
