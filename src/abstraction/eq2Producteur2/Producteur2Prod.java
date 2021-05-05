@@ -34,7 +34,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.listeProd = new LinkedList<Feve>();
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_MOYENNE);
 		this.listeProd.add(Feve.FEVE_BASSE);
@@ -165,7 +164,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	
 	public double qttArbre(Object produit) {		
 		double nb = 0;
-		if (estFeveHBE(produit)) {			
+		if (estFeveHBE(produit)) {			 
 			for (Stock s : this.arbrePlantesHBE) {
 				nb += s.getQtt();
 			}
