@@ -29,11 +29,12 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 
 	/**
 	 * @author lebra
-	 * on ne vend par CC que des feves equitables
 	 */
 	public boolean peutVendre(Object produit) {
 		if ((produit instanceof Feve)
-				&& ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)
+				&& ( (((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)
+						|| (((Feve)produit) == Feve.FEVE_MOYENNE)
+						|| (((Feve)produit) == Feve.FEVE_BASSE)
 					)
 			) {
 				return(true);
@@ -68,7 +69,6 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * @author arthurlemgit
 	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie, ou "pas assez";
 	 * propose un nouvel échéancier avec des quantités plus "raisonnables" de notre stock, en accord avec notre stratégie.
-	 * Si les quantités totales sont grosso modo ce qu'on a prévu de vendre, on essaie de vendre "plus" au début pour éviter d'accumuler du stock.
 	 * 
 	 * 
 	 */
@@ -80,16 +80,24 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} else {
 				Echeancier e = new Echeancier (contrat.getEcheancier());
-				/*double random = Math.random()/3;
-			 	int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
-				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 int i;
-				 for (i=e.getStepDebut(); i<step_milieu; i++) {
-					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				 }
-				 for (i=step_milieu; i<=e.getStepFin(); i++) {
-					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }*/
+				return e;
+			} 
+		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE)) ) {
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+				double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+				return e;
+			} else {
+				Echeancier e = new Echeancier (contrat.getEcheancier());
+				return e;
+			} 
+		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_BASSE)) ) {
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.5*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+				double nvlleqte = 0.40*this.getStocks().get(contrat.getProduit()).getQuantite();
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+				return e;
+			} else {
+				Echeancier e = new Echeancier (contrat.getEcheancier());
 				return e;
 			} 
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
@@ -99,16 +107,6 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} else {
 				Echeancier e = new Echeancier (contrat.getEcheancier());
-				/*double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
-				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				int i;
-				for (i=e.getStepDebut(); i<step_milieu; i++) {
-					e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				}
-				for (i=step_milieu; i<=e.getStepFin(); i++) {
-					e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				}*/
 				return e;
 			}
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
@@ -118,21 +116,9 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 				return e;
 			} else {
 				Echeancier e = new Echeancier (contrat.getEcheancier());
-				/* double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
-				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				int i;
-				for (i=e.getStepDebut(); i<step_milieu; i++) {
-					e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				}
-				for (i=step_milieu; i<=e.getStepFin(); i++) {
-					e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				}*/
 				return e;
 			}
-			
-		}
-		else {
+		} else {
 			return contrat.getEcheancier();
 		}
 	}
@@ -148,6 +134,12 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		if (produit instanceof Feve) {
 			if ((Feve)produit==Feve.FEVE_MOYENNE_EQUITABLE) {
 				prix=2150;
+			}
+			else if ((Feve)produit == Feve.FEVE_MOYENNE) {
+				prix = 1800;
+			}
+			else if ((Feve)produit == Feve.FEVE_BASSE) {
+				prix = 1500;
 			}
 		}
 		if (produit instanceof Chocolat) {
@@ -169,9 +161,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		return contrat.getPrix();
-	}
-	/*	List<Double> liste_prix = contrat.getListePrix();
+		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
 		if (moyenne>VendeurContratCadre1.PRIX_PALIER_F_E) {
@@ -180,7 +170,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		else {
 			return (liste_prix.get(n-2)+VendeurContratCadre1.PRIX_PALIER_F_E)/2;
 		}
-	} */
+	}
 
 
 	@Override

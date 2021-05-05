@@ -23,7 +23,7 @@ public class Cout extends CreationJournaux {
 
 	public static void cout(Producteur1Acteur a){
 		Cout.PayerProducteurs(a);
-		//Cout.payerStockage(a);
+		Cout.payerStockage(a);
 	}
 	
 /**
