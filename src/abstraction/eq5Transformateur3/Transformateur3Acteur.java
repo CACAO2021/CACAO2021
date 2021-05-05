@@ -127,7 +127,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 
 			if(vendeurs.size()>0) {
 				vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
-				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER/10), cryptogramme, false);
+				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, (this.stock_min_feves.getValeur()-feve.getValeur()+1000000)/10), cryptogramme, false);
 				this.JournalAchatContratCadre.ajouter(contratCadre.toString());
 			}
 		}
