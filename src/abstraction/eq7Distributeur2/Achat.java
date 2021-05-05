@@ -97,16 +97,30 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			Concurrents.remove((IDistributeurChocolatDeMarque)this);
 			//si les concurrents vendent le même chocolat que nous, on en commande moins que le total de l'année passée
 			if (Concurrents.size()!=0 && Concurrents.get(0).getCatalogue().contains(choco)) {
-				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)*0.25  - wonka.quantiteEnVente(choco) );
-				quantiteLimite.put(choco, quantiteMin);
-				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)*0.75  - wonka.quantiteEnVente(choco) );
-				quantiteMax.put(choco, quantite);
+				if(Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)<0.8*Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)-24)) {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)- 24)*0.25  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24) -24)*0.75  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+				}else {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()- 24)*0.25  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() -24)*0.75  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+					}
 			}
 			else {
-				Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)/2  - wonka.quantiteEnVente(choco) );
-				quantiteLimite.put(choco, quantiteMin);
-				Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)  - wonka.quantiteEnVente(choco) );
-				quantiteMax.put(choco, quantite);
+				if(Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)<0.8*Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)-24)) {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)- 24)/2  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24) -24)  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+				}else {
+					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()- 24)/2  - wonka.quantiteEnVente(choco) );
+					quantiteLimite.put(choco, quantiteMin);
+					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() -24)  - wonka.quantiteEnVente(choco) );
+					quantiteMax.put(choco, quantite);
+					}
 			}
 		}
 		this.majDemande();
@@ -246,10 +260,17 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
 		if (Filiere.LA_FILIERE.getEtape()==0) {
-			wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
-			contrats.add(contrat);
-			//on ajoute le contrat aux contrats signés
+			double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
+			if(!wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
+				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
+				return contrat.getPrix()*0.90;
+			}
+			else {
 			
+				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
+				contrats.add(contrat);
+				//on ajoute le contrat aux contrats signés
+			}
 		
 			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 			this.prixChocolat = this.prixParChocolat.get(choco);
@@ -264,7 +285,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
 		
-			if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction(prix + paiements)) {
+			if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
 				return contrat.getPrix()*0.90;
 			}
@@ -272,7 +293,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			else {
 				//les comptes sont suffisants pour accepter le contrat tel quel, la contre proposition reste inchangée
 				//De plus, la proposition est convenable par rapport au prix moyen du produit : on achète
-				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+"Acheteur :"+wonka.getNom()+"Produit :"+contrat.getProduit().toString()+"Echeancier :"+contrat.getEcheancier().toString());
+				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
 				contrats.add(contrat);
 				//on ajoute le contrat aux contrats signés
 			

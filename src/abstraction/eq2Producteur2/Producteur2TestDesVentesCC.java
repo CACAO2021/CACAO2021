@@ -12,7 +12,7 @@ public class Producteur2TestDesVentesCC extends Filiere {
 	
 	public Producteur2TestDesVentesCC() {
 		super();
-		this.ajouterActeur(new Producteur2());
+		//this.ajouterActeur(new Producteur2());
 		this.ajouterActeur(new ExempleTransformateurContratCadreVendeurAcheteur(Feve.FEVE_HAUTE_EQUITABLE));
 		this.ajouterActeur(new ExempleTransformateurContratCadreVendeurAcheteur(Feve.FEVE_MOYENNE_EQUITABLE));
 		this.ajouterActeur(new ExempleTransformateurContratCadreVendeurAcheteur(Feve.FEVE_MOYENNE));
