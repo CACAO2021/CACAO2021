@@ -28,9 +28,11 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 	public void add_stock(Object o, double quantite) {
 		if (o instanceof Feve) {
 			stock_feve.replace((Feve) o, stock_feve.get(o) + quantite);
+			
 		}
 		if (o instanceof Chocolat) {
 			stock_chocolat.replace((Chocolat) o, stock_chocolat.get(o) + quantite);
+			
 		}
 	}
 

@@ -73,5 +73,19 @@ public class Transformateur2Valeurs {
 	protected Variable var_stock_confiserie_basse = new Variable("STOCK_CONFISERIE_BASSE", (IActeur) this, 0, 1000000, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
 	protected Variable var_stock_confiserie_moyenne = new Variable("STOCK_CONFISERIE_MOYENNE", (IActeur) this, 0, 1000000, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
 */
+
+	protected Variable var_stock_feve_basse;
+	protected Variable var_stock_feve_moyenne;
+	protected Variable var_stock_tablette_basse;
+	protected Variable var_stock_tablette_moyenne;
+	protected Variable var_stock_confiserie_basse;
+	protected Variable var_stock_confiserie_moyenne;
+	
+	protected static double quantite_init_feve_basse;
+	protected static double quantite_init_feve_moyenne;
+	protected static double quantite_init_tablette_basse;
+	protected static double quantite_init_tablette_moyenne;
+	protected static double quantite_init_confiserie_basse;
+	protected static double quantite_init_confiserie_moyenne;
 }
 	
