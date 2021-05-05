@@ -22,7 +22,7 @@ public class Transformation {
 			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 			producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
 			producteur1Acteur.perteargent(0.5*quantite);
-			nous.getJournal(4).ajouter("La transformation de feves moyenne a couté "+PRIX_TRANSFORMATION*quantite+"€");
+			nous.getJournal(4).ajouter("La transformation de feves moyenne a couté "+Producteur1Valeurs.PRIX_TRANSFORMATION*quantite+"€");
 			producteur1Acteur.getJournal(1).ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
 			}
 		if (f.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
