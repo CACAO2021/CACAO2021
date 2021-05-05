@@ -14,21 +14,21 @@ public class Producteur2et1ValeursEnCommun {
 	public static double COUT_PRODUCTION_FEVE_HBE = 3/1000.;
 	
 	//cout changement arbre
-	public double COUT_CHANGEMENT_ARBRE_HBE = 0;
-	public double COUT_CHANGEMENT_ARBRE_HE = 0;
-	public double COUT_CHANGEMENT_ARBRE_ME = 0;
-	public double COUT_CHANGEMENT_ARBRE_M = 0;
-	public double COUT_CHANGEMENT_ARBRE_B = 0;
+	public double COUT_CHANGEMENT_ARBRE_HBE = 0.1; // pour ne pas mettre 0€
+	public double COUT_CHANGEMENT_ARBRE_HE = 0.1;
+	public double COUT_CHANGEMENT_ARBRE_ME = 0.1;
+	public double COUT_CHANGEMENT_ARBRE_M = 0.1;
+	public double COUT_CHANGEMENT_ARBRE_B = 0.1;
 	
 	//production par tour par arbre 
-	public int PROD_ARBRE = 6;
+	public int PROD_ARBRE = 6/24;
 	
 	//si on decide de donner des valeurs différentes:
-	public int PROD_HBE = 6;
-	public int PROD_HE = 6;
-	public int PROD_ME = 6; 
-	public int PROD_M = 6;
-	public int PROD_B = 6;
+	public int PROD_HBE = 6/24;
+	public int PROD_HE = 6/24;
+	public int PROD_ME = 6/24; 
+	public int PROD_M = 6/24;
+	public int PROD_B = 6/24;
 	
 	// partie transformation
 	public double coefHE = 0.4; //(à affiner)
@@ -47,7 +47,7 @@ public class Producteur2et1ValeursEnCommun {
 	
 	
 	//cout renouvellment arbre
-	//Cacaotier durée de vie 40 ans, bonne culture à partir de 5 ans et rendement maximal à partir de 7 ans. 
+	//Cacaotier durée de vie 40 ans, bonne culture à partir de 3 ans et rendement maximal à partir de 6 ans. 
 	public int TPS_RENOUVELLEMENT_ARBRE=40*24;
 	public int TPS_BON_RENDEMENT_ARBRE=3*24;
 	public int TPS_RENDEMENT_MAX_ARBRE=6*24;

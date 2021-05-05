@@ -32,10 +32,14 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	protected List<Variable> indicateurs;
 	protected List<Variable> parametres;
 
+	
+
+
 	private ChocolatDeMarque chocoProduit;
 	
 	
-
+	
+	// fait par Elio, Martin et Ugo
 	public Distributeur2Acteur() {
 		catalogue = new ArrayList<ChocolatDeMarque>();
 		this.chocoProduit = new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,"Wonka & Sons");
@@ -64,7 +68,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		
 		
 		journalAchats = new Journal("Registre des achats [W&S]", this);
-		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des acahats"));
+		journalAchats.ajouter(Journal.texteColore(titleColor, Color.WHITE, "EQ7 : Journal des achats"));
 		journalAchats.ajouter(Journal.texteColore(descriptionColor, Color.BLACK, "Ce journal rapporte les informations majeures concernant les achats de produits"));
 		
 		journal = new Journal("Informations générales [W&S]", this);
@@ -97,6 +101,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		return new Color(240, 195, 15); 
 	}
 
+	
+	
+	
+	// fait par Elio et Martin
+	
+	// création du catalogue
+	// création des stocks et de la partie achat
+	// initialisation des indicateurs
+	
 	public void initialiser() {
 		
 		this.initialiserCatalogue();
@@ -120,13 +133,13 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	public void next() {
+		
+		// fait par Elio Granger
 		this.stocks.next();
-		//this.stocks.ajouterChocolatDeMarque(this.chocoProduit, 100000);
-		//this.stocks.ajouterChocolatEnTG(chocoProduit, 1000);
-		//this.stocks.supprimerChocolatDeMarque(this.chocoProduit, 400);
 		this.achat.next();
 		this.miseAjourDesIndicateurs();
 
+		//Martin Collemare
 		//modification du montant minimum autorisé sur notre compte bancaire, en fonction de l'état de notre acteur
 		if(this.getSolde() < this.getMontantMin().getValeur() && this.getSolde()>0) {
 			this.getMontantMin().setValeur(this, this.getSolde()/2);
@@ -140,13 +153,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	}
 
 	
+	// fait par Elio Granger
 	// Renvoie la liste des filières proposées par l'acteur
 	public List<String> getNomsFilieresProposees() {
 		ArrayList<String> filieres = new ArrayList<String>();
 		filieres.add("TEST_CC_WS"); 
 		return(filieres);
 	}
-
+	
+	// fait par Elio Granger
 	// Renvoie une instance d'une filière d'après son nom
 	public Filiere getFiliere(String nom) {
 		switch (nom) { 
@@ -154,22 +169,26 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	    default : return Filiere.LA_FILIERE;
 		}
 	}
-
+	
+	// fait par Elio Granger
 	// Renvoie les indicateurs
 	public List<Variable> getIndicateurs() {
 		return this.indicateurs;
 	}
-
+	
+	// fait par Elio Granger
 	// Renvoie les paramètres
 	public List<Variable> getParametres() {
 		return this.parametres;
 	}
 	
+	// fait par Elio Granger
 	//Renvoie le montant minimum autorisé sur notre compte bancaire après un achat de chocolat
 	public Variable getMontantMin() {
 		return this.montantMin;
 	}
-
+	
+	// fait par Elio & Ugo
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
 
@@ -192,7 +211,8 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	public void notificationFaillite(IActeur acteur) {
 		this.journalTransactions.ajouter(descriptionColor, Color.BLUE, "Attention " + acteur.getNom() + " est out");
 	}
-
+	
+	// fait par Ugo
 	public void notificationOperationBancaire(double montant) {
 		if (montant>0) {
 			this.journalTransactions.ajouter(descriptionColor, Color.GREEN, "Vous avez reçu un virement de " + montant);
@@ -205,6 +225,7 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		return Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur(getNom()), this.cryptogramme);
 	}
 	
+	//Martin Collemare
 	//Renvoie true si après la future transaction, le solde total est supérieur au montantMin 
 	public boolean getAutorisationTransaction(double prix) {
 		if(this.getSolde() - prix >= this.getMontantMin().getValeur()) {
@@ -222,20 +243,21 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
-		return this.achat.moyennePrixChoco( choco)/this.marges.get(choco.getChocolat());
+		return this.marges.keySet().contains(choco.getChocolat()) ? this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat()) : Double.MAX_VALUE;
 	}
 
 	//On considere que tout le stock d'un produit est en vente
 	public double quantiteEnVente(ChocolatDeMarque choco) {
-		return (this.stocks.getStockChocolatDeMarque(choco));
+		return (this.stocks.getStockChocolatDeMarque(choco))<0.0 ? 0.0 : (this.stocks.getStockChocolatDeMarque(choco));
 	}
 
 	@Override
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		return this.stocks.getQuantiteChocoEnTG(choco);
+		return this.stocks.getQuantiteChocoEnTG(choco)<0.0 ? 0.0 : this.stocks.getQuantiteChocoEnTG(choco);
 	}
 
-	@Override
+	
+	// fait par Elio Granger
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		this.stocks.supprimerChocolatDeMarque(choco, quantite); // l'argent entre déjà dans nos comptes donc pas de soucis
 		this.journalVentes.ajouter(positiveColor, Color.WHITE, "[VENTE] :" + Journal.doubleSur(quantite, 2) + "kg, de "+ choco.name());
@@ -248,21 +270,26 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	}
 
-	@Override
+	
+	// fait par Elio Granger
 	public List<String> getMarquesChocolat() {
 		List<String> marquesProposes = new ArrayList<String>();
 		marquesProposes.add(this.chocoProduit.getMarque());
 		return marquesProposes;
+//		return new ArrayList<String>();
 	}
 
-	@Override
+	
+	// fait par Elio Granger
 	public List<ChocolatDeMarque> getChocolatsProduits() {
 		List<ChocolatDeMarque> choco = new ArrayList<ChocolatDeMarque>();
 		choco.add(this.chocoProduit);
 		return choco;
+//		return new ArrayList<ChocolatDeMarque>();
 	}
 
 	
+	// fait par Elio Granger
 	public void miseAjourDesIndicateurs() {
 		for (Variable indic : this.getIndicateurs()) {
 			if (indic.getNom().equals("Pourcentage de TG")) {
@@ -271,10 +298,15 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		}
 	}
 	
+	// fait par Elio Granger
 	public boolean equals(Object o) {
 		return o instanceof IActeur
 				&& this.getNom().equals(((IActeur)o).getNom());
 	}
+	
+	// fait par Elio Granger
+	// pour les coûts
+	
 	public void deduireUneSomme(double cout) {
 		Filiere.LA_FILIERE.getBanque().virer(this, this.getCryptogramme(), Filiere.LA_FILIERE.getBanque(), cout);
 	}
@@ -297,4 +329,10 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		this.achat.receptionner(produit, quantite, contrat);
 	}
 	
+	/**
+	 * @return the chocoProduit
+	 */
+	public ChocolatDeMarque getChocoProduit() {
+		return chocoProduit;
+	}
 }

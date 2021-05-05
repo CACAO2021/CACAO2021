@@ -150,9 +150,9 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			}		
 			boolean cond2 = e.getQuantiteTotale() < qtt;
 			if(cond2) {				
-				return e;
+				return e; 
 			} else { //on ne souhaite pas vendeur donc on retourne null
-			return null;
+			return null; 
 		}}
 
 	}
@@ -161,7 +161,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		double prix = prixEspere(contrat.getProduit());
-		return prix;
+		return prix * 5000; // on profite du fait qu'ils achetent quoi quil arrive pour devenir riche
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				return minAcceptee(produit);
 		}}
 	}
-
+ 
 	@Override
 	//Dim
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
@@ -207,6 +207,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			vente(quantite, produit);
 			return quantite;
 		}else {
+			vente(stock, produit);
 			return stock;
 		}
 	}

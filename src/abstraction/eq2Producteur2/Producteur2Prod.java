@@ -34,7 +34,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.listeProd = new LinkedList<Feve>();
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_MOYENNE);
 		this.listeProd.add(Feve.FEVE_BASSE);
@@ -87,7 +86,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		int step = Filiere.LA_FILIERE.getEtape();
 		for (Stock s : arbrePlantesHBE) {
 			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
+				s.setStep(step); // on change le step de l'arbre pour simuler le fait quil soit replanté
 				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
 			}}
 		for (Stock s : arbrePlantesHE) {
@@ -141,6 +140,14 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	}
 	
+	
+	// a prendre en compte pour la suite :
+	
+	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
+	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
+	// cela vainfluencer le nombre darbre qui produit effectivement
+	
+	
 	// pas encore utilisé
 	protected double rendement(int step, Object p) {
 		// step correspond à l'age de larbre
@@ -155,15 +162,9 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	}
 	
-	public double qttArbre(Object produit) {
-		// a prendre en compte pour la suite :
-		
-		//il faut du temps avant que le nouvel arbre pousse et produise des fèves
-		//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
-		// cela vainfluencer le nombre darbre qui produit effectivement
-		
+	public double qttArbre(Object produit) {		
 		double nb = 0;
-		if (estFeveHBE(produit)) {			
+		if (estFeveHBE(produit)) {			 
 			for (Stock s : this.arbrePlantesHBE) {
 				nb += s.getQtt();
 			}
