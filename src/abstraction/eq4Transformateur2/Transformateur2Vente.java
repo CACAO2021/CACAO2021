@@ -57,6 +57,8 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		return false;
 	}
 	
+	//Test commentary
+	
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		this.contrats.add(contrat);
 		Object choco = contrat.getProduit();
