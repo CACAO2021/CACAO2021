@@ -152,10 +152,10 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		}
 		if (produit instanceof Chocolat) {
 			if ((Chocolat)produit==Chocolat.POUDRE_MOYENNE_EQUITABLE) {
-				prix=0;
+				prix=3000;
 			}
 			if ((Chocolat)produit==Chocolat.POUDRE_MOYENNE) {
-				prix=0;
+				prix=2700;
 			}
 		}
 		return prix;
@@ -169,18 +169,16 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		return contrat.getPrix();
-	}
-	/*	List<Double> liste_prix = contrat.getListePrix();
+		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
-		if (moyenne>VendeurContratCadre1.PRIX_PALIER_F_E) {
+		if (moyenne>PRIX_PALIER_F_E) {
 			return moyenne;
 		}
 		else {
-			return (liste_prix.get(n-2)+VendeurContratCadre1.PRIX_PALIER_F_E)/2;
+			return (liste_prix.get(n-2)+PRIX_PALIER_F_E)/2;
 		}
-	} */
+	}
 
 
 	@Override
