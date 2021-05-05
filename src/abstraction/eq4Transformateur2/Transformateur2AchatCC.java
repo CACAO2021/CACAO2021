@@ -22,6 +22,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 	
 	public Transformateur2AchatCC() {
 		super();
+		this.supCCadre = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 	}
 	
 	@Override
@@ -56,8 +57,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 		add_stock(produit, quantite);
 		
 	}
-	/*public void next() {
-		
+	public void CCimportant() {
 		List<Feve> feves = new LinkedList<Feve>();
 		feves.add(Feve.FEVE_BASSE);
 		feves.add(Feve.FEVE_MOYENNE);
@@ -72,5 +72,5 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 			}
 		}
 		
-	}*/
+	}
 }

@@ -1,5 +1,6 @@
 package abstraction.eq4Transformateur2;
 
+import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
@@ -7,6 +8,7 @@ import abstraction.fourni.Filiere;
 //Antoine C
 public class Transformateur2 extends Transformateur2AchatAO {
 
+	private SuperviseurVentesContratCadre supCCadre;
 	
 	public Transformateur2 () {
 		super();
@@ -16,6 +18,8 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		return this.getNom();
 	}
 	public void next() {
+		this.supCCadre = (SuperviseurVentesContratCadre )(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		CCimportant();
 		if (get_stock(Feve.FEVE_BASSE) > 0) {
 			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.75, Chocolat.TABLETTE_BASSE);
 			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.25, Chocolat.CONFISERIE_BASSE);

@@ -20,9 +20,6 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 		stock_chocolat.put(Chocolat.CONFISERIE_MOYENNE, quantite_init_confiserie_moyenne );
 		stock_chocolat.put(Chocolat.TABLETTE_BASSE, quantite_init_tablette_basse);
 		stock_chocolat.put(Chocolat.TABLETTE_MOYENNE, quantite_init_tablette_moyenne);
-		echeancier_basse = new LinkedList<Double>();
-		echeancier_moyenne = new LinkedList<Double>();
-		echeancier_total = new LinkedList<Double>();
 	}
 	
 	public void add_stock(Object o, double quantite) {

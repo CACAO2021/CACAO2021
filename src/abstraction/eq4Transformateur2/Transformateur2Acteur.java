@@ -6,6 +6,7 @@ import abstraction.fourni.Variable;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.produits.Chocolat;
@@ -20,6 +21,14 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public Transformateur2Acteur() {
 		super();
 		this.journal = new Journal(this.getNom(), this);
+		echeancier_basse = new LinkedList<Double>();
+		echeancier_moyenne = new LinkedList<Double>();
+		echeancier_total = new LinkedList<Double>();
+		for (int i=0;i<24;i++) {
+			echeancier_basse.add(0.0);
+			echeancier_moyenne.add(0.0);
+			echeancier_total.add(0.0);
+		}
 	}
 
 	public void initialiser() {
