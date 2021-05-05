@@ -163,18 +163,21 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	//Dim
-	public void vente(double qtt, Object produit) {
-		// fonctionne mais les qtt d'achats sont tlmt faible que ca n'apparait pas sur les courbes
+	public void vente(double qtt, Object produit) {return;}
+	public void vente2(double qtt, Object produit) {
 		if (estFeveHBE(produit)) {
 			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
 			while(qtt>0) {
 				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveHBE.get(0).setQtt((this.stockFeveHBE.get(0).getQtt() - qtt )) ;
-					qtt = 0; break; // equivalent
+					qtt = 0; 
 				} else {
 					qtt -= this.stockFeveHBE.get(0).getQtt() ;
 					this.stockFeveHBE.remove(0);
+				}
+				if (this.stockFeveHBE.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
 				}
 			}							
 		} else if (estFeveHE(produit)) {

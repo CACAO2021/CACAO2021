@@ -11,7 +11,8 @@ public class Producteur2Aleas extends Producteur2Param  {
 		if (Math.random() < PROBA_INTEMPERIE) { // l'intemperie à lieu dans ce cas
 			double pourcentageStockADetruire = Math.random() / 2. ;
 			// pourcentage du stock qui sera détruit lors de l'intempérie 
-			// il n'est pas possible que plus de la moitie du 
+			// il n'est pas possible que plus de la moitie du stock soit détruite
+			
 			
 		}
 		
