@@ -62,14 +62,14 @@ public class Transformateur2Valeurs {
 	protected double prix_min_confiserie_basse = cout_transformation + cout_stockage_unite_choco+ cout_stockage_unite_feve + cout_max_feve_basse; 
 	protected double prix_min_confiserie_moyenne = cout_transformation + cout_stockage_unite_choco+ cout_stockage_unite_feve + cout_max_feve_moyenne; 
 
-	//Variables
+	/*Variables
 	
-	protected Variable var_stock_feve_basse = new Variable("STOCK_FEVE_BASSE", (IActeur) this, 0, 100000, stock_feve.get(Feve.FEVE_BASSE));
-	protected Variable var_stock_feve_moyenne = new Variable("STOCK_FEVE_MOYENNE", (IActeur) this, 0, 100000, stock_feve.get(Feve.FEVE_MOYENNE));
-	protected Variable var_stock_tablette_basse = new Variable("STOCK_TABLETTE_BASSE", (IActeur) this, 0, 100000, stock_chocolat.get(Chocolat.TABLETTE_BASSE));
-	protected Variable var_stock_tablette_moyenne = new Variable("STOCK_TABLETTE_MOYENNE", (IActeur) this, 0, 100000, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
-	protected Variable var_stock_confiserie_basse = new Variable("STOCK_CONFISERIE_BASSE", (IActeur) this, 0, 100000, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
-	protected Variable var_stock_confiserie_moyenne = new Variable("STOCK_CONFISERIE_MOYENNE", (IActeur) this, 0, 100000, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
-
+	protected Variable var_stock_feve_basse = new Variable("STOCK_FEVE_BASSE", (IActeur) this, 0, 1000000, stock_feve.get(Feve.FEVE_BASSE));
+	protected Variable var_stock_feve_moyenne = new Variable("STOCK_FEVE_MOYENNE", (IActeur) this, 0, 1000000, stock_feve.get(Feve.FEVE_MOYENNE));
+	protected Variable var_stock_tablette_basse = new Variable("STOCK_TABLETTE_BASSE", (IActeur) this, 0, 1000000, stock_chocolat.get(Chocolat.TABLETTE_BASSE));
+	protected Variable var_stock_tablette_moyenne = new Variable("STOCK_TABLETTE_MOYENNE", (IActeur) this, 0, 1000000, stock_chocolat.get(Chocolat.TABLETTE_MOYENNE));
+	protected Variable var_stock_confiserie_basse = new Variable("STOCK_CONFISERIE_BASSE", (IActeur) this, 0, 1000000, stock_chocolat.get(Chocolat.CONFISERIE_BASSE));
+	protected Variable var_stock_confiserie_moyenne = new Variable("STOCK_CONFISERIE_MOYENNE", (IActeur) this, 0, 1000000, stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE));
+*/
 }
 	
