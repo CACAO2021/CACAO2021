@@ -22,10 +22,12 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 	@Override
 	public OffreAchatFeves getOffreAchat() {
 		if (get_stock(Feve.FEVE_BASSE) < quantite_totale_demandee_basse / nombre_step_total_basse + mini_stock_feve_basse) {
-			return new OffreAchatFeves(this, Feve.FEVE_BASSE,quantite_totale_demandee_basse + mini_stock_feve_basse - get_stock(Feve.FEVE_BASSE));
+			//return new OffreAchatFeves(this, Feve.FEVE_BASSE,quantite_totale_demandee_basse + mini_stock_feve_basse - get_stock(Feve.FEVE_BASSE));
+			return new OffreAchatFeves(this, Feve.FEVE_BASSE,mini_stock_feve_basse - get_stock(Feve.FEVE_BASSE));
 		}
 		if (get_stock(Feve.FEVE_MOYENNE) < quantite_totale_demandee_moyenne / nombre_step_total_moyenne + mini_stock_feve_moyenne) {
-			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, quantite_totale_demandee_moyenne + mini_stock_feve_moyenne - get_stock(Feve.FEVE_MOYENNE));
+			//return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, quantite_totale_demandee_moyenne + mini_stock_feve_moyenne - get_stock(Feve.FEVE_MOYENNE));
+			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE,mini_stock_feve_moyenne - get_stock(Feve.FEVE_MOYENNE));
 		}
 		else {
 			return null;
