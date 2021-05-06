@@ -18,8 +18,8 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		return this.getNom();
 	}
 	public void next() {
-		this.supCCadre = (SuperviseurVentesContratCadre )(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
-		CCimportant();
+		/*this.supCCadre = (SuperviseurVentesContratCadre )(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
+		CCimportant();*/
 		if (get_stock(Feve.FEVE_BASSE) > 0) {
 			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.75, Chocolat.TABLETTE_BASSE);
 			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.25, Chocolat.CONFISERIE_BASSE);
