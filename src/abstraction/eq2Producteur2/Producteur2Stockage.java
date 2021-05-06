@@ -81,6 +81,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		//stock_FP.put("POUDRE_M", stockPM);
 	}
 	
+	public LinkedList<Feve> getListeProd() {
+		return listeProd;
+	}
+
 	//Dim
 	/*
 	 * retourne la quantité de stock disponible totale d'un produit 
