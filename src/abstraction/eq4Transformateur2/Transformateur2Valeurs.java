@@ -40,8 +40,12 @@ public class Transformateur2Valeurs {
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
-	protected double mini_stock_bas = 1000000.0;
-	protected double mini_stock_moyen = 1000000.0;
+	protected double mini_stock_tablette_basse = 100000000.0;
+	protected double mini_stock_tablette_moyenne = 100000000.0;
+	protected double mini_stock_confiserie_basse = 100000000.0;
+	protected double mini_stock_confiserie_moyenne = 100000000.0;
+	protected double mini_stock_feve_basse = 100000000.0;
+	protected double mini_stock_feve_moyenne = 100000000.0;
 	
 	protected double quantite_totale_demandee_basse = 0;
 	protected double quantite_totale_demandee_moyenne = 0;
@@ -56,8 +60,8 @@ public class Transformateur2Valeurs {
 	
 	//Achat 
 	
-	protected static double cout_max_feve_basse = 1.0 ; 
-	protected static double cout_max_feve_moyenne = 1.15;
+	protected static double cout_max_feve_basse = 1.3 ; 
+	protected static double cout_max_feve_moyenne = 1.4;
 
 	//Production
 	
