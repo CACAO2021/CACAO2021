@@ -21,7 +21,7 @@ public class Transformateur2Valeurs {
 		var_stock_tablette_basse = new Variable("stock tablette basse", (IActeur) this, quantite_init_tablette_basse);
 		var_stock_tablette_moyenne = new Variable("stock tablette moyenne", (IActeur) this, quantite_init_tablette_moyenne);
 		var_stock_confiserie_basse = new Variable("stock confiserie basse", (IActeur) this, quantite_init_confiserie_basse);
-		var_stock_confiserie_moyenne = new Variable("stock conifserie moyenne", (IActeur) this, quantite_init_confiserie_moyenne);
+		var_stock_confiserie_moyenne = new Variable("stock confiserie moyenne", (IActeur) this, quantite_init_confiserie_moyenne);
 	}
 	
 	//Echéancier
