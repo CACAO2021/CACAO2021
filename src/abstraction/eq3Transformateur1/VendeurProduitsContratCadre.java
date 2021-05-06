@@ -18,7 +18,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
-		/*if ((produit instanceof Chocolat)) {
+		if ((produit instanceof Chocolat)) {
 			if (((Chocolat)produit).getGamme() != Gamme.BASSE) {
 			return true;	
 			} else {
@@ -26,14 +26,12 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 			}
 		} else {
 			return false;
-		}*/
-		return false;
+		}
 	}
 
 	@Override
 	public boolean vend(Object produit) {
-		return false;
-		//return this.getStock().getFinancier().sommesNousVendeur(produit);
+		return this.getStock().getFinancier().sommesNousVendeur(produit);
 	}
 	
 
@@ -95,7 +93,6 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix, date);
 					return qdisp;
 				}
-
 			}
 		}
 		return 0.0;
