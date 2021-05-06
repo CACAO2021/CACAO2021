@@ -211,8 +211,12 @@ public class Stock {
 		double total = 0;
 		Map<Chocolat, ArrayList<ArrayList<Variable>>> stockChocolatsT = this.stockChocolats;
 		ArrayList<ArrayList<Variable>> stockChocolats = stockChocolatsT.get(chocolat); // On recupere la liste contenant toutes les listes caractéristiques  pour un certain chocolat de chaque ajout de ce chocolat contenant la quantité et le prix de transformation + achat si la quantite est positive ou de vente si la quantite est négative 
-		for(ArrayList<Variable> QuantitePrix : stockChocolats) {
-			total += QuantitePrix.get(0).getValeur(); // on somme tous premiers elements qui correspond à chaque quantité
+		for(ArrayList<Variable> quantiteprixdate : stockChocolats) {
+			if (quantiteprixdate.get(1).getValeur() >0 ) {
+				total += quantiteprixdate.get(0).getValeur(); // on somme tous premiers elements qui correspond à chaque quantité (on regarde si le prix est different de 0 car les prix de 0 correspondent aux stocks périmés
+			} else if (quantiteprixdate.get(1).getValeur()  == 0 ) {
+				total -= quantiteprixdate.get(0).getValeur(); // on somme tous premiers elements qui correspond à chaque quantité (on regarde si le prix est different de 0 car les prix de 0 correspondent aux stocks périmés
+			}
 		}
 		return total;	
 		
@@ -368,7 +372,9 @@ public class Stock {
 		// on somme le cout fixe du stockage et on calcul le cout variable avec un simple produit en croix
 		double stockage = PRIX_STOCKAGE_FIXE + (this.getStockChocolats()+this.getStockFeves())*PRIX_STOCKAGE_VARIABLE/1000;
 		this.setPrixStockage(stockage);
-		Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
+		if (stockage>0) {
+			Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), stockage);
+		}
 		this.getActeur().ecritureJournalTresorie("Virement à la banque pour le coût de stockage d'un montant de " + String.valueOf(stockage));
 		
 		
@@ -426,15 +432,17 @@ public class Stock {
 						stockachete += quantprixdate.get(0).getValeur();
 					} else if (quantprixdate.get(0).getValeur() < 0 && quantprixdate.get(1).getValeur() > 0) {
 							stockdejavendu += quantprixdate.get(0).getValeur();
-						} else if (quantprixdate.get(1).getValeur() == 0 && quantprixdate.get(0).getValeur() >0 ) {
-							stockdejajete += 0.0; 
+					} else if (quantprixdate.get(1).getValeur() == 0 && quantprixdate.get(0).getValeur() >0 ) {
+							stockdejajete += quantprixdate.get(0).getValeur(); 
 						}
 					}
 				}
 			stockajeter = stockachete - stockdejajete - stockdejavendu;
+			System.out.println(stockdejajete );
+			System.out.println(Filiere.LA_FILIERE.getEtape());
 			Variable quantite = new Variable(this.getActeur().getNom(), this.getActeur(), stockajeter);
 			Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), 0);
-			Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), Filiere.LA_FILIERE.getEtape());
+			Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), 0);
 			this.setStockChocolat(chocolat, quantite, prix, date);
 			}
 		}
