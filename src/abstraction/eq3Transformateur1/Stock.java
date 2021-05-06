@@ -438,8 +438,6 @@ public class Stock {
 					}
 				}
 			stockajeter = stockachete - stockdejajete - stockdejavendu;
-			System.out.println(stockdejajete );
-			System.out.println(Filiere.LA_FILIERE.getEtape());
 			Variable quantite = new Variable(this.getActeur().getNom(), this.getActeur(), stockajeter);
 			Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), 0);
 			Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), 0);
