@@ -79,7 +79,8 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 			if(qdisp>0) {
 				Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
 				Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
-				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix);
+				Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
+				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix, date);
 				return qdisp;
 			}
 		} else {
@@ -87,8 +88,9 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 				qdisp = Math.min(this.getStock().getStockChocolats(((ChocolatDeMarque)produit).getChocolat()), quantite);
 				if(qdisp>0) {
 					Variable quantitelivre = new Variable (this.getNom()+"quantitelivre",this,(-1)*qdisp);
+					Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
-					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix);
+					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix, date);
 					return qdisp;
 				}
 
