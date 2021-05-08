@@ -1,11 +1,15 @@
 package abstraction.eq3Transformateur1;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
+import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
@@ -245,10 +249,6 @@ public class Stock {
 		}
 	}
 	
-	public double stockRestant() {
-		return 0.30*this.getActeur().STOCK_MAX - this.getStockFeves(); 
-	}
-	
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix, Variable date) {
 		ArrayList<Variable> quantiteprixdate = new ArrayList<>();
 		if (quantite.getValeur()+this.getStockChocolats(chocolat) >= 0) {
@@ -271,7 +271,6 @@ public class Stock {
 				return chocolat;
 			}
 		}
-		
 		return null;
 	}
 	
@@ -282,7 +281,6 @@ public class Stock {
 				return chocolat;
 			}
 		}
-		
 		return null;
 	}
 	
@@ -293,11 +291,38 @@ public class Stock {
 				return chocolat;
 			}
 		}
-		
 		return null;
 	}
 	
-
+	public ChocolatDeMarque equivalentTabletteFeveMarque(Feve feve) {
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
+			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
+				return chocolat;
+			}
+		}
+		return null;
+	}
+	
+	public ChocolatDeMarque equivalentConfiserieFeveMarque(Feve feve) {
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
+			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
+				return chocolat;
+			}
+		}
+		return null;
+	}
+	
+	public ChocolatDeMarque equivalentPoudreFeveMarque(Feve feve) {
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
+			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
+				return chocolat;
+			}
+		}
+		return null;
+	}
 		
 	public double getMarge(Feve feve) {
 		
@@ -317,56 +342,6 @@ public class Stock {
 		}
 	}
 	
-	public void transformationFeveChocolat() {
-		
-		// on prend chaque feve
-		for (Feve feve : this.nosFeves()) {
-			if (this.getStockFeves(feve) > 0) {
-				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
-				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
-				// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
-				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.7);
-				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
-				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
-				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
-				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.prixAchatKG(feve)*this.getMarge(feve));
-				Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), Filiere.LA_FILIERE.getEtape());
-				// on calcul les couts de transformations
-				double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
-				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
-					cout = cout * COEFFICIENT_COUT_BIO;
-				}
-				Chocolat tablette = this.equivalentTabletteFeve(feve);
-				Chocolat confiserie = this.equivalentConfiserieFeve(feve);
-				Chocolat poudre = this.equivalentPoudreFeve(feve);
-				this.setStockChocolat(tablette, quantitetablette, prix, date);
-				this.setStockChocolat(confiserie, quantiteconfiserie, prix, date);
-				this.setStockChocolat(poudre, quantitepoudre, prix, date);
-				
-				// on transforme de maniere aléatoire en tablette ou poudre ou confiserie
-				/*double p = Math.random();
-				if( p <= 0.3) {
-					Chocolat chocolat = this.equivalentTabletteFeve(feve);
-					this.setStockChocolat(chocolat, quantite, prix);
-				} else if ( p >= 0.6) {
-					Chocolat chocolat = this.equivalentConfiserieFeve(feve);
-					this.setStockChocolat(chocolat, quantite, prix);
-				} else {
-					Chocolat chocolat = this.equivalentPoudreFeve(feve);
-					this.setStockChocolat(chocolat, quantite, prix);
-				}*/
-				
-	
-				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
-				if( cout > 0) {
-					Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
-					this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de " + String.valueOf(cout));
-				}
-				
-				this.stockFeves.get(feve).clear();
-			}
-		}
-	}
 	
 	public void coutStock() {
 		// on somme le cout fixe du stockage et on calcul le cout variable avec un simple produit en croix
@@ -455,5 +430,163 @@ public class Stock {
 		return stock;
 	}
 
+	public List<ChocolatDeMarque> getChocolatsProduits() {
+		String marque="Eticao";
+		List<ChocolatDeMarque> chocolats=new LinkedList<ChocolatDeMarque> ();
+		chocolats.add(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.CONFISERIE_HAUTE_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.CONFISERIE_MOYENNE_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.POUDRE_HAUTE_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.POUDRE_MOYENNE_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.TABLETTE_HAUTE_EQUITABLE,marque));
+		chocolats.add(new ChocolatDeMarque(Chocolat.TABLETTE_MOYENNE_EQUITABLE,marque));
+		return chocolats;
+	}
 	
+	public Map<ChocolatDeMarque, Double> proportionDeTransformationMarque(int step) {
+		
+		Map<ChocolatDeMarque, Double> proportion = new HashMap<ChocolatDeMarque, Double>();
+		double totalventemoyenneequitable = 0.0;
+		double totalventehauteequitable = 0.0;
+		double totalventebio = 0.0;
+		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
+			if (chocolat.isBio() == true) {
+				totalventebio += Filiere.LA_FILIERE.getVentes(chocolat, step);
+			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.HAUTE) {
+				totalventehauteequitable += Filiere.LA_FILIERE.getVentes(chocolat, step);
+			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.MOYENNE) {
+				totalventemoyenneequitable += Filiere.LA_FILIERE.getVentes(chocolat, step);
+			}
+		}
+		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
+			if (chocolat.isBio() == true) {
+				if (totalventebio != 0) {
+					proportion.put(chocolat, Filiere.LA_FILIERE.getVentes(chocolat, step)/totalventebio);	
+				} else {
+					proportion.put(chocolat, 0.0);
+				}
+			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.HAUTE) {
+				if (totalventebio != 0) {
+					proportion.put(chocolat, Filiere.LA_FILIERE.getVentes(chocolat, step)/totalventehauteequitable);
+				} else {
+					proportion.put(chocolat, 0.0);
+				}
+			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.MOYENNE) {
+				if (totalventebio != 0) {
+					proportion.put(chocolat, Filiere.LA_FILIERE.getVentes(chocolat, step)/totalventemoyenneequitable);
+				} else {
+					proportion.put(chocolat, 0.0);
+				}
+			}
+		}
+		return proportion;
+	}
+
+	/*public void transformationFeveChocolat(int step) {
+		
+		// on prend chaque feve
+		for (Feve feve : this.nosFeves()) {
+			System.out.println("---------------");
+			if (this.getStockFeves(feve) > 0) {
+				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
+				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
+				
+				double proportiontablette = 0.0;
+				double proportionconfiserie = 0.0;
+				double proportionpoudre = 0.0;
+				if (feve.getGamme() == Gamme.BASSE || feve.isEquitable() == false || step < 24) {
+					// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
+					proportiontablette = 0.7;
+					proportionconfiserie = 0.15;
+					proportionpoudre = 0.15;
+				} else {
+					System.out.println("test");
+					proportiontablette = this.proportionDeTransformationMarque(Filiere.LA_FILIERE.getEtape()-24).get(this.equivalentTabletteFeveMarque(feve));
+					proportionconfiserie = this.proportionDeTransformationMarque(Filiere.LA_FILIERE.getEtape()-24).get(this.equivalentConfiserieFeveMarque(feve));
+					proportionpoudre = this.proportionDeTransformationMarque(Filiere.LA_FILIERE.getEtape()-24).get(this.equivalentPoudreFeveMarque(feve));
+				}
+				System.out.println(feve);
+				System.out.println(proportiontablette);
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*proportiontablette);
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*proportionconfiserie);
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*proportionpoudre);
+				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
+				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.prixAchatKG(feve)*this.getMarge(feve));
+				Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), Filiere.LA_FILIERE.getEtape());
+				// on calcul les couts de transformations
+				double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
+				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+					cout = cout * COEFFICIENT_COUT_BIO;
+				}
+				Chocolat tablette = this.equivalentTabletteFeve(feve);
+				Chocolat confiserie = this.equivalentConfiserieFeve(feve);
+				Chocolat poudre = this.equivalentPoudreFeve(feve);
+				this.setStockChocolat(tablette, quantitetablette, prix, date);
+				this.setStockChocolat(confiserie, quantiteconfiserie, prix, date);
+				this.setStockChocolat(poudre, quantitepoudre, prix, date);
+				
+	
+				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
+				if( cout > 0) {
+					Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
+					this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de " + String.valueOf(cout));
+				}
+				
+				this.stockFeves.get(feve).clear();
+			}
+		}
+	}*/
+	
+public void transformationFeveChocolat() {
+		
+		// on prend chaque feve
+		for (Feve feve : this.nosFeves()) {
+			if (this.getStockFeves(feve) > 0) {
+				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
+				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
+				// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.7);
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
+				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
+				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.prixAchatKG(feve)*this.getMarge(feve));
+				Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), Filiere.LA_FILIERE.getEtape());
+				// on calcul les couts de transformations
+				double cout = this.getPrixTransformation().getValeur()*this.getStockFeves(feve)/1000;
+				if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+					cout = cout * COEFFICIENT_COUT_BIO;
+				}
+				Chocolat tablette = this.equivalentTabletteFeve(feve);
+				Chocolat confiserie = this.equivalentConfiserieFeve(feve);
+				Chocolat poudre = this.equivalentPoudreFeve(feve);
+				this.setStockChocolat(tablette, quantitetablette, prix, date);
+				this.setStockChocolat(confiserie, quantiteconfiserie, prix, date);
+				this.setStockChocolat(poudre, quantitepoudre, prix, date);
+				
+				// on transforme de maniere aléatoire en tablette ou poudre ou confiserie
+				/*double p = Math.random();
+				if( p <= 0.3) {
+					Chocolat chocolat = this.equivalentTabletteFeve(feve);
+					this.setStockChocolat(chocolat, quantite, prix);
+				} else if ( p >= 0.6) {
+					Chocolat chocolat = this.equivalentConfiserieFeve(feve);
+					this.setStockChocolat(chocolat, quantite, prix);
+				} else {
+					Chocolat chocolat = this.equivalentPoudreFeve(feve);
+					this.setStockChocolat(chocolat, quantite, prix);
+				}*/
+				
+	
+				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));
+				if( cout > 0) {
+					Filiere.LA_FILIERE.getBanque().virer(this.getActeur(), this.getActeur().cryptogramme, Filiere.LA_FILIERE.getBanque(), cout);
+					this.getActeur().ecritureJournalTresorie("Virement à la banque pour la tranformation de" + feve.name()+ "d'un montant de " + String.valueOf(cout));
+				}
+				
+				this.stockFeves.get(feve).clear();
+			}
+		}
+	}
 }
