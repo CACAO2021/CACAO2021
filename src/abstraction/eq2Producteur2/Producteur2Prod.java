@@ -35,7 +35,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
 		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE);
+		this.listeProd.add(Feve.FEVE_MOYENNE); 
 		this.listeProd.add(Feve.FEVE_BASSE);
 		}
 	
