@@ -1,5 +1,6 @@
 package abstraction.eq3Transformateur1;
 
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Variable;
 
@@ -12,7 +13,8 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 	}
 	
 	public void next() {
-
+		
+		this.getStock().gestionDesPeremptions();
 		this.getStock().getFinancier().setIndicateurs();
 		this.getStock().getFinancier().miseAJourContratVendeur();
 		this.nosDemandesCC();
@@ -26,7 +28,9 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 	
 	public void initialiser() {
 		this.setSupCCadre();
+		this.getStock().initialiserLeStock();
 	}
+	
 	public String toString() {
 		return this.getNom();
 	}
