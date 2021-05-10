@@ -15,7 +15,7 @@ public class Cout extends CreationJournaux {
 	public static void PayerProducteurs(Producteur1Acteur producteur1Acteur){
 		double valeur=(COUT_PRODUCTION_FEVE_B*48333000)+(COUT_PRODUCTION_FEVE_M*48333000)+(COUT_PRODUCTION_FEVE_ME*1000000);
 		producteur1Acteur.perteargent(valeur);
-		producteur1Acteur.getJournal(4).ajouter("Les producteurs ont été payés d'un montant de "+valeur+"€");
+		producteur1Acteur.getJournal("Ghanao Coûts").ajouter("Les producteurs ont été payés d'un montant de "+valeur+"€");
 
 	}
 
@@ -37,7 +37,7 @@ public class Cout extends CreationJournaux {
 				+a.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite();
 		double montant = qte_stockee*COUT_STOCKAGE_FEVE;
 		a.perteargent(montant);
-		a.getJournal(4).ajouter("Le stockage des produits a coûté ce stet" +montant+"€" );
+		a.getJournal("Ghanao Coûts").ajouter("Le stockage des produits a coûté ce stet" +montant+"€" );
 
 	}
 }

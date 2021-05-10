@@ -51,7 +51,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		if( contrat.getPrix() >= this.getSolde()) {
+		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde() || contrat.getPrix() > 100) {
 			return 0;
 		} else {
 			return contrat.getPrix();
@@ -66,34 +66,24 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
 		for  (Feve feve : feveaacheter) {
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				boolean t = true;
-				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
-					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
-					if (contrat != null) {
-						t = false;
-						this.getStock().getFinancier().ajoutContratEnTantQueAcheteur(contrat);
+				if (acteur.getNom() != "Baratao") {
+					boolean t = true;
+					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
+						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
+						if (contrat != null) {
+							t = false;
+							this.getStock().getFinancier().ajoutContratEnTantQueAcheteur(contrat);
+						}
 					}
 				}
 			}
 		}
 	}
-	
-	public ArrayList<Feve> nosFevesCC() {
-		ArrayList<Feve> list = new ArrayList<Feve>();
-		list.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		list.add(Feve.FEVE_HAUTE_EQUITABLE);
-		list.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		list.add(Feve.FEVE_MOYENNE);
-		list.add(Feve.FEVE_BASSE);
-		return list;
-		
-	}
-	
 		
 
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		if (produit instanceof Feve) {
-			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix()/contrat.getQuantiteTotale())); // pour avoir le prix du KG
+			this.getStock().setStockFeve((Feve)produit, new Variable("quantité",this,quantite), new Variable("contrat numéro:"+contrat.getNumero(),this,contrat.getPrix())); // pour avoir le prix du KG
 			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());
 		}
 	}
