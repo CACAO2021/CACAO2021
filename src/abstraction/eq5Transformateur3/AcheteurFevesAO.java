@@ -2,10 +2,7 @@ package abstraction.eq5Transformateur3;
 //Charlotte
 
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+
 
 import java.util.List;
 
