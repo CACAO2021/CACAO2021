@@ -43,21 +43,15 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 
 	@Override
 	public boolean vend(Object produit) {
-		/*if (!this.getChocolats().keySet().contains(produit)) {
-			return false;
-		}
-		if (this.getChocolats().get(produit).getValeur()>0) {
-			return true;}
-		else { return false; }*/
-		if (produit instanceof ChocolatDeMarque) {
-			Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
+			if (produit instanceof ChocolatDeMarque) {
+				Chocolat choco = ((ChocolatDeMarque)produit).getChocolat();
 			if (!this.peutVendre(produit)) {
 				return false;
 			} else if (this.getChocolats().get(choco).getValeur()>0) {
 				return true;
 			} else {
-				return false;
-			}	
+				return false;}	
+			
 		}
 		
 		else {
@@ -67,11 +61,17 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		if (this.vend(contrat.getProduit())){
-			if (contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1) <= this.getChocolats().get(((ChocolatDeMarque)contrat.getProduit()).getChocolat()).getValeur() ) {
-				return contrat.getEcheancier(); }
-			else { return null;} }
-		else { return null;}
+		Object produit = contrat.getProduit();
+		Chocolat chocolat = ((ChocolatDeMarque)produit).getChocolat();
+		if (this.vend(produit)){
+			if (contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1) <= this.getChocolats().get(chocolat).getValeur() ) {
+				return contrat.getEcheancier(); 
+			}
+			else { return null;
+			} 
+		}
+		else { return null;
+		}
 		}
 		
 	
