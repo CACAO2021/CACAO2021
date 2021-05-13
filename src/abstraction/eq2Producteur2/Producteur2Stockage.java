@@ -182,6 +182,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				(stock_F.get(produit)).remove(0);
 			}
 			if ((stock_F.get(produit)).size() == 0) {
+				// quand y a plus de stock on sort de la boucle 
 				System.out.println("y a pb, on a plus de stock");
 				break;
 			}
