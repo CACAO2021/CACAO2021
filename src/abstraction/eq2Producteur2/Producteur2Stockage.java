@@ -170,12 +170,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	
 	//Dim
 	public void vente(double qtt, Object produit) {
-		try {
-			vente3(qtt,produit);
-			return;
-		}finally {
-			System.out.println("y a un pb dans vente - prod 2");
-		}
+		return;
 	}
 	
 	public void vente3(double qtt, Object produit) { // tentative de simplification / factorisation
