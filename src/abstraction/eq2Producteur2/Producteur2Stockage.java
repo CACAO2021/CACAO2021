@@ -169,7 +169,15 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	//Dim
-	public void vente(double qtt, Object produit) {return;}
+	public void vente(double qtt, Object produit) {
+		try {
+			vente3(qtt,produit);
+			return;
+		}finally {
+			System.out.println("y a un pb dans vente - prod 2");
+		}
+	}
+	
 	public void vente3(double qtt, Object produit) { // tentative de simplification / factorisation
 		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
 		while (qtt>0) {
