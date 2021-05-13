@@ -42,7 +42,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	/**
 	 * @return the listeProd
 	 */
-	protected LinkedList<Feve> getListeProd() {
+	public LinkedList<Feve> getListeProd() {
 		return listeProd;
 	}
 
