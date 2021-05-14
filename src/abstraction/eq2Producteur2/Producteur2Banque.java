@@ -21,7 +21,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 	public void coutStockage() {
 		// calcul cout variable
 		double sum = 0; // cout variable depend de la qtt de stock total
-		for (Object p : getListeProd()) {
+		for (Object p : listeProd) {
 			majStock(p);
 			sum += qttTotale(p).getValeur();
 		}

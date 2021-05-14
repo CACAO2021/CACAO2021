@@ -5,7 +5,7 @@ import java.util.List;
 
 import abstraction.fourni.Variable;
 
-public class Producteur2Param extends Producteur2Banque {
+public abstract class Producteur2Param extends Producteur2Banque {
 	
 	//ensemble fait par DIM
 	

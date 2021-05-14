@@ -5,7 +5,7 @@ import java.util.Map;
 
 import abstraction.eq8Romu.produits.Feve;
 
-public class Producteur2Aleas extends Producteur2Param  {
+public abstract class Producteur2Aleas extends Producteur2Param  {
 
 	public Producteur2Aleas() {
 		super();
@@ -16,7 +16,7 @@ public class Producteur2Aleas extends Producteur2Param  {
 		if (Math.random() < PROBA_INTEMPERIE) {
 			// l'intemperie à lieu dans ce cas
 			// on tire un pourcentage sur chaque element stocké
-			for (Feve e : getListeProd()) {
+			for (Feve e : listeProd) {
 				double pourcentageStockADetruire = Math.random() / 2. ;
 				double stockActuel = qttTotale(e).getValeur();
 				// pourcentage du stock qui sera détruit lors de l'intempérie 
