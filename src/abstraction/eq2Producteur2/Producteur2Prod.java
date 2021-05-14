@@ -50,26 +50,32 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// on remplit les listes
 		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
 		int stepActuel = 0;
-		int stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE;
-		int step = stepArbreLePlusVieu;
+		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE;
+		double step = - stepArbreLePlusVieu;
+		HashMap<Feve, Double> qttdb = new HashMap<Feve, Double>();
+		qttdb.put(listeProd.get(0), ARBRE_DEBUT_HBE/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(1), ARBRE_DEBUT_HE/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(2), ARBRE_DEBUT_ME/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(3), ARBRE_DEBUT_M/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(4), ARBRE_DEBUT_B/(stepArbreLePlusVieu));
+		
 		while (step != stepActuel) {
 			for (Feve f : listeProd) {
-				arbrePlantes.get(f);
-			}
-			
+				arbrePlantes.get(f).add(new Stock(qttdb.get(f), (int)step));
+			}			
 			step++;
 		}
-		this.arbrePlantesHBE = new LinkedList<Stock>();
-		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
-		this.arbrePlantesHE = new LinkedList<Stock>();
-		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
-		this.arbrePlantesME = new LinkedList<Stock>();
-		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
-		this.arbrePlantesM = new LinkedList<Stock>();
-		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
-		this.arbrePlantesB = new LinkedList<Stock>();
-		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
-		
+		// ancienne version sans tenir compte de l'age
+		//		this.arbrePlantesHBE = new LinkedList<Stock>();
+		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
+		//		this.arbrePlantesHE = new LinkedList<Stock>();
+		//		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
+		//		this.arbrePlantesME = new LinkedList<Stock>();
+		//		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
+		//		this.arbrePlantesM = new LinkedList<Stock>();
+		//		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
+		//		this.arbrePlantesB = new LinkedList<Stock>();
+		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 		
 	}
 
