@@ -3,12 +3,25 @@ package abstraction.eq2Producteur2;
 
 import abstraction.eq8Romu.produits.Categorie;
 import java.util.HashMap; // import the HashMap class
+import java.util.LinkedList;
+
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
+	
+	protected LinkedList<Feve> listeProd; 
+	
 	public Producteur2Valeurs() {
-		super();	
+		super();
+		
+		// creation dune liste contenant tous les types de feves que l'on produit
+		this.listeProd = new LinkedList<Feve>();
+		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE); 
+		this.listeProd.add(Feve.FEVE_BASSE);
 		
 	}
 	

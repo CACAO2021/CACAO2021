@@ -24,8 +24,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockPHE;
 	protected Variable stockPM;
 	
-	private LinkedList<Feve> listeProd; 
-	
 	protected HashMap<Feve, LinkedList<Stock>> stock_F;
 
 	// ensemble fait par DIM
@@ -53,13 +51,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreHE.add(new Stock(QTT_POUDRE_HE_DEPART, 0));
 		this.stockPoudreM = new LinkedList<Stock>();
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
-		
-		this.listeProd = new LinkedList<Feve>();
-		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE);
-		this.listeProd.add(Feve.FEVE_BASSE);			
 		
 		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
 		stockFHE = new Variable("stock feve HE", this, QTT_FEVE_HE_DEPART);

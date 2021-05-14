@@ -1,5 +1,6 @@
 package abstraction.eq2Producteur2;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import abstraction.eq8Romu.produits.Feve;
@@ -13,13 +14,51 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesME;
 	private LinkedList<Stock> arbrePlantesM; 
 	private LinkedList<Stock> arbrePlantesB;
-	private LinkedList<Feve> listeProd; 
+	
+	protected HashMap<Feve, LinkedList<Stock>> arbrePlantes;
+	
+
 	
 	// ensemble fait par DIM
 	
 	public Producteur2Prod() {
 		super();
+		
+		//On plante tous les arbres en respectant l'âge de début
+		planterArbresAuDebut();		
+
+		}
+	
+	//Dim
+	public void planterArbresAuDebut() {
+		
+		// on creer une liste vide pour chaque type de fève
+		this.arbrePlantesHBE = new LinkedList<Stock>();
+		this.arbrePlantesHE = new LinkedList<Stock>();
+		this.arbrePlantesME = new LinkedList<Stock>();
+		this.arbrePlantesM = new LinkedList<Stock>();
+		this.arbrePlantesB = new LinkedList<Stock>();
+		
+		// création de la hashmap associée
+		arbrePlantes = new HashMap<Feve, LinkedList<Stock>>();
+		arbrePlantes.put(listeProd.get(0), arbrePlantesHBE);
+		arbrePlantes.put(listeProd.get(1), arbrePlantesHE);
+		arbrePlantes.put(listeProd.get(2), arbrePlantesME);
+		arbrePlantes.put(listeProd.get(3), arbrePlantesM);
+		arbrePlantes.put(listeProd.get(4), arbrePlantesB);
+		
+		// on remplit les listes
 		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
+		int stepActuel = 0;
+		int stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE;
+		int step = stepArbreLePlusVieu;
+		while (step != stepActuel) {
+			for (Feve f : listeProd) {
+				arbrePlantes.get(f);
+			}
+			
+			step++;
+		}
 		this.arbrePlantesHBE = new LinkedList<Stock>();
 		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
 		this.arbrePlantesHE = new LinkedList<Stock>();
@@ -31,19 +70,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		this.arbrePlantesB = new LinkedList<Stock>();
 		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 		
-		this.listeProd = new LinkedList<Feve>();
-		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE); 
-		this.listeProd.add(Feve.FEVE_BASSE);
-		}
-	
-	/**
-	 * @return the listeProd
-	 */
-	public LinkedList<Feve> getListeProd() {
-		return listeProd;
+		
 	}
 
 	public void prod() {

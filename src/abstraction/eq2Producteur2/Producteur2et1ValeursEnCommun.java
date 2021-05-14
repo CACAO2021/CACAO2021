@@ -42,8 +42,10 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double coutMachines = 21; // coût de transformation des fèves en poudre, un seul coût: entretien des machines
 
 	public static final int nbEtapeAvPeremption=14;
+	
 	// cout stockage
 	public static final double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
+	public static final double COUT_STOCKAGE_FIXE = 0.0; // cout en euro par step
 	
 	
 	//cout renouvellment arbre
