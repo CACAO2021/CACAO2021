@@ -87,7 +87,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	/**
 	 * Retourne la quantité vendue du paramètre choco au step précédant.
 	 * @param choco
-	 * @return
+	 * @return 
 	 */
 	
 	public double getQuantiteVendue(ChocolatDeMarque choco) {

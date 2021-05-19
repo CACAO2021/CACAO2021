@@ -178,7 +178,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
 		journalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
 		if (!contrat.getTeteGondole() && quantite*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
-			System.out.println(quantite*0.1);
+			//System.out.println(quantite*0.1);
 			//superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)contrat.getVendeur()), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, quantite*0.1), this.cryptogramme, true);
 			
 		}
