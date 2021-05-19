@@ -5,7 +5,7 @@ import java.util.List;
 
 import abstraction.fourni.Variable;
 
-public class Producteur2Param extends Producteur2Banque {
+public abstract class Producteur2Param extends Producteur2Banque {
 	
 	//ensemble fait par DIM
 	
@@ -14,14 +14,15 @@ public class Producteur2Param extends Producteur2Banque {
 	}
 
 	public List<Variable> getIndicateurs() {
+		// la maniere dont on gère nos stocks ne permet pas de modifier leurs valeurs depuis l'interface une fois le code lancé
 		List<Variable> res=new ArrayList<Variable>();
 		res.add(stockFHBE);
 		res.add(stockFHE);
 		res.add(stockFME);
 		res.add(stockFM);
 		res.add(stockFB);
-		res.add(stockPHE);
-		res.add(stockPM);		
+		//res.add(stockPHE);
+		//res.add(stockPM);		
 		return res;
 	}
 	
