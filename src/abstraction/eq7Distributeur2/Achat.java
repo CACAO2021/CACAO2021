@@ -183,7 +183,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//	}
 		//}
 		Variable besoin = new Variable("Quantité", wonka, 0);
-		//remplissage de besoinsChocoParType
+		//remplissage de besoinsChocoParType, on somme donc les besoins en chocolat par marque pour chaque type de chococolat identique
 		for (Chocolat choco : wonka.getChocolatsProposes()) {
 			besoin.setValeur(wonka, 0);
 			for(ChocolatDeMarque chocoDeMarque : wonka.getCatalogue()) {
