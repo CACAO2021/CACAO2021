@@ -42,7 +42,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// }
 		
 	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
-		System.out.println("tito");
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
 		}
