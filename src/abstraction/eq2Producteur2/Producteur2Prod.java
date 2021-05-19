@@ -84,7 +84,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void prod() {		
 		for (Feve p : listeProd) {
-			double qtt = prodParStep(p); // la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
+			double qtt = prodParStep(p);
+			// la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
 			addStock(qtt, p); 
 			JournalProd.ajouter(""+ p +" "+qtt);	
 			coutProd(qtt, p);

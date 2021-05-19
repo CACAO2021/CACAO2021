@@ -135,9 +135,20 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		double qttProduiteFutur = prodParStep(produit) * contrat.getEcheancier().getNbEcheances();
 		double contratEnCours = aProduire(produit);
 		double qtt = qttDispo + qttProduiteFutur - contratEnCours;
-		boolean cond = qttDemandee < qtt;
-
-		if(cond) { // on est daccord avec l'échéancier
+		boolean condQtt = qttDemandee < qtt;
+		
+		boolean condEquitable=true;
+		
+		if (estFeveEquitable(produit)) {
+			//pour que ce soit equitable
+			// il faut une longue période
+			// et une grande qtt
+			condEquitable &=  contrat.getEcheancier().getNbEcheances() > 10; //au moins 10 échéances
+			condEquitable &= contrat.getQuantiteRestantALivrer() > ;
+			
+		}
+		
+		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur
 			Echeancier e = contrat.getEcheancier();
