@@ -219,7 +219,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public LinkedList<IVendeurContratCadre> vendeursTypeChoco(Chocolat choco) {
 		LinkedList<IVendeurContratCadre> vendeurs = new LinkedList<IVendeurContratCadre>() ;
 		for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
-			if(chocolatDeLaFiliere.getChocolat().name().equals(choco.name()) && this.supCCadre.getVendeurs(choco).size() != 0) {
+			if(chocolatDeLaFiliere.getChocolat().name().equals(choco.name()) && this.supCCadre.getVendeurs(chocolatDeLaFiliere).size() != 0) {
 				vendeurs.add(((LinkedList<IVendeurContratCadre>)this.getSupCCadre().getVendeurs(chocolatDeLaFiliere)).get(0));
 			}
 		}
@@ -232,6 +232,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void nouveauContrat() {
 		for(Chocolat choco : wonka.getChocolatsProposes() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = this.vendeursTypeChoco(choco);
+			
 			if (vendeurs.size()!=0 && this.besoinsChocoParType.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
 				System.out.println(choco.toString() + " ; " + vendeurs.toString());
 
