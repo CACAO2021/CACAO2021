@@ -169,7 +169,7 @@ public class Business {
 		return this.mesContratEnTantQueVendeur;
 	}
 	
-	public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
+	/*public void ajoutContratEnTantQueAcheteur(ExemplaireContratCadre contrat) {
 	//  on ajout nos nouveaux contrats à notre liste
 		this.mesContratEnTantQueAcheteur.add(contrat);
 		this.getStock().getActeur().journalAcheteur.ajouter("Nouveau contrat :"+contrat);
@@ -196,9 +196,9 @@ public class Business {
 	public Map<Chocolat, Double> stockAFournir(int step) {
 		// on regarde la quantite de toutes les feves à livrer à un certain step
 		Map<Chocolat, Double> stockafournir = new HashMap<Chocolat, Double>();
-		for (Chocolat chocolat : this.getStock().nosChocolats()) {
+		/*for (Chocolat chocolat : this.getStock().nosChocolats()) {
 			stockafournir.put(chocolat, 0.0);
-		}
+		
 		for (ExemplaireContratCadre contrat : this.getMesContratEnTantQueVendeur()) {
 			if (contrat.getProduit() instanceof Chocolat) {
 				Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
@@ -233,7 +233,7 @@ public class Business {
 		Map<Feve, Double> listedifstock = new HashMap<Feve, Double>(); 
 		for (Feve feve : this.getStock().nosFeves()) {
 			double difference = 0;
-			for (int i = 1; i < 11; i++) {
+			for (int i = 1; i < 20; i++) {
 				difference += this.differenceStockArrivePart(feve, i);
 			}
 			listedifstock.put(feve, difference);
@@ -247,6 +247,7 @@ public class Business {
 		Map<Feve, Double> stockaacheter = new HashMap<Feve, Double>(); 
 		for (Feve feve : this.getStock().nosFeves()) {
 			double diff = this.listeDifferenceStockArrivePart().get(feve);
+			System.out.println(diff);
 			if (diff < 0) {
 				stockaacheter.put(feve,-diff*1.5);
 			} else if (diff == 0) {
@@ -266,6 +267,7 @@ public class Business {
 		}
 		return listefeve;
 	}
+	*/
 
 }
 

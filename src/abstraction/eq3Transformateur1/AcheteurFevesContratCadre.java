@@ -60,7 +60,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	
 	public void nosDemandesCC() {
 		
-		this.getStock().getFinancier().miseAJourContratAcheteur();
+		/*this.getStock().getFinancier().miseAJourContratAcheteur();
 		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
 		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantitefeveAAcheter();
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
@@ -77,7 +77,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 					}
 				}
 			}
-		}
+		}*/
 	}
 		
 
