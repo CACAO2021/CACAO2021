@@ -155,6 +155,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+		
 		double prixA = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		double prixV = contrat.getListePrix().get(contrat.getListePrix().size()-2);
 		
