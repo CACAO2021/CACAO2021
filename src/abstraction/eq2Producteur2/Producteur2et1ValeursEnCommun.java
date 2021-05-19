@@ -31,7 +31,7 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double PROD_HE = 6./24.;
 	public static final double PROD_ME = 6./24.; 
 	public static final double PROD_M = 6./24.;
-	public static final double PROD_B = 6./24.;
+	public static final double PROD_B = 6./24.; 
 	
 	// partie transformation
 	public static final double coefHE = 0.4; //(à affiner)
@@ -57,7 +57,9 @@ public class Producteur2et1ValeursEnCommun {
 	public static final int TPS_BON_RENDEMENT_ARBRE=3*24;
 	public static final int TPS_RENDEMENT_MAX_ARBRE=6*24;
 	
-
+	//partie vente
+	protected double EQUI_NB_ECHEANCE_MINI = 10;
+	protected double EQUI_QTT_MINI = 1000000; // a definir
 	
 	
 }
