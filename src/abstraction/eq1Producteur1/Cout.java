@@ -37,7 +37,7 @@ public class Cout extends CreationJournaux {
 				+a.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite();
 		double montant = qte_stockee*COUT_STOCKAGE_FEVE;
 		a.perteargent(montant);
-		a.getJournal("Ghanao Coûts").ajouter("Le stockage des produits a coûté ce step" +montant+"€" );
+		a.getJournal("Ghanao Coûts").ajouter("Le stockage des produits a coûté ce step : " +montant+"€" );
 
 	}
 }
