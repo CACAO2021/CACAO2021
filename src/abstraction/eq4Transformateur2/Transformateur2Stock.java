@@ -74,7 +74,8 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 		}
 		if (o instanceof Chocolat) {
 			if (stock_chocolat.get(o) - quantite<0) {
-				this.journal_stock.ajouter("il manque"+( -stock_chocolat.get(o) + quantite)+"de"+ o.toString());
+				this.journal_stock
+				.ajouter("il manque"+( -stock_chocolat.get(o) + quantite)+"de"+ o.toString());
 				stock_chocolat.replace((Chocolat) o, 0.0);
 				if (o == Chocolat.TABLETTE_BASSE) {
 					var_stock_tablette_basse.setValeur(this, 0);

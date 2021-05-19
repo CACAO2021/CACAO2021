@@ -21,7 +21,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public Transformateur2Acteur() {
 		super();
 		
-		//On initialise le journal et les échéanciers
+		//On initialise les journaux et les échéanciers
 		journal_achat = new Journal(this.getNom(), this);
 		journal_transformation = new Journal(this.getNom(), this);
 		journal_stock = new Journal(this.getNom(), this);
