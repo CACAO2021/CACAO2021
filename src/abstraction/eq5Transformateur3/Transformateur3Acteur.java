@@ -60,6 +60,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 2);
 		this.prix_confiserie = new Variable("Prix confiserie", this, 2);
 		
+		
 	}
 
 	public String getNom() {
