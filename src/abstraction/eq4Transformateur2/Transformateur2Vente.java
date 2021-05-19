@@ -54,7 +54,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	//notification nouveau contrat
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		this.journal_vente.ajouter("Un nouveau contrat a été ajouter : quantite = "+contrat.getQuantiteTotale() + " pour " + contrat.getAcheteur());
+		this.journal_vente.ajouter("Un nouveau contrat a été ajouter : quantite = "+contrat.getQuantiteTotale() + " pour " + contrat.getAcheteur() +" de "+ contrat.getProduit().toString());
 		this.contrats.add(contrat);
 		Object choco = contrat.getProduit();
 		if (choco instanceof ChocolatDeMarque) {
@@ -97,7 +97,6 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		double livre = 0;
-		this.journal_vente.ajouter("On livre "+quantite+" de "+contrat.getProduit()+ " à "+contrat.getAcheteur());
 		if (produit instanceof ChocolatDeMarque) {
 			Chocolat choco = ((ChocolatDeMarque) produit).getChocolat();
 			
