@@ -20,8 +20,11 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double COUT_CHANGEMENT_ARBRE_M = 0.1;
 	public static final double COUT_CHANGEMENT_ARBRE_B = 0.1;
 	
+	// production par an arbre
+	public static final int PROD_ARBRE_AN = 6;
+			
 	//production par tour par arbre 
-	public static final int PROD_ARBRE = 6/24;
+	public static final int PROD_ARBRE = PROD_ARBRE_AN/24;
 	
 	//si on decide de donner des valeurs différentes:
 	public static final double PROD_HBE = 6./24.;
@@ -42,8 +45,10 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double coutMachines = 21; // coût de transformation des fèves en poudre, un seul coût: entretien des machines
 
 	public static final int nbEtapeAvPeremption=14;
+	
 	// cout stockage
 	public static final double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
+	public static final double COUT_STOCKAGE_FIXE = 0.0; // cout en euro par step
 	
 	
 	//cout renouvellment arbre
