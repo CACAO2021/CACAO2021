@@ -2,7 +2,7 @@ package abstraction.eq2Producteur2;
 
 //DIM
 
-public class Producteur2 extends Producteur2Param  {
+public class Producteur2 extends Producteur2Aleas  {
 
 	public Producteur2() {
 		super();		
@@ -15,7 +15,7 @@ public class Producteur2 extends Producteur2Param  {
 	//DIM
 	public void next() {
 		majJournaux();
-		// faire fonction probleme : intemperie,...
+		lesProblemes();
 		prod();
 		transfo(); // vide pour le moment
 		renouvellement();

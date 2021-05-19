@@ -8,9 +8,7 @@ import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	public Producteur2Valeurs() {
-		super();
-		HashMap<String, Double> QTT_DEPART = new HashMap<String, Double>();
-		QTT_DEPART.put("FEVE_HBE", QTT_FEVE_TOTALE*0.03);		
+		super();	
 		
 	}
 	
@@ -92,6 +90,8 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
-
+	
+	//partie sur les aléas
+	protected double PROBA_INTEMPERIE = 0.0 ; // valeur entre 0 et 1 : probabilité qu'une partie du stock soit détruit
 
 }

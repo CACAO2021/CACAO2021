@@ -30,10 +30,6 @@ public class Stock {
 		return quantite;
 	}
 	
-	protected void setQuantite(double d) {
-		
-		this.quantite.setValeur(acteur, d);
-	}
 	
 	public void addQuantite(double d) {
 		this.quantite.setValeur(acteur, this.quantite.getValeur()+d);

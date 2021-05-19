@@ -13,7 +13,7 @@ public class Producteur2TestDesVentesAO  extends Filiere {
 
 		public Producteur2TestDesVentesAO() { 
 			super();
-			this.ajouterActeur(new Producteur2());
+			//this.ajouterActeur(new Producteur2());
 			this.ajouterActeur(new Producteur1());
 			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_BASSE, 5, 500, 4000));
 			this.ajouterActeur(new ExempleAcheteurFevesAO(Feve.FEVE_BASSE, 8, 1000, 2000));
