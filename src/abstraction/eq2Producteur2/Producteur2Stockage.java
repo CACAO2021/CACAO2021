@@ -25,6 +25,8 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockPM;
 	
 	private LinkedList<Feve> listeProd; 
+	
+	protected HashMap<Feve, LinkedList<Stock>> stock_F;
 
 	// ensemble fait par DIM
 	
@@ -68,17 +70,21 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		stockPHE = new Variable("stock poudre HE", this, QTT_POUDRE_HE_DEPART);
 		stockPM = new Variable("stock poudre B", this, QTT_POUDRE_M_DEPART);
 		
-		// au final on n'utilise pas la HashMap pour ne pas réécrire le code
-		HashMap<Feve, Variable> stock_FP = new HashMap<Feve, Variable>();
-		stock_FP.put(listeProd.get(0), stockFHBE);
-		stock_FP.put(listeProd.get(1), stockFHE);
-		stock_FP.put(listeProd.get(2), stockFME);
-		stock_FP.put(listeProd.get(3), stockFM);
-		stock_FP.put(listeProd.get(4), stockFB);
+		// création hashmap
+		stock_F = new HashMap<Feve, LinkedList<Stock>>();
+		stock_F.put(listeProd.get(0), stockFeveHBE);
+		stock_F.put(listeProd.get(1), stockFeveHE);
+		stock_F.put(listeProd.get(2), stockFeveME);
+		stock_F.put(listeProd.get(3), stockFeveM);
+		stock_F.put(listeProd.get(4), stockFeveB);
 		//stock_FP.put("POUDRE_HE", stockPHE);
 		//stock_FP.put("POUDRE_M", stockPM);
 	}
 	
+	public LinkedList<Feve> getListeProd() {
+		return listeProd;
+	}
+
 	//Dim
 	/*
 	 * retourne la quantité de stock disponible totale d'un produit 
@@ -157,30 +163,61 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else {
 			System.out.println("erreur");
 		}	
+		
 		majStock(produit);
 		
 	}
 	
 	//Dim
 	public void vente(double qtt, Object produit) {
-		// fonctionne mais les qtt d'achats sont tlmt faible que ca n'apparait pas sur les courbes
+		return;
+	}
+	
+	public void vente3(double qtt, Object produit) { // tentative de simplification / factorisation
+		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
+		while (qtt>0) {
+			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
+			if (q>0) {
+				(stock_F.get(produit)).get(0).setQtt(((stock_F.get(produit)).get(0).getQtt() - qtt )) ;
+				qtt = 0; 
+			} else {
+				qtt -= (stock_F.get(produit)).get(0).getQtt() ;
+				(stock_F.get(produit)).remove(0);
+			}
+			if ((stock_F.get(produit)).size() == 0) {
+				// quand y a plus de stock on sort de la boucle 
+				System.out.println("y a pb, on a plus de stock");
+				break;
+			}
+		}
+		//System.out.println("ok");
+		//fonctionnement semble ok
+	}
+	
+	//old version
+	public void vente2(double qtt, Object produit) {
+		// ancienne version, la nvlle à l'air de fonctionner mais on garde au cas ou
 		if (estFeveHBE(produit)) {
 			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
 			while(qtt>0) {
 				q = this.stockFeveHBE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveHBE.get(0).setQtt((this.stockFeveHBE.get(0).getQtt() - qtt )) ;
-					qtt = 0; break; // equivalent
+					qtt = 0; 
 				} else {
 					qtt -= this.stockFeveHBE.get(0).getQtt() ;
 					this.stockFeveHBE.remove(0);
+				}
+				if (this.stockFeveHBE.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
 				}
 			}							
 		} else if (estFeveHE(produit)) {
 			//System.out.println("av"+qttTotale(produit).getValeur());
 			double q = this.stockFeveHE.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveHE.get(0).getQtt() - qtt;
 				if (q>0) {
 					//System.out.println("ok " + this.stockFeveHE.get(0).getQtt());
 					this.stockFeveHE.get(0).setQtt((this.stockFeveHE.get(0).getQtt() - qtt )) ;
@@ -191,12 +228,16 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveHE.get(0).getQtt() ;
 					this.stockFeveHE.remove(0);
 				}
+				if (this.stockFeveHE.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}
 			//System.out.println(qttTotale(produit).getValeur());
 		}else if (estFeveME(produit)) {
 			double q = this.stockFeveME.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveME.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveME.get(0).setQtt((this.stockFeveME.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -204,11 +245,15 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveME.get(0).getQtt() ;
 					this.stockFeveME.remove(0);
 				}
+				if (this.stockFeveME.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estFeveM(produit)) {
 			double q = this.stockFeveM.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveM.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveM.get(0).setQtt((this.stockFeveM.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -216,11 +261,15 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveM.get(0).getQtt() ;
 					this.stockFeveM.remove(0);
 				}
+				if (this.stockFeveM.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estFeveB(produit)) {
 			double q = this.stockFeveB.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveB.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockFeveB.get(0).setQtt((this.stockFeveB.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -228,11 +277,15 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockFeveB.get(0).getQtt() ;
 					this.stockFeveB.remove(0);
 				}
+				if (this.stockFeveB.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estPoudreHE(produit)) {
 			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveHE.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockPoudreHE.get(0).setQtt((this.stockPoudreHE.get(0).getQtt() - qtt )) ;
 					qtt = 0;
@@ -240,17 +293,25 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 					q = qtt - this.stockPoudreHE.get(0).getQtt() ;
 					this.stockPoudreHE.remove(0);
 				}
+				if (this.stockPoudreHE.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
+				}
 			}		
 		}else if (estPoudreM(produit)) {
 			double q = this.stockPoudreM.get(0).getQtt() - qtt;
 			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
+				q = this.stockFeveM.get(0).getQtt() - qtt;
 				if (q>0) {
 					this.stockPoudreM.get(0).setQtt((this.stockPoudreM.get(0).getQtt() - qtt )) ;
 					qtt = 0;
 				} else {
 					q = qtt - this.stockPoudreM.get(0).getQtt() ;
 					this.stockPoudreM.remove(0);
+				}
+				if (this.stockPoudreM.size() == 0) {
+					System.out.println("y a pb, on a plus de stock");
+					break;
 				}
 			}	
 		}else {
