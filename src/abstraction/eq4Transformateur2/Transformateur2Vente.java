@@ -97,6 +97,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		double livre = 0;
+		this.journal_vente.ajouter("On livre "+quantite+" de "+contrat.getProduit()+ " à "+contrat.getAcheteur());
 		if (produit instanceof ChocolatDeMarque) {
 			Chocolat choco = ((ChocolatDeMarque) produit).getChocolat();
 			

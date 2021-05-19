@@ -23,7 +23,7 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 	}
 	
 	public void add_stock(Object o, double quantite) {
-		this.journal_stock.ajouter("On ajoute "+quantite+" de "+o.toString());
+		this.journal_stock.ajouter("On ajoute "+quantite+" de "+o);
 		if (o instanceof Feve) {
 			stock_feve.replace((Feve) o, stock_feve.get(o) + quantite);
 			if (o == Feve.FEVE_BASSE) {
@@ -52,7 +52,7 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 
 	
 	public void delete_stock(Object o, double quantite) {
-		this.journal_stock.ajouter("On supprime "+quantite+" de "+o.toString());
+		this.journal_stock.ajouter("On supprime "+quantite+" de "+o);
 		if (o instanceof Feve) {
 			if (stock_feve.get(o) - quantite<0) {
 				this.journal_stock.ajouter("il manque"+( -stock_feve.get(o) + quantite)+"de"+ o.toString());
