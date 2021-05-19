@@ -18,7 +18,6 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 		super();
 	}
 	
-	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
 		if (get_stock(Feve.FEVE_BASSE) < quantite_totale_demandee_basse / nombre_step_total_basse + mini_stock_feve_basse) {
