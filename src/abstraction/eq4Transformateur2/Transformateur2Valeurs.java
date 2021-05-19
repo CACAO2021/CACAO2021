@@ -101,10 +101,17 @@ public class Transformateur2Valeurs {
 	protected static double quantite_init_confiserie_basse = 1627200000.0/48;
 	protected static double quantite_init_confiserie_moyenne = 1627200000.0/48;
 	
+	
+	//On créer les différents journaux
+	
+	protected Journal journal_achat;
+	protected Journal journal_transformation;
+	protected Journal journal_stock;
+	protected Journal journal_vente;
+	
 	//Variables plus générales
 	
 	protected LinkedList<ExemplaireContratCadre> contrats;
 	protected int cryptogramme;
-	protected Journal journal;
 }
 	
