@@ -1,6 +1,7 @@
 package abstraction.eq6Distributeur1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,46 +95,36 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	 * Permet de négocier la quantité de produit voulu. 
 	 * On essaie de ne pas dépasser une quantité de produit égale à 15% de plus que ce qui s’est vendu au tour précédent (grâce à l’historique) en enlevant la quantité de ce même produit qu’il nous reste en stock. 
 	 * On vérifie aussi que cette quantité est supérieure à la quantité minimale demandée par le superviseur. 
-	 * Remarque: en l’état actuel des choses, cette méthode n’est jamais appelée lors de la création d’un contrat cadre, comme si les transformateurs acceptaient directement chaque proposition de quantité.
+	 * On liste tous les produits de la même marque et de la même catégorie et on regarde quel produit on a acheté au meilleur
+	 	prix au tour précédent. On augmente notre maxQuantité du produit le moins cher et on diminue celle des produit les 
+	 	plus cher.
 	 */
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		System.out.println("contre proposition"); //  <= method never called
-		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
-		j=0;
+		i++;
 		Echeancier e = contrat.getEcheancier();
-		int step=e.getStepDebut();
-
-		double maxQuantite= maxQuantite((ChocolatDeMarque)contrat.getProduit()); 
-		if (e.getQuantite(step)>maxQuantite) {
-			//System.out.println("quantite > max");
-			if(maxQuantite*(0.90+i/100) > superviseur.QUANTITE_MIN_ECHEANCIER) {
-				if(i==5) {
-					//System.out.println("oui");
-					e.set(step, contrat.getEcheancier().getQuantite(step));
+		
+		double maxQuantite = maxQuantite((ChocolatDeMarque) contrat.getProduit());
+		
+		
+		if (e.getQuantite(e.getStepFin())>maxQuantite) {
+			if(maxQuantite*(0.90+i/100)>((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER) {
+				e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));
 				}
-				else {
-					e.set(step, maxQuantite*(0.90+i/100));}
-			}
-
+			
 			else {
-				if (!contrat.getTeteGondole()){
-					//e.set(step, superviseur.QUANTITE_MIN_ECHEANCIER+1);
-				}
-
+				e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
 			}
 		}
 		else {
-
-			e.set(step, e.getQuantite(e.getStepFin()));
-			//System.out.println(i);
+			
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 		}
 
-		i++;
 		return e;
-
-	}
+	
+}
 
 
 	//Elsa
@@ -200,7 +191,25 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 		if(max<0) {
 			return 0;
 		}
+		List<String> listTypeChoco=new LinkedList<String>();
+		List<Double> listPrixChoco=new LinkedList<Double>();
+		
+		for (ChocolatDeMarque choco2: this.getCatalogue()) {
+			if (choco2.getCategorie()==(choco.getCategorie())) {
+				if (choco2.getGamme()==(choco.getGamme())) {
+					listTypeChoco.add(choco2.toString());
+					listPrixChoco.add(prix.get(choco2).getValeur());
+					int minIndex=listPrixChoco.indexOf(Collections.min(listPrixChoco));
+					if (choco==choco2){
+						max=max*1.5;
+					}else {
+						max=max*0.7;
+					}
+				}
+	
+			}		
 		return max;
+		}
 	}
 
 
