@@ -69,7 +69,7 @@ public abstract class AbsDistributeur2 {
 	// Nous créons une liste de marge pour chaque type de chocolat proposés dans l'odre de la liste "chocolatPropose" plus haut
 		
 		public void initialiserMarges() {
-			ArrayList<Double> valeurs = new ArrayList<>(Arrays. asList(0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2));
+			ArrayList<Double> valeurs = new ArrayList<>(Arrays. asList( 0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2, 0.6, 0.5, 0.3, 0.2));
 			for(Chocolat noschocos : this.chocolatPropose) {
 				this.marges.put(noschocos,valeurs.get(0));
 				valeurs.remove(0);

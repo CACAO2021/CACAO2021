@@ -254,6 +254,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			return e;
 		}
 	}
+	
+	public double prixEtapeZero(ChocolatDeMarque choco) {
+		return 0.0;
+	}
 
 	
 	//Martin Collemare
@@ -270,13 +274,13 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
 				contrats.add(contrat);
 				//on ajoute le contrat aux contrats signés
+				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+				this.prixChocolat = this.prixParChocolat.get(choco);
+				this.prixChocolat.add(contrat.getPrix());
+				this.prixParChocolat.put(choco, this.prixChocolat);
+				return contrat.getPrix();
 			}
 		
-			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
-			this.prixChocolat = this.prixParChocolat.get(choco);
-			this.prixChocolat.add(contrat.getPrix());
-			this.prixParChocolat.put(choco, this.prixChocolat);
-			return contrat.getPrix();
 		}
 		else {
 		
@@ -285,7 +289,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
 		
-			if((ancienPrix * 1.10 <= prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
+			if((ancienPrix * 1.10 < prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
 				return contrat.getPrix()*0.90;
 			}
