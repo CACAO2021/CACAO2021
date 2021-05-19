@@ -4,7 +4,7 @@ package abstraction.eq5Transformateur3;
 import java.util.LinkedList;
 import java.util.List;
 
-
+import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
@@ -134,25 +134,41 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			}
 		if (this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()< this.stock_min_feves_HBE.getValeur() ) {
 			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, this.stock_min_feves_HBE.getValeur()-this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur());
+			this.JournalOA.ajouter("offre d'achat =" + OA);
+			nb_OA+=1;
 			return OA;
 			}
-		/*for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
-			OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
-			quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+		for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
+			if (contrat.getProduit()==Chocolat.TABLETTE_HAUTE_EQUITABLE) {
+				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
+					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+		            nb_OA+=1;
+					return OA;}}
+			if (contrat.getProduit()==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
+				Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
+				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
+					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+		            nb_OA+=1;
+					return OA;}}
+				}
+				
+				
+			/*	quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 			if(contrat.getProduit() instanceof Chocolat) {
 				feve = getFeve((Chocolat) (contrat.getProduit()));
 				if(quantite.getValeur()!=0){
 					this.JournalOA.ajouter("offre d'achat =" + OA);
 					nb_OA+=1;
-<<<<<<< HEAD
-					return OA;*/
+
+					return OA; */
 
 		if(nb_OA ==0){
 			this.JournalOA.ajouter("pas d'offre d'achat");
 			return  null;
 			}
 		return null;
-		}
+	}
 		
 
 
@@ -173,11 +189,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
 				if (proposition.getFeve()==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
-					Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-					double delta=this.stock_min_feves_HBE.getValeur()-feve.getValeur();
 					if(proposition.getPrixKG() < this.prix_max_fèves_HBE.getValeur()
-						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
-						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
 						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
 							propositions_interessantes_HBE.add(proposition);} }
 				if (proposition.getFeve()==Feve.FEVE_MOYENNE) {

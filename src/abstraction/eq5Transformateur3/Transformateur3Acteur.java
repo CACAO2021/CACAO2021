@@ -43,8 +43,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.prix_max_fèves_HBE = new Variable("Prix max d'achat de fèves HBE", this, 1000);
 		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 800);
 		
-		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 12000);
-		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 12000);
+		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 1000000);
+		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 1000000);
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
