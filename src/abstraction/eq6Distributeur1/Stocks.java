@@ -75,7 +75,8 @@ public class Stocks extends Distributeur1Acteur{
 		}
 		for(ChocolatDeMarque choco : prix.keySet()) {
 			for (Variable indic : this.getIndicateurs()) {
-				if (indic.getNom().equals("prix"+ choco.toString())) {
+				//System.out.println(indic.getNom());
+				if (indic.getNom().equals("prix " + choco)) {
 					System.out.println("test");
 					indic.setValeur(this,prix.get(choco).getValeur());
 				}
