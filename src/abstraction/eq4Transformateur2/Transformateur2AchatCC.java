@@ -55,6 +55,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		add_stock(produit, quantite);
+		this.journal_stock.ajouter("On ajoute "+quantite+" de "+produit);
 		
 	}
 	/*

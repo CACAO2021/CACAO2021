@@ -22,10 +22,11 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		super();
 		
 		//On initialise le journal et les échéanciers
-		journal_achat = new Journal(this.getNom(), this);
-		journal_transformation = new Journal(this.getNom(), this);
-		journal_stock = new Journal(this.getNom(), this);
-		journal_vente = new Journal(this.getNom(), this);
+		journal_achat = new Journal("Journal des achats de Boni Suci", this);
+		journal_transformation = new Journal("Journal de production de Boni Suci", this);
+		journal_stock = new Journal("Journal du stockage de Boni Suci", this);
+		journal_vente = new Journal("Journal des ventes de Boni Suci", this);
+
 		echeancier_basse = new LinkedList<Double>();
 		echeancier_moyenne = new LinkedList<Double>();
 		echeancier_total = new LinkedList<Double>();
