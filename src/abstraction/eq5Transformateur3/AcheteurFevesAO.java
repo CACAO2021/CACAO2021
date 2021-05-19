@@ -4,7 +4,7 @@ package abstraction.eq5Transformateur3;
 import java.util.LinkedList;
 import java.util.List;
 
-import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
+
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
@@ -144,7 +144,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				if(quantite.getValeur()!=0){
 					this.JournalOA.ajouter("offre d'achat =" + OA);
 					nb_OA+=1;
+<<<<<<< HEAD
 					return OA;*/
+
 		if(nb_OA ==0){
 			this.JournalOA.ajouter("pas d'offre d'achat");
 			return  null;
@@ -173,7 +175,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				if (proposition.getFeve()==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
 					Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 					double delta=this.stock_min_feves_HBE.getValeur()-feve.getValeur();
-					if(proposition.getPrixKG() < this.prix_max_fèves.getValeur()
+					if(proposition.getPrixKG() < this.prix_max_fèves_HBE.getValeur()
 						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
 						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
 						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
@@ -181,7 +183,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				if (proposition.getFeve()==Feve.FEVE_MOYENNE) {
 					Variable feve = this.getFeves().get(Feve.FEVE_MOYENNE);
 					double delta=this.stock_min_feves_moyenne.getValeur()-feve.getValeur();
-					if(proposition.getPrixKG() < this.prix_max_fèves.getValeur()
+					if(proposition.getPrixKG() < this.prix_max_fèves_moyenne.getValeur()
 							&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
 							&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
 							&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
@@ -213,6 +215,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			return propositions_interessantes_M.get(index);}
 			
 		else {return null;}
+
 	} 
 
 
