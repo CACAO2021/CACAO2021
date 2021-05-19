@@ -42,8 +42,8 @@ public class Transformateur2Valeurs {
 	
 	//Variables utilisées pour négocier les prix lors de l'achat 
 	
-	protected static double cout_max_feve_basse = 1.3 ; 
-	protected static double cout_max_feve_moyenne = 1.4;
+	protected static double cout_max_feve_basse = 1.7 ; 
+	protected static double cout_max_feve_moyenne = 2.5;
 	protected static double Prix_max_achat; //A quoi elle sert ?
 	
 	
@@ -94,8 +94,8 @@ public class Transformateur2Valeurs {
 	
 	//Quantités intiale des différents produits dans les entrepôts au début de la simu
 	
-	protected static double quantite_init_feve_basse = (1627200000.0+4197600000.0)/48.0;
-	protected static double quantite_init_feve_moyenne = (1627200000.0+4197600000.0)/48.0;
+	protected static double quantite_init_feve_basse = /*(1627200000.0+4197600000.0)/48.0;*/ 12000000.0;
+	protected static double quantite_init_feve_moyenne = /*(1627200000.0+4197600000.0)/48.0;*/12000000.0;
 	protected static double quantite_init_tablette_basse = 4197600000.0/48;
 	protected static double quantite_init_tablette_moyenne = 4197600000.0/48;
 	protected static double quantite_init_confiserie_basse = 1627200000.0/48;

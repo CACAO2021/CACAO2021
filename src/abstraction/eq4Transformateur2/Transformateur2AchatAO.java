@@ -68,6 +68,6 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 		double quantite = proposition.getOffreAchateFeves().getQuantiteKG();
 		Feve feve = proposition.getFeve();
 		add_stock(feve, quantite);
-		this.journal_achat.ajouter("On reçoit "+quantite+" de "+proposition.getOffreAchateFeves().getFeve().getGamme()+ " par "+proposition.getVendeur()+" lors d'un appel d'offre ");
+		this.journal_achat.ajouter("On reçoit "+quantite+" de "+proposition.getOffreAchateFeves().getFeve()+ " par "+proposition.getVendeur()+" lors d'un appel d'offre.");
 	}
 }
