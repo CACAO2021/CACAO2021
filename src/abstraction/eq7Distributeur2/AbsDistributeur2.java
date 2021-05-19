@@ -43,7 +43,7 @@ public abstract class AbsDistributeur2 {
 	/**
 	 * @return the chocolatPropose
 	 */
-	public ArrayList<Chocolat> getChocolatPropose() {
+	public ArrayList<Chocolat> getChocolatsProposes() {
 		return chocolatPropose;
 	}
 
