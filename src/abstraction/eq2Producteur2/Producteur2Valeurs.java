@@ -25,7 +25,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 		
 	}
 	
-	// respo : eme
+	// respo : eme 
 	
 	// partie stockage
 	
