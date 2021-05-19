@@ -40,7 +40,14 @@ public abstract class AbsDistributeur2 {
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE);
 	}
 	
-	// Couleurs d'arrière-plan pour les messages des journaux
+	/**
+	 * @return the chocolatPropose
+	 */
+	public ArrayList<Chocolat> getChocolatPropose() {
+		return chocolatPropose;
+	}
+
+		// Couleurs d'arrière-plan pour les messages des journaux
 		public Color titleColor = Color.BLACK;
 		public Color alertColor = Color.RED;
 		public Color descriptionColor = Color.YELLOW;
