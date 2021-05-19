@@ -34,7 +34,7 @@ public class Banque implements IActeur {
 		this.decouvertAutorise = new Variable(this.getNom()+" decouvert autorise", this, -1000000, 0, -100000);
 		this.agiosDecouvertAutorise = new Variable(this.getNom()+" agios decouvert autorise", this, 0.0, 0.17, 0.08);
 		this.agiosDecouvertAuDela = new Variable(this.getNom()+" agios decouvert au dela", this, 0.08, 0.25, 0.16);
-		this.seuilOperationsRefusees = new Variable(this.getNom()+" seuil operations refusees", this, -500000, 0.0, -200000);
+		this.seuilOperationsRefusees = new Variable(this.getNom()+" seuil operations refusees", this, -50000000000.0, 0.0, -20000000000.0);
 		this.journalBanque = new Journal("Activites Bancaires", this);
 		this.journalFiliere = new Journal("Activites de la filiere", this);
 		this.faillites = new HashMap<IActeur, Boolean>();
