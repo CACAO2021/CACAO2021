@@ -79,7 +79,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 
 /*OffreAchatFeves getOffreAchat() {
-=======
 	public OffreAchatFeves getOffreAchat() { 
 		Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
 		OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, (double)10);
