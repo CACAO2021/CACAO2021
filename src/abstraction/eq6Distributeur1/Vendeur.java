@@ -172,15 +172,21 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	//Thomas
 	
-	
+	/**
+	 * indique au client la quantité disponible du chocolat choco en tete de gondole
+	 */
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		if (choco!=null && this.stockTG.get(choco)!=null) {
-			return this.stockTG.get(choco).getValeur();
-
+		double valeur;
+		double valeurMax;
+		if (choco!=null && this.stockTG.get(choco)!=null && this.stock.get(choco)!=null) {
+			valeur= this.stockTG.get(choco).getValeur();
+			valeurMax=0.0999*stock.get(choco).getValeur();
+			if(valeur>valeurMax) {
+				return valeurMax;
+			}
+			return valeur;
 		}
-		else {
-			return 0;
-		}//retourne la quantité disponible du chocolat choco en tete de gondole
+		return 0;
 	}
 
 
