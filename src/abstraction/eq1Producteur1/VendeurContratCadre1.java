@@ -1,6 +1,7 @@
 package abstraction.eq1Producteur1;
 
 import java.awt.Color;
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
@@ -15,26 +16,44 @@ import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurContratCadre{
+public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVendeurContratCadre{
 	private static int NB_INSTANCES = 0; // Afin d'attribuer un nom different a toutes les instances
-	private static double PRIX_PALIER_F_E = 1990; // prix minimal défini par Max Havelaar pour garantir que la fève est équitable
+	private static double PRIX_PALIER_F_E = 1.990; // prix minimal défini par Max Havelaar pour garantir que la fève est équitable
 	protected int numero;
 	protected Integer cryptogramme;
 	protected Object produit;
 	protected Journal journal;
 	protected SuperviseurVentesContratCadre supCCadre;
-	protected List<ExemplaireContratCadre> mesCC;
+	protected List<ExemplaireContratCadre> mesCC; 
+	protected HistCC cceq2;
+	protected HistCC cceq3;
+	protected HistCC cceq4;
+	protected HistCC cceq5;
+	protected HistCC cceq6;
+	protected HistCC cceq7;	
+	/**
+	 * @author arthurlemerle
+	 * On initialise la fidélité des clients
+	 */
+	private void initHistCC() {
+		this.cceq2 = new HistCC("EQ2");
+		this.cceq3=new HistCC("EQ3");
+		this.cceq4=new HistCC("EQ4");
+		this.cceq5=new HistCC("EQ5");
+		this.cceq6=new HistCC("EQ6");
+		this.cceq7=new HistCC("EQ7");
+	}
 	
 
 	/**
 	 * @author lebra
-	 * on ne vend par CC que des feves equitables
 	 */
 	public boolean peutVendre(Object produit) {
 		if ((produit instanceof Feve)
-				&& ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)
-					)
-			) {
+				&& ( (((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)
+						|| (((Feve)produit) == Feve.FEVE_MOYENNE)
+						|| (((Feve)produit) == Feve.FEVE_BASSE)
+					)) {
 				return(true);
 		}
 		else if ((produit instanceof Chocolat)
@@ -49,12 +68,47 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	}
 	/**
 	 * @author arthurlemgit
+	 * Permet de déterminer si un client est assez fidèle.
+	 * Ici, le client
+	 */
+	public boolean assezfidele(ExemplaireContratCadre contrat) {
+		String client = contrat.getAcheteur().getNom();
+		List<HistCC> historique = new LinkedList<HistCC>();
+		historique.add(cceq2);
+		historique.add(cceq3);
+		historique.add(cceq4);
+		historique.add(cceq5);
+		historique.add(cceq6);
+		historique.add(cceq7);
+		int l = historique.size();
+		for (int i=1; i<l; i++) {
+			int x = historique.get(i).getNbcontrats();
+			int k = i;
+			while (k>0 && x<historique.get(k-1).getNbcontrats()) {
+				historique.set(k, historique.get(k-1));
+				k -= 1;
+			historique.set(k, historique.get(x));
+			}
+		}
+		if ((client.equals(historique.get(l-1).getActeur())) || (client.equals(historique.get(l-2).getActeur()))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * @author arthurlemgit
 	 * Dans un premier temps, on accepte de vendre par CC dès lors qu'on a du produit (donc que notre stock>0)
 	 * A ajouter ? on accepte de vendre uniquement aux acheteurs réguliers (-> fidélisation)
 	 */
 
 	public boolean vend(Object produit){
-	return  ((stocks.get(produit).getQuantite() > 0) && (this.peutVendre(produit)));
+		boolean res = false;
+		if (this.peutVendre(produit)) {
+			res = this.getStock(produit).getQuantite() > 0;
+		}
+	return  res;
 }
 		
 
@@ -63,72 +117,72 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 * @author arthurlemgit
 	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie, ou "pas assez";
 	 * propose un nouvel échéancier avec des quantités plus "raisonnables" de notre stock, en accord avec notre stratégie.
-	 * Si les quantités totales sont grosso modo ce qu'on a prévu de vendre, on essaie de vendre "plus" au début pour éviter d'accumuler du stock.
-	 * 
+	 * Pour les produits équitables, on s'assure que l'échelonnement de l'échancier fait plus de 8 steps -ventes dans la durée avec les tranformateurs-
+	 * Si l'échéancier proposé fait moins de 8 steps, on propose un nouvel échéancier de 8 steps; avec une répartition uniforme sur la durée du contrat.
 	 * 
 	 */
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.25*stocks.get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.05*stocks.get(contrat.getProduit()).getQuantite()) {
-				double nvlleqte = 0.15*stocks.get(contrat.getProduit()).getQuantite();
+		if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE)) ) {
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.25*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.05*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+				double nvlleqte = 0.15*this.getStocks().get(contrat.getProduit()).getQuantite();
 				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
 				return e;
 			} else {
-				double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
-				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 Echeancier e = new Echeancier (contrat.getEcheancier());
-				 int i;
-				 for (i=e.getStepDebut(); i<step_milieu; i++) {
-					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				 }
-				 for (i=step_milieu; i<=e.getStepFin(); i++) {
-					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }
+				Echeancier e = new Echeancier (contrat.getEcheancier());
 				return e;
 			} 
-		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*stocks.get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *stocks.get(contrat.getProduit()).getQuantite()) {
-				double nvlleqte = 0.2*stocks.get(contrat.getProduit()).getQuantite();
-				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
-				return e;
+		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
+			double duree = contrat.getEcheancier().getStepFin()-contrat.getEcheancier().getStepDebut();
+			if (duree > 8) {
+				if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+					double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
+					Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+					return e;
+				} else {
+					Echeancier e = new Echeancier (contrat.getEcheancier());
+					return e;
+					} 
 			} else {
-				double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
-				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 Echeancier e = new Echeancier (contrat.getEcheancier());
-				 int i;
-				 for (i=e.getStepDebut(); i<step_milieu; i++) {
-					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				 }
-				 for (i=step_milieu; i<=e.getStepFin(); i++) {
-					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }
-				return e;
-			}
-		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
-			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.60*stocks.get(contrat.getProduit()).getQuantite()/contrat.getEcheancier().getNbEcheances() ) {
-				double nvlleqte = 0.8*stocks.get(contrat.getProduit()).getQuantite();
-				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
-				return e;
-			} else {
-				double random = Math.random()/3;
-				int step_milieu =(contrat.getEcheancier().getStepDebut()+contrat.getEcheancier().getStepFin())/2;
-				double qté_fin = contrat.getEcheancier().getQuantiteAPartirDe(step_milieu);
-				 Echeancier e = new Echeancier (contrat.getEcheancier());
-				 int i;
-				 for (i=e.getStepDebut(); i<step_milieu; i++) {
-					 e.set(i, e.getQuantite(i)+ ((double)random*qté_fin/step_milieu));
-				 }
-				 for (i=step_milieu; i<=e.getStepFin(); i++) {
-					 e.set(i, e.getQuantite(i)- ((double)random*qté_fin/step_milieu));
-				 }
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), 8, contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances());
 				return e;
 			}
 			
-		}
-		else {
-			return null;
+		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_BASSE)) ) {
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.5*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite()) {
+				double nvlleqte = 0.40*this.getStocks().get(contrat.getProduit()).getQuantite();
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+				return e;
+			} else {
+				Echeancier e = new Echeancier (contrat.getEcheancier());
+				return e;
+			} 
+		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
+			double duree = contrat.getEcheancier().getStepFin()-contrat.getEcheancier().getStepDebut();
+			if (duree > 8) {
+				if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *this.getStocks().get(contrat.getProduit()).getQuantite()) {
+					double nvlleqte = 0.2*this.getStocks().get(contrat.getProduit()).getQuantite();
+					Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+					return e;
+				} else {
+					Echeancier e = new Echeancier (contrat.getEcheancier());
+					return e;
+				}
+			} else {
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), 8, contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances());
+				return e;
+			}
+			
+		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
+			if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.60*this.getStocks().get(contrat.getProduit()).getQuantite()/contrat.getEcheancier().getNbEcheances() ) {
+				double nvlleqte = 0.8*this.getStocks().get(contrat.getProduit()).getQuantite();
+				Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
+				return e;
+			} else {
+				Echeancier e = new Echeancier (contrat.getEcheancier());
+				return e;
+			}
+		} else {
+			return contrat.getEcheancier();
 		}
 	}
 
@@ -142,15 +196,21 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 		double prix= 0;
 		if (produit instanceof Feve) {
 			if ((Feve)produit==Feve.FEVE_MOYENNE_EQUITABLE) {
-				prix=2150;
+				prix=2.150;
+			}
+			else if ((Feve)produit == Feve.FEVE_MOYENNE) {
+				prix = 0.8;
+			}
+			else if ((Feve)produit == Feve.FEVE_BASSE) {
+				prix = 1.500;
 			}
 		}
 		if (produit instanceof Chocolat) {
 			if ((Chocolat)produit==Chocolat.POUDRE_MOYENNE_EQUITABLE) {
-				prix=0;
+				prix=3.0;
 			}
 			if ((Chocolat)produit==Chocolat.POUDRE_MOYENNE) {
-				prix=0;
+				prix=2.7;
 			}
 		}
 		return prix;
@@ -164,19 +224,25 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 * sinon on fait la moyenne du prix proposé et du prix seuil.
 	 */
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+		
 		List<Double> liste_prix = contrat.getListePrix();
 		int n = liste_prix.size();
 		double moyenne = (liste_prix.get(n-2)+liste_prix.get(n-1))/2; // on coupe la poire en deux entre notre proposition et la proposition de l'acheteur
-		if (moyenne>VendeurContratCadre1.PRIX_PALIER_F_E) {
+		if (moyenne>PRIX_PALIER_F_E) {
 			return moyenne;
 		}
 		else {
-			return (liste_prix.get(n-2)+VendeurContratCadre1.PRIX_PALIER_F_E)/2;
+			return (liste_prix.get(n-2)+PRIX_PALIER_F_E)/2;
 		}
+		
 	}
+
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		if (this.mesCC==null) {
+			this.mesCC= new LinkedList<ExemplaireContratCadre>();
+		}
 		this.mesCC.add(contrat);
 
 	}
@@ -185,24 +251,43 @@ public class VendeurContratCadre1 extends Producteur1Acteur implements IVendeurC
 	 * @author arthurlemgit
 	 * Retourne la quantité de produit livré et met à jour le stock, selon le type de produit.
 	 * On livre ici systématiquement la quantité maximale qu'on puisse. 
+	 * @author lebra seulement pour les this.getJournaux()
 	 */
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		if ((produit instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE))) {
-			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
-				stocks.get(produit).removeQuantite(livre);
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
+
 				}
 			return livre;
-		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
-			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
+		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
-				stocks.get(produit).removeQuantite(livre);
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
+			}
+			return livre;
+		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_BASSE))) {
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
+			if (livre>0) {
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
+			}
+			return livre;
+		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
+			if (livre>0) {
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
 			}
 			return livre;
 		} else if ((produit instanceof Chocolat) && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE))) {
-			double livre = Math.min(stocks.get(contrat.getProduit()).getQuantite(), quantite);
+			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
-				stocks.get(produit).removeQuantite(livre);
+				this.getStocks().get(produit).removeQuantite(livre);
+				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
 			}
 			return livre;
 		}

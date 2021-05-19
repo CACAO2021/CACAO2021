@@ -2,6 +2,7 @@ package abstraction.eq8Romu.contratsCadres;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,9 +17,10 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	public static final double QUANTITE_MIN_ECHEANCIER = 1000.0; // Il ne peut pas etre propose de contrat avec un echeancier de moins de QUANTITE_MIN_ECHEANCIER Kg
 	public static int NB_SUPRVISEURS_CONTRAT_CADRE = 0;
 	private int numero;
-	private Journal journal;
+	private Journal journal, journalEcheances;
 	private List<ContratCadre> contratsEnCours;
 	private List<ContratCadre> contratsTermines;
+	private Integer crypto;
 	//	private long cryptogramme;
 
 
@@ -32,6 +34,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 		NB_SUPRVISEURS_CONTRAT_CADRE++;
 		this.numero = NB_SUPRVISEURS_CONTRAT_CADRE;
 		this.journal = new Journal("Journal "+this.getNom(), this);
+		this.journalEcheances = new Journal("Journal echeances "+this.getNom(), this);
 		this.contratsEnCours= new ArrayList<ContratCadre>();
 		this.contratsTermines= new ArrayList<ContratCadre>();
 	}
@@ -153,6 +156,9 @@ public class SuperviseurVentesContratCadre implements IActeur {
 		}
 		contrat.signer();// accord : on realise les previsionnels de livraison et paiement
 		vendeur.notificationNouveauContratCadre(new ExemplaireContratCadre(contrat));
+		if (acheteur instanceof IAcheteurContratCadreNotifie) {
+			((IAcheteurContratCadreNotifie)acheteur).notificationNouveauContratCadre(new ExemplaireContratCadre(contrat));
+		}
 		this.contratsEnCours.add(contrat);
 		journal.ajouter(Journal.texteColore(Color.GREEN, Color.BLACK,"   contrat #"+contrat.getNumero()+" entre ")+Journal.texteColore(vendeur, vendeur.getNom())+" et "+Journal.texteColore(acheteur, acheteur.getNom())+" sur "+Journal.doubleSur(contrat.getQuantiteTotale(),4)+" de "+contrat.getProduit()+" etales sur "+contrat.getEcheancier());
 		return new ExemplaireContratCadre(contrat);
@@ -166,45 +172,83 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	}
 
 	public void gererLesEcheancesDesContratsEnCours() {
-		this.journal.ajouter("Step "+Filiere.LA_FILIERE.getEtape()+" GESTION DES ECHEANCES DES CONTRATS EN COURS ========");
+		HashMap<Object, Double> echangesAuStep = new HashMap<Object, Double>();
+		this.journalEcheances.ajouter("Step "+Filiere.LA_FILIERE.getEtape()+" GESTION DES ECHEANCES DES CONTRATS EN COURS ========");
 		for (ContratCadre cc : this.contratsEnCours) {
-			this.journal.ajouter("- contrat :"+cc.oneLineHtml());
-			double aLivrer = cc.getQuantiteALivrerAuStep();
-			if (aLivrer>0.0) {
-				IVendeurContratCadre vendeur = cc.getVendeur();
-				double effectivementLivre = vendeur.livrer(cc.getProduit(), aLivrer, new ExemplaireContratCadre(cc));
-				this.journal.ajouter("  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
-				if (effectivementLivre>0.0) {
+			Banque banque = Filiere.LA_FILIERE.getBanque();
+			if ((banque.aFaitFaillite(cc.getVendeur()) || banque.aFaitFaillite(cc.getAcheteur()) || (cc.getMontantRestantARegler()==0.0 && cc.getQuantiteRestantALivrer()==0.0)) ){
+				this.journalEcheances.ajouter(Color.white,Color.RED, "gestion d'un contrat qui aurait du etre archive");	
+			} else {	
+				this.journalEcheances.ajouter("- contrat :"+cc.oneLineHtml());
+				double aLivrer = cc.getQuantiteALivrerAuStep();
+				if (aLivrer>0.0) {
+					if (cc.getEcheancier().getStepFin()<Filiere.LA_FILIERE.getEtape()-24) {
+						this.journal.ajouter(Color.RED, Color.white,""+cc.getVendeur()+" fait faillite car il n'a pas honore ses echeances 24 etapes apres la fin du contrat");
+						banque.faireFaillite(cc.getVendeur());
+					}					
+					IVendeurContratCadre vendeur = cc.getVendeur();
+					double effectivementLivre = vendeur.livrer(cc.getProduit(), aLivrer, new ExemplaireContratCadre(cc));
+					this.journalEcheances.ajouter(Color.WHITE, (aLivrer==effectivementLivre?Color.BLACK:Color.RED),"  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
+					if (aLivrer!=effectivementLivre) {
+						this.journal.ajouter("Defaut de livraison de "+cc.getVendeur()+" :  a livrer="+String.format("%.3f",aLivrer)+"  livre="+String.format("%.3f",effectivementLivre));
+					}
+					if (effectivementLivre>0.0) {
+						IAcheteurContratCadre acheteur = cc.getAcheteur();
+						acheteur.receptionner(cc.getProduit(), effectivementLivre, new ExemplaireContratCadre(cc));
+						double dejaEchange = (echangesAuStep.keySet().contains(cc.getProduit())) ? echangesAuStep.get(cc.getProduit()) : 0.0;
+						echangesAuStep.put(cc.getProduit(), dejaEchange+effectivementLivre);
+						cc.livrer(effectivementLivre);
+					} else if (effectivementLivre<0.0) {
+						throw new Error(" La methode livrer() du vendeur "+vendeur.getNom()+" retourne un negatif");
+					}
+				} else {
+					this.journalEcheances.ajouter("- rien a livrer a cette etape");
+				}
+				double aPayer = cc.getPaiementAEffectuerAuStep();
+				if (aPayer>0.0) {
+					if (cc.getEcheancier().getStepFin()<Filiere.LA_FILIERE.getEtape()-24) {
+						this.journal.ajouter(Color.RED, Color.white,""+cc.getAcheteur()+" fait faillite car il n'a pas honore ses echeances 24 etapes apres la fin du contrat");
+						banque.faireFaillite(cc.getAcheteur());
+					}
 					IAcheteurContratCadre acheteur = cc.getAcheteur();
-					acheteur.receptionner(cc.getProduit(), effectivementLivre, new ExemplaireContratCadre(cc));
-					cc.livrer(effectivementLivre);
-				} else if (effectivementLivre<0.0) {
-					throw new Error(" La methode livrer() du vendeur "+vendeur.getNom()+" retourne un negatif");
+					//Banque banque = Filiere.LA_FILIERE.getBanque();
+					boolean virementOk = banque.virer(acheteur, cc.getCryptogramme(), cc.getVendeur(),aPayer);
+					double effectivementPaye = virementOk ? aPayer : 0.0; 
+					this.journalEcheances.ajouter(Color.WHITE, (aPayer==effectivementPaye?Color.BLACK:Color.RED),"  a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
+					if (aPayer!=effectivementPaye) {
+						this.journal.ajouter("Defaut de paiement de "+cc.getAcheteur()+" : a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
+					}
+					if (effectivementPaye>0.0) {
+						cc.payer(effectivementPaye);
+					}
+				} else {
+					this.journalEcheances.ajouter("- rien a payer a cette etape");
 				}
-			} else {
-				this.journal.ajouter("- rien a livrer a cette etape");
 			}
-			double aPayer = cc.getPaiementAEffectuerAuStep();
-			if (aPayer>0.0) {
-				IAcheteurContratCadre acheteur = cc.getAcheteur();
-				Banque banque = Filiere.LA_FILIERE.getBanque();
-				boolean virementOk = banque.virer(acheteur, cc.getCryptogramme(), cc.getVendeur(),aPayer);
-				double effectivementPaye = virementOk ? aPayer : 0.0; 
-				this.journal.ajouter("  a payer="+String.format("%.3f",aPayer)+"  paye="+String.format("%.3f",effectivementPaye));
-				if (effectivementPaye>0.0) {
-					cc.payer(effectivementPaye);
-				}
-			} else {
-				this.journal.ajouter("- rien a payer a cette etape");
-			}
-		}		
+		}	
+		if (echangesAuStep.keySet().size()>0) {
+			this.journal.ajouter("=== Quantites livrees a cette etape ===");
+			for (Object produit : echangesAuStep.keySet()) {
+				this.journal.ajouter("   -"+produit+" : "+echangesAuStep.get(produit));	
+			}	
+		} else {
+			this.journal.ajouter(Color.white,Color.RED, "aucune livraison de produits a cette etape");	
+		}
 	}
 
 	public void archiverContrats() {
 		Banque banque = Filiere.LA_FILIERE.getBanque();
 		List<ContratCadre> aArchiver = new ArrayList<ContratCadre>();
 		for (ContratCadre cc : this.contratsEnCours) {
-			if (banque.aFaitFaillite(cc.getVendeur()) || banque.aFaitFaillite(cc.getAcheteur()) || (cc.getMontantRestantARegler()==0.0 && cc.getQuantiteRestantALivrer()==0.0)) {
+			if (banque.aFaitFaillite(cc.getVendeur()) && !banque.aFaitFaillite(cc.getAcheteur()) && cc.getQuantiteRestantALivrer()>0.0) {
+				cc.getAcheteur().receptionner(cc.getProduit(), cc.getQuantiteRestantALivrer(), new ExemplaireContratCadre(cc));
+				this.journal.ajouter("livraison de "+cc.getQuantiteRestantALivrer()+" "+cc.getProduit()+" a "+cc.getAcheteur()+" suite a la faillite de "+cc.getVendeur());
+				aArchiver.add(cc);
+			} else if (!banque.aFaitFaillite(cc.getVendeur()) && banque.aFaitFaillite(cc.getAcheteur()) && cc.getMontantRestantARegler()>0.0) {
+				banque.virer(this, this.crypto, cc.getVendeur(),cc.getMontantRestantARegler());
+				this.journal.ajouter("paiement de "+cc.getMontantRestantARegler()+" a "+cc.getVendeur()+" suite a la faillite de "+cc.getAcheteur());
+				aArchiver.add(cc);
+			} else if (banque.aFaitFaillite(cc.getVendeur()) || banque.aFaitFaillite(cc.getAcheteur()) || (cc.getMontantRestantARegler()==0.0 && cc.getQuantiteRestantALivrer()==0.0)) {
 				aArchiver.add(cc);
 			}
 		}
@@ -217,9 +261,9 @@ public class SuperviseurVentesContratCadre implements IActeur {
 
 	public void next() {
 		//		etablirDeNouveauxContrats();
+		archiverContrats();
 		recapitulerContratsEnCours();
 		gererLesEcheancesDesContratsEnCours();
-		archiverContrats();
 	}
 
 	public String getDescription() {
@@ -249,10 +293,12 @@ public class SuperviseurVentesContratCadre implements IActeur {
 	public List<Journal> getJournaux() {
 		List<Journal> res = new LinkedList<Journal>();
 		res.add(this.journal);
+		res.add(this.journalEcheances);
 		return res;
 	}
 
 	public void setCryptogramme(Integer crypto) {
+		this.crypto=crypto;
 	}
 
 	public void notificationFaillite(IActeur acteur) {

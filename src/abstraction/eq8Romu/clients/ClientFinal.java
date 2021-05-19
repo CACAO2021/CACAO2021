@@ -377,7 +377,14 @@ public class ClientFinal implements IActeur {
 		return j;
 	}
 	public void notificationFaillite(IActeur acteur) {
+		for (ChocolatDeMarque c : this.distributeursParChocolat.keySet()) {
+			if (this.distributeursParChocolat.get(c).contains(acteur)) {
+				this.distributeursParChocolat.get(c).remove(acteur);
+				JournalDistribution.ajouter(Color.WHITE, Color.RED, acteur.getNom()+" fait faillite : il est retire des distributeurs de "+c);
+			}
+		}
 	}
+
 	public void notificationOperationBancaire(double montant) {
 	}
 	public void setCryptogramme(Integer crypto) {
@@ -523,7 +530,11 @@ public class ClientFinal implements IActeur {
 				return 0.0;
 			}
 		} else {
-			throw new IllegalArgumentException(" Appel de ClientFinal.getVentes avec etape=="+etape+" alors que les etapes valides sont "+this.historiqueVentes.keySet());
+			if (etape<-24 || etape>=Filiere.LA_FILIERE.getEtape()) {
+				throw new IllegalArgumentException(" Appel de ClientFinal.getVentes avec etape=="+etape+" alors que les etapes valides sont "+this.historiqueVentes.keySet());
+			} else {
+				return 0.0;
+			}
 		}
 	}
 

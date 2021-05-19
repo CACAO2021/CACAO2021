@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class SuperviseurVentesFevesAO implements IActeur {
 	private Variable nbOffresMaxParEtape;
 
 	private Journal journal;
+	
+	private List<List<PropositionVenteFevesAO>> historiqueTransactions;
 
 
 	public SuperviseurVentesFevesAO() {
@@ -34,6 +37,7 @@ public class SuperviseurVentesFevesAO implements IActeur {
 		}
 		this.journal = new Journal("Ventes de feves (par AO)", this);
 		this.nbOffresMaxParEtape = new Variable(this.getNom()+" max offres par etape", this, 1.0, 200.0, 100.0);
+		this.historiqueTransactions=new LinkedList<List<PropositionVenteFevesAO>>();
 	}
 
 	public String getNom() {
@@ -113,6 +117,7 @@ public class SuperviseurVentesFevesAO implements IActeur {
 				if (nbOffres.get(acheteurs.get(acheteurCourant))==this.nbOffresMaxParEtape.getValeur()) {
 					this.journal.ajouter(Journal.texteColore(acheteurs.get(acheteurCourant), acheteurs.get(acheteurCourant).getNom()+" a atteint le nombre maximum d'offres possibles par etape ("+this.nbOffresMaxParEtape.getValeur()+") --> retrait de la liste des acheteurs de cette etape"));
 					acheteurs.remove(acheteurCourant);
+					continue;
 				}
 				this.journal.ajouter(Journal.texteColore(acheteurs.get(acheteurCourant), acheteurs.get(acheteurCourant).getNom()+" fait l'offre d'achat "+offreAchat));
 				List<PropositionVenteFevesAO> propositions = new ArrayList<PropositionVenteFevesAO>();
@@ -161,17 +166,21 @@ public class SuperviseurVentesFevesAO implements IActeur {
 				}
 			}
 		}
-		if (transactions.size()==0) {
-			this.journal.ajouter(Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK,"Aucune transaction effectuee a l'etape "+Filiere.LA_FILIERE.getEtape()+" --------------------"));
-		} else {
-			this.journal.ajouter(Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK,"Recapitulatif des transaction effectuees a l'etape "+Filiere.LA_FILIERE.getEtape()+" --------------------"));
-			for (PropositionVenteFevesAO p : transactions) {
-				this.journal.ajouter(
-						Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK,"&nbsp;&nbsp;"+Journal.doubleSur(p.getQuantiteKg(), 2)+"Kgs de "+p.getFeve().name()
-								+" au prix de "+Journal.doubleSur(p.getPrixKG(), 4)+" de ")
-						+Journal.texteColore(p.getVendeur(), p.getVendeur().getNom())
-						+Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK," a ")
-						+Journal.texteColore(p.getAcheteur(), p.getAcheteur().getNom()));
+		this.historiqueTransactions.add(transactions);
+		for (int etape=0; etape<this.historiqueTransactions.size(); etape++) {
+			transactions=this.historiqueTransactions.get(etape);
+			if (transactions.size()==0) {
+				this.journal.ajouter(Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK,"Aucune transaction effectuee a l'etape "+etape+" --------------------"));
+			} else {
+				this.journal.ajouter(Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK,"Recapitulatif des transaction effectuees a l'etape "+etape+" --------------------"));
+				for (PropositionVenteFevesAO p : transactions) {
+					this.journal.ajouter(
+							Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK,"&nbsp;&nbsp;"+Journal.doubleSur(p.getQuantiteKg(), 2)+"Kgs de "+p.getFeve().name()
+									+" au prix de "+Journal.doubleSur(p.getPrixKG(), 4)+" de ")
+							+Journal.texteColore(p.getVendeur(), p.getVendeur().getNom())
+							+Journal.texteColore(Color.LIGHT_GRAY, Color.BLACK," a ")
+							+Journal.texteColore(p.getAcheteur(), p.getAcheteur().getNom()));
+				}
 			}
 		}
 	}

@@ -11,12 +11,16 @@ import abstraction.fourni.Variable;
  */
 public class Stock {
 	private Variable quantite;
+	private Variable age;
 	private IActeur acteur;
 	
 	public Stock(String nom, double quantite, IActeur a) {
-		IActeur acteur = a;
+		this.acteur = a;
 		this.quantite= new Variable(nom, acteur);
 		this.quantite.setValeur(acteur, quantite);
+	}
+	public Stock() {
+		
 	}
 	public double getQuantite() {
 		return this.quantite.getValeur();
@@ -26,10 +30,6 @@ public class Stock {
 		return quantite;
 	}
 	
-	protected void setQuantite(double d) {
-		
-		this.quantite.setValeur(acteur, d);
-	}
 	
 	public void addQuantite(double d) {
 		this.quantite.setValeur(acteur, this.quantite.getValeur()+d);
@@ -38,7 +38,4 @@ public class Stock {
 	public void removeQuantite(double d) {
 		this.quantite.setValeur(acteur, this.quantite.getValeur()-d);
 	}
-	
-	
-	
 }
