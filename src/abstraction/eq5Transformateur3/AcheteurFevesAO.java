@@ -4,7 +4,7 @@ package abstraction.eq5Transformateur3;
 import java.util.LinkedList;
 import java.util.List;
 
-import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
+
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
