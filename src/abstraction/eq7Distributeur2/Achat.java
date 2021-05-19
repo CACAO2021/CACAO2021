@@ -232,7 +232,8 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void nouveauContrat() {
 		for(Chocolat choco : wonka.getChocolatsProposes() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = this.vendeursTypeChoco(choco);
-			
+			System.out.println(vendeurs.toString());
+			System.out.println(besoinsChocoParType.get(choco).getValeur());
 			if (vendeurs.size()!=0 && this.besoinsChocoParType.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
 				System.out.println(choco.toString() + " ; " + vendeurs.toString());
 
