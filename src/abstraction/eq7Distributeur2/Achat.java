@@ -305,7 +305,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	
 	//Martin Collemare
-	@SuppressWarnings("unlikely-arg-type")
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
 		if (Filiere.LA_FILIERE.getEtape()==0) {
