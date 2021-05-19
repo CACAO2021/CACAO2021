@@ -343,6 +343,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
 		contrats.add(contrat);
+		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+		this.prixChocolat = this.prixParChocolat.get(choco);
+		this.prixChocolat.add(contrat.getPrix());
+		this.prixParChocolat.put(choco, this.prixChocolat);
 	}
 
 
