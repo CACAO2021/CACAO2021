@@ -17,6 +17,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	
 	private Distributeur2Acteur wonka;
 	private HashMap<ChocolatDeMarque, Variable> besoinsChoco;
+	private HashMap<Chocolat, Variable> besoinsChocoParType;
 	private HashMap<ChocolatDeMarque, Variable> quantiteMax;
 	private LinkedList<ExemplaireContratCadre> contrats;
 	private SuperviseurVentesContratCadre supCCadre;
@@ -147,17 +148,32 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
-		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
-			}
-			else {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
-			}
+		
+		//for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+		//	if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
+		//		besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
+		//	}
+		//	else {
+		//		besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
+		//	}
 			//afin de ne pas polluer démesurement on annulle la commande si le volume n'est pas conséquent
-			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
-				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
+		//	if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
+		//		besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
+		//	}
+		//}
+		Variable besoin = new Variable("Quantité", wonka, 0);
+		//remplissage de besoinsChocoParType
+		for (Chocolat choco : wonka.getChocolatsProposes()) {
+			besoin.setValeur(wonka, 0);
+			for(ChocolatDeMarque chocoDeMarque : wonka.getCatalogue()) {
+				if (chocoDeMarque.getChocolat() == choco) {
+					if(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) + this.quantiteARecevoir.get(chocoDeMarque) <= quantiteLimite.get(chocoDeMarque).getValeur()) {
+						besoin.setValeur(wonka, besoin.getValeur() + 
+								quantiteMax.get(chocoDeMarque).getValeur() - wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) - this.quantiteARecevoir.get(chocoDeMarque));
+						}
+				}
 			}
+			this.besoinsChocoParType.put(choco, besoin);
 		}
 	}
 	
@@ -257,7 +273,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 	public double prixEtapeZero(ChocolatDeMarque choco) {
-		return wonka.marges.keySet().contains(choco.getChocolat()) ? 1.5/wonka.marges.get(choco.getChocolat()) : 1.5;
+		return wonka.marges.keySet().contains(choco.getChocolat()) ? 1.5/this.marges.get(choco.getChocolat()) : 1.5;
 	}
 
 	
