@@ -84,7 +84,10 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/6;
 	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/6;
 	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; 
-
+	
+	//partie vente
+	protected double EQUI_NB_ECHEANCE_MINI = 10;
+	protected double EQUI_QTT_MINI = 0; // a definir
 	
 	
 	// verification du type de produit

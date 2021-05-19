@@ -128,32 +128,43 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// cette partie est très basique et tend à être modifiée par la suite
 		Object produit = contrat.getProduit();	
+		int nbEcheance = contrat.getEcheancier().getNbEcheances();
+		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
+		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
+		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
 		double qttDispo = qttTotale(produit).getValeur();
-		double qttProduiteFutur = prodParStep(produit) * contrat.getEcheancier().getNbEcheances();
-		double contratEnCours = aProduire(produit);
-		double qtt = qttDispo + qttProduiteFutur - contratEnCours;
-		boolean condQtt = qttDemandee < qtt;
-
-		boolean condEquitable=true;
-
+		double qttTotaleSurLaPeriode = qttDispo + qttQuiSeraProduite;
+		// la quantite que lon sait devoir depenser sur la periode
+		double qttContratEnCours = aProduire(produit);
+		
+		//condition qui decoule des stocks
+		boolean condQtt = qttDemandee < qttTotaleSurLaPeriode; 
+		// condition sur le fait detre equitable
+		boolean condEquitable=true; //true si ne concerne pas les produits equitable
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
-			condEquitable = condEquitable && contrat.getEcheancier().getNbEcheances() > 10; //au moins 10 échéances
-			condEquitable = condEquitable && contrat.getQuantiteRestantALivrer() > 0;
-
+			boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
+			boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
+			condEquitable = condEquitable && equiNbEcheance; 
+			condEquitable = condEquitable && equiQtt;
 		}
+		
+		//les actions qui decoulent de nos conditions
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else if(condQtt && !(condEquitable)){
+			// la demande ne peut pas etre accepte car pas assez equitable
+			//mais on pourra fournir cette quantité de fève			
 			return null;
 		}else if(condEquitable && !(condQtt)) {
+			// on  ne peut pas fournir autant de fève sur la période
 			return null;
-		}else { // on propose une nouvelle valeur		
+		}else {
+			// si la demande ne correspond pas à de l'équitable et que nous ne pouvons pas produire assez de fèves
 			Echeancier e = contrat.getEcheancier();
 			double qdm = qttDemandee;
 			int i =0;
@@ -169,8 +180,8 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			} else { //on ne souhaite pas vendeur donc on retourne null
 				return null; 
 			}}
-
 	}
+	
 
 	@Override
 	//Dim
