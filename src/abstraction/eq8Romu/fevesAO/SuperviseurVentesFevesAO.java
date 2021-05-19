@@ -151,7 +151,7 @@ public class SuperviseurVentesFevesAO implements IActeur {
 						// On procede si possible au paiement
 						Integer crypto = acheteurs.get(acheteurCourant).getCryptogramme(this);
 						this.journal.ajouter("&nbsp;&nbsp;&nbsp;&nbsp;"+Journal.texteColore(Color.WHITE, Color.BLACK,"Virement de "+choisie.getMontant()+" de "+choisie.getAcheteur().getNom()+" vers "+choisie.getVendeur().getNom()));
-						boolean virementEffectue = Filiere.LA_FILIERE.getBanque().virer(acheteurs.get(acheteurCourant), crypto, choisie.getVendeur(), choisie.getMontant());
+						boolean virementEffectue = choisie.getMontant()>0 ? Filiere.LA_FILIERE.getBanque().virer(acheteurs.get(acheteurCourant), crypto, choisie.getVendeur(), choisie.getMontant()):true;
 						if (virementEffectue) {
 							this.journal.ajouter("&nbsp;&nbsp;&nbsp;&nbsp;"+Journal.texteColore(Color.green, Color.black, "-------------------- Notification de vente --------------------"));
 							choisie.getVendeur().notifierVente(choisie);

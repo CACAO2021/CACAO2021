@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
@@ -49,6 +50,14 @@ public class Filiere {
 	       //en vente en tete de gondole alors la marque est ajoutee a cette liste. Seuls les 100 derniers ajouts sont conserves.
 	private HashMap<String, Integer> nbPresencesEnTg; // nombre d'occurrence de la marque dans la liste presenceEnTG;
 	
+	public List<Map<ChocolatDeMarque, Double>> getAttractivitesChocolats() {
+		List<Map<ChocolatDeMarque, Double>> res = new LinkedList<Map<ChocolatDeMarque, Double>>();
+		for (ClientFinal cf : clientsFinaux) {
+			res.add(cf.getAttractiviteChocolat());
+		}
+		return res;
+	}
+
 
 	/**
 	 * Initialise la filiere de sorte que le numero d'etape soit 0, 

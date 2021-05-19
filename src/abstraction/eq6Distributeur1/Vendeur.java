@@ -53,8 +53,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
-		for (ChocolatDeMarque choco : getCatalogue()) {
-			this.indicateurs.add(prix.get(choco));}
+
 	}
 
 
@@ -73,11 +72,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		//mise à jour de l'indicateur prix choco
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
-			for (Variable indic0 : this.getIndicateurs()) {
-				if (indic0.getNom().equals("prix"+ choco)) {
-					indic0.setValeur(this,prix.get(choco).getValeur());
-				}
-			}
+
 		}
 		//mise à jour de l'indicateur "pourcentage Tete de Gondole"
 		for (Variable indic : this.getIndicateurs()) {
@@ -181,15 +176,21 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	//Thomas
 	
-	
+	/**
+	 * indique au client la quantité disponible du chocolat choco en tete de gondole
+	 */
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		if (choco!=null && this.stockTG.get(choco)!=null) {
-			return this.stockTG.get(choco).getValeur();
-
+		double valeur;
+		double valeurMax;
+		if (choco!=null && this.stockTG.get(choco)!=null && this.stock.get(choco)!=null) {
+			valeur= this.stockTG.get(choco).getValeur();
+			valeurMax=0.0999*stock.get(choco).getValeur();
+			if(valeur>valeurMax) {
+				return valeurMax;
+			}
+			return valeur;
 		}
-		else {
-			return 0;
-		}//retourne la quantité disponible du chocolat choco en tete de gondole
+		return 0;
 	}
 
 

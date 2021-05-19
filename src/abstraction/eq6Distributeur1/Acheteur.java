@@ -161,7 +161,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		System.out.println("reception choco: "+ ((ChocolatDeMarque)produit).toString() +"  tg: "+contrat.getTeteGondole()+" quantite contrat: "+contrat.getQuantiteTotale()+" quantite livree: "+ quantite);
+		//System.out.println("reception choco: "+ ((ChocolatDeMarque)produit).toString() +"  tg: "+contrat.getTeteGondole()+" quantite contrat: "+contrat.getQuantiteTotale()+" quantite livree: "+ quantite);
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
 		journalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
@@ -251,10 +251,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//System.out.println("contrat " + contrat.getVendeur());
-		System.out.println("nouv contrat choco: "+ ((ChocolatDeMarque)contrat.getProduit()).toString() + " tg: "+contrat.getTeteGondole()+" quantite:"+contrat.getEcheancier().getQuantiteTotale());
-		if (!contrat.getTeteGondole() && contrat.getEcheancier().getQuantiteTotale()*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
-			listeTG.put((ChocolatDeMarque)contrat.getProduit(), contrat.getEcheancier().getQuantiteTotale()*0.1);
-			
+		//System.out.println("nouv contrat choco: "+ ((ChocolatDeMarque)contrat.getProduit()).toString() + " tg: "+contrat.getTeteGondole()+" quantite:"+contrat.getEcheancier().getQuantiteTotale());
+		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+		double quantite = contrat.getEcheancier().getQuantiteTotale();
+		if (!contrat.getTeteGondole() && quantite*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
+			if((stockTG.get(choco).getValeur()/stock.get(choco).getValeur())<0.2) {
+				listeTG.put(choco, quantite*0.1);
+			}
 		}
 	}
 
