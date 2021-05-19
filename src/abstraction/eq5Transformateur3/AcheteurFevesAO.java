@@ -13,6 +13,7 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
@@ -126,14 +127,32 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//Remi
 	
 	public OffreAchatFeves getOffreAchat(){
+		int nb_OA = 0;
 		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
-			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
+			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
+			this.JournalOA.ajouter("offre d'achat =" + OA);
+			nb_OA+=1;
+			return OA;
 			}
 		if (this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()< this.stock_min_feves_HBE.getValeur() ) {
-			return new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, this.stock_min_feves_HBE.getValeur()-this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur());
+			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, this.stock_min_feves_HBE.getValeur()-this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur());
+			return OA;
 			}
-		else {
-			return  null;}
+		for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
+			OffreAchatFeves OA = new OffreAchatFeves(this, feve, quantite.getValeur());
+			quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+			if(contrat.getProduit() instanceof Chocolat) {
+				feve = getFeve((Chocolat) (contrat.getProduit()));
+				if(quantite.getValeur()!=0){
+					this.JournalOA.ajouter("offre d'achat =" + OA);
+					nb_OA+=1;
+					return OA;
+				}}}
+		if(nb_OA ==0){
+			this.JournalOA.ajouter("pas d'offre d'achat");
+			return  null;
+			}
+		return null;
 		}
 		
 

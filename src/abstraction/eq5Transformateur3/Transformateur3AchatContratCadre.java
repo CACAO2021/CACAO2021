@@ -7,6 +7,7 @@ import java.util.List;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadreNotifie;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Feve;
@@ -16,7 +17,7 @@ import abstraction.fourni.Variable;
 
 
 //Manuelo
-public class Transformateur3AchatContratCadre extends Transformateur3Stock implements IAcheteurContratCadre {
+public class Transformateur3AchatContratCadre extends Transformateur3Stock implements IAcheteurContratCadreNotifie {
 	
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		Echeancier dernierEcheancier = contrat.getEcheancier();
@@ -42,6 +43,11 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 	
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
 		this.ajouter((Feve)produit, quantite);
+	}
+
+	@Override
+	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		
 	}
 	
 }
