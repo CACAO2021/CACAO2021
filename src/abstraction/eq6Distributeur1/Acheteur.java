@@ -35,11 +35,17 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		this.listeTG=new HashMap<ChocolatDeMarque, Double>();
 	}
 
+	//trucs à faire:
+	//améliorer le prix max ( par le remplissage de la map q dans vendeur)
+	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
+	//au bout d'un moment on achète plus rien à Boni Suci
+	//on peut surement optimiser les quantités en stock
+	
 
 	//Louis
 
 	/**
-	 * initialiser les journaux
+	 * s'appelle au lancement du programme, permet d'initialiser les journaux
 	 */
 
 	public void initialiser() {
@@ -100,6 +106,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
+		System.out.println("contre proposition");
 		i++;
 		Echeancier e = contrat.getEcheancier();
 		
@@ -254,11 +261,16 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		//System.out.println("nouv contrat choco: "+ ((ChocolatDeMarque)contrat.getProduit()).toString() + " tg: "+contrat.getTeteGondole()+" quantite:"+contrat.getEcheancier().getQuantiteTotale());
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		double quantite = contrat.getEcheancier().getQuantiteTotale();
+		double prix = contrat.getPrix();
+		
 		if (!contrat.getTeteGondole() && quantite*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
 			if((stockTG.get(choco).getValeur()/stock.get(choco).getValeur())<0.2) {
 				listeTG.put(choco, quantite*0.1);
 			}
 		}
+		
+		this.prixDAchat.put(choco, prix);
+		
 	}
 
 

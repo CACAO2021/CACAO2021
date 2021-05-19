@@ -13,6 +13,8 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 
+	
+	protected Map<ChocolatDeMarque, Double> prixDAchat;
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
 	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère les ventes convenables
@@ -24,6 +26,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
 		this.q=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
+		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
 
 	}
 
@@ -246,19 +249,21 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	 *Permet de baisser le prix de 10% si la quantité vendue est inférieur à une quantité q convenable que nous définirons (si le produit ne se vend pas bien).
 	 * @param choco
 	 */
-	
+
 	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
-		if ((this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) && prix.get(choco).getValeur()> ) {
+		if ((this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) && prix.get(choco).getValeur()> this.prixDAchat.get(choco)) {
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
+
 		else{
 			if(prix(choco)<10) {
 				this.setPrix(choco, prix(choco)*1.1);}
-			this.setPrix(choco, prix(choco));}
-
+			}
 	}
 
+	
+	
 }
 
