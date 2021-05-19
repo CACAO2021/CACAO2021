@@ -39,8 +39,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
 		this.JournalOA = new Journal(this.getNom()+ "Offre d'achat", this);
 		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
-		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 12000);
-		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 12000);
+		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 120000);
+		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 130000);
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
