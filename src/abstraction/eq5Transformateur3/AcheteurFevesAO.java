@@ -1,9 +1,6 @@
 package abstraction.eq5Transformateur3;
 //Charlotte
 
-
-
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +16,6 @@ import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
 
 public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implements IAcheteurFevesAO {
-	private Variable quantite;
 	private Feve feve;
 	private double qmin;
 	private double qmax;
@@ -50,17 +46,20 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 		else {
 			System.out.println("toto");
-			this.quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
 			this.feve = feve;
 			this.qmax = qmax;
 			this.qmin = qmin ; //mettre qmin assez élevé
 			this.prixmax = prixmax;
 		}
+<<<<<<< HEAD
+	}
+=======
 	}*/
 
 	/*public double getQmin() {
 		return this.quantite.getMin();
 	}*/
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 	
 	
 	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
@@ -166,9 +165,14 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
+<<<<<<< HEAD
+		double delta = this.qmax-this.qmin;
+		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
+=======
 		LinkedList<PropositionVenteFevesAO> propositions_interessantes_HBE=new LinkedList<PropositionVenteFevesAO>();
 		LinkedList<PropositionVenteFevesAO> propositions_interessantes_M=new LinkedList<PropositionVenteFevesAO>();
 		double prix_interessant=1e13;
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
 				if (proposition.getFeve()==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
@@ -196,6 +200,15 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				if (proposition.getPrixKG()<prix_interessant) {
 					index=i;}
 			}
+<<<<<<< HEAD
+		}
+		if(propositions_interessantes.size()!=0) {
+			int hasard = (int)(Math.random()*propositions_interessantes.size());
+			return propositions_interessantes.get(hasard);	
+		}
+		else {
+			return null;
+=======
 			return propositions_interessantes_HBE.get(index);}
 		
 		else if(propositions_interessantes_M.size()!=0) {
@@ -209,7 +222,9 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			return propositions_interessantes_M.get(index);}
 			
 		else {return null;}
+>>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 	} 
+	}
 
 	@Override
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
