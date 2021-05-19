@@ -1,12 +1,6 @@
 package abstraction.eq5Transformateur3;
 //Charlotte
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> branch 'master' of https://github.com/Charlottederom/CACAO2021
 import java.util.LinkedList;
 import java.util.List;
 
