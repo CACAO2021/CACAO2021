@@ -249,7 +249,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
-		if (this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) {
+		if ((this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) && prix.get(choco).getValeur()> ) {
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
