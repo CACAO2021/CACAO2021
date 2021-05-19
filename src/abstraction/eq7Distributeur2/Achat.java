@@ -339,7 +339,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 
-	
+	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
+		contrats.add(contrat);
+	}
 
 
 }
