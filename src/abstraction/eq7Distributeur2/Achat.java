@@ -170,18 +170,20 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		
-		//for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-		//	if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
-		//		besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
-		//	}
-		//	else {
-		//		besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
-		//	}
-			//afin de ne pas polluer démesurement on annulle la commande si le volume n'est pas conséquent
-		//	if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
-		//		besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
-		//	}
-		//}
+		//On garde besoinsChoco pour les quantités en TG, en effet pour demander des contrats en TG on se base 
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			if(wonka.stocks.getStockChocolatDeMarque(choco) + this.quantiteARecevoir.get(choco) <= quantiteLimite.get(choco).getValeur()) {
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)));
+			}
+			else {
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
+			}
+			//afin de ne pas polluer démesurement on annule la commande si le volume n'est pas conséquent
+			if (quantiteMax.get(choco).getValeur() - wonka.stocks.getStockChocolatDeMarque(choco) - this.quantiteARecevoir.get(choco)<1000) {
+				besoinsChoco.put(choco, new Variable("Quantité", wonka, 0));
+			}
+		}
+		
 		Variable besoin = new Variable("Quantité", wonka, 0);
 		//remplissage de besoinsChocoParType, on somme donc les besoins en chocolat par marque pour chaque type de chococolat identique
 		for (Chocolat choco : wonka.getChocolatsProposes()) {
@@ -223,19 +225,17 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Martin Collemare
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
-		for(ChocolatDeMarque choco : wonka.getCatalogue() ) {
+		for(Chocolat choco : wonka.getChocolatsProposes() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
-			if (vendeurs.size()!=0 && this.besoinsChoco.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
-				int i = (int) (Math.random()*vendeurs.size());
-				IVendeurContratCadre vendeur = vendeurs.get(i);
+			if (vendeurs.size()!=0 && this.besoinsChocoParType.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
+				for(IVendeurContratCadre vendeur : vendeurs) {
+					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChocoParType.get(choco).getValeur()/5);
+					//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
 
+					wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
 
-				//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
-				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChoco.get(choco).getValeur()/5);
-				
-				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
-
-				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+					supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+				}
 			}
 		}
 	}
