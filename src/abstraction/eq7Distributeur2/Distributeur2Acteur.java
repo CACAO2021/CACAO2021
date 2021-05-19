@@ -9,6 +9,7 @@ import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadreNotifie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
@@ -19,7 +20,7 @@ import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque,IFabricantChocolatDeMarque,IMarqueChocolat,IAcheteurContratCadre {
+public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque,IFabricantChocolatDeMarque,IMarqueChocolat,IAcheteurContratCadreNotifie {
 	
 	protected int cryptogramme;
 	protected Stocks stocks;
@@ -339,5 +340,12 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	 */
 	public ChocolatDeMarque getChocoProduit() {
 		return chocoProduit;
+	}
+
+
+	@Override
+	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		//wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
+		//contrats.add(contrat);
 	}
 }
