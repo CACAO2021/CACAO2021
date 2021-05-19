@@ -36,7 +36,7 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 
 	@Override
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
+		this.journal_achat.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 
 	@Override
