@@ -18,6 +18,7 @@ public class Transformateur2Valeurs {
 
 	
 	public Transformateur2Valeurs() {
+		
 		//Variables utilisées dans getIndicateurs
 		
 		var_stock_feve_basse = new Variable("stock feve basse", (IActeur) this, quantite_init_feve_basse);
@@ -45,9 +46,6 @@ public class Transformateur2Valeurs {
 	protected static double cout_max_feve_moyenne = 1.4;
 	protected static double Prix_max_achat; //A quoi elle sert ?
 	
-	protected LinkedList<ExemplaireContratCadre> contrats;
-	protected int cryptogramme;
-	protected Journal journal;
 	
 	//Variables utilisées pour le stockage
 	
@@ -94,7 +92,7 @@ public class Transformateur2Valeurs {
 	protected Variable var_stock_confiserie_basse;
 	protected Variable var_stock_confiserie_moyenne;
 	
-	//Quantité intiale des différents produits dans les entrepôts au début de la simu
+	//Quantités intiale des différents produits dans les entrepôts au début de la simu
 	
 	protected static double quantite_init_feve_basse = (1627200000.0+4197600000.0)/48.0;
 	protected static double quantite_init_feve_moyenne = (1627200000.0+4197600000.0)/48.0;
@@ -102,5 +100,11 @@ public class Transformateur2Valeurs {
 	protected static double quantite_init_tablette_moyenne = 4197600000.0/48;
 	protected static double quantite_init_confiserie_basse = 1627200000.0/48;
 	protected static double quantite_init_confiserie_moyenne = 1627200000.0/48;
+	
+	//Variables plus générales
+	
+	protected LinkedList<ExemplaireContratCadre> contrats;
+	protected int cryptogramme;
+	protected Journal journal;
 }
 	
