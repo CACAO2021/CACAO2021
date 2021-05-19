@@ -28,7 +28,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	}
 
 
-	//Thomas, Louis
+	//Thomas, Louis, Elsa
 	
 	/**
 	 *On initialise cette Map quantiteChocoVendue à 300000 pour chaque chocolat (valeur arbitraire), et on crée les journaux.
@@ -53,6 +53,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
+		for (ChocolatDeMarque choco : getCatalogue()) {
+			this.indicateurs.add(prix.get(choco));}
 	}
 
 
@@ -108,7 +110,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	public double prix(ChocolatDeMarque choco) {
 		if(choco!=null) {
-			return prix.get(choco);
+			return prix.get(choco).getValeur();
 		}else {
 			return 0;
 		}
@@ -236,6 +238,10 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
+		else{
+			if(prix(choco)<10) {
+				this.setPrix(choco, prix(choco)*1.1);}
+			this.setPrix(choco, prix(choco));}
 
 	}
 
