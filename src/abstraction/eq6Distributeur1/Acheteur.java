@@ -208,10 +208,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 						max=max*0.7;
 					}
 				}
-	
 			}		
-		return max;
 		}
+		return max;
 	}
 
 
