@@ -54,6 +54,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	//notification nouveau contrat
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		this.journal_vente.ajouter("Un nouveau contrat a été ajouter : quantite = "+contrat.getQuantiteTotale() + " pour " + contrat.getAcheteur());
 		this.contrats.add(contrat);
 		Object choco = contrat.getProduit();
 		if (choco instanceof ChocolatDeMarque) {
