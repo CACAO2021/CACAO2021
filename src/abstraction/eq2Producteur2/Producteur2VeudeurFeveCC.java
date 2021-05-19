@@ -132,6 +132,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
+		System.out.println(" qtt "+qttDemandee);
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
 		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
 		double qttDispo = qttTotale(produit).getValeur();
@@ -140,7 +141,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		double qttContratEnCours = aProduire(produit);
 		
 		//condition qui decoule des stocks
-		boolean condQtt = qttDemandee < qttTotaleSurLaPeriode; 
+		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
 		
@@ -165,10 +166,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			if(!(equiQtt)) {
 				// la qtt n'est pas assez importante 
 				double qttManquante = contrat.getQuantiteRestantALivrer() - EQUI_QTT_MINI;
-				double repartition =  qttManquante/nbEcheance;
+				double repartition = - qttManquante/nbEcheance;
 				Echeancier e = contrat.getEcheancier();
-				int i=0;
-				while (i< nbEcheance) {
+				int i=contrat.getEcheancier().getStepDebut();
+				while (i< contrat.getEcheancier().getStepFin()) {
 					e.set(i, e.getQuantite(i)*repartition);
 					i++;
 				}
