@@ -59,17 +59,24 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 
 
-	//Thomas
+	//Thomas, Elsa
 	
 	/**
-	 *On rafraîchit le prix des chocolats en fonction de leur consommation et met à jour un indicateur.
+	 *On rafraîchit le prix des chocolats en fonction de leur consommation et met à jour les indicateurs.
+	 *Met à jour les prix et le pourcentage de produit en tête de gondole
 	 */
 	
 	public void next() {
 		super.next();
 		this.quantiteTotaleVendue=0;
+		
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
+			for (Variable indic0 : this.getIndicateurs()) {
+				if (indic0.getNom().equals("prix"+ choco)) {
+					indic0.setValeur(this,prix.get(choco).getValeur());
+				}
+			}
 		}
 		//mise à jour de l'indicateur "pourcentage Tete de Gondole"
 		for (Variable indic : this.getIndicateurs()) {
@@ -82,6 +89,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 				}
 			}
 		}
+		
 		//System.out.println("TG "+quantiteEnVenteTG()+" / pas TG "+quantiteEnVente());
 	}
 
