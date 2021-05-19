@@ -149,7 +149,10 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// on dépense de l'argent pour remplacer els arbres
 		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
 		
-		
+	}
+	
+	public void renouvellmentvieu() {
+		int step=0;
 		// ancienne version 
 		for (Stock s : arbrePlantesHBE) {
 			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
@@ -193,21 +196,19 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// production non constante tout au long de la simulation
 		// 2 mois de prod : fevrier et septembre
 		double qttProd = 0;
-		if ((  (Filiere.LA_FILIERE.getEtape() - 2) % 24 == 0 ) || (  (Filiere.LA_FILIERE.getEtape() - 16) % 24 == 0   )  ) { // les 1er fevrier et 1er septembre
+		if ((  (Filiere.LA_FILIERE.getEtape() - 2) % 24 == 0 ) || (  (Filiere.LA_FILIERE.getEtape() - 16) % 24 == 0   )  ) {
+			// les 1er fevrier et 1er septembre uniquement
 			// on boucle sur les arbres pour obtenir la prod totale
-			for (Feve f : listeProd) {
-				for (Stock s : arbrePlantes.get(f)) {
-					double rdm = rendement( Filiere.LA_FILIERE.getEtape() - s.getStep(), f);
-					if (rdm>0) {
-						//System.out.println("yes");
-						qttProd += rdm; // prod de chaque arbre depend de son age
-						//System.out.println(qttProd);
-					}
-
+			for (Stock s : arbrePlantes.get((Feve)p)) {
+				double rdm = rendement( Filiere.LA_FILIERE.getEtape() - s.getStep(), (Feve)p);
+				if (rdm>0) {
+					//System.out.println("yes");
+					qttProd += rdm; // prod de chaque arbre depend de son age
+					//System.out.println(qttProd);
 				}
 			}
 		}		
-		System.out.println(qttProd);
+		//System.out.println(qttProd);
 		return qttProd;
 		// ancienne version 
 		// return qttArbreToujoursPlantes((Feve)p) * prodParArbreParStep(p);
@@ -230,7 +231,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			return 0;
 		}else if(step < TPS_RENDEMENT_MAX_ARBRE) { // surement un pb ici
 			double qttProd = prodParArbre(p) * ( 1 - ((TPS_RENDEMENT_MAX_ARBRE - step)/(TPS_RENDEMENT_MAX_ARBRE - TPS_BON_RENDEMENT_ARBRE+1) ) );
-			if (qttProd<6) {System.out.println(qttProd);} // toujours égal à 6 jcp pk
 			return  qttProd;
 		}else if(step<TPS_RENOUVELLEMENT_ARBRE) { // plein rendement
 			return prodParArbre(p);
