@@ -52,7 +52,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	//Louis
 
 	/**
-	 * Est appelée au début de chaque tour, on tire au sort un transformateur pour chaque ChocolatDeMarque de notre catalogue et on initialise un contrat cadre d’une durée de un step. 
+	 * Est appelée au début de chaque tour, pour chaque ChocolatDeMarque de notre catalogue on initialise un contrat cadre d’une durée de un step. 
 	 */
 
 	public void next() {
@@ -81,6 +81,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 				IActeur vendeur = vendeurs.get(rnd);
 				//System.out.println(maxQuantite(produit));
 				if (maxQuantite(produit)>superviseur.QUANTITE_MIN_ECHEANCIER) {
+					//System.out.println(vendeur);
 					superviseur.demande((IAcheteurContratCadreNotifie)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+2, Filiere.LA_FILIERE.getEtape()+3, maxQuantite(produit)), cryptogramme, false);
 				}
 			}
@@ -105,7 +106,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		System.out.println("contre proposition"); //  <= method never called
+		//System.out.println("CONTRE PROPOSITION DE LACHETEUR"); //  <= method never called
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		j=0;
 		Echeancier e = contrat.getEcheancier();
@@ -179,9 +180,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		if(contrat.getTeteGondole()) {
-			//System.out.println("reception TG");
-		}
+		//System.out.println("choco "+ ((ChocolatDeMarque)produit).toString() +" reception tg: "+contrat.getTeteGondole()+" quantite contrat:"+contrat.getQuantiteTotale()+" quantite livree:"+ quantite);
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
 		journalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
@@ -250,6 +249,8 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		//System.out.println("contrat " + contrat.getVendeur());
+		//System.out.println("nouv contrat tg: "+contrat.getTeteGondole()+" quantite:"+contrat.getEcheancier().getQuantiteTotale());
 		if (!contrat.getTeteGondole() && contrat.getEcheancier().getQuantiteTotale()*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
 			listeTG.put((ChocolatDeMarque)contrat.getProduit(), contrat.getEcheancier().getQuantiteTotale()*0.1);
 			

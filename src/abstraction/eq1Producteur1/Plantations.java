@@ -10,6 +10,8 @@ public abstract class Plantations extends Stocks{
 	
 	/**
 	 * On crée au départ une plantation qui correspond à notre production
+	 *  @author louis
+	 *  @author Alb1x
 	 */
 	public Plantations() {
 		this.arbresmq = new LinkedList<Arbre>();
@@ -78,5 +80,6 @@ public abstract class Plantations extends Stocks{
 		}
 		return prod;
 	}
+	
 
 }
