@@ -216,13 +216,25 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}contrats.removeAll(aSupprimer);
 	}
 	
+	public LinkedList<IVendeurContratCadre> vendeursTypeChoco(Chocolat choco) {
+		LinkedList<IVendeurContratCadre> vendeurs = new LinkedList<IVendeurContratCadre>() ;
+		for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			if(chocolatDeLaFiliere.getChocolat().name().equals(choco.name()) && this.supCCadre.getVendeurs(choco).size() != 0) {
+				vendeurs.add(((LinkedList<IVendeurContratCadre>)this.getSupCCadre().getVendeurs(chocolatDeLaFiliere)).get(0));
+			}
+		}
+		return vendeurs;
+	}
+	
 	
 	//Martin Collemare
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
 		for(Chocolat choco : wonka.getChocolatsProposes() ) {
-			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
+			LinkedList<IVendeurContratCadre> vendeurs = this.vendeursTypeChoco(choco);
 			if (vendeurs.size()!=0 && this.besoinsChocoParType.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
+				System.out.println(choco.toString() + " ; " + vendeurs.toString());
+
 				for(IVendeurContratCadre vendeur : vendeurs) {
 					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChocoParType.get(choco).getValeur()/5);
 					//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
