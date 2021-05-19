@@ -74,7 +74,12 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		//mise à jour de l'indicateur "pourcentage Tete de Gondole"
 		for (Variable indic : this.getIndicateurs()) {
 			if (indic.getNom().equals("Pourcentage Tete de Gondole")) {
-				indic.setValeur(this, quantiteEnVenteTG()/quantiteEnVente());
+				if (quantiteEnVente() != 0) {
+					indic.setValeur(this, quantiteEnVenteTG()/quantiteEnVente());
+				}
+				else {
+					indic.setValeur(this,0);
+				}
 			}
 		}
 		//System.out.println("TG "+quantiteEnVenteTG()+" / pas TG "+quantiteEnVente());

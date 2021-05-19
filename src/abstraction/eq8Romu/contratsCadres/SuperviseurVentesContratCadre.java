@@ -156,6 +156,9 @@ public class SuperviseurVentesContratCadre implements IActeur {
 		}
 		contrat.signer();// accord : on realise les previsionnels de livraison et paiement
 		vendeur.notificationNouveauContratCadre(new ExemplaireContratCadre(contrat));
+		if (acheteur instanceof IAcheteurContratCadreNotifie) {
+			((IAcheteurContratCadreNotifie)acheteur).notificationNouveauContratCadre(new ExemplaireContratCadre(contrat));
+		}
 		this.contratsEnCours.add(contrat);
 		journal.ajouter(Journal.texteColore(Color.GREEN, Color.BLACK,"   contrat #"+contrat.getNumero()+" entre ")+Journal.texteColore(vendeur, vendeur.getNom())+" et "+Journal.texteColore(acheteur, acheteur.getNom())+" sur "+Journal.doubleSur(contrat.getQuantiteTotale(),4)+" de "+contrat.getProduit()+" etales sur "+contrat.getEcheancier());
 		return new ExemplaireContratCadre(contrat);
