@@ -184,7 +184,6 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		ChocolatDeMarque produit = (ChocolatDeMarque) contrat.getProduit();
 		Chocolat choco = produit.getChocolat();
-		
 					if (get_stock(choco) > contrat.getEcheancier().getQuantite(0)){
 						return contrat.getEcheancier();
 					}	
