@@ -31,7 +31,7 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double PROD_HE = 6./24.;
 	public static final double PROD_ME = 6./24.; 
 	public static final double PROD_M = 6./24.;
-	public static final double PROD_B = 6./24.;
+	public static final double PROD_B = 6./24.; 
 	
 	// partie transformation
 	public static final double coefHE = 0.4; //(à affiner)
