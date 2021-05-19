@@ -99,28 +99,48 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			Concurrents.remove((IDistributeurChocolatDeMarque)this);
 			//si les concurrents vendent le même chocolat que nous, on en commande moins que le total de l'année passée
 			if (Concurrents.size()!=0 && Concurrents.get(0).getCatalogue().contains(choco)) {
+				
+				//Modification V2 : étant donné qu'on étale l'échéancier sur 5 steps à la demande d'un nouveau contrat, il faut regarder les quantités de l'année passée sur 5 steps
 				if(Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)<0.8*Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)-24)) {
-					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)- 24)*0.25  - wonka.quantiteEnVente(choco) );
+					Double total = 0. ;
+					for(int i=0; i<=5; i++) {
+						total += Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() %24)- 24 + i);
+					}
+					
+					Variable quantiteMin = new Variable(choco.name(), wonka, total*0.25  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24) -24)*0.75  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total*0.75  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 				}else {
-					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()- 24)*0.25  - wonka.quantiteEnVente(choco) );
+					Double total = 0.;
+					for(int i=0; i<=5; i++) {
+						total += Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24 + i);
+					}
+					Variable quantiteMin = new Variable(choco.name(), wonka, total*0.25  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() -24)*0.75  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total*0.75  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 					}
 			}
 			else {
+			//si les concurrents ne vendent pas le même chocolat que nous, on peut se permettre d'en commander plus
 				if(Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()-24)<0.8*Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)-24)) {
-					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24)- 24)/2  - wonka.quantiteEnVente(choco) );
+					Double total = 0. ;
+					for(int i=0; i<=5; i++) {
+						total += Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() %24)- 24 + i);
+					}
+					Variable quantiteMin = new Variable(choco.name(), wonka, total/2  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() % 24) -24)  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 				}else {
-					Variable quantiteMin = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape()- 24)/2  - wonka.quantiteEnVente(choco) );
+					Double total = 0. ;
+					for(int i=0; i<=5; i++) {
+						total += Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24 + i);
+					}
+					Variable quantiteMin = new Variable(choco.name(), wonka, total/2  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() -24)  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 					}
 			}
