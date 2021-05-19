@@ -42,6 +42,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// }
 		
 	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
+		System.out.println("tito");
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
 		}
@@ -146,24 +147,11 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
-
-		PropositionVenteFevesAO proposition_interessante_hq = null;
-		PropositionVenteFevesAO proposition_interessante = null;
-		double prix_le_moins_cher = 10^18; /*prix infini au départ*/
-		for (PropositionVenteFevesAO proposition : propositions) {
-			if (proposition.getFeve()== Feve.FEVE_MOYENNE && proposition.getPrixKG()<this.prix_max_fèves.getValeur() && proposition.getPrixKG()<prix_le_moins_cher) {
-				proposition_interessante=proposition;}
-			return proposition_interessante; }
-		
-		
-			
-
 		/*double delta = this.getQmax()-this.getQmin();
-
 		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
-				if(proposition.getPrixKG()< this.prixmax
+				if(proposition.getPrixKG()< this.prixmax 
 						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
 						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
 						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
@@ -173,8 +161,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 		if(propositions_interessantes.size()!=0) {
 			int hasard = (int)(Math.random()*propositions_interessantes.size());
-			return propositions_interessantes.get(hasard);}
-		else {
+			return propositions_interessantes.get(hasard);	
+		} else {
 			return null;
 		}*/
 		return null;
