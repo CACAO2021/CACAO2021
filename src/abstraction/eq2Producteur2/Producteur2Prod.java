@@ -231,7 +231,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		if (step<TPS_BON_RENDEMENT_ARBRE) {
 			return 0;
 		}else if(step < TPS_RENDEMENT_MAX_ARBRE) { // surement un pb ici
-			double qttProd = prodParArbre(p) * ( 1 - ((TPS_RENDEMENT_MAX_ARBRE - step)/(TPS_RENDEMENT_MAX_ARBRE - TPS_BON_RENDEMENT_ARBRE+1) ) );
+			double qttProd = prodParArbre(p) * ( 1.0 - (((double)(TPS_RENDEMENT_MAX_ARBRE - step))/((double)(TPS_RENDEMENT_MAX_ARBRE - TPS_BON_RENDEMENT_ARBRE) ) ) );
 			return  qttProd;
 		}else if(step<TPS_RENOUVELLEMENT_ARBRE) { // plein rendement
 			return prodParArbre(p);
