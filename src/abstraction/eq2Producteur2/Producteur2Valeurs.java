@@ -3,16 +3,29 @@ package abstraction.eq2Producteur2;
 
 import abstraction.eq8Romu.produits.Categorie;
 import java.util.HashMap; // import the HashMap class
+import java.util.LinkedList;
+
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.Feve;
 
 public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
+	
+	protected LinkedList<Feve> listeProd; 
+	
 	public Producteur2Valeurs() {
-		super();	
+		super();
+		
+		// creation dune liste contenant tous les types de feves que l'on produit
+		this.listeProd = new LinkedList<Feve>();
+		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
+		this.listeProd.add(Feve.FEVE_MOYENNE); 
+		this.listeProd.add(Feve.FEVE_BASSE);
 		
 	}
 	
-	// respo : eme
+	// respo : eme 
 	
 	// partie stockage
 	
@@ -71,7 +84,10 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected int ARBRE_DEBUT_ME = (int)QTT_FEVE_ME_DEPART/6;
 	protected int ARBRE_DEBUT_M = (int)QTT_FEVE_M_DEPART/6;
 	protected int ARBRE_DEBUT_B = (int)QTT_FEVE_B_DEPART/6; 
-
+	
+	//partie vente
+	protected double EQUI_NB_ECHEANCE_MINI = 10;
+	protected double EQUI_QTT_MINI = 0; // a definir
 	
 	
 	// verification du type de produit
@@ -90,6 +106,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	
 	public static boolean estPoudre(Object produit) { return produit instanceof Chocolat && produit.equals(Categorie.POUDRE);}
 	
+	public static boolean estFeveEquitable(Object produit) {  return estFeveHBE(produit) || estFeveHE(produit) || estFeveME(produit);}
 	
 	//partie sur les aléas
 	protected double PROBA_INTEMPERIE = 0.0 ; // valeur entre 0 et 1 : probabilité qu'une partie du stock soit détruit
