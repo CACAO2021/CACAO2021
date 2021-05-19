@@ -9,7 +9,7 @@ import java.util.Random;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
-import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadreNotifie;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Chocolat;
@@ -18,13 +18,12 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Journal;
 
-public class Acheteur extends Vendeur implements IAcheteurContratCadre {
+public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
-	protected LinkedList<ChocolatDeMarque> produitTG;
-	protected List<ChocolatDeMarque> pasTG;
 	protected SuperviseurVentesContratCadre superviseur;
 	protected int i;
 	protected int j;
+	protected Map<ChocolatDeMarque, Double> listeTG;
 	private Journal journalAchats;
 
 	//Elsa
@@ -32,6 +31,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public Acheteur() {
 		super();
 		this.journalAchats = new Journal("Journal achats", this);
+		this.listeTG=new HashMap<ChocolatDeMarque, Double>();
 	}
 
 
@@ -56,11 +56,17 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	 */
 
 	public void next() {
-		pasTG = this.chocolatVendu();
-		produitTG=new LinkedList<ChocolatDeMarque>();
+
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
-		choixTG();
-		//System.out.println("chocoVendu " +chocolatVendu().toString());
+
+		for (ChocolatDeMarque choco : listeTG.keySet()) {
+			//System.out.println("demande TG");
+			if (listeTG.get(choco)>superviseur.QUANTITE_MIN_ECHEANCIER) {
+				//superviseur.demande((IAcheteurContratCadreNotifie)this, (IVendeurContratCadre)Filiere.LA_FILIERE.getProprietaireMarque(choco.getMarque()), choco, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, listeTG.get(choco)), this.cryptogramme, true);
+			}
+		}
+		listeTG.clear();
+
 		for (ChocolatDeMarque produit : this.getCatalogue()) {
 			List<IActeur> vendeurs = new LinkedList<IActeur>();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
@@ -75,7 +81,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 				IActeur vendeur = vendeurs.get(rnd);
 				//System.out.println(maxQuantite(produit));
 				if (maxQuantite(produit)>superviseur.QUANTITE_MIN_ECHEANCIER) {
-					superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, maxQuantite(produit)), cryptogramme, false);
+					superviseur.demande((IAcheteurContratCadreNotifie)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+2, Filiere.LA_FILIERE.getEtape()+3, maxQuantite(produit)), cryptogramme, false);
 				}
 			}
 		}
@@ -173,15 +179,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		//System.out.println(quantiteEnVenteTG());
+		if(contrat.getTeteGondole()) {
+			//System.out.println("reception TG");
+		}
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
 		journalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
-		if (!contrat.getTeteGondole() && quantite*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
-			//System.out.println(quantite*0.1);
-			//superviseur.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)contrat.getVendeur()), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, quantite*0.1), this.cryptogramme, true);
-			
-		}
 	}
 
 
@@ -245,50 +248,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	}
 
 
-
-	//Louis
-
-	/**
-	 * Permet de créer une liste contenant les produits que nous allons mettre en tête de gondole. 
-	 * Pour cela, nous prenons les chocolats que nous vendons le moins et nous vérifions que la quantité que nous achèterons si le contrat est accepté est inférieur à 10% de la quantité totale que nous aurions dans ce cas. 
-	 * Remarque: la vente en tête de gondole est désactivée pour cette version, car la proportion mise en rayon excède tout de même parfois les 10% de la quantité totale vendue.
-	 */
-
-	public void choixTG() {
-		if (pasTG.size()==0) {
-			return;
+	@Override
+	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		if (!contrat.getTeteGondole() && contrat.getEcheancier().getQuantiteTotale()*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
+			listeTG.put((ChocolatDeMarque)contrat.getProduit(), contrat.getEcheancier().getQuantiteTotale()*0.1);
+			
 		}
-		ChocolatDeMarque plusVendu = pasTG.get(0);
-
-		for (ChocolatDeMarque choco : chocolatVendu()) {
-			if(produitTG.size()==0 || (produitTG.size()!=0 && !produitTG.contains(choco))) {
-				if (this.quantiteChocoVendue.get(choco)>this.quantiteChocoVendue.get(plusVendu)) {
-					plusVendu=choco;
-				}
-			}
-		}
-
-		if(verifTG(plusVendu)) {
-			produitTG.add(plusVendu);
-			pasTG.remove(pasTG.indexOf(plusVendu));
-			choixTG();
-		}
-
-	}
-
-	public boolean verifTG(ChocolatDeMarque choco) {
-
-		double maxQuantiteProduitTG = 0;
-		if (produitTG.size()!=0) {
-			for (ChocolatDeMarque futurTG : produitTG) {
-				maxQuantiteProduitTG += maxQuantite(futurTG);
-			}
-		}
-
-		if(maxQuantite(choco) + maxQuantiteProduitTG + quantiteEnVenteTG() < 0.1*quantiteEnVente()) {
-			return true;
-		}
-		return false;
 	}
 
 
