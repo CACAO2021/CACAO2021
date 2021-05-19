@@ -38,7 +38,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// on creer une liste vide pour chaque type de fève
 		this.arbrePlantesHBE = new LinkedList<Stock>();
 		this.arbrePlantesHE = new LinkedList<Stock>();
-		this.arbrePlantesME = new LinkedList<Stock>();
+		this.arbrePlantesME = new LinkedList<Stock>(); 
 		this.arbrePlantesM = new LinkedList<Stock>();
 		this.arbrePlantesB = new LinkedList<Stock>();
 
