@@ -43,10 +43,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.besoinsChoco = new HashMap<ChocolatDeMarque,Variable>();		
 		this.besoinsChocoParType = new HashMap<Chocolat,Variable>();
 		for(IActeur recherche_superviseur : Filiere.LA_FILIERE.getActeurs()) {
-//			System.out.println(recherche_superviseur.getNom());
 			if(recherche_superviseur.getNom().equals("Sup.CCadre")) {
-//			if(recherche_superviseur.getColor().equals(new Color(96, 125, 139)) && !recherche_superviseur.getNom().equals("Banque")) {
-//				System.out.println(recherche_superviseur);
 				this.supCCadre = (SuperviseurVentesContratCadre)(recherche_superviseur);
 			}
 		}
@@ -149,14 +146,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.majDemande();
 		this.nouveauContrat();
 		this.nouveauContratEnTG();
-		/*if (Filiere.LA_FILIERE.getEtape()!=0) {
-			for (ChocolatDeMarque choco :wonka.getCatalogue()) {
-				System.out.println("chocolat : " + choco + " etape "+ (Filiere.LA_FILIERE.getEtape()));
-				System.out.println(Filiere.LA_FILIERE.prixMoyen(choco, Filiere.LA_FILIERE.getEtape()-1));
-				}
-			}
-		*/
-		
 		}
 		
 	//public void init() {
@@ -331,7 +320,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//On compare le prix d'achat par rapport au prix d'achat moyen de ce produit : si trop différent on demande moins cher
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 		double ancienPrix = Filiere.LA_FILIERE.prixMoyen(getCorrespProduitChocolat(contrat.getProduit()), Filiere.LA_FILIERE.getEtape()-1);
-		System.out.println(getCorrespProduitChocolat(contrat.getProduit()));
 		ancienPrix = ancienPrix*wonka.marges.get(getCorrespProduitChocolat(contrat.getProduit()).getChocolat());
 		
 
