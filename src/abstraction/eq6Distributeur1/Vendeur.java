@@ -69,6 +69,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		super.next();
 		this.quantiteTotaleVendue=0;
 		
+		//mise à jour de l'indicateur prix choco
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
 
