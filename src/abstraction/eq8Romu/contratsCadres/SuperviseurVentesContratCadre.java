@@ -183,7 +183,7 @@ public class SuperviseurVentesContratCadre implements IActeur {
 				double aLivrer = cc.getQuantiteALivrerAuStep();
 				if (aLivrer>0.0) {
 					if (cc.getEcheancier().getStepFin()<Filiere.LA_FILIERE.getEtape()-24) {
-						this.journal.ajouter(Color.RED, Color.white,""+cc.getNumero()+" fait faillite car il n'a pas honore ses echeances 24 etapes apres la fin du contrat");
+						this.journal.ajouter(Color.RED, Color.white,""+cc.getVendeur()+" fait faillite car il n'a pas honore ses echeances 24 etapes apres la fin du contrat");
 						banque.faireFaillite(cc.getVendeur());
 					}					
 					IVendeurContratCadre vendeur = cc.getVendeur();
