@@ -29,11 +29,12 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 			double p = 0;
 			double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve()); 
 			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
-				if (c.getAcheteur() == oa.getAcheteur()) {
+				if (c.getAcheteur() == oa.getAcheteur() && c.getFeve()==oa.getFeve()) {
 					p = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
 				}
 			}if (p>0) {
-				if (p >= min) {return p;}else {return min;}
+				if (p >= min) {return p;}
+				else {return min;}
 			}else{
 				return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
 			}

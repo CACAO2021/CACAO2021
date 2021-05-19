@@ -81,6 +81,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		//stock_FP.put("POUDRE_M", stockPM);
 	}
 	
+	public LinkedList<Feve> getListeProd() {
+		return listeProd;
+	}
+
 	//Dim
 	/*
 	 * retourne la quantité de stock disponible totale d'un produit 
@@ -165,8 +169,11 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	//Dim
-	//public void vente(double qtt, Object produit) {return;}
-	public void vente(double qtt, Object produit) { // tentative de simplification
+	public void vente(double qtt, Object produit) {
+		return;
+	}
+	
+	public void vente3(double qtt, Object produit) { // tentative de simplification / factorisation
 		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
 		while (qtt>0) {
 			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
@@ -178,6 +185,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				(stock_F.get(produit)).remove(0);
 			}
 			if ((stock_F.get(produit)).size() == 0) {
+				// quand y a plus de stock on sort de la boucle 
 				System.out.println("y a pb, on a plus de stock");
 				break;
 			}
@@ -185,6 +193,8 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		//System.out.println("ok");
 		//fonctionnement semble ok
 	}
+	
+	//old version
 	public void vente2(double qtt, Object produit) {
 		// ancienne version, la nvlle à l'air de fonctionner mais on garde au cas ou
 		if (estFeveHBE(produit)) {
