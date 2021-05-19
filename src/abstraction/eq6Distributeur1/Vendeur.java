@@ -62,7 +62,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	//Thomas, Elsa
 	
 	/**
-	 *On rafraîchit le prix des chocolats en fonction de leur consommation et met à jour un indicateur.
+	 *On rafraîchit le prix des chocolats en fonction de leur consommation et met à jour les indicateurs.
+	 *Met à jour les prix et le pourcentage de produit en tête de gondole
 	 */
 	
 	public void next() {
