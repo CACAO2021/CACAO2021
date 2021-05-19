@@ -81,13 +81,13 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void next() {
 		
 		for(ExemplaireContratCadre contrat : contrats) {
-			ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+			ChocolatDeMarque choco = getCorrespProduitChocolat(contrat.getProduit());
 			this.quantiteARecevoir.put(choco, contrat.getQuantiteRestantALivrer());
 		}
 		
 		for(ExemplaireContratCadre contrat : contrats) {
 			if (contrat.getTeteGondole()) {
-				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+				ChocolatDeMarque choco = getCorrespProduitChocolat(contrat.getProduit());
 				this.quantiteEnRouteTG.put(choco, contrat.getQuantiteRestantALivrer());
 			}
 		}
@@ -149,10 +149,16 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		this.majDemande();
 		this.nouveauContrat();
 		this.nouveauContratEnTG();
-		
+		/*if (Filiere.LA_FILIERE.getEtape()!=0) {
+			for (ChocolatDeMarque choco :wonka.getCatalogue()) {
+				System.out.println("chocolat : " + choco + " etape "+ (Filiere.LA_FILIERE.getEtape()));
+				System.out.println(Filiere.LA_FILIERE.prixMoyen(choco, Filiere.LA_FILIERE.getEtape()-1));
+				}
+			}
+		*/
 		
 		}
-	
+		
 	//public void init() {
 	//	HashMap<ChocolatDeMarque, Double> initCommande = new HashMap<ChocolatDeMarque, Double>();
 	//	for(ChocolatDeMarque choco : wonka.getCatalogue()) {
@@ -166,7 +172,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//	}
 	//}
 	
-	//Martin Collemare
+	//Ugo Broqua & Martin Collemare  
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		
@@ -185,7 +191,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 		
 		Variable besoin = new Variable("Quantité", wonka, 0);
-		//remplissage de besoinsChocoParType, on somme donc les besoins en chocolat par marque pour chaque type de chococolat identique
+		//remplissage de besoinsChocoParType
 		for (Chocolat choco : wonka.getChocolatsProposes()) {
 			besoin.setValeur(wonka, 0);
 			for(ChocolatDeMarque chocoDeMarque : wonka.getCatalogue()) {
@@ -303,9 +309,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
 		if (Filiere.LA_FILIERE.getEtape()==0) {
 			double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
-			if(contrat.getPrix()>prixEtapeZero((ChocolatDeMarque)contrat.getProduit())) {
+			if(prix>prixEtapeZero(getCorrespProduitChocolat(contrat.getProduit()))) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
-				return prixEtapeZero((ChocolatDeMarque)contrat.getProduit());
+				return prixEtapeZero(getCorrespProduitChocolat(contrat.getProduit()));
 			}
 			else {
 			
@@ -319,18 +325,19 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				return contrat.getPrix();
 			}
 		
-		}
-		else {
+		}else {
 		
 		double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		//On compare le prix d'achat par rapport au prix d'achat moyen de ce produit : si trop différent on demande moins cher
 		//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
-		double ancienPrix = Filiere.LA_FILIERE.prixMoyen((ChocolatDeMarque)contrat.getProduit(), Filiere.LA_FILIERE.getEtape()-1);
+		double ancienPrix = Filiere.LA_FILIERE.prixMoyen(getCorrespProduitChocolat(contrat.getProduit()), Filiere.LA_FILIERE.getEtape()-1);
+		System.out.println(getCorrespProduitChocolat(contrat.getProduit()));
+		ancienPrix = ancienPrix*wonka.marges.get(getCorrespProduitChocolat(contrat.getProduit()).getChocolat());
 		
 
-			if((ancienPrix * 1.10 < prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
+			if((ancienPrix * 1.05 < prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
-				return contrat.getPrix()*0.90;
+				return ancienPrix*0.90;
 			}
 		
 			else {
@@ -354,7 +361,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	//Martin Collemare
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		wonka.stocks.ajouterChocolatDeMarque((ChocolatDeMarque)contrat.getProduit(), quantite);
+		wonka.stocks.ajouterChocolatDeMarque(getCorrespProduitChocolat(contrat.getProduit()), quantite);
 		
 	}
 
@@ -380,10 +387,19 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
 		contrats.add(contrat);
-		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+		ChocolatDeMarque choco = getCorrespProduitChocolat(contrat.getProduit());
 		this.prixChocolat = this.prixParChocolat.get(choco);
 		this.prixChocolat.add(contrat.getPrix());
 		this.prixParChocolat.put(choco, this.prixChocolat);
+	}
+	
+	public ChocolatDeMarque getCorrespProduitChocolat(Object produit) {
+		List<ChocolatDeMarque> chocosFiliere = wonka.getCatalogue();
+		for (ChocolatDeMarque choco : chocosFiliere) {
+			if(choco.name().equals(((ChocolatDeMarque)produit).name())) {
+				return choco;
+			}
+		}return null;
 	}
 
 
