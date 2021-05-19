@@ -1,9 +1,7 @@
 package abstraction.eq5Transformateur3;
 //Charlotte
 
-
-
-
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -18,7 +16,6 @@ import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
 
 public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implements IAcheteurFevesAO {
-	private Variable quantite;
 	private Feve feve;
 	private double qmin;
 	private double qmax;
@@ -49,16 +46,11 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		}
 		else {
 			System.out.println("toto");
-			this.quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
 			this.feve = feve;
 			this.qmax = qmax;
 			this.qmin = qmin ; //mettre qmin assez élevé
 			this.prixmax = prixmax;
 		}
-	}
-
-	public double getQmin() {
-		return this.quantite.getMin();
 	}
 	
 	
@@ -166,7 +158,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
-		/*double delta = this.getQmax()-this.getQmin();
+		double delta = this.qmax-this.qmin;
 		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
@@ -181,11 +173,11 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		if(propositions_interessantes.size()!=0) {
 			int hasard = (int)(Math.random()*propositions_interessantes.size());
 			return propositions_interessantes.get(hasard);	
-		} else {
+		}
+		else {
 			return null;
-		}*/
-		return null;
 	} 
+	}
 
 	@Override
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
