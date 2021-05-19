@@ -4,6 +4,7 @@ package abstraction.eq5Transformateur3;
 
 
 
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -41,7 +42,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		//}
 	// }
 		
-	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
+	/*public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
 		System.out.println("tito");
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
@@ -54,11 +55,11 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			this.qmin = qmin ; //mettre qmin assez élevé
 			this.prixmax = prixmax;
 		}
-	}
+	}*/
 
-	public double getQmin() {
+	/*public double getQmin() {
 		return this.quantite.getMin();
-	}
+	}*/
 	
 	
 	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
@@ -147,31 +148,55 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
-		/*double delta = this.getQmax()-this.getQmin();
-		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
+		LinkedList<PropositionVenteFevesAO> propositions_interessantes_HBE=new LinkedList<PropositionVenteFevesAO>();
+		LinkedList<PropositionVenteFevesAO> propositions_interessantes_M=new LinkedList<PropositionVenteFevesAO>();
+		double prix_interessant=1e13;
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
-				if(proposition.getPrixKG()< this.prixmax 
+				if (proposition.getFeve()==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+					Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+					double delta=this.stock_min_feves_HBE.getValeur()-feve.getValeur();
+					if(proposition.getPrixKG() < this.prix_max_fèves.getValeur()
 						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
 						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
 						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
-							propositions_interessantes.add(proposition);
-		}
+							propositions_interessantes_HBE.add(proposition);} }
+				if (proposition.getFeve()==Feve.FEVE_MOYENNE) {
+					Variable feve = this.getFeves().get(Feve.FEVE_MOYENNE);
+					double delta=this.stock_min_feves_moyenne.getValeur()-feve.getValeur();
+					if(proposition.getPrixKG() < this.prix_max_fèves.getValeur()
+							&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
+							&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
+							&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
+								propositions_interessantes_M.add(proposition);} }}}
+		
+		if(propositions_interessantes_HBE.size()!=0) {
+			int i=-1;
+			int index=0;
+			for (PropositionVenteFevesAO proposition : propositions_interessantes_HBE) {
+				i=i+1;
+				if (proposition.getPrixKG()<prix_interessant) {
+					index=i;}
 			}
-		}
-		if(propositions_interessantes.size()!=0) {
-			int hasard = (int)(Math.random()*propositions_interessantes.size());
-			return propositions_interessantes.get(hasard);	
-		} else {
-			return null;
-		}*/
-		return null;
+			return propositions_interessantes_HBE.get(index);}
+		
+		else if(propositions_interessantes_M.size()!=0) {
+			int i=-1;
+			int index=0;
+			for (PropositionVenteFevesAO proposition : propositions_interessantes_M) {
+				i=i+1;
+				if (proposition.getPrixKG()<prix_interessant) {
+					index=i;}
+			}
+			return propositions_interessantes_M.get(index);}
+			
+		else {return null;}
 	} 
 
 	@Override
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		// TODO Auto-generated method stub
-		return null;}
+		return this.cryptogramme;}
 	
 
 	@Override
