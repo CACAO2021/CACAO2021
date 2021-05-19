@@ -98,6 +98,32 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	
 	 */
 
+	@Override
+	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
+		i++;
+		Echeancier e = contrat.getEcheancier();
+		
+		double maxQuantite = maxQuantite((ChocolatDeMarque) contrat.getProduit());
+		
+		
+		if (e.getQuantite(e.getStepFin())>maxQuantite) {
+			if(maxQuantite*(0.90+i/100)>((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER) {
+				e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));
+				}
+			
+			else {
+				e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
+			}
+		}
+		else {
+			
+			e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
+		}
+
+		return e;
+	
+}
+	
 	//Elsa
 
 	/**
