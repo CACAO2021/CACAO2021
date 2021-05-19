@@ -39,7 +39,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	//améliorer le prix max ( par le remplissage de la map q dans vendeur)
 	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
 	//au bout d'un moment on achète plus rien à Boni Suci
-	//on peut surement optimiser les quantités en stock
+	//on peut surement optimiser les quantités en stock (on achete parfois beaucoup trop à eticao par exemple)
 	
 
 	//Louis
