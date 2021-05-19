@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import abstraction.fourni.*;
+import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
@@ -256,7 +257,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 	public double prixEtapeZero(ChocolatDeMarque choco) {
-		return 0.0;
+		return wonka.marges.keySet().contains(choco.getChocolat()) ? 1.5/this.marges.get(choco.getChocolat()) : 1.5;
 	}
 
 	
@@ -265,19 +266,19 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		//Attention, si l'étape est 0, on ne peut pas utiliser le prix moyen.
 		if (Filiere.LA_FILIERE.getEtape()==0) {
 			double prix = contrat.getListePrix().get(contrat.getListePrix().size()-1);
-			if(!wonka.getAutorisationTransaction(prix*contrat.getQuantiteTotale() + paiements)) {
+			if(contrat.getPrix()>prixEtapeZero((ChocolatDeMarque)contrat.getProduit())) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
-				return contrat.getPrix()*0.90;
+				return prixEtapeZero((ChocolatDeMarque)contrat.getProduit());
 			}
 			else {
 			
 				//wonka.journalAchats.ajouter(newContratColor, Color.BLACK, "Nouveau contrat cadre : " + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier :"+contrat.getEcheancier().toString());
 				//contrats.add(contrat);
 				//on ajoute le contrat aux contrats signés
-				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
-				this.prixChocolat = this.prixParChocolat.get(choco);
-				this.prixChocolat.add(contrat.getPrix());
-				this.prixParChocolat.put(choco, this.prixChocolat);
+				//ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+				//this.prixChocolat = this.prixParChocolat.get(choco);
+				//this.prixChocolat.add(contrat.getPrix());
+				//this.prixParChocolat.put(choco, this.prixChocolat);
 				return contrat.getPrix();
 			}
 		
@@ -303,10 +304,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				//on ajoute le contrat aux contrats signés
 			
 		
-				ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
-				this.prixChocolat = this.prixParChocolat.get(choco);
-				this.prixChocolat.add(contrat.getPrix());
-				this.prixParChocolat.put(choco, this.prixChocolat);
+				//ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+				//this.prixChocolat = this.prixParChocolat.get(choco);
+				//this.prixChocolat.add(contrat.getPrix());
+				//this.prixParChocolat.put(choco, this.prixChocolat);
 				return contrat.getPrix();
 			}
 		}
