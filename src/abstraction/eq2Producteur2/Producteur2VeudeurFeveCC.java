@@ -143,12 +143,15 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		boolean condQtt = qttDemandee < qttTotaleSurLaPeriode; 
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
+		
+		// deux bool utiles que si la feve est equitable
+		boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
+		boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
+		
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
-			boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
-			boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
 			condEquitable = condEquitable && equiNbEcheance; 
 			condEquitable = condEquitable && equiQtt;
 		}
@@ -158,7 +161,22 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return contrat.getEcheancier();
 		}else if(condQtt && !(condEquitable)){
 			// la demande ne peut pas etre accepte car pas assez equitable
-			//mais on pourra fournir cette quantité de fève			
+			//mais on pourra fournir cette quantité de fève	
+			if(!(equiQtt)) {
+				// la qtt n'est pas assez importante 
+				double qttManquante = contrat.getQuantiteRestantALivrer() - EQUI_QTT_MINI;
+				double repartition =  qttManquante/nbEcheance;
+				Echeancier e = contrat.getEcheancier();
+				int i=0;
+				while (i< nbEcheance) {
+					e.set(i, e.getQuantite(i)*repartition);
+					i++;
+				}
+			}
+			if(!(equiNbEcheance)) {
+				// la durée n'est pas assez importante
+
+			}			
 			return null;
 		}else if(condEquitable && !(condQtt)) {
 			// on  ne peut pas fournir autant de fève sur la période
