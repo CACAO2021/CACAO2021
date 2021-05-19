@@ -143,11 +143,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
-			condEquitable &=  contrat.getEcheancier().getNbEcheances() > 10; //au moins 10 échéances
-			condEquitable &= contrat.getQuantiteRestantALivrer() > 0;
+			condEquitable = condEquitable &&  contrat.getEcheancier().getNbEcheances() > 10; //au moins 10 échéances
+			condEquitable = condEquitable &&  contrat.getQuantiteRestantALivrer() > 0;
 			
 		}
-		
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
 		}else { // on propose une nouvelle valeur
