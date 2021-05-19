@@ -149,7 +149,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadre {
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		i=0;
 		//System.out.println("prix");
-		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit())*0.75;
+		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.75;
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;
 		}
