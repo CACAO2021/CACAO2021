@@ -53,8 +53,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
-		for (ChocolatDeMarque choco : getCatalogue()) {
-			this.indicateurs.add(prix.get(choco));}
+
 	}
 
 
@@ -72,11 +71,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
-			for (Variable indic0 : this.getIndicateurs()) {
-				if (indic0.getNom().equals("prix"+ choco)) {
-					indic0.setValeur(this,prix.get(choco).getValeur());
-				}
-			}
+
 		}
 		//mise à jour de l'indicateur "pourcentage Tete de Gondole"
 		for (Variable indic : this.getIndicateurs()) {
