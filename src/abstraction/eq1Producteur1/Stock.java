@@ -11,7 +11,6 @@ import abstraction.fourni.Variable;
  */
 public class Stock {
 	private Variable quantite;
-	private Variable age;
 	private IActeur acteur;
 	
 	public Stock(String nom, double quantite, IActeur a) {
