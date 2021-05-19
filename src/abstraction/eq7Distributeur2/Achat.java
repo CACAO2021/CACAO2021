@@ -184,7 +184,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		for (Chocolat choco : wonka.getChocolatsProposes()) {
 			besoin.setValeur(wonka, 0);
 			for(ChocolatDeMarque chocoDeMarque : wonka.getCatalogue()) {
-				if (chocoDeMarque.getChocolat() == choco) {
+				if (chocoDeMarque.getChocolat().name().equals(choco.name())) {
 					if(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) + this.quantiteARecevoir.get(chocoDeMarque) <= quantiteLimite.get(chocoDeMarque).getValeur()) {
 						besoin.setValeur(wonka, besoin.getValeur() + 
 								quantiteMax.get(chocoDeMarque).getValeur() - wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) - this.quantiteARecevoir.get(chocoDeMarque));
