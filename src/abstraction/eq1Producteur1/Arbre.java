@@ -14,6 +14,12 @@ public class Arbre {
 	private double rendement;
 	private double nombre_arbre;
 	
+	public Arbre(double age, double nombre_arbre) {
+		this.age = age;
+		this.nombre_arbre = nombre_arbre;
+		this.rendement = this.rendement();
+	}
+	
 	/**
 	 * @return the nombre_arbre
 	 */
@@ -54,7 +60,7 @@ public class Arbre {
 	/**
 	 * 
 	 * l'arbre ne produit rien avant 3 ans
-	 * commence à produire à 3 ans et produit linéarement jusqu'à 6ans
+	 * commence à produire à 3 ans et produit linéairement jusqu'à 6ans
 	 * puis production constante jusqu'à la fin de sa vie
 	 * rendement annuel de 6kg par arbre
 	 */
@@ -69,12 +75,6 @@ public class Arbre {
 		else {
 			return 6/24;
 		}
-	}
-	
-	public Arbre(double age, double nombre_arbre) {
-		this.age = age;
-		this.nombre_arbre = nombre_arbre;
-		this.rendement = this.rendement();
 	}
 	
 	public void augmenter_age() {
