@@ -322,6 +322,24 @@ public class Stock {
 		}
 		return null;
 	}
+	
+	public Feve equivalentFeve(Chocolat chocolat) {
+		for ( Feve feve : this.nosFevesCC()) {
+			if (feve.isEquitable() == chocolat.isEquitable() && feve.isBio() == chocolat.isBio() && feve.getGamme() == chocolat.getGamme()) {
+				return feve;
+			}
+		}
+		return null;
+	}
+	
+	public Feve equivalentFeve(ChocolatDeMarque chocolat) {
+		for ( Feve feve : this.nosFevesCC()) {
+			if (feve.isEquitable() == chocolat.getChocolat().isEquitable() && feve.isBio() == chocolat.getChocolat().isBio() && feve.getGamme() == chocolat.getChocolat().getGamme()) {
+				return feve;
+			}
+		}
+		return null;
+	}
 		
 	public double getMarge(Feve feve) {
 		

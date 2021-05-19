@@ -8,6 +8,7 @@ import java.util.Map;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadreNotifie;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Feve;
@@ -19,7 +20,7 @@ import abstraction.fourni.Variable;
 
 
 // Jonathan
-public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadre {
+public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadreNotifie {
 
 	
 	protected SuperviseurVentesContratCadre supCCadre;
@@ -51,7 +52,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde() || contrat.getPrix() > 100) {
+		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde()) {
 			return 0;
 		} else {
 			return contrat.getPrix();
@@ -60,24 +61,22 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	
 	public void nosDemandesCC() {
 		
-		/*this.getStock().getFinancier().miseAJourContratAcheteur();
+		this.getStock().getFinancier().miseAJourContratAcheteur();
 		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
-		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantitefeveAAcheter();
+		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
+		System.out.println(feveaacheter);
 		for  (Feve feve : feveaacheter) {
+			System.out.println(quantiteaacheter.get(feve));
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur.getNom() != "Baratao") {
 					boolean t = true;
 					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
 						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
 						if (contrat != null) {
-							t = false;
-							this.getStock().getFinancier().ajoutContratEnTantQueAcheteur(contrat);
-						}
 					}
 				}
 			}
-		}*/
+		}
 	}
 		
 
@@ -87,5 +86,14 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			this.ecritureJournalStock("On réceptionne"+String.valueOf(quantite)+"kg de fèves "+((Feve)produit).name());
 		}
 	}
+	
+	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		if (contrat.getAcheteur().getNom() == "Eticao") {
 
+			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
+		} else if (contrat.getVendeur().getNom() == "Eticao") {
+
+			this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
+		}
+	}
 }

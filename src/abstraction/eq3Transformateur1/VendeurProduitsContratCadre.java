@@ -31,6 +31,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public boolean vend(Object produit) {
+		//System.out.println(this.getStock().getFinancier().sommesNousVendeur(produit));
 		return this.getStock().getFinancier().sommesNousVendeur(produit);
 	}
 	
@@ -64,10 +65,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
-		this.journalVendeur.ajouter("Offre de vente : "+contrat);
-		this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
-		
+
 	}
 	
 	
