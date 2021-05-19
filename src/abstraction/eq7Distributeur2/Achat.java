@@ -257,7 +257,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	}
 	
 	public double prixEtapeZero(ChocolatDeMarque choco) {
-		return wonka.marges.keySet().contains(choco.getChocolat()) ? 1.5/this.marges.get(choco.getChocolat()) : 1.5;
+		return wonka.marges.keySet().contains(choco.getChocolat()) ? 1.5/wonka.marges.get(choco.getChocolat()) : 1.5;
 	}
 
 	
