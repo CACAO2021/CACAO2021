@@ -100,11 +100,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	//Elsa
 	/**
 	 * Permet de négocier la quantité de produit voulu. 
-	 * On essaie de ne pas dépasser une quantité de produit égale à 15% de plus que ce qui s’est vendu au tour précédent (grâce à l’historique) en enlevant la quantité de ce même produit qu’il nous reste en stock. 
+	 * On calcule la maxQuantite 
 	 * On vérifie aussi que cette quantité est supérieure à la quantité minimale demandée par le superviseur. 
-	 * On liste tous les produits de la même marque et de la même catégorie et on regarde quel produit on a acheté au meilleur
-	 	prix au tour précédent. On augmente notre maxQuantité du produit le moins cher et on diminue celle des produit les 
-	 	plus cher.
+	
 	 */
 
 	@Override
@@ -179,10 +177,13 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 
 
-	//Louis
+	//Louis, Elsa
 
 	/**
 	 * Définit la quantité maximale du ChocolatDeMarque “choco” que l’on souhaite acheter.
+	 * On liste tous les produits de la même marque et de la même catégorie et on regarde quel produit on a acheté au meilleur
+	 	prix au tour précédent. On augmente notre maxQuantité du produit le moins cher et on diminue celle des produit les 
+	 	plus cher.
 	 * @param choco
 	 * @return
 	 */
