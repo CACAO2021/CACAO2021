@@ -1,9 +1,7 @@
 package abstraction.eq5Transformateur3;
 //Charlotte
 
-
-
-
+import java.util.LinkedList;
 import java.util.List;
 
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -12,12 +10,12 @@ import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.fevesAO.SuperviseurVentesFevesAO;
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
 
 public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implements IAcheteurFevesAO {
-	private Variable quantite;
 	private Feve feve;
 	private double qmin;
 	private double qmax;
@@ -41,24 +39,27 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 		//}
 	// }
 		
-	public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
+	/*public AcheteurFevesAO(Feve feve, double prixmax, double qmin, double qmax) throws Exception{
 		System.out.println("tito");
 		if(this.qmin < OffreAchatFeves.AO_FEVES_QUANTITE_MIN) {
 			throw new Exception("quantité trop faible");
 		}
 		else {
 			System.out.println("toto");
-			this.quantite = new Variable("quantite", this, qmin, qmax,0); //qmin et qmax représentent les quantites en fèves (et non en chocolat!!) minimale et maximale de notre stock
 			this.feve = feve;
 			this.qmax = qmax;
 			this.qmin = qmin ; //mettre qmin assez élevé
 			this.prixmax = prixmax;
 		}
+<<<<<<< HEAD
 	}
+=======
+	}*/
 
-	public double getQmin() {
+	/*public double getQmin() {
 		return this.quantite.getMin();
-	}
+	}*/
+
 	
 	
 	//cette méthode permet de retourner le type de fève utilisée à chaque type de tablette 
@@ -77,7 +78,6 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	// elle permet également d'acheter la quantité du step N+1 du contrat cadre au step N pour anticiper et garantir l'apport en chocolat aux distributeurs 
 
 /*OffreAchatFeves getOffreAchat() {
-=======
 	public OffreAchatFeves getOffreAchat() { 
 		Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
 		OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, (double)10);
@@ -125,15 +125,50 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//Remi
 	
 	public OffreAchatFeves getOffreAchat(){
+		int nb_OA = 0;
 		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
-			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
+			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
+			this.JournalOA.ajouter("offre d'achat =" + OA);
+			nb_OA+=1;
+			return OA;
 			}
 		if (this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur()< this.stock_min_feves_HBE.getValeur() ) {
-			return new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, this.stock_min_feves_HBE.getValeur()-this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur());
+			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, this.stock_min_feves_HBE.getValeur()-this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur());
+			this.JournalOA.ajouter("offre d'achat =" + OA);
+			nb_OA+=1;
+			return OA;
 			}
-		else {
-			return  null;}
-		}
+		for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
+			if (contrat.getProduit()==Chocolat.TABLETTE_HAUTE_EQUITABLE) {
+				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
+				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
+					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+		            nb_OA+=1;
+					return OA;}}
+			if (contrat.getProduit()==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
+				Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
+				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
+					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+		            nb_OA+=1;
+					return OA;}}
+				}
+				
+				
+			/*	quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+			if(contrat.getProduit() instanceof Chocolat) {
+				feve = getFeve((Chocolat) (contrat.getProduit()));
+				if(quantite.getValeur()!=0){
+					this.JournalOA.ajouter("offre d'achat =" + OA);
+					nb_OA+=1;
+
+					return OA; */
+
+		if(nb_OA ==0){
+			this.JournalOA.ajouter("pas d'offre d'achat");
+			return  null;
+			}
+		return null;
+	}
 		
 
 
@@ -147,31 +182,59 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	//(j'ajoute ici une variable delta qui indique cb peut varier la quantité demandée)
 
 	public PropositionVenteFevesAO choisirPropositionVenteAOFeves(List<PropositionVenteFevesAO> propositions) {
-		/*double delta = this.getQmax()-this.getQmin();
-		LinkedList<PropositionVenteFevesAO> propositions_interessantes = new LinkedList<PropositionVenteFevesAO>();
+
+		LinkedList<PropositionVenteFevesAO> propositions_interessantes_HBE=new LinkedList<PropositionVenteFevesAO>();
+		LinkedList<PropositionVenteFevesAO> propositions_interessantes_M=new LinkedList<PropositionVenteFevesAO>();
+
 		if (propositions.size()>0) {
 			for(PropositionVenteFevesAO proposition : propositions) {
-				if(proposition.getPrixKG()< this.prixmax 
-						&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
-						&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
+				if (proposition.getFeve()==Feve.FEVE_HAUTE_BIO_EQUITABLE) {
+					if(proposition.getPrixKG() < this.prix_max_fèves_HBE.getValeur()
 						&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
-							propositions_interessantes.add(proposition);
-		}
+							propositions_interessantes_HBE.add(proposition);} }
+				if (proposition.getFeve()==Feve.FEVE_MOYENNE) {
+					Variable feve = this.getFeves().get(Feve.FEVE_MOYENNE);
+					double delta=this.stock_min_feves_moyenne.getValeur()-feve.getValeur();
+					if(proposition.getPrixKG() < this.prix_max_fèves_moyenne.getValeur()
+							&& proposition.getQuantiteKg()< proposition.getOffreAchateFeves().getQuantiteKG()+ delta
+							&& proposition.getQuantiteKg()> proposition.getOffreAchateFeves().getQuantiteKG()- delta
+							&& proposition.getFeve() == proposition.getOffreAchateFeves().getFeve()){
+								propositions_interessantes_M.add(proposition);} }}}
+		
+		if(propositions_interessantes_HBE.size()!=0) {
+			double prix_interessant=1e13;
+			int i=-1;
+			int index=0;
+			for (PropositionVenteFevesAO proposition : propositions_interessantes_HBE) {
+				i=i+1;
+				if (proposition.getPrixKG()<prix_interessant) {
+					prix_interessant=proposition.getPrixKG();
+					index=i;}
 			}
-		}
-		if(propositions_interessantes.size()!=0) {
-			int hasard = (int)(Math.random()*propositions_interessantes.size());
-			return propositions_interessantes.get(hasard);	
-		} else {
-			return null;
-		}*/
-		return null;
+
+			return propositions_interessantes_HBE.get(index);}
+		
+		else if(propositions_interessantes_M.size()!=0) {
+			double prix_interessant=1e13;
+			int i=-1;
+			int index=0;
+			for (PropositionVenteFevesAO proposition : propositions_interessantes_M) {
+				i=i+1;
+				if (proposition.getPrixKG()<prix_interessant) {
+					prix_interessant=proposition.getPrixKG();
+					index=i;}
+			}
+			return propositions_interessantes_M.get(index);}
+			
+		else {return null;}
+
 	} 
+
 
 	@Override
 	public Integer getCryptogramme(SuperviseurVentesFevesAO superviseur) {
 		// TODO Auto-generated method stub
-		return null;}
+		return this.cryptogramme;}
 	
 
 	@Override

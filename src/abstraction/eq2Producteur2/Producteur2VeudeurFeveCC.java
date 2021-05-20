@@ -132,6 +132,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
+		System.out.println(" qtt "+qttDemandee);
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
 		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
 		double qttDispo = qttTotale(produit).getValeur();
@@ -140,15 +141,18 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		double qttContratEnCours = aProduire(produit);
 		
 		//condition qui decoule des stocks
-		boolean condQtt = qttDemandee < qttTotaleSurLaPeriode; 
+		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
+		
+		// deux bool utiles que si la feve est equitable
+		boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
+		boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
+		
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
-			boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
-			boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
 			condEquitable = condEquitable && equiNbEcheance; 
 			condEquitable = condEquitable && equiQtt;
 		}
@@ -158,7 +162,22 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return contrat.getEcheancier();
 		}else if(condQtt && !(condEquitable)){
 			// la demande ne peut pas etre accepte car pas assez equitable
-			//mais on pourra fournir cette quantité de fève			
+			//mais on pourra fournir cette quantité de fève	
+			if(!(equiQtt)) {
+				// la qtt n'est pas assez importante 
+				double qttManquante = contrat.getQuantiteRestantALivrer() - EQUI_QTT_MINI;
+				double repartition = - qttManquante/nbEcheance;
+				Echeancier e = contrat.getEcheancier();
+				int i=contrat.getEcheancier().getStepDebut();
+				while (i< contrat.getEcheancier().getStepFin()) {
+					e.set(i, e.getQuantite(i)*repartition);
+					i++;
+				}
+			}
+			if(!(equiNbEcheance)) {
+				// la durée n'est pas assez importante
+
+			}			
 			return null;
 		}else if(condEquitable && !(condQtt)) {
 			// on  ne peut pas fournir autant de fève sur la période

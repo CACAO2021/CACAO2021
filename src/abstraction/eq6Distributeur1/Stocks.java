@@ -71,12 +71,7 @@ public class Stocks extends Distributeur1Acteur{
 				if (indic.equals(stock.get(choco))) {
 					indic.setValeur(this, stock.get(choco).getValeur());
 				}
-			}
-		}
-		for(ChocolatDeMarque choco : prix.keySet()) {
-			for (Variable indic : this.getIndicateurs()) {
-				if (indic.getNom().equals("prix"+ choco.toString())) {
-					System.out.println("test");
+				if (indic.getNom().equals("prix " + choco)) {
 					indic.setValeur(this,prix.get(choco).getValeur());
 				}
 			}
