@@ -139,8 +139,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			nb_OA+=1;
 			return OA;
 			}*/
-		for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
-			System.out.println(contrat.getProduit());}
+		 for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
+			ChocolatDeMarque chocoMarque = ((ChocolatDeMarque)contrat.getProduit());
 			Chocolat choco = chocoMarque.getChocolat();
 			if (choco==Chocolat.TABLETTE_HAUTE_EQUITABLE) {
 				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
@@ -156,7 +156,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 					return OA;}}
 				}
 				
-				
+				/*
 				quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 			if(contrat.getProduit() instanceof Chocolat) {
 				feve = getFeve((Chocolat) (contrat.getProduit()));
@@ -164,7 +164,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 					this.JournalOA.ajouter("offre d'achat =" + OA);
 					nb_OA+=1;
 
-					return OA; 
+					return OA; */
 
 		if(nb_OA ==0){
 			this.JournalOA.ajouter("pas d'offre d'achat");

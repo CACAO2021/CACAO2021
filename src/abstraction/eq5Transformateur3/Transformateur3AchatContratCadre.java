@@ -27,7 +27,7 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 		double quantiteTotale = dernierEcheancier.getQuantiteTotale();
 		
 		if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
-			if ((nbStep>=8) && (nbStep<=18) && (quantiteTotale>=1000)) {
+			if ((nbStep>=8) && (nbStep<=18) && (quantiteTotale >=1000)) {
 				return dernierEcheancier;
 			} else {
 				return null;
@@ -80,8 +80,10 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
-	}
+		if (contrat.getAcheteur() == Filiere.LA_FILIERE.getActeur("EQ5")) {
+			this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
+		}	
+	}	
 	
 }
 

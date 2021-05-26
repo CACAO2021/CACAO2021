@@ -120,8 +120,10 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
-		this.getContrats().put(contrat, Filiere.LA_FILIERE.getEtape());
+		if (contrat.getVendeur() == Filiere.LA_FILIERE.getActeur("EQ5")) {
+			this.JournalVenteContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
+			this.getContrats().put(contrat, Filiere.LA_FILIERE.getEtape());
+		}
 	}
 	
 	@Override
