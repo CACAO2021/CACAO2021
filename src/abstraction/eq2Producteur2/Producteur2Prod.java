@@ -150,9 +150,9 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	}
 
-	public void renouvellement2() {
+	public void renouvellement() {
 		// a utiliser par la suite
-		
+
 		//pour faire des test
 		//renouvellmentvieu(); // a enlever
 
@@ -162,6 +162,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//une longue période sans pouvoir espérer de bénéfice.
 		int step = Filiere.LA_FILIERE.getEtape();
 		int nbChangement = 0;
+		int nbPlantage = 0;
 		List<Stock> aSupprimer = new ArrayList<Stock>();
 		for (Feve f : listeProd) {
 			// partie suppression
@@ -176,26 +177,25 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			// la valeur reste la même à tous les steps 
 			arbrePlantes.get(f).removeAll(aSupprimer);
 			//System.out.println(qttArbreToujoursPlantes(f));
-			
-			// partie plantage
-		}
 
-		// on remplace les arbres en tenant compte de la demande
-		
-		for (Feve f : listeProd) {
+			// partie plantage
+			// on remplace les arbres en tenant compte de la demande
+
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
 			int qtt = 0; // réfléchir à la répartition des arbres a replanter
-			
+			nbPlantage += qtt;
+
 			arbrePlantes.get(f).add(new Stock(qtt, step));
-		}	
+		}
+
 		// on dépense de l'argent pour remplacer els arbres
-		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
+		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
 
 	}
 
-	public void renouvellement() {
+	public void renouvellement2() {
 		// a supprimer
 		// quand bug corrige sur prod
 		int step=0;
@@ -235,7 +235,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		for (Stock s : arbrePlantes.get(f)) {
 			stock += s.getQtt();			
 		}
-		return stock;
+		return stock; 
 	}
 
 	protected double prodParStep(Object p, int step) {
@@ -248,12 +248,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			for (Stock s : arbrePlantes.get((Feve)p)) {
 				double rdm = rendement( step - s.getStep(), (Feve)p);
 				double nbArbre = s.getQtt();
-				if (rdm>0) {
-					System.out.println("rdm = ");
-					System.out.println(rdm);
-					//System.out.println("yes");
-					qttProd += rdm * nbArbre; // prod de chaque arbre depend de son age mais plusieurs arbres ont le meme age
-				}
+				qttProd += rdm * nbArbre; // prod de chaque arbre depend de son age mais plusieurs arbres ont le meme age
 			}
 		}		
 		//System.out.println(qttProd);
@@ -267,8 +262,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// parametre p si on veut faire dependre la valeur du type de feve, ce n'est pour l'instant pas le cas
 		return PROD_ARBRE_AN;
 	}
-
-
+ 
+ 
 	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
 	// cela vainfluencer le nombre darbre qui produit effectivement
