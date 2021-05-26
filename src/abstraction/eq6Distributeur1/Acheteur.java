@@ -36,12 +36,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	}
 
 	//trucs à faire:
-	//améliorer le prix max ( par le remplissage de la map q dans vendeur)
+	//améliorer le prix de vente max dans NouveauPrix() pour qu'il n'y ait plus besoin de la limite pour que les prix ne s'envolent pas
 	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
 	//au bout d'un moment on achète plus rien à Boni Suci
 	//on peut surement optimiser les quantités en stock (on achete parfois beaucoup trop à eticao par exemple)
-	//a la fin on pourrait peut etre faire quelque chose pour acheter plus cher ce qu'on arrive bien a vendre 
-	//						pour etre plus ethiques (parce que là on s'enrichit vraiment sur le dos des autres)
 	
 
 	//Louis
@@ -137,7 +135,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	/**
 	 * Permet de négocier le prix d’achat des produits avec les transformateurs. 
-	 * Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. 
+	 * Nous allons fixer un prix maximal d’achat qui est de 80% de notre prix de vente. 
 	 * Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). 
 	 * Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
 	 */
@@ -145,8 +143,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		i=0;
-		//System.out.println("prix");
-		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.75;
+		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.8;
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;
 		}
