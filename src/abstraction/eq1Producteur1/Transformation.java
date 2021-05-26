@@ -19,19 +19,42 @@ public class Transformation {
 	
 	public void Transformation_Feve_Quantite (Feve f,double quantite,Producteur1Acteur producteur1Acteur) {
 		if (f.equals(Feve.FEVE_MOYENNE)) {
-			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
+			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).getQuantite()+quantite <= 100000000) {
+				producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
+				producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
+				producteur1Acteur.perteargent(0.5*quantite);
+				nous.getJournal("Ghanao Coûts").ajouter("La transformation de feves moyenne a couté "+Producteur1Valeurs.PRIX_TRANSFORMATION*quantite+"€");
+				producteur1Acteur.getJournal("Ghanao Transformation").ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
+			} else {
+				nous.getJournal("Ghanao Coûts").ajouter("La transformation de feves moyenne n'a rien couté ce mois-ci ");
+				producteur1Acteur.getJournal("Ghanao Transformation").ajouter("Nous n'avons pas transformé de fèves moyennes en poudre ce mois-ci");
+				
+			}
+		}
+/*			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 			producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
 			producteur1Acteur.perteargent(0.5*quantite);
 			nous.getJournal("Ghanao Coûts").ajouter("La transformation de feves moyenne a couté "+Producteur1Valeurs.PRIX_TRANSFORMATION*quantite+"€");
 			producteur1Acteur.getJournal("Ghanao Transformation").ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
-			}
+			}*/
 		if (f.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
+			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite()+quantite <= 100000000) {
+				producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
+				producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).addQuantite(quantite);
+				producteur1Acteur.perteargent(0.5*quantite);
+				nous.getJournal("Ghanao Coûts").ajouter("La transformation de feves moyenne équitables a couté "+0.5*quantite+"€");
+				producteur1Acteur.getJournal("Ghanao Transformation").ajouter(quantite + " kg de fèves de moyenne qualité équitable ont été transformés en " + quantite + "kg de poudre de moyenne qualité équitable ");
+			} else {
+				nous.getJournal("Ghanao Coûts").ajouter("La transformation de feves moyenne équitables n'a rien coûté ce mois-ci");
+				producteur1Acteur.getJournal("Ghanao Transformation").ajouter("Nous n'avons pas transformé de fèves moyennes équitables en poudre ce mois-ci");
+			}
+		}
+/*			producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 			producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).addQuantite(quantite);
 			producteur1Acteur.perteargent(0.5*quantite);
 			nous.getJournal("Ghanao Coûts").ajouter("La transformation de feves moyenne équitables a couté "+0.5*quantite+"€");
 			producteur1Acteur.getJournal("Ghanao Transformation").ajouter(quantite + " kg de fèves de moyenne qualité équitable ont été transformés en " + quantite + "kg de poudre de moyenne qualité équitable ");
-		}
+		}*/
 		
 	}
 	
