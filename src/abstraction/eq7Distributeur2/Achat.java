@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import abstraction.fourni.*;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
+import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.contratsCadres.*;
 
 
@@ -250,11 +254,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}contrats.removeAll(aSupprimer);
 	}
 
-	public LinkedList<IVendeurContratCadre> vendeursTypeChoco(Chocolat choco) {
-		LinkedList<IVendeurContratCadre> vendeurs = new LinkedList<IVendeurContratCadre>() ;
+	public HashMap<IVendeurContratCadre, ChocolatDeMarque> vendeursTypeChoco(Chocolat choco) {
+		HashMap<IVendeurContratCadre, ChocolatDeMarque> vendeurs = new HashMap<IVendeurContratCadre, ChocolatDeMarque>() ;
 		for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
+			
 			if(chocolatDeLaFiliere.getChocolat().name().equals(choco.name()) && this.supCCadre.getVendeurs(chocolatDeLaFiliere).size() != 0) {
-				vendeurs.add(((LinkedList<IVendeurContratCadre>)this.getSupCCadre().getVendeurs(chocolatDeLaFiliere)).get(0));
+				vendeurs.put(((LinkedList<IVendeurContratCadre>)this.getSupCCadre().getVendeurs(chocolatDeLaFiliere)).get(0), chocolatDeLaFiliere);
 			}
 		}
 		return vendeurs;
@@ -265,19 +270,60 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//cherche des nouveaux contrats cadres pour tous les chocolats dont le stock est inférieur à quantiteLimite
 	public void nouveauContrat() {
 		for(Chocolat choco : wonka.getChocolatsProposes() ) {
-			LinkedList<IVendeurContratCadre> vendeurs = this.vendeursTypeChoco(choco);
-			//System.out.println(vendeurs.toString());
-			//System.out.println(besoinsChocoParType.get(choco).getValeur());
+			
+			Set<IVendeurContratCadre> vendeurs = this.vendeursTypeChoco(choco).keySet();
+
 			if (vendeurs.size()!=0 && this.besoinsChocoParType.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
 				//System.out.println(choco.toString() + " ; " + vendeurs.toString());
-
+				HashMap<IVendeurContratCadre, Double> attractivite = new HashMap<IVendeurContratCadre, Double>();
 				for(IVendeurContratCadre vendeur : vendeurs) {
-					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChocoParType.get(choco).getValeur()/5);
+					ChocolatDeMarque chocolatDeMarque = this.vendeursTypeChoco(choco).get(vendeur);
+					
+				//On parcourt les différentes listes d'attactivité des clients pour créer une liste d'attractivité par vendeur 		
+					for(Map<ChocolatDeMarque, Double> attractiviteClient : Filiere.LA_FILIERE.getAttractivitesChocolats()) {
+						if(attractiviteClient.containsKey(chocolatDeMarque)) {
+							attractivite.put(vendeur, attractiviteClient.get(chocolatDeMarque));
+						}
+					}
+				}
+				//on choisit les deux chocolats ayant une attractivité max pour passer notre commande
+				double max = 0;
+				IVendeurContratCadre vendeurMax = null;
+				for(IVendeurContratCadre vendeur : attractivite.keySet()) {
+					if(attractivite.get(vendeur) > max) {
+						max = attractivite.get(vendeur);
+						vendeurMax = vendeur;
+					}
+				}
+				attractivite.remove(vendeurMax);
+				double max2 = 0;
+				IVendeurContratCadre vendeurMax2 = null;
+				for(IVendeurContratCadre vendeur : attractivite.keySet()) {
+					if(attractivite.get(vendeur) > max2) {
+						max2 = attractivite.get(vendeur);
+						vendeurMax2 = vendeur;
+					}
+				}
+				if(vendeurMax2 == null) {
+					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, (besoinsChocoParType.get(choco).getValeur()/5));
 					//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
-
-					wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
-
-					supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), false);
+					//on commande 100% de la quantité totale au seul vendeur proposant ce chocolat
+					wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeurMax.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+this.vendeursTypeChoco(choco).get(vendeurMax).name()+" | Echeancier :"+echeancier.toString());
+					supCCadre.demande((IAcheteurContratCadre)wonka, vendeurMax, this.vendeursTypeChoco(choco).get(vendeurMax), echeancier, wonka.getCryptogramme(), false);
+				}
+				else {
+					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, (besoinsChocoParType.get(choco).getValeur()/5)*0.75);
+					//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
+					//on commande 75% de la quantité totale au vendeur proposant le chocolat qui a la meilleure attractivité
+					wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeurMax.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+this.vendeursTypeChoco(choco).get(vendeurMax).name()+" | Echeancier :"+echeancier.toString());
+					supCCadre.demande((IAcheteurContratCadre)wonka, vendeurMax, this.vendeursTypeChoco(choco).get(vendeurMax), echeancier, wonka.getCryptogramme(), false);
+				
+				
+					Echeancier echeancier2 = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, (besoinsChocoParType.get(choco).getValeur()/5)*0.25);
+					//on répartie la valeur totale commandée sur 5 étapes : un peu arbitraire
+					//on commande 25% de la quantité totale au vendeur proposant le chocolat qui a la deuxième meilleure attractivité
+					wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre :" + " Vendeur :"+vendeurMax2.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+this.vendeursTypeChoco(choco).get(vendeurMax).name()+" | Echeancier :"+echeancier2.toString());
+					supCCadre.demande((IAcheteurContratCadre)wonka, vendeurMax2, this.vendeursTypeChoco(choco).get(vendeurMax), echeancier2, wonka.getCryptogramme(), false);
 				}
 			}
 		}
