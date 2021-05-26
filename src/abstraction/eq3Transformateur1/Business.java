@@ -155,9 +155,7 @@ public class Business {
 		// on supprime nos contrats obseletes (tout a été payé et tout a été livré)
 		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
-			System.out.println(contrat.getNumero());
-			System.out.println(contrat.getQuantiteRestantALivrer());
-			System.out.println(contrat.getMontantRestantARegler());
+
 			if(contrat.getQuantiteRestantALivrer()== 0.0 && contrat.getMontantRestantARegler()==0.0) {
 				contratsObsoletes.add(contrat);
 			}

@@ -58,7 +58,9 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	}
 
 	@Override
+	//Paul
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+
 		// On accepte la premiere proposition pour l'instant
 		double prixPropose = contrat.getPrix();
 
@@ -74,26 +76,29 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 		if (margeDeBase != 0) {
 			double prixSansMarge = contrat.getListePrix().get(0)/margeDeBase;
 			if (prixPropose == contrat.getListePrix().get(0)) {
+
 				return prixPropose;
 			} else {
 				double nouvelleMarge = margeDeBase-0.01*contrat.getListePrix().size();
 					if (nouvelleMarge>1.29) {
 						if (prixPropose>= nouvelleMarge*prixSansMarge) {
+
 							return prixPropose;
 					} else {
+
 						return prixSansMarge*nouvelleMarge;
 					}
 						
 				} else {
+
 					return 1.30*prixSansMarge;
 				}
 			}
 		} else {
 			return 0.0;
 		}
-
 	}
-
+ 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 
@@ -110,7 +115,14 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 				Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
 				Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix, date);
-				return qdisp;
+				
+
+				/*double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve((Chocolat)produit));
+				double argentPourLesAsso = contrat.getPrix*(margeAVerser-1.4);
+				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
+				this.ecritureJournalTresorie("Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
+				*/return qdisp;
+				
 			}
 		} else {
 			if (produit instanceof ChocolatDeMarque) {
@@ -120,7 +132,12 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 					Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
 					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix, date);
-					return qdisp;
+					
+					/*double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve(((ChocolatDeMarque)produit)));
+					double argentPourLesAsso = prix.getValeur()*(margeAVerser-1.4);
+					Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
+					this.ecritureJournalTresorie("Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
+					*/return qdisp;
 				}
 			}
 		}
