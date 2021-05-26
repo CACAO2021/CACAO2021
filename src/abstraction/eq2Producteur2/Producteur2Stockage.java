@@ -157,11 +157,14 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	//Dim
-	public void vente3(double qtt, Object produit) {
+	public void vente(double qtt, Object produit) {
+		// utile pour test sans suppr arbre
 		return;
 	}
 	
-	public void vente(double qtt, Object produit) { // tentative de simplification / factorisation du code
+	public void vente2(double qtt, Object produit) {
+		// vente fonctionnel
+		// tentative de simplification / factorisation du code
 		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
 		while (qtt>0) {
 			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
