@@ -188,6 +188,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 		//remplissage de besoinsChocoParType
 		for (Chocolat choco : wonka.getChocolatsProposes()) {
+			this.besoinsChocoParType.get(choco).setValeur(wonka, 0.0);
 			for(ChocolatDeMarque chocoDeMarque : wonka.getCatalogue()) {
 				if (chocoDeMarque.getChocolat().name().equals(choco.name())) {
 
