@@ -150,7 +150,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}
 	}
 
-	public void renouvellement2() {
+	public void renouvellement() {
 		// a utiliser par la suite
 		
 		//pour faire des test
@@ -162,6 +162,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//une longue période sans pouvoir espérer de bénéfice.
 		int step = Filiere.LA_FILIERE.getEtape();
 		int nbChangement = 0;
+		int nbPlantage = 0;
 		List<Stock> aSupprimer = new ArrayList<Stock>();
 		for (Feve f : listeProd) {
 			// partie suppression
@@ -178,24 +179,23 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			//System.out.println(qttArbreToujoursPlantes(f));
 			
 			// partie plantage
-		}
-
-		// on remplace les arbres en tenant compte de la demande
-		
-		for (Feve f : listeProd) {
+			// on remplace les arbres en tenant compte de la demande
+			
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
 			int qtt = 0; // réfléchir à la répartition des arbres a replanter
+			nbPlantage += qtt;
 			
 			arbrePlantes.get(f).add(new Stock(qtt, step));
-		}	
+		}
+
 		// on dépense de l'argent pour remplacer els arbres
-		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
+		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
 
 	}
 
-	public void renouvellement() {
+	public void renouvellement2() {
 		// a supprimer
 		// quand bug corrige sur prod
 		int step=0;
