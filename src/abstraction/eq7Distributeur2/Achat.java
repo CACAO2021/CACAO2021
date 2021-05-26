@@ -162,6 +162,9 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//}
 	
 	//Ugo Broqua & Martin Collemare  
+	/**
+	 * 
+	 */
 	public void majDemande() {
 		//crée un tableau avec la quantité qu'on doit commander pour chaque chocolat
 		
@@ -185,7 +188,13 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			besoin.setValeur(wonka, 0);
 			for(ChocolatDeMarque chocoDeMarque : wonka.getCatalogue()) {
 				if (chocoDeMarque.getChocolat().name().equals(choco.name())) {
-					if(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) + this.quantiteARecevoir.get(chocoDeMarque) <= quantiteLimite.get(chocoDeMarque).getValeur()) {
+					/*
+					 * System.out.println(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) +
+					 * this.quantiteARecevoir.get(chocoDeMarque));
+					 * System.out.println(quantiteLimite.get(chocoDeMarque).getValeur());
+					 * System.out.println("---");
+					 */
+					if(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) + this.quantiteARecevoir.get(chocoDeMarque) < quantiteLimite.get(chocoDeMarque).getValeur()) {
 						besoin.setValeur(wonka, besoin.getValeur() + 
 								quantiteMax.get(chocoDeMarque).getValeur() - wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) - this.quantiteARecevoir.get(chocoDeMarque));
 						}
@@ -232,10 +241,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	public void nouveauContrat() {
 		for(Chocolat choco : wonka.getChocolatsProposes() ) {
 			LinkedList<IVendeurContratCadre> vendeurs = this.vendeursTypeChoco(choco);
-			System.out.println(vendeurs.toString());
-			System.out.println(besoinsChocoParType.get(choco).getValeur());
+			//System.out.println(vendeurs.toString());
+			//System.out.println(besoinsChocoParType.get(choco).getValeur());
 			if (vendeurs.size()!=0 && this.besoinsChocoParType.get(choco).getValeur()>SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
-				System.out.println(choco.toString() + " ; " + vendeurs.toString());
+				//System.out.println(choco.toString() + " ; " + vendeurs.toString());
 
 				for(IVendeurContratCadre vendeur : vendeurs) {
 					Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, besoinsChocoParType.get(choco).getValeur()/5);
