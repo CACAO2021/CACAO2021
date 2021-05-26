@@ -20,6 +20,20 @@ public class Transformateur2 extends Transformateur2AchatAO {
 	public void next() {
 		/*this.supCCadre = (SuperviseurVentesContratCadre )(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		CCimportant();*/
+		
+		/*
+		for (int i=0; i<duree_stockage_max-1;i++) {
+			if (i == 0) {
+				stock_feve[duree_stockage_max-1] = 0;
+				stock_chocolat[duree_stockage_max-1] = 0;
+			}
+			else {
+				stock_feve[duree_stockage_max-i] = stock_feve[duree_stockage_max-1-i];
+				stock_chocolat[duree_stockage_max-i] = stock_chocolat[duree_stockage_max-1-i];
+			}
+		}
+		*/
+		
 		if (get_stock(Chocolat.TABLETTE_BASSE) < mini_stock_tablette_basse ) {
 			transformation_feve(get_stock(Feve.FEVE_BASSE)*0.25, Chocolat.TABLETTE_BASSE);
 		}
@@ -38,6 +52,8 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		if (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco > 0) {
 			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("Boni Suci"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(), (cout_fixe_entrepot_choco + (stock_chocolat.get(Chocolat.CONFISERIE_BASSE)+stock_chocolat.get(Chocolat.CONFISERIE_MOYENNE)+stock_chocolat.get(Chocolat.TABLETTE_BASSE)+stock_chocolat.get(Chocolat.TABLETTE_MOYENNE))*cout_stockage_unite_choco));
 		}
+		
+		
 		
 		// à mettre à la toute fin
 		this.update_echeanciers();

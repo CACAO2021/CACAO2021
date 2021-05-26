@@ -110,6 +110,7 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 					stock_feve.get(o)[date] = stock_feve.get(o)[date] - quantite_encore_a_supprimer ;
 					quantite_encore_a_supprimer = 0;
 				}
+				date -= 1;
 			}
 			if (o == Feve.FEVE_BASSE) {
 				var_stock_feve_basse.setValeur(this, var_stock_feve_basse.getValeur()-(quantite-quantite_encore_a_supprimer));
@@ -168,13 +169,20 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 					stock_chocolat.get(o)[date] = stock_chocolat.get(o)[date] - quantite_encore_a_supprimer ;
 					quantite_encore_a_supprimer = 0;
 				}
+				date -= 1;
 			}
-			if (o == Feve.FEVE_BASSE) {
-				var_stock_feve_basse.setValeur(this, var_stock_feve_basse.getValeur()-(quantite-quantite_encore_a_supprimer));
-			}
-			else {
-				var_stock_feve_moyenne.setValeur(this, var_stock_feve_moyenne.getValeur()-(quantite-quantite_encore_a_supprimer));				
-			}
+			if (o == Chocolat.TABLETTE_BASSE) {
+					var_stock_tablette_basse.setValeur(this, var_stock_tablette_basse.getValeur() - (quantite-quantite_encore_a_supprimer));
+				}
+				if (o == Chocolat.TABLETTE_MOYENNE) {
+					var_stock_tablette_moyenne.setValeur(this, var_stock_tablette_moyenne.getValeur() - (quantite-quantite_encore_a_supprimer));
+				}
+				if (o == Chocolat.CONFISERIE_BASSE) {
+					var_stock_confiserie_basse.setValeur(this, var_stock_confiserie_basse.getValeur() - (quantite-quantite_encore_a_supprimer));
+				}
+				if (o == Chocolat.CONFISERIE_MOYENNE) {
+					var_stock_confiserie_moyenne.setValeur(this, var_stock_confiserie_moyenne.getValeur() - (quantite-quantite_encore_a_supprimer));
+				}
 			if (quantite_encore_a_supprimer > 0) ;
 			this.journal_stock.ajouter("il manque"+quantite_encore_a_supprimer+"de"+ o.toString());
 		}
@@ -183,9 +191,23 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 	
 	public double get_stock(Object o) {
 		if (o instanceof Feve) {
+			/*
+			double S = 0;
+			for (int i=0; i< duree_stockage_max;i++) {
+				S += stock_feve.get(o)[i];
+			}
+			return S;
+			*/
 			return stock_feve.get(o);
 		}
 		if (o instanceof Chocolat) {
+			/*
+			double S = 0;
+			for (int i=0; i< duree_stockage_max;i++) {
+				S += stock_chocolat.get(o)[i];
+			}
+			return S;
+			*/
 			return stock_chocolat.get(o);
 		}
 		return 0.0;

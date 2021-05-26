@@ -112,4 +112,3 @@ public class Transformateur2Valeurs {
 	protected Journal journal_vente;
 	
 }
-	
