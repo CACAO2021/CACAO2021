@@ -30,7 +30,7 @@ public class Transformateur2Production extends Transformateur2Stock {
 				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), quantite*cout_transformation);
 			}
 			if ((o == Chocolat.TABLETTE_MOYENNE || o == Chocolat.CONFISERIE_MOYENNE) && get_stock(Feve.FEVE_MOYENNE) - quantite < 0) {
-				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), stock_feve.get(Feve.FEVE_MOYENNE)*cout_transformation);
+				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), get_stock(Feve.FEVE_MOYENNE)*cout_transformation);
 				add_stock((Chocolat) o, get_stock(Feve.FEVE_MOYENNE));
 				delete_stock(Feve.FEVE_MOYENNE, get_stock(Feve.FEVE_MOYENNE));
 			
