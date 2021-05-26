@@ -53,8 +53,8 @@ public class Transformateur2Valeurs {
 	
 	//Stockage
 	
-	/*protected HashMap<Feve,Double> stock_feve;
-	protected HashMap<Chocolat,Double> stock_chocolat;*/
+	protected HashMap<Feve,Double> stock_feve;
+	protected HashMap<Chocolat,Double> stock_chocolat;
 	
 	protected double mini_stock_tablette_basse = 15000000.0;
 	protected double mini_stock_tablette_moyenne = 15000000.0;
@@ -63,9 +63,9 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_feve_basse = 10000000.0;
 	protected double mini_stock_feve_moyenne = 10000000.0;
 
-	protected int duree_stockage_max;
+	/*protected int duree_stockage_max;
 	protected HashMap<Feve,double[]> stock_feve;
-	protected HashMap<Chocolat,double[]> stock_chocolat;
+	protected HashMap<Chocolat,double[]> stock_chocolat;*/
 	
 	//Coûts fixes
 	
