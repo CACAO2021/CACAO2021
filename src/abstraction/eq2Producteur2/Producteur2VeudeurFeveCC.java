@@ -12,7 +12,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
-	 * @param mesContrats
+	 * @param mesContrats 
 	 */
 	public Producteur2VeudeurFeveCC() {
 		super();
@@ -132,7 +132,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-		System.out.println(" qtt "+qttDemandee);
+		//System.out.println(" qtt "+qttDemandee);
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
 		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
 		double qttDispo = qttTotale(produit).getValeur();
