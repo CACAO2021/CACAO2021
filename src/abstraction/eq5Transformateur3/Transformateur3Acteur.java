@@ -99,8 +99,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 			double transfo = feve.getValeur()-500;
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(transfo)*coefficient_transformation.getValeur()/1000); }
-	
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(transfo)*coefficient_transformation.getValeur()/1000); 
+		}
 		
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
 		if(feve.getValeur()-500>0) { //garder au minimum 500kg
@@ -120,7 +120,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 				vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
 				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, ((this.stock_min_feves_moyenne.getValeur())-feve.getValeur()+1000000)/10), cryptogramme, false); 
 				if (contratCadre!=null){
-					this.JournalAchatContratCadre.ajouter(contratCadre.toString());
+					this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
 				}
 			}
 		}
@@ -136,12 +136,11 @@ public abstract class Transformateur3Acteur implements IActeur {
 				vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
 				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, ((this.stock_min_feves_HBE.getValeur())-feve.getValeur()+1000000)/10), cryptogramme, false);
 				if (contratCadre!=null) {
-					this.JournalAchatContratCadre.ajouter(contratCadre.toString());}
+					this.JournalAchatContratCadre.ajouter(contratCadre.toString());
+				}
 			}
 		}
 
-	
-	
 	} 
 
 	// Renvoie la liste des filières proposées par l'acteur
