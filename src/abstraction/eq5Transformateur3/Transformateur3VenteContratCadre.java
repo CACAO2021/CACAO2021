@@ -64,8 +64,9 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 		Object produit = contrat.getProduit();
 		Chocolat chocolat = ((ChocolatDeMarque)produit).getChocolat();
 		if (this.vend(produit)){
-			if (contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2)<= this.getChocolats().get(chocolat).getValeur() ) {
-				return contrat.getEcheancier(); 
+			if (contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1) + contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2) <= this.getChocolats().get(chocolat).getValeur() ) {
+				return contrat.getEcheancier();
+
 			}
 			else { return null;
 			} 
@@ -110,7 +111,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre vente " + "avec " + contrat.getAcheteur() + ". Vente de " + contrat.getQuantiteTotale() + "de " + contrat.getProduit() + "pendant " + contrat.getEcheancier() + "pour " + contrat.getPrix());
+		this.JournalVenteContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
 		this.getContrats().put(contrat, Filiere.LA_FILIERE.getEtape());
 	}
 	

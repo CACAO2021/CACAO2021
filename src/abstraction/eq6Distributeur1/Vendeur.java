@@ -13,6 +13,8 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 
+	
+	protected Map<ChocolatDeMarque, Double> prixDAchat;
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
 	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère les ventes convenables
@@ -24,6 +26,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
 		this.q=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
+		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
 
 	}
 
@@ -53,23 +56,26 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
-		for (ChocolatDeMarque choco : getCatalogue()) {
-			this.indicateurs.add(prix.get(choco));}
+
 	}
 
 
 
-	//Thomas
+	//Thomas, Elsa
 	
 	/**
-	 *On rafraîchit le prix des chocolats en fonction de leur consommation et met à jour un indicateur.
+	 *On rafraîchit le prix des chocolats en fonction de leur consommation et met à jour les indicateurs.
+	 *Met à jour les prix et le pourcentage de produit en tête de gondole
 	 */
 	
 	public void next() {
 		super.next();
 		this.quantiteTotaleVendue=0;
+		
+		//mise à jour de l'indicateur prix choco
 		for(ChocolatDeMarque choco : getCatalogue()) {
 			NouveauPrix(choco);
+
 		}
 		//mise à jour de l'indicateur "pourcentage Tete de Gondole"
 		for (Variable indic : this.getIndicateurs()) {
@@ -82,6 +88,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 				}
 			}
 		}
+		
 		//System.out.println("TG "+quantiteEnVenteTG()+" / pas TG "+quantiteEnVente());
 	}
 
@@ -172,15 +179,21 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	//Thomas
 	
-	
+	/**
+	 * indique au client la quantité disponible du chocolat choco en tete de gondole
+	 */
 	public double quantiteEnVenteTG(ChocolatDeMarque choco) {
-		if (choco!=null && this.stockTG.get(choco)!=null) {
-			return this.stockTG.get(choco).getValeur();
-
+		double valeur;
+		double valeurMax;
+		if (choco!=null && this.stockTG.get(choco)!=null && this.stock.get(choco)!=null) {
+			valeur= this.stockTG.get(choco).getValeur();
+			valeurMax=0.0999*stock.get(choco).getValeur();
+			if(valeur>valeurMax) {
+				return valeurMax;
+			}
+			return valeur;
 		}
-		else {
-			return 0;
-		}//retourne la quantité disponible du chocolat choco en tete de gondole
+		return 0;
 	}
 
 
@@ -236,19 +249,21 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	 *Permet de baisser le prix de 10% si la quantité vendue est inférieur à une quantité q convenable que nous définirons (si le produit ne se vend pas bien).
 	 * @param choco
 	 */
-	
+
 	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
-		if (this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) {
+		if ((this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) && prix.get(choco).getValeur()> this.prixDAchat.get(choco)) {
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
+
 		else{
 			if(prix(choco)<10) {
 				this.setPrix(choco, prix(choco)*1.1);}
-			this.setPrix(choco, prix(choco));}
-
+			}
 	}
 
+	
+	
 }
 
