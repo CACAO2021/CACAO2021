@@ -171,7 +171,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			//System.out.println(qttArbreToujoursPlantes(f));
 		}
 		
-		// on remplace les arbres en tenant compte de la demande*
+		// on remplace les arbres en tenant compte de la demande
 		// 26 473 arbres à répartir
 		for (Feve f : listeProd) {
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
@@ -182,6 +182,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}	
 		// on dépense de l'argent pour remplacer els arbres
 		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
+		System.out.println("perte " +COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
 		
 	}
 	
