@@ -152,7 +152,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void renouvellement() {
 		// a utiliser par la suite
-		
+
 		//pour faire des test
 		//renouvellmentvieu(); // a enlever
 
@@ -177,16 +177,16 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			// la valeur reste la même à tous les steps 
 			arbrePlantes.get(f).removeAll(aSupprimer);
 			//System.out.println(qttArbreToujoursPlantes(f));
-			
+
 			// partie plantage
 			// on remplace les arbres en tenant compte de la demande
-			
+
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
 			int qtt = 0; // réfléchir à la répartition des arbres a replanter
 			nbPlantage += qtt;
-			
+
 			arbrePlantes.get(f).add(new Stock(qtt, step));
 		}
 
@@ -248,12 +248,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			for (Stock s : arbrePlantes.get((Feve)p)) {
 				double rdm = rendement( step - s.getStep(), (Feve)p);
 				double nbArbre = s.getQtt();
-				if (rdm>0) {
-					System.out.println("rdm = ");
-					System.out.println(rdm);
-					//System.out.println("yes");
-					qttProd += rdm * nbArbre; // prod de chaque arbre depend de son age mais plusieurs arbres ont le meme age
-				}
+				qttProd += rdm * nbArbre; // prod de chaque arbre depend de son age mais plusieurs arbres ont le meme age
 			}
 		}		
 		//System.out.println(qttProd);
