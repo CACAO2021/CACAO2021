@@ -58,8 +58,8 @@ public class Producteur2et1ValeursEnCommun {
 	public static final int TPS_RENDEMENT_MAX_ARBRE=6*24;
 	
 	//partie vente
-	protected double EQUI_NB_ECHEANCE_MINI = 10;
-	protected double EQUI_QTT_MINI = 1000000; // a definir
+	protected double EQUI_NB_ECHEANCE_MINI = 8;
+	protected double EQUI_QTT_MINI = 1000000; 
 	
 	
 }

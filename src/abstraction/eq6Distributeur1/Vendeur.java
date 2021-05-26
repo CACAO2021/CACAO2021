@@ -53,6 +53,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
+		
+		this.indicateurs.add(new Variable("tgVenteSurStock",this,0));
 
 	}
 
@@ -84,8 +86,17 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 					indic.setValeur(this,0);
 				}
 			}
+			if (indic.getNom().equals("tgVenteSurStock")) {
+				if (getStockTGTotal() != 0) {
+					indic.setValeur(this, quantiteEnVenteTG()/getStockTGTotal());
+				}
+				else {
+					indic.setValeur(this,0);
+				}
+			}
 		}
-		
+		//System.out.println(getStockTGTotal());
+		//System.out.println(this.quantiteEnVenteTG());
 		//System.out.println("TG "+quantiteEnVenteTG()+" / pas TG "+quantiteEnVente());
 	}
 
