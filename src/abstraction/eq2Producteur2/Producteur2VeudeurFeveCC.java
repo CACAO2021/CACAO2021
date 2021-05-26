@@ -206,9 +206,8 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	@Override
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		double prix = prixEspere(contrat.getProduit());
-		return prix ; // on profite du fait qu'ils achetent quoi quil arrive pour devenir riche
+		return prix ; 
 	}
 
 	@Override
