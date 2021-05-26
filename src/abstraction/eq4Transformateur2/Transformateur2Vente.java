@@ -1,7 +1,7 @@
 package abstraction.eq4Transformateur2;
 
 import java.util.LinkedList;
-import java.util.List;
+import java.util.List; 
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -22,7 +22,6 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
 	public Transformateur2Vente() {
-
 		super();
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
@@ -54,6 +53,9 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	//notification nouveau contrat
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+
+		this.journal_vente.ajouter("Un nouveau contrat a été ajouter : quantite = "+contrat.getQuantiteTotale() + " pour " + contrat.getAcheteur() +" de "+ contrat.getProduit().toString());
+
 		this.contrats.add(contrat);
 		Object choco = contrat.getProduit();
 		if (choco instanceof ChocolatDeMarque) {
@@ -153,6 +155,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	}
 
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
+		
 		double prixA = contrat.getListePrix().get(contrat.getListePrix().size()-1);
 		double prixV = contrat.getListePrix().get(contrat.getListePrix().size()-2);
 		
