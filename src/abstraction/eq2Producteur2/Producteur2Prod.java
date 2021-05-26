@@ -107,42 +107,12 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 	
 	public void majQttArbre(Object produit) {
+		System.out.println("qtt");
 		double stock = 0;
 		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
 			stock += s.getQtt();			
 		}
 		qttTotArbrePlantes.replace((Feve)produit,stock);
-		
-		
-		if (estFeveHBE(produit)) {			
-			for (Stock s : this.stockFeveHBE) {
-				stock += s.getQtt();			
-			}stockFHBE.setValeur(this, stock);
-		}else if (estFeveHE(produit)) {			
-			for (Stock s : this.stockFeveHE) {
-				stock += s.getQtt();				
-			}stockFHE.setValeur(this, stock);
-		}else if (estFeveME(produit)) {			
-			for (Stock s : this.stockFeveME) {
-				stock += s.getQtt();				
-			}stockFME.setValeur(this, stock);
-		}else if (estFeveM(produit)) {			
-			for (Stock s : this.stockFeveM) {
-				stock += s.getQtt();				
-			}stockFM.setValeur(this, stock);
-		}else if (estFeveB(produit)) {			
-			for (Stock s : this.stockFeveB) {
-				stock += s.getQtt();
-			}stockFB.setValeur(this, stock);
-		}else if (estPoudreHE(produit)) {
-			for (Stock s : this.stockPoudreHE) {
-				stock += s.getQtt();
-			}stockPHE.setValeur(this, stock);
-		}else if (estPoudreM(produit)) {
-			for (Stock s : this.stockPoudreM) {
-				stock += s.getQtt();
-			}stockPM.setValeur(this, stock);
-		}
 	}
 
 	public void prod() {		
@@ -153,6 +123,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			JournalProd.ajouter(""+ p +" "+qtt);	
 			coutProd(qtt, p);
 			majStock(p);
+			majQttArbre(p);
 		}		
 	}
 
