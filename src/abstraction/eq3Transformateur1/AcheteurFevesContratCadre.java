@@ -66,9 +66,12 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
 		for  (Feve feve : feveaacheter) {
+			System.out.println(feve);
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 					boolean t = true;
 					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
+						System.out.println(acteur.toString());
+						System.out.println(quantiteaacheter.get(feve));
 						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
 						if (contrat != null) {
 					}
