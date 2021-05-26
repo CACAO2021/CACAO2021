@@ -44,6 +44,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	}
 
 	@Override
+	//Paul
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit() instanceof Chocolat) {
 			return this.getStock().prixDeVenteKG((Chocolat) contrat.getProduit());
@@ -58,9 +59,33 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	}
 
 	@Override
+	//Paul
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 		// On accepte la premiere proposition pour l'instant
-		return contrat.getPrix();
+		double prixPropose = contrat.getPrix();
+		double margeNecessaire = 1.3;
+		Chocolat chocolat = null;
+		if( contrat.getProduit() instanceof Chocolat) {
+			chocolat = (Chocolat)contrat.getProduit() ;
+		} else if (contrat.getProduit() instanceof ChocolatDeMarque) {
+			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+		}
+		double margeDeBase = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
+		if (margeDeBase != 0) {
+			double prixSansMarge = contrat.getListePrix().get(0)/margeDeBase;
+			if (prixPropose == contrat.getListePrix().get(0)) {
+				return prixPropose;
+			} else {
+				if (prixPropose >= prixSansMarge*margeNecessaire) {
+					return prixPropose;
+				} else {
+					return prixSansMarge*margeNecessaire;
+				}
+			}
+		} else {
+			return 0.0;
+		}
+
 	}
 
 	@Override

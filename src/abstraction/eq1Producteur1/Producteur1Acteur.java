@@ -75,7 +75,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 		this.produireFeve();
 		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
 		this.transformation.Transformation_Feve(this);
-		this.maj_plantation(0, 0, 0, this);
+		this.maj_plantation(240400, 100000,100000, this);
 	}
 
 	public List<String> getNomsFilieresProposees() {

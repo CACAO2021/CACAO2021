@@ -347,13 +347,13 @@ public class Stock {
 		if (feve.equals(Feve.FEVE_BASSE)) {
 			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE)) {
-			return 1.4*1.05;
+			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			return 1.4*1.05*1.05;
+			return 1.4+0.1;
 		} else if (feve.equals(Feve.FEVE_HAUTE_EQUITABLE)) {
-			return 1.4*1.1*1.05;
+			return 1.4+0.1;
 		} else if (feve.equals(Feve.FEVE_HAUTE_BIO_EQUITABLE)) {
-			return 1.4*1.1*1.05*1.1;
+			return 1.4+0.1+0.1;
 		} else {
 			return 0.0;
 		}
