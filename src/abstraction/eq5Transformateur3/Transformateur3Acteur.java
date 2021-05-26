@@ -1,6 +1,6 @@
 package abstraction.eq5Transformateur3;
 
-//Manuelo & Rémi
+//Manuelo et Rémi
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -89,7 +89,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.JournalVenteContratCadre.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
 		this.JournalOA.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");
 	}
-
 
 
 	public void next() {
