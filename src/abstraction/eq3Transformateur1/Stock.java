@@ -349,14 +349,14 @@ public class Stock {
 		if (feve.equals(Feve.FEVE_BASSE)) {
 			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE)) {
-			return 1.4*1.05;
+			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			return 1.4*1.05*1.05;
+			return 1.4+0.1;
 		} else if (feve.equals(Feve.FEVE_HAUTE_EQUITABLE)) {
-			return 1.4*1.1*1.05;
+			return 1.4+0.1;
 			//on prevoit une marge supplémentaire de 10% sur les fèves équitables qui sera redistribuée à la banque (afin de servir comme don ax associations et collectivités locales qui s'assurent du bien être des producteurs)
 		} else if (feve.equals(Feve.FEVE_HAUTE_BIO_EQUITABLE)) {
-			return 1.4*1.1*1.05*1.1;
+			return 1.4+0.1+0.1;
 			//on prevoit une marge supplémentaire de 20% sur les fèves bio-équitables qui sera redistribuée à la banque (afin de servir comme don ax associations et collectivités locales qui s'assurent du bien être des producteurs)
 		} else {
 			return 0.0;
