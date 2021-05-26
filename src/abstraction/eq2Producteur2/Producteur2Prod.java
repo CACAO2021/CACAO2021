@@ -139,11 +139,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 
 	public void renouvellement() {
-		// a utiliser par la suite
-
-		//pour faire des test
-		//renouvellmentvieu(); // a enlever
-
 
 		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
@@ -181,38 +176,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// on dépense de l'argent pour remplacer els arbres
 		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
 
-	}
-
-	public void renouvellement2() {
-		// a supprimer
-		// quand bug corrige sur prod
-		int step=0;
-		// ancienne version 
-		for (Stock s : arbrePlantesHBE) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step); // on change le step de l'arbre pour simuler le fait quil soit replanté
-				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
-			}}
-		for (Stock s : arbrePlantesHE) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_HE);
-			}}
-		for (Stock s : arbrePlantesME) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_ME);
-			}}
-		for (Stock s : arbrePlantesM) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_M);
-			}}
-		for (Stock s : arbrePlantesB) { 
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
-			}}
 	}
 
 	/*
