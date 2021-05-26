@@ -43,6 +43,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	
 	//truc bizarre: si on augmente un peu la limite des prix de vente on fait faillite
 
+	
 	//Louis
 
 	/**
@@ -136,7 +137,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	/**
 	 * Permet de négocier le prix d’achat des produits avec les transformateurs. 
-	 * Nous allons fixer un prix maximal d’achat qui est de 80% de notre prix de vente. 
+	 * Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. 
 	 * Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). 
 	 * Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
 	 */
@@ -144,7 +145,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		i=0;
-		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.8;
+		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.75;
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;
 		}
@@ -193,7 +194,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		if(max<0) {
 			return 0;
 		}
-		if (this.quantiteChocoVendue.get(choco)+this.stock.get(choco).getValeur()<0.01) {
+		if (this.quantiteChocoVendue.get(choco)+this.stock.get(choco).getValeur()<0.01 && this.getSolde()<10000000000.) {
 			max=superviseur.QUANTITE_MIN_ECHEANCIER*1.2;
 		}
 		List<String> listTypeChoco=new LinkedList<String>();

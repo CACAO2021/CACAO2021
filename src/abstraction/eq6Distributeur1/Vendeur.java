@@ -269,7 +269,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	/**
 	 *Permet de baisser le prix de 10% si les ventes du produit ont baissé, et de l'augmenter si elles ont augmenté, 
-	 *avec une limite de 10€ le kg du chocolat
+	 *avec une limite de 30€ le kg du chocolat (dans la réalité la moyenne est à 20€)
 	 * @param choco
 	 */
 
@@ -281,7 +281,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 
 		else if(quantiteVenduePrec.get(choco)>(this.quantiteChocoVendue.get(choco)*1.1) && stock.get(choco).getValeur()!=0.){
-			if(prix(choco)<10) {
+			if(prix(choco)<30) {
 				this.setPrix(choco, prix(choco)*1.05);
 			}
 			
