@@ -14,6 +14,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implements IAcheteurFevesAO {
 	private Feve feve;
@@ -126,7 +127,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 	public OffreAchatFeves getOffreAchat(){
 		int nb_OA = 0;
-		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
+		/*if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
 			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
 			this.JournalOA.ajouter("offre d'achat =" + OA);
 			nb_OA+=1;
@@ -137,15 +138,17 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			this.JournalOA.ajouter("offre d'achat =" + OA);
 			nb_OA+=1;
 			return OA;
-			}
+			}*/
 		for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
-			if (contrat.getProduit()==Chocolat.TABLETTE_HAUTE_EQUITABLE) {
+			System.out.println(contrat.getProduit());}
+			Chocolat choco = chocoMarque.getChocolat();
+			if (choco==Chocolat.TABLETTE_HAUTE_EQUITABLE) {
 				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 		            nb_OA+=1;
 					return OA;}}
-			if (contrat.getProduit()==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
+			if (choco==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
 				Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
 				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
@@ -154,14 +157,14 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 				}
 				
 				
-			/*	quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+				quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 			if(contrat.getProduit() instanceof Chocolat) {
 				feve = getFeve((Chocolat) (contrat.getProduit()));
 				if(quantite.getValeur()!=0){
 					this.JournalOA.ajouter("offre d'achat =" + OA);
 					nb_OA+=1;
 
-					return OA; */
+					return OA; 
 
 		if(nb_OA ==0){
 			this.JournalOA.ajouter("pas d'offre d'achat");
