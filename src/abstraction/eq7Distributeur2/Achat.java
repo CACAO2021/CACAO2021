@@ -384,8 +384,12 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	//Martin Collemare
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		wonka.stocks.ajouterChocolatDeMarque(getCorrespProduitChocolat(contrat.getProduit()), quantite);
-
+		if(contrat.getTeteGondole()) {
+			wonka.stocks.ajouterChocolatEnTG(getCorrespProduitChocolat(contrat.getProduit()), quantite);
+		}
+		else {
+			wonka.stocks.ajouterChocolatDeMarque(getCorrespProduitChocolat(contrat.getProduit()), quantite);
+		}
 	}
 
 	public SuperviseurVentesContratCadre getSupCCadre() {
