@@ -124,6 +124,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 	 * Si l'échéancier proposé demande trop de quantité par rapport à notre stock et notre stratégie, ou "pas assez";
 	 * propose un nouvel échéancier avec des quantités plus "raisonnables" de notre stock, en accord avec notre stratégie.
 	 * Pour les produits équitables, on s'assure que l'échelonnement de l'échancier fait plus de 8 steps -ventes dans la durée avec les tranformateurs-
+	 * et que la quantitée moyenne demandée par step n'est pas en-deçà d'une certaine limite
 	 * Si l'échéancier proposé fait moins de 8 steps, on propose un nouvel échéancier de 8 steps; avec une répartition uniforme sur la durée du contrat.
 	 * 
 	 */
