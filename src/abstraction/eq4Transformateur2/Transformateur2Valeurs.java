@@ -27,6 +27,10 @@ public class Transformateur2Valeurs {
 		var_stock_tablette_moyenne = new Variable("stock tablette moyenne", (IActeur) this, quantite_init_tablette_moyenne);
 		var_stock_confiserie_basse = new Variable("stock confiserie basse", (IActeur) this, quantite_init_confiserie_basse);
 		var_stock_confiserie_moyenne = new Variable("stock confiserie moyenne", (IActeur) this, quantite_init_confiserie_moyenne);
+		liste_prix_achat_feve_basse = new LinkedList<Double>();
+		liste_prix_achat_feve_moyenne = new LinkedList<Double>();
+		liste_prix_achat_feve_basse.add(cout_max_feve_basse);
+		liste_prix_achat_feve_moyenne.add(cout_max_feve_moyenne);
 	}
 	
 	//Variables utilisées pour négocier les échéanciers en tant qu'acheteur
@@ -44,7 +48,10 @@ public class Transformateur2Valeurs {
 	
 	protected static double cout_max_feve_basse = 1.7 ; 
 	protected static double cout_max_feve_moyenne = 2.5;
-	protected static double Prix_max_achat; //A quoi elle sert ?
+	protected LinkedList<Double> liste_prix_achat_feve_basse;
+	protected LinkedList<Double> liste_prix_achat_feve_moyenne;
+	protected double meilleur_prix_feve_basse = 1.7;
+	protected double meilleur_prix_feve_moyenne = 2.5;
 	
 	
 	//Variables utilisées pour le stockage
