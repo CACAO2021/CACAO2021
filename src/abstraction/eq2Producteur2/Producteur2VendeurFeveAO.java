@@ -28,7 +28,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 	}
 	
 	//Emeline
-	
+	 
 	//Cette fonction renvoie le prix maximal, l'acheteur et la quantité moyenne. 
 	public ArrayList<Object> acheteLePlusCher(LinkedList<PropositionVenteFevesAO> mesContratsAO) {
 		//Ce dictionnaire fait correspondre un acheteur avec le prix moyen, et la quantité totale achetée
