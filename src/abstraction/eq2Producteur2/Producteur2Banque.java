@@ -26,8 +26,9 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 			majStock(p);
 			sum += qttTotale(p).getValeur();
 		}
+		JournalStock.ajouter("stock total " + sum );
 		if (sum>QTT_STOCKAGE_MAX) {
-			System.out.println("on stocke trop");
+			JournalStock.ajouter("on stocke trop");
 			// si on depasse le stockage max, on paye bien plus cher
 			malus = (sum - QTT_STOCKAGE_MAX) * COUT_STOCKAGE_FEVE_DEPASSEMENT;
 			sum = QTT_STOCKAGE_MAX; // on stocke le maximum avec les moyens normaux
@@ -35,6 +36,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		double var = sum * COUT_STOCKAGE_FEVE; // cout variable
 		double fixe = COUT_STOCKAGE_FIXE; // cout fixe a determiner dans les cte
 		perdreArgent(var + fixe + malus);  
+		JournalStock.ajouter("prix " + (var + fixe + malus) );
 		
 	}
 	

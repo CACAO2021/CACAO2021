@@ -92,18 +92,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
 		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
 
-		// ancienne version sans tenir compte de l'age
-		//		this.arbrePlantesHBE = new LinkedList<Stock>();
-		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
-		//		this.arbrePlantesHE = new LinkedList<Stock>();
-		//		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
-		//		this.arbrePlantesME = new LinkedList<Stock>();
-		//		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
-		//		this.arbrePlantesM = new LinkedList<Stock>();
-		//		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
-		//		this.arbrePlantesB = new LinkedList<Stock>();
-		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
-
 	}
 
 	public void majQttArbre(Object produit) {
