@@ -88,7 +88,6 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			//this.quantiteARecevoir.put(choco, contrat.getQuantiteRestantALivrer());
 			this.quantiteARecevoir.put(choco, contrat.getQuantiteALivrerAuStep());
 		}
-
 		for(ExemplaireContratCadre contrat : contrats) {
 			if (contrat.getTeteGondole()) {
 				ChocolatDeMarque choco = getCorrespProduitChocolat(contrat.getProduit());
