@@ -155,6 +155,9 @@ public class Business {
 		// on supprime nos contrats obseletes (tout a été payé et tout a été livré)
 		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
 		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeur) {
+			System.out.println(contrat.getNumero());
+			System.out.println(contrat.getQuantiteRestantALivrer());
+			System.out.println(contrat.getMontantRestantARegler());
 			if(contrat.getQuantiteRestantALivrer()== 0.0 && contrat.getMontantRestantARegler()==0.0) {
 				contratsObsoletes.add(contrat);
 			}
@@ -198,8 +201,14 @@ public class Business {
 //Chloe Jo Pa
 	public boolean dejaContrat(Chocolat chocolat) {
 		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueVendeur()) {
-			if (contrat.getProduit().equals(chocolat)) {
-				return true;
+			if (contrat.getProduit() instanceof Chocolat) {
+				if (contrat.getProduit().equals(chocolat)) {
+					return true;
+				}
+			} else if (contrat.getProduit() instanceof ChocolatDeMarque){
+				if(((ChocolatDeMarque) contrat.getProduit()).getChocolat().equals(chocolat)) {
+					return true;
+				}
 			}
 		}
 		return false;

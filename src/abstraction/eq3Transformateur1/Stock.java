@@ -258,7 +258,7 @@ public class Stock {
 			this.getActeur().ecritureJournalStock("On vient d'ajouter || " + chocolat.name() + "   " + String.valueOf(quantite.getValeur()));
 			this.getActeur().ecritureJournalStock(" Le nouveau stock de chocolat  || " + chocolat.name() + " est " + String.valueOf(quantite.getValeur()));
 		} else {
-			throw new IllegalArgumentException(" Stock trop faible");
+			System.out.println(" Stock trop faible");
 		}
 	}
 	
@@ -581,19 +581,6 @@ public void transformationFeveChocolat() {
 				this.setStockChocolat(tablette, quantitetablette, prix, date);
 				this.setStockChocolat(confiserie, quantiteconfiserie, prix, date);
 				this.setStockChocolat(poudre, quantitepoudre, prix, date);
-				
-				// on transforme de maniere aléatoire en tablette ou poudre ou confiserie
-				/*double p = Math.random();
-				if( p <= 0.3) {
-					Chocolat chocolat = this.equivalentTabletteFeve(feve);
-					this.setStockChocolat(chocolat, quantite, prix);
-				} else if ( p >= 0.6) {
-					Chocolat chocolat = this.equivalentConfiserieFeve(feve);
-					this.setStockChocolat(chocolat, quantite, prix);
-				} else {
-					Chocolat chocolat = this.equivalentPoudreFeve(feve);
-					this.setStockChocolat(chocolat, quantite, prix);
-				}*/
 				
 	
 				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));

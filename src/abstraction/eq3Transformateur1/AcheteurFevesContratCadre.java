@@ -65,9 +65,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
 		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
-		System.out.println(feveaacheter);
 		for  (Feve feve : feveaacheter) {
-			System.out.println(quantiteaacheter.get(feve));
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 					boolean t = true;
 					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
