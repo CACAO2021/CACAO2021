@@ -193,13 +193,15 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 				if (chocoDeMarque.getChocolat().name().equals(choco.name())) {
 
 					
-					  System.out.println(chocoDeMarque.name());
-					  System.out.println(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) +
-					  this.quantiteARecevoir.get(chocoDeMarque));
-					  System.out.println("quantité minimale à avoir : " +
-					  quantiteLimite.get(chocoDeMarque).getValeur());
-					  System.out.println("a recevoir: " +
-					  this.quantiteARecevoir.get(chocoDeMarque)); System.out.println("---");
+					/*
+					 * System.out.println(chocoDeMarque.name());
+					 * System.out.println(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) +
+					 * this.quantiteARecevoir.get(chocoDeMarque));
+					 * System.out.println("quantité minimale à avoir : " +
+					 * quantiteLimite.get(chocoDeMarque).getValeur());
+					 * System.out.println("a recevoir: " +
+					 * this.quantiteARecevoir.get(chocoDeMarque)); System.out.println("---");
+					 */
 					 
 
 					if(wonka.stocks.getStockChocolatDeMarque(chocoDeMarque) + this.quantiteARecevoir.get(chocoDeMarque) < quantiteLimite.get(chocoDeMarque).getValeur()) {
