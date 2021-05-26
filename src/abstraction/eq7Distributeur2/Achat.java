@@ -320,23 +320,23 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 
 	//Martin Collemare
 	//Chercher des nouveaux contrats pour des chocolats en tête de gondole
-	//public void nouveauContratEnTG() {
-	//	for(ChocolatDeMarque choco : wonka.getCatalogue()) {
-	//		double quantiteTG = wonka.stocks.qtePossibleTG(choco) - this.quantiteEnRouteTG.get(choco);
-	//		LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
-	//		if (vendeurs.size()!=0 && quantiteTG >SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
-	//			int i = (int) (Math.random()*vendeurs.size());
-	//			IVendeurContratCadre vendeur = vendeurs.get(i);
-	//			
-	//			
-	//			Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, quantiteTG/5);
-	//			
-	//			wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre en TG :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
-	//
-	//			supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), true);
-	//		}
-	//	}
-	//}
+	public void nouveauContratEnTG() {
+		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+		    double quantiteTG = wonka.stocks.qtePossibleTG(choco) - this.quantiteEnRouteTG.get(choco);
+			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
+			if (vendeurs.size()!=0 && quantiteTG >SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
+				int i = (int) (Math.random()*vendeurs.size());
+				IVendeurContratCadre vendeur = vendeurs.get(i);
+				
+				
+				Echeancier echeancier = new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 5, quantiteTG/5);
+				
+				wonka.journalAchats.ajouter(newPropositionColor, Color.BLACK, "Nouvelle demande de contrat cadre en TG :" + " Vendeur :"+vendeur.getNom()+" | Acheteur :"+wonka.getNom()+" | Produit :"+choco.name()+" | Echeancier :"+echeancier.toString());
+	
+				supCCadre.demande((IAcheteurContratCadre)wonka, vendeur, choco, echeancier, wonka.getCryptogramme(), true);
+			}
+		}
+	}
 
 
 	//Martin Collemare
