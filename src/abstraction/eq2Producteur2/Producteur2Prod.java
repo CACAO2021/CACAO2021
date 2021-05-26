@@ -153,7 +153,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			for (Stock s : arbrePlantes.get(f)) {
 				if (step - s.getStep() >= TPS_RENOUVELLEMENT_ARBRE) {
 					nbChangement += s.getQtt();
-					aSupprimer.add(s);					
+					aSupprimer.add(s);	// normalement un seul stock est à supprimer		
 				}
 			}
 			// on supprime les arbres trop vieux
@@ -164,15 +164,14 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 			// partie plantage
 			// on remplace les arbres en tenant compte de la demande
-
-			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
-			int nbArbre = qttArbreToujoursPlantes(f);
-			double nbFeve = (qttTotale(f)).getValeur();
-			
 			
 			// partie à modifier
 			// reflexion sur ce que lon plante
 			// réfléchir à la répartition des arbres a replanter
+
+			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
+			int nbArbre = qttArbreToujoursPlantes(f);
+			double nbFeve = (qttTotale(f)).getValeur();
 			
 			int qtt = nbChangement; // pour le moment tjrs la meme répartition 
 			
