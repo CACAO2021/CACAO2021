@@ -44,17 +44,24 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		// Si l'echeancier est juste  plus court de 2 step que l'échéancier demandé (10) on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
+		/*if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
 		}
-		return null;
+		return null;*/
+		return contrat.getEcheancier();	
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
+		System.out.println("----------------------");
+		System.out.println(this.getSolde()-contrat.getPrix()*contrat.getQuantiteTotale());
 		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde()) {
 			return 0;
 		} else {
+			if (contrat.getVendeur().getNom().contains("Baratao")) {
+				System.out.println(contrat.getNumero() + "--" + contrat.getPrix());
+				
+			}
 			return contrat.getPrix();
 		}
 	}
@@ -67,12 +74,13 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
 		for  (Feve feve : feveaacheter) {
 			System.out.println(feve);
+			System.out.println(quantiteaacheter.get(feve));
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 					boolean t = true;
 					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
 						System.out.println(acteur.toString());
 						System.out.println(quantiteaacheter.get(feve));
-						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
+						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 15, quantiteaacheter.get(feve)), cryptogramme, false);
 						if (contrat != null) {
 					}
 				}
@@ -89,6 +97,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 	
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		System.out.println("--" + contrat.getNumero());
 		if (contrat.getAcheteur().getNom() == "Eticao") {
 
 			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
