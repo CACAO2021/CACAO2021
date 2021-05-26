@@ -197,7 +197,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			double qdm = qttDemandee;
 			int i =0;
 			int qtt=0;
-			// a revoir la condition
+			// a revoir la condition: condition= while qdm>qttTotaleSurLaPeriode ?
 			while ( qdm < qtt && i< e.getStepFin()) { // on divise par 2 la qtt a fournir à chaque step jusqua pvr fournir
 				e.set(e.getStepDebut()+i, e.getQuantite(e.getStepDebut()+i) / 2);
 				i++;
