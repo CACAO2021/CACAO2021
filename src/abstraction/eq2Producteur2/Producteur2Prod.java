@@ -116,7 +116,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void prod() {		
 		for (Feve p : listeProd) {
-			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) * 100000; //enelver le facteur
+			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) ; //enelver le facteur
 			// la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
 			addStock(qtt, p); 
 			JournalProd.ajouter(""+ p +" "+qtt);	

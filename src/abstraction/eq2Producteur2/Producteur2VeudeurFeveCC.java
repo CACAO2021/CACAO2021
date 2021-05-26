@@ -128,8 +128,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
+		JournalCC.ajouter(contrat.getAcheteur() + " " +contrat.getEcheancier().getQuantiteTotale() + " " + contrat.getProduit());	
 		Object produit = contrat.getProduit();	
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
+		Echeancier e = contrat.getEcheancier();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
 		
@@ -167,12 +169,11 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			//mais on pourra fournir cette quantité de fève	
 			if(!(equiQtt)) {
 				// la qtt n'est pas assez importante 
-				double qttManquante = contrat.getQuantiteRestantALivrer() - EQUI_QTT_MINI;
-				double repartition = - qttManquante/nbEcheance;
-				Echeancier e = contrat.getEcheancier();
+				double qttMin = EQUI_QTT_MINI;
+				double qttStep = qttMin/nbEcheance;				
 				int i=contrat.getEcheancier().getStepDebut();
 				while (i< contrat.getEcheancier().getStepFin()) {
-					e.set(i, e.getQuantite(i)*repartition);
+					e.set(i, qttStep);
 					i++;
 				}
 			}
@@ -180,13 +181,12 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				// la durée n'est pas assez importante
 
 			}			
-			return null;
+			return e;
 		}else if(condEquitable && !(condQtt)) {
 			// on  ne peut pas fournir autant de fève sur la période
 			return null;
 		}else {
 			// si la demande ne correspond pas à de l'équitable et que nous ne pouvons pas produire assez de fèves
-			Echeancier e = contrat.getEcheancier();
 			double qdm = qttDemandee;
 			int i =0;
 			int qtt=0;
