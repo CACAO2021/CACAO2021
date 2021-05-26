@@ -39,8 +39,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	//améliorer le prix de vente max dans NouveauPrix() pour qu'il n'y ait plus besoin de la limite pour que les prix ne s'envolent pas
 	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
 	//au bout d'un moment on achète plus rien à Boni Suci
-	//on peut surement optimiser les quantités en stock (on achete parfois beaucoup trop à eticao par exemple)
+	//on peut surement optimiser les quantités en stock (certains chocolats ont des stocks constants c'est bizarre)
 	
+	//truc bizarre: si on augmente un peu la limite des prix de vente on fait faillite
 
 	//Louis
 
@@ -191,6 +192,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		double max=(this.quantiteChocoVendue.get(choco)-this.stock.get(choco).getValeur())*1.15;
 		if(max<0) {
 			return 0;
+		}
+		if (this.quantiteChocoVendue.get(choco)+this.stock.get(choco).getValeur()<0.01) {
+			max=superviseur.QUANTITE_MIN_ECHEANCIER*1.2;
 		}
 		List<String> listTypeChoco=new LinkedList<String>();
 		List<Double> listPrixChoco=new LinkedList<Double>();

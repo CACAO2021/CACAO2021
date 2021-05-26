@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
@@ -19,6 +20,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
 	protected Map<ChocolatDeMarque,Double> quantiteVenduePrec; //Quantite vendue par chocolat au step precedant
 	private Journal journalVentes;
+	protected Map<ChocolatDeMarque,Double> limitePrix;
 
 	
 	public Vendeur() {
@@ -27,6 +29,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.quantiteVenduePrec=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
 		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
+		this.limitePrix= new HashMap<ChocolatDeMarque,Double>();
+		
 
 	}
 
@@ -53,6 +57,17 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
 		
 		this.indicateurs.add(new Variable("tgVenteSurStock",this,0));
+		
+		for(ChocolatDeMarque choco : this.getCatalogue()) {
+			double limite=30;
+			if (choco.getGamme()==Gamme.BASSE) {
+				limite=limite*0.75;
+			}
+			if (choco.getGamme()==Gamme.HAUTE) {
+				limite=limite*1.25;
+			}
+			limitePrix.put(choco, limite);
+		}
 
 	}
 
@@ -253,7 +268,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	//Thomas
 	
 	/**
-	 *Permet de baisser le prix de 10% si la quantité vendue est inférieur à une quantité q convenable que nous définirons (si le produit ne se vend pas bien).
+	 *Permet de baisser le prix de 10% si les ventes du produit ont baissé, et de l'augmenter si elles ont augmenté, 
+	 *avec une limite de 30€ le kg du chocolat en moyenne (le prix moyen dans la réalité est à 20€ le kg).
 	 * @param choco
 	 */
 
@@ -266,7 +282,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 		else if(quantiteVenduePrec.get(choco)>(this.quantiteChocoVendue.get(choco)*1.1) && stock.get(choco).getValeur()!=0.){
 			if(prix(choco)<10) {
-				this.setPrix(choco, prix(choco)*1.1);
+				this.setPrix(choco, prix(choco)*1.05);
 			}
 			
 		}
