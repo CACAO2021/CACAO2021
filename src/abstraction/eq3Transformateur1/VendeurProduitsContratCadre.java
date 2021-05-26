@@ -70,22 +70,22 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 		}
 		double margeDeBase = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
 		
-		double margeNecessaire = margeDeBase;
-
 			
 		if (margeDeBase != 0) {
 			double prixSansMarge = contrat.getListePrix().get(0)/margeDeBase;
 			if (prixPropose == contrat.getListePrix().get(0)) {
 				return prixPropose;
 			} else {
-				if (prixPropose >= prixSansMarge*margeNecessaire) {
-					return prixPropose;
-				} else {
-					if (margeNecessaire-0.01*contrat.getListePrix().size()>1.29) {
-						return (margeNecessaire-0.01*contrat.getListePrix().size())*prixSansMarge;
+				double nouvelleMarge = margeDeBase-0.01*contrat.getListePrix().size();
+					if (nouvelleMarge>1.29) {
+						if (prixPropose>= nouvelleMarge*prixSansMarge) {
+							return prixPropose;
 					} else {
-						return 1.30*prixSansMarge;
+						return prixSansMarge*nouvelleMarge;
 					}
+						
+				} else {
+					return 1.30*prixSansMarge;
 				}
 			}
 		} else {
