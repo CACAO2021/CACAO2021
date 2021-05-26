@@ -13,7 +13,6 @@ public class Transformateur2Production extends Transformateur2Stock {
 	}
 	
 	public void transformation_feve(double quantite, Object o) {
-		this.journal_transformation.ajouter("On transforme "+(int) quantite+" de " + o.toString());
 		if (o instanceof Chocolat) {
 			if ((o == Chocolat.TABLETTE_BASSE || o == Chocolat.CONFISERIE_BASSE) && get_stock(Feve.FEVE_BASSE) - quantite > 0) {
 				add_stock((Chocolat) o, quantite);

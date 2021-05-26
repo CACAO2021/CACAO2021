@@ -44,7 +44,7 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 
 	@Override
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		this.journal_achat.ajouter("--> aucune proposition de vente pour l'offre "+oa.getQuantiteKG()+ "de"+oa.getFeve().getGamme());
+		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 
 	@Override
@@ -76,6 +76,8 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 		double quantite = proposition.getOffreAchateFeves().getQuantiteKG();
 		Feve feve = proposition.getFeve();
 		add_stock(feve, quantite);
+
 		this.journal_achat.ajouter("On reçoit "+quantite+" de "+proposition.getOffreAchateFeves().getFeve()+ " par "+proposition.getVendeur()+" lors d'un appel d'offre.");
+
 	}
 }

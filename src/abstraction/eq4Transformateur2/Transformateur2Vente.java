@@ -54,7 +54,9 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	
 	//notification nouveau contrat
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+
 		this.journal_vente.ajouter("Un nouveau contrat a été ajouter : quantite = "+contrat.getQuantiteTotale() + " pour " + contrat.getAcheteur() +" de "+ contrat.getProduit().toString());
+
 		this.contrats.add(contrat);
 		Object choco = contrat.getProduit();
 		if (choco instanceof ChocolatDeMarque) {
@@ -184,6 +186,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		ChocolatDeMarque produit = (ChocolatDeMarque) contrat.getProduit();
 		Chocolat choco = produit.getChocolat();
+			if (24 - contrat.getEcheancier().getStepDebut() + Filiere.LA_FILIERE.getEtape() - contrat.getEcheancier().getNbEcheances() >= 0) {
 					if (get_stock(choco) > contrat.getEcheancier().getQuantite(0)){
 						return contrat.getEcheancier();
 					}	
@@ -211,7 +214,8 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 						
 					
 					}	
-		
+			}
+		 return null ;
 	}	
 
 

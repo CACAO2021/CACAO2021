@@ -40,7 +40,6 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 	}
 	
 	public void add_stock(Object o, double quantite) {
-		this.journal_stock.ajouter("On ajoute "+quantite+" de "+o);
 		if (o instanceof Feve) {
 			
 			stock_feve.replace((Feve) o, stock_feve.get(o) + quantite);
@@ -76,10 +75,9 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 	
 	public void delete_stock(Object o, double quantite) {
 		this.journal_stock.ajouter("On supprime "+quantite+" de "+o);
-		
 		if (o instanceof Feve) {
 			if (stock_feve.get(o) - quantite<0) {
-				this.journal_stock.ajouter("il manque"+( -stock_feve.get(o) + quantite)+"de"+ o.toString());
+				this.journal.ajouter("il manque"+( -stock_feve.get(o) + quantite)+"de"+ o.toString());
 				stock_feve.replace((Feve) o, 0.0);
 				if (o == Feve.FEVE_BASSE) {
 					var_stock_feve_basse.setValeur(this, 0);
@@ -125,8 +123,7 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 		*/
 		if (o instanceof Chocolat) {
 			if (stock_chocolat.get(o) - quantite<0) {
-				this.journal_stock
-				.ajouter("il manque"+( -stock_chocolat.get(o) + quantite)+"de"+ o.toString());
+				this.journal.ajouter("il manque"+( -stock_chocolat.get(o) + quantite)+"de"+ o.toString());
 				stock_chocolat.replace((Chocolat) o, 0.0);
 				if (o == Chocolat.TABLETTE_BASSE) {
 					var_stock_tablette_basse.setValeur(this, 0);

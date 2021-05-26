@@ -27,32 +27,40 @@ public abstract class Transformateur3Acteur implements IActeur {
 	private String description;
 
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
-	protected Variable prix_max_fèves, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ, prix_min_vente_confiserie, prix_tablette, prix_tablette_equi, prix_confiserie;
+	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ, prix_min_vente_confiserie, prix_tablette, prix_tablette_equi, prix_confiserie;
 
 
 	public Transformateur3Acteur() {
 		this.nom = "EQ5";
 		this.description = "Côte d'IMT, chocolatier de qualité";
+		
 		this.JournalAjoutStock = new Journal(this.getNom()+" ajout dans le stock", this);
 		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
 		this.JournalOA = new Journal(this.getNom()+ "Offre d'achat", this);
-		this.prix_max_fèves = new Variable("Prix max d'achat de fèves", this, 1000);
-		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 12000);
-		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 12000);
+
+		this.prix_max_fèves_HBE = new Variable("Prix max d'achat de fèves HBE", this, 1000);
+		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 800);
+		
+		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 1000000);
+		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 1000000);
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 12000);
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 12000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 120000);
+		
 		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 1);
 	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 1);
 	    this.prix_min_vente_confiserie = new Variable("Prix min de vente confiserie", this, 1);
+	    
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
+		
 		this.prix_tablette = new Variable("Prix tablette moyenne", this, 2);
 		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 2);
 		this.prix_confiserie = new Variable("Prix confiserie", this, 2);
-
+		
+		
 	}
 
 	public String getNom() {
@@ -159,7 +167,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 		List<Variable> res = new ArrayList<Variable>();
 		res.add(this.coefficient_transformation);
 		res.add(this.pourcentage_confiserie);
-		res.add(this.prix_max_fèves);
+		res.add(this.prix_max_fèves_HBE);
+		res.add(this.prix_max_fèves_moyenne);
 		res.add(this.stock_min_feves_HBE);
 		res.add(this.stock_min_feves_moyenne);
 		res.add(this.stock_min_confiserie);

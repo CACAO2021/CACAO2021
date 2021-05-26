@@ -20,13 +20,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	
 	public Transformateur2Acteur() {
 		super();
-		
-		//On initialise le journal et les échéanciers
-		journal_achat = new Journal("Journal des achats de Boni Suci", this);
-		journal_transformation = new Journal("Journal de production de Boni Suci", this);
-		journal_stock = new Journal("Journal du stockage de Boni Suci", this);
-		journal_vente = new Journal("Journal des ventes de Boni Suci", this);
-
 		echeancier_basse = new LinkedList<Double>();
 		echeancier_moyenne = new LinkedList<Double>();
 		echeancier_total = new LinkedList<Double>();
@@ -86,10 +79,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public List<Journal> getJournaux() {
 		// pas très utile à notre stade
 		List<Journal> res=new ArrayList<Journal>();
-		res.add(journal_achat);
-		res.add(journal_transformation);
-		res.add(journal_stock);
-		res.add(journal_vente);
+		res.add(journal);
 		return res;
 	}
 
@@ -97,12 +87,12 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		if (this==acteur) {
 		System.out.println("I'll be back... or not... "+this.getNom());
 		} else {
-			System.out.println("RIP "+acteur.getNom()+". "+this.getNom());
+			System.out.println("Poor "+acteur.getNom()+"... We will miss you. "+this.getNom());
 		}
 	}
 	
 	public void notificationOperationBancaire(double montant) {
-		//notifie IMPORTANT
+		//notifie
 	}
 	
 	// Renvoie le solde actuel de l'acteur

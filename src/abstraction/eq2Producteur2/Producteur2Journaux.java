@@ -35,8 +35,5 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		return res;
 	}
 
-	@Override
-	public abstract void perdreArgent(double montant);
-
 
 }

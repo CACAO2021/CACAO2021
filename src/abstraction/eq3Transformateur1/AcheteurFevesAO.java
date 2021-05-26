@@ -1,4 +1,4 @@
-package abstraction.eq3Transformateur1;
+/*package abstraction.eq3Transformateur1;
 
 
 import java.util.List;
@@ -32,45 +32,35 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 		this.qMax = qMax;
 	}
 		
-	/**
-	 * @return the feve
-	 */
+
 	public Feve getFeve() {
 		return feve;
 	}
 
 
 
-	/**
-	 * @return the prixMax
-	 */
+
 	public double getPrixMax() {
 		return prixMax;
 	}
 
 
 
-	/**
-	 * @return the qMin
-	 */
+
 	public double getqMin() {
 		return qMin;
 	}
 
 
 
-	/**
-	 * @return the qMax
-	 */
+
 	public double getqMax() {
 		return qMax;
 	}
 
 
 
-	/**
-	 * @param qMax the qMax to set
-	 */
+
 	public void setqMax(double qMax) {
 		this.qMax = qMax;
 	}
@@ -156,3 +146,4 @@ public class AcheteurFevesAO extends AcheteurFevesContratCadre implements IAchet
 	}
 }
 
+*/
