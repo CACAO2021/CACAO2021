@@ -132,16 +132,18 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-		//System.out.println(" qtt "+qttDemandee);
+		
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
-		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
+		double qttQuiSeraProduite = qttQuiSeraProduite(nbEcheance, produit);		
 		double qttDispo = qttTotale(produit).getValeur();
 		double qttTotaleSurLaPeriode = qttDispo + qttQuiSeraProduite;
+		
 		// la quantite que lon sait devoir depenser sur la periode
 		double qttContratEnCours = aProduire(produit);
 		
 		//condition qui decoule des stocks
 		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
+		
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
 		
@@ -207,7 +209,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		double prix = prixEspere(contrat.getProduit());
-		return prix ; // on profite du fait qu'ils achetent quoi quil arrive pour devenir riche
+		return prix ; 
 	}
 
 	@Override
