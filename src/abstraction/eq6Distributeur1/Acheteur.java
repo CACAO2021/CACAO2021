@@ -40,8 +40,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
 	//au bout d'un moment on achète plus rien à Boni Suci
 	//on peut surement optimiser les quantités en stock (certains chocolats ont des stocks constants c'est bizarre)
-	
-	//truc bizarre: si on augmente un peu la limite des prix de vente on fait faillite
+
 
 	
 	//Louis

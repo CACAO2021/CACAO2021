@@ -29,7 +29,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.quantiteVenduePrec=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
 		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
-		this.limitePrix= new HashMap<ChocolatDeMarque,Double>();
+		
 		
 
 	}
@@ -58,18 +58,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		
 		this.indicateurs.add(new Variable("tgVenteSurStock",this,0));
 		
-		for(ChocolatDeMarque choco : this.getCatalogue()) {
-			double limite=30;
-			if (choco.getGamme()==Gamme.BASSE) {
-				limite=limite*0.75;
-			}
-			if (choco.getGamme()==Gamme.HAUTE) {
-				limite=limite*1.25;
-			}
-			limitePrix.put(choco, limite);
-		}
-
 	}
+
+	
 
 
 
