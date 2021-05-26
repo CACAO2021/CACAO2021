@@ -264,7 +264,7 @@ public class Stock {
 	
 	
 	public Chocolat equivalentTabletteFeve(Feve feve) {
-		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		// on retourne le type de tablette avec la meme gamme,les memes caracteristique que la Feve feve
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -274,7 +274,7 @@ public class Stock {
 	}
 	
 	public Chocolat equivalentConfiserieFeve(Feve feve) {
-		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		// on retourne le type de confiserie avec la meme gamme,les memes caracteristique que la Feve feve 
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -284,7 +284,7 @@ public class Stock {
 	}
 	
 	public Chocolat equivalentPoudreFeve(Feve feve) {
-		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		// on retourne le type de poudre avec la meme gamme,les memes caracteristique que la Feve feve
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -294,7 +294,7 @@ public class Stock {
 	}
 	
 	public ChocolatDeMarque equivalentTabletteFeveMarque(Feve feve) {
-		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		// on retourne le type de tablette de marque avec la meme gamme,les memes caracteristique que la Feve feve dans le cas de chocolats de marque
 		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
 			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -304,7 +304,7 @@ public class Stock {
 	}
 	
 	public ChocolatDeMarque equivalentConfiserieFeveMarque(Feve feve) {
-		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		// on retourne le type de confiserie de marque avec la meme gamme,les memes caracteristique que la Feve feve 
 		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
 			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -314,7 +314,7 @@ public class Stock {
 	}
 	
 	public ChocolatDeMarque equivalentPoudreFeveMarque(Feve feve) {
-		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
+		// on retourne le type de poudre de marque avec la meme gamme,les memes caracteristique que la Feve feve
 		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
 			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -324,6 +324,7 @@ public class Stock {
 	}
 	
 	public Feve equivalentFeve(Chocolat chocolat) {
+		// on retourne le type de feve qui correspond au Chocolat chocolat (meme gamme,les memes caracteristique que le chocolat en parmètre)
 		for ( Feve feve : this.nosFevesCC()) {
 			if (feve.isEquitable() == chocolat.isEquitable() && feve.isBio() == chocolat.isBio() && feve.getGamme() == chocolat.getGamme()) {
 				return feve;
@@ -333,6 +334,7 @@ public class Stock {
 	}
 	
 	public Feve equivalentFeve(ChocolatDeMarque chocolat) {
+		// on retourne le type de feve qui correspond au ChocolatDeMarque chocolat (meme gamme,les memes caracteristique que le chocolat en parmètre)
 		for ( Feve feve : this.nosFevesCC()) {
 			if (feve.isEquitable() == chocolat.getChocolat().isEquitable() && feve.isBio() == chocolat.getChocolat().isBio() && feve.getGamme() == chocolat.getChocolat().getGamme()) {
 				return feve;
@@ -343,17 +345,19 @@ public class Stock {
 		
 	public double getMarge(Feve feve) {
 		
-		// marge qu'on souhaite faire en fonction du type de feve
+		// renvoie les marges qu'on souhaite faire en fonction du type de feve
 		if (feve.equals(Feve.FEVE_BASSE)) {
 			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE)) {
-			return 1.4;
+			return 1.4*1.05;
 		} else if (feve.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			return 1.4+0.1;
+			return 1.4*1.05*1.05;
 		} else if (feve.equals(Feve.FEVE_HAUTE_EQUITABLE)) {
-			return 1.4+0.1;
+			return 1.4*1.1*1.05;
+			//on prevoit une marge supplémentaire de 10% sur les fèves équitables qui sera redistribuée à la banque (afin de servir comme don ax associations et collectivités locales qui s'assurent du bien être des producteurs)
 		} else if (feve.equals(Feve.FEVE_HAUTE_BIO_EQUITABLE)) {
-			return 1.4+0.1+0.1;
+			return 1.4*1.1*1.05*1.1;
+			//on prevoit une marge supplémentaire de 20% sur les fèves bio-équitables qui sera redistribuée à la banque (afin de servir comme don ax associations et collectivités locales qui s'assurent du bien être des producteurs)
 		} else {
 			return 0.0;
 		}
@@ -374,7 +378,7 @@ public class Stock {
 	
 	
 	public double prixDeVenteKG(Chocolat chocolat) {
-	// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
+	// on cherche a savoir le prix de vente theorique auquel on souhaite vendre au KG
 		double compteur = 0.0;
 		double prix = 0.0;
 		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
