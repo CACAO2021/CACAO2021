@@ -150,22 +150,24 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
 		
 		// deux bool utiles que si la feve est equitable
-		boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
-		boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
+		boolean equiNbEcheance = nbEcheance > EQUI_NB_ECHEANCE_MINI; 
+		boolean equiQtt = qttDemandee > EQUI_QTT_MINI; 
 		
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
-			condEquitable = condEquitable && equiNbEcheance; 
-			condEquitable = condEquitable && equiQtt;
+			condEquitable = condEquitable && equiNbEcheance && equiQtt ; 
 		}
 		
-		JournalCC.ajouter(contrat.getAcheteur() + " " +contrat.getEcheancier().getQuantiteTotale() + " " + contrat.getProduit() + condQtt + condEquitable);	
+		condQtt = true ; //test ! a changer
+		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " " +condQtt + condEquitable);	
+				
 		
 		//les actions qui decoulent de nos conditions
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
+			
 		}else if(condQtt && !(condEquitable)){
 			// la demande ne peut pas etre accepte car pas assez equitable
 			//mais on pourra fournir cette quantité de fève	

@@ -59,7 +59,7 @@ public class Producteur2et1ValeursEnCommun {
 	
 	//partie vente
 	protected double EQUI_NB_ECHEANCE_MINI = 8;
-	protected double EQUI_QTT_MINI = 1000000; // a definir
+	protected double EQUI_QTT_MINI = 1000000; 
 	
 	
 }
