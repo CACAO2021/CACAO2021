@@ -215,48 +215,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		return max;
 	}
 
-
-
-
+	
 	//Louis
-
-	/**
-	 * Renvoie la liste des chocolats qui sont vendus par les transformateurs durant le step en cours.
-	 * @return
-	 */
-
-	public List<ChocolatDeMarque> chocolatVendu() {
-		ArrayList<ChocolatDeMarque> chocoVendu = new ArrayList<ChocolatDeMarque>();
-		for (ChocolatDeMarque choco : this.getCatalogue()) {
-			for (IVendeurContratCadre transfo : getTransformateurs()) {
-				if (transfo.vend(choco) && !chocoVendu.contains(choco)) {
-					chocoVendu.add(choco);
-				}
-			}
-		}
-		return chocoVendu;
-	}
-
-
-
-	//Louis
-
-	/**
-	 * Renvoie la liste des transformateurs de la filière
-	 * @return
-	 */
-
-	public List<IVendeurContratCadre> getTransformateurs(){
-		LinkedList<IVendeurContratCadre> transf = new LinkedList<IVendeurContratCadre>();
-		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-			if (acteur!= this && acteur instanceof IVendeurContratCadre) {
-				transf.add((IVendeurContratCadre)acteur);
-			}
-		}
-		return transf;
-	}
-
-
+	
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//System.out.println("contrat " + contrat.getVendeur());
