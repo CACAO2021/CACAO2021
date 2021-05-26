@@ -235,7 +235,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		for (Stock s : arbrePlantes.get(f)) {
 			stock += s.getQtt();			
 		}
-		return stock;
+		return stock; 
 	}
 
 	protected double prodParStep(Object p, int step) {
@@ -262,7 +262,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// parametre p si on veut faire dependre la valeur du type de feve, ce n'est pour l'instant pas le cas
 		return PROD_ARBRE_AN;
 	}
-
+ 
  
 	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
