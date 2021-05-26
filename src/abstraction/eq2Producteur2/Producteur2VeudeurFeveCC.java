@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.fourni.Filiere;
 
 //ensemble fait par DIM
 
@@ -266,6 +267,26 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		}
 		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " + livraison + " / " + quantite + " donc un ratio de " + livraison/quantite );
 		return livraison;			
+	}
+	
+	public double livrer2(Object produit, double quantite, ExemplaireContratCadre contratCC) {
+		double stock = qttTotale(produit).getValeur();
+		double qttDemandee = 0;
+		for (ExemplaireContratCadre contrat: this.mesContratsCC) {
+			qttDemandee = qttDemandee + contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
+		}
+		if (stock >= qttDemandee) {
+			double qtt = contratCC.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
+			vente(qtt, produit);
+			return qtt;
+		}
+		else {
+			double diff = qttDemandee - stock;
+			diff = 100*diff/qttDemandee;
+			double qtt = contratCC.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
+			vente(diff*qtt, produit);
+			return diff*qtt;
+		}
 	}
 
 }
