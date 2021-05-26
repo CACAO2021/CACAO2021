@@ -108,18 +108,18 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 						total += Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() %24)- 24 + i);
 					}
 
-					Variable quantiteMin = new Variable(choco.name(), wonka, total*0.25  - wonka.quantiteEnVente(choco) );
+					Variable quantiteMin = new Variable(choco.name(), wonka, total*0.25  - wonka.quantiteEnVente(choco)< 0 ? 0.0 : total*0.25  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, total*0.75  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total*0.75  - wonka.quantiteEnVente(choco)<0 ? 0.0 : total*0.75  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 				}else {
 					Double total = 0.;
 					for(int i=0; i<=5; i++) {
 						total += Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24 + i);
 					}
-					Variable quantiteMin = new Variable(choco.name(), wonka, total*0.25  - wonka.quantiteEnVente(choco) );
+					Variable quantiteMin = new Variable(choco.name(), wonka, total*0.25  - wonka.quantiteEnVente(choco)< 0 ? 0.0 : total*0.25  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, total*0.75  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total*0.75  - wonka.quantiteEnVente(choco)<0 ? 0.0 : total*0.75  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 				}
 			}
@@ -130,18 +130,18 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 					for(int i=0; i<=5; i++) {
 						total += Filiere.LA_FILIERE.getVentes(choco, (Filiere.LA_FILIERE.getEtape() %24)- 24 + i);
 					}
-					Variable quantiteMin = new Variable(choco.name(), wonka, total/2  - wonka.quantiteEnVente(choco) );
+					Variable quantiteMin = new Variable(choco.name(), wonka, total/2  - wonka.quantiteEnVente(choco)< 0 ? 0.0 : total/2  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, total  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total  - wonka.quantiteEnVente(choco)< 0 ? 0.0 : total  - wonka.quantiteEnVente(choco));
 					quantiteMax.put(choco, quantite);
 				}else {
 					Double total = 0. ;
 					for(int i=0; i<=5; i++) {
 						total += Filiere.LA_FILIERE.getVentes(choco, Filiere.LA_FILIERE.getEtape() - 24 + i);
 					}
-					Variable quantiteMin = new Variable(choco.name(), wonka, total/2  - wonka.quantiteEnVente(choco) );
+					Variable quantiteMin = new Variable(choco.name(), wonka, total/2  - wonka.quantiteEnVente(choco)< 0 ? 0.0 : total/2  - wonka.quantiteEnVente(choco) );
 					quantiteLimite.put(choco, quantiteMin);
-					Variable quantite = new Variable(choco.name(), wonka, total  - wonka.quantiteEnVente(choco) );
+					Variable quantite = new Variable(choco.name(), wonka, total  - wonka.quantiteEnVente(choco)< 0 ? 0.0 : total  - wonka.quantiteEnVente(choco) );
 					quantiteMax.put(choco, quantite);
 				}
 			}
