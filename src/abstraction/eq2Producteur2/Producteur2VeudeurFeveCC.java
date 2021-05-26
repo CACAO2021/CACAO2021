@@ -12,7 +12,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
-	 * @param mesContrats
+	 * @param mesContrats 
 	 */
 	public Producteur2VeudeurFeveCC() {
 		super();
@@ -128,49 +128,56 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
+		
 		Object produit = contrat.getProduit();	
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
+		Echeancier e = contrat.getEcheancier();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-		System.out.println(" qtt "+qttDemandee);
+		
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
-		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
+		double qttQuiSeraProduite = qttQuiSeraProduite(nbEcheance, produit);		
 		double qttDispo = qttTotale(produit).getValeur();
 		double qttTotaleSurLaPeriode = qttDispo + qttQuiSeraProduite;
+		
 		// la quantite que lon sait devoir depenser sur la periode
 		double qttContratEnCours = aProduire(produit);
 		
 		//condition qui decoule des stocks
 		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
+		
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
 		
 		// deux bool utiles que si la feve est equitable
-		boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
-		boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
+		boolean equiNbEcheance = nbEcheance > EQUI_NB_ECHEANCE_MINI; 
+		boolean equiQtt = qttDemandee > EQUI_QTT_MINI; 
 		
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
-			condEquitable = condEquitable && equiNbEcheance; 
-			condEquitable = condEquitable && equiQtt;
+			condEquitable = condEquitable && equiNbEcheance && equiQtt ; 
 		}
+		
+		condQtt = true ; //test ! a changer
+		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " " +condQtt + condEquitable);	
+				
 		
 		//les actions qui decoulent de nos conditions
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
+			
 		}else if(condQtt && !(condEquitable)){
 			// la demande ne peut pas etre accepte car pas assez equitable
 			//mais on pourra fournir cette quantité de fève	
 			if(!(equiQtt)) {
 				// la qtt n'est pas assez importante 
-				double qttManquante = contrat.getQuantiteRestantALivrer() - EQUI_QTT_MINI;
-				double repartition = - qttManquante/nbEcheance;
-				Echeancier e = contrat.getEcheancier();
+				double qttMin = EQUI_QTT_MINI;
+				double qttStep = qttMin/nbEcheance;				
 				int i=contrat.getEcheancier().getStepDebut();
 				while (i< contrat.getEcheancier().getStepFin()) {
-					e.set(i, e.getQuantite(i)*repartition);
+					e.set(i, qttStep);
 					i++;
 				}
 			}
@@ -178,13 +185,12 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				// la durée n'est pas assez importante
 
 			}			
-			return null;
+			return e;
 		}else if(condEquitable && !(condQtt)) {
 			// on  ne peut pas fournir autant de fève sur la période
 			return null;
 		}else {
 			// si la demande ne correspond pas à de l'équitable et que nous ne pouvons pas produire assez de fèves
-			Echeancier e = contrat.getEcheancier();
 			double qdm = qttDemandee;
 			int i =0;
 			int qtt=0;
@@ -207,7 +213,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//Dim
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		double prix = prixEspere(contrat.getProduit());
-		return prix ; // on profite du fait qu'ils achetent quoi quil arrive pour devenir riche
+		return prix ; 
 	}
 
 	@Override
@@ -247,15 +253,17 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	@Override
 	// Dim
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// reflcechir pour transmettre lage de la feve a lachteur? vrmt utile?
+		double livraison;
 		double stock = qttTotale(produit).getValeur();
 		if (stock >= quantite ) {
 			vente(quantite, produit);
-			return quantite;
+			livraison = quantite;
 		}else {
 			vente(stock, produit);
-			return stock;
+			livraison = stock;
 		}
+		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " + livraison + " / " + quantite + " donc un ratio de " + livraison/quantite );
+		return livraison;			
 	}
 
 }
