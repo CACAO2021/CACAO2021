@@ -62,7 +62,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// on remplit les listes
 		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
 		int stepActuel = 0;
-		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE;
+		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE - 2;
 		double step = - stepArbreLePlusVieu;
 		HashMap<Feve, Double> qttdb = new HashMap<Feve, Double>();
 		qttdb.put(listeProd.get(0), ARBRE_DEBUT_HBE/(stepArbreLePlusVieu));
@@ -116,7 +116,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void prod() {		
 		for (Feve p : listeProd) {
-			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) * 100000; //enelver le facteur
+			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) ; //enelver le facteur
 			// la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
 			addStock(qtt, p); 
 			JournalProd.ajouter(""+ p +" "+qtt);	
@@ -264,6 +264,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
 	// cela vainfluencer le nombre darbre qui produit effectivement
 	protected double rendement(int step, Object p) {
+		//System.out.println("rdm = " + step);
 		// step correspond à l'age de larbre
 		//Cacaotier durée de vie 40 ans, bonne culture à partir de 3 ans et rendement maximal à partir de 6 ans. 
 		if (step<TPS_BON_RENDEMENT_ARBRE) {
