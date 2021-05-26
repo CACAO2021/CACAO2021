@@ -21,13 +21,21 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 	public void coutStockage() {
 		// calcul cout variable
 		double sum = 0; // cout variable depend de la qtt de stock total
+		double malus = 0; // cout si on depasse le stockage max
 		for (Object p : listeProd) {
 			majStock(p);
 			sum += qttTotale(p).getValeur();
 		}
+		if (sum>QTT_STOCKAGE_MAX) {
+			System.out.println("on stocke trop");
+			// si on depasse le stockage max, on paye bien plus cher
+			malus = (sum - QTT_STOCKAGE_MAX) * COUT_STOCKAGE_FEVE_DEPASSEMENT;
+			sum = QTT_STOCKAGE_MAX; // on stocke le maximum avec les moyens normaux
+		}
 		double var = sum * COUT_STOCKAGE_FEVE; // cout variable
 		double fixe = COUT_STOCKAGE_FIXE; // cout fixe a determiner dans les cte
-		perdreArgent(var + fixe);  
+		perdreArgent(var + fixe + malus);  
+		
 	}
 	
 	//DIM

@@ -8,7 +8,7 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public abstract class Producteur2Journaux extends Producteur2Acteur {
-	protected Journal JournalProd, JournalVente, JournalCC,JournalLivraison;
+	protected Journal JournalProd, JournalVente, JournalCC,JournalLivraison, JournalStock;
 	
 	// ensemble fait par DIM
 
@@ -18,6 +18,7 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalVente= new Journal(this.getNom()+" ventes", this);
 		this.JournalCC= new Journal(this.getNom()+" contrats", this);
 		this.JournalLivraison= new Journal(this.getNom()+" livraisons", this);
+		this.JournalStock= new Journal(this.getNom()+" stocks", this);		
 	}
 	
 	public void initJournaux() {
@@ -25,6 +26,7 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalVente.ajouter("=== initialisation du client "+this.getNom()+" ===");
 		this.JournalCC.ajouter("=== initialisation du client "+this.getNom()+" ===");
 		this.JournalLivraison.ajouter("=== initialisation du client "+this.getNom()+" ===");
+		this.JournalStock.ajouter("=== initialisation du client "+this.getNom()+" ===");
 	}
 	
 	public void majJournaux() {
@@ -32,6 +34,7 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalVente.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");	
 		this.JournalCC.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");	
 		this.JournalLivraison.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");	
+		this.JournalStock.ajouter("=== Etape "+Filiere.LA_FILIERE.getEtape()+" ======================");	
 	}
 	
 	public List<Journal> getJournaux() {
@@ -40,6 +43,7 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		res.add(JournalVente);
 		res.add(JournalCC);
 		res.add(JournalLivraison);
+		res.add(JournalStock);
 		return res;
 	}
 

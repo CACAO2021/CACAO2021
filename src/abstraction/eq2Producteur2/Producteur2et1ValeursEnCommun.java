@@ -49,6 +49,7 @@ public class Producteur2et1ValeursEnCommun {
 	// cout stockage
 	public static final double COUT_STOCKAGE_FEVE = 0.02; // cout en euro par kg par step
 	public static final double COUT_STOCKAGE_FIXE = 0.0; // cout en euro par step
+	public static double COUT_STOCKAGE_FEVE_DEPASSEMENT = COUT_STOCKAGE_FEVE * 3; // on paye 3 fois plus si on depasse la capacite max de stockage
 	
 	
 	//cout renouvellment arbre

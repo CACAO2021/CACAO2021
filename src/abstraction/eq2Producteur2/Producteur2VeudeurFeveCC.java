@@ -145,6 +145,8 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		
 		//condition qui decoule des stocks
 		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
+		System.out.println("cond qtt " + condQtt + " avec " + contrat.getAcheteur() + " car "+ qttDemandee + " " + qttContratEnCours + " < " + qttTotaleSurLaPeriode );
+		
 		
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
@@ -160,7 +162,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			condEquitable = condEquitable && equiNbEcheance && equiQtt ; 
 		}
 		
-		condQtt = true ; //test ! a changer
+		//condQtt = true ; //test ! a changer
 		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " " +condQtt + condEquitable);	
 				
 		

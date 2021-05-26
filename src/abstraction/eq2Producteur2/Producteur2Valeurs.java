@@ -40,6 +40,7 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	protected static double QTT_POUDRE_HE_DEPART = 0;
 	protected static double QTT_POUDRE_M_DEPART = 0;	
 	
+	protected static double QTT_STOCKAGE_MAX = 2.5E8;
 	
 	
 	// partie vente des fèves par kilo en euros
