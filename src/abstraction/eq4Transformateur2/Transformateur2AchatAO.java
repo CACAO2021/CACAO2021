@@ -44,7 +44,7 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 
 	@Override
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
+		this.journal_achat.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 
 	@Override
@@ -57,10 +57,10 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 				prop = i;
 			}
 		}
-		if (prix_min > cout_max_feve_basse && propositions.get(prop).getFeve() == Feve.FEVE_BASSE) {
+		if ((prix_min > cout_max_feve_basse || prix_min > liste_prix_achat_feve_basse.get(liste_prix_achat_feve_basse.size()/2)) && propositions.get(prop).getFeve() == Feve.FEVE_BASSE) {
 			return null;
 		}
-		if (prix_min > cout_max_feve_moyenne && propositions.get(prop).getFeve() == Feve.FEVE_MOYENNE) {
+		if ((prix_min > cout_max_feve_moyenne || prix_min > liste_prix_achat_feve_moyenne.get(liste_prix_achat_feve_moyenne.size()/2)) && propositions.get(prop).getFeve() == Feve.FEVE_MOYENNE) {
 			return null;
 		}
 		return propositions.get(prop);
@@ -74,6 +74,14 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 	@Override
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		double quantite = proposition.getOffreAchateFeves().getQuantiteKG();
+		if (proposition.getPrixKG() < meilleur_prix_feve_basse && proposition.getFeve() == Feve.FEVE_BASSE) {
+			meilleur_prix_feve_basse = proposition.getPrixKG();
+			liste_prix_achat_feve_basse.add(proposition.getPrixKG());
+		}
+		if (proposition.getPrixKG() < meilleur_prix_feve_moyenne && proposition.getFeve() == Feve.FEVE_MOYENNE) {
+			meilleur_prix_feve_moyenne = proposition.getPrixKG();
+			liste_prix_achat_feve_moyenne.add(proposition.getPrixKG());
+		}
 		Feve feve = proposition.getFeve();
 		add_stock(feve, quantite);
 

@@ -1,7 +1,7 @@
 package abstraction.eq4Transformateur2;
 
 import java.util.LinkedList;
-import java.util.List;
+import java.util.List; 
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
@@ -22,7 +22,6 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 	protected LinkedList<ExemplaireContratCadre> contrats;
 
 	public Transformateur2Vente() {
-
 		super();
 		this.contrats = new LinkedList<ExemplaireContratCadre>();
 	}
