@@ -1,5 +1,5 @@
 package abstraction.eq2Producteur2;
- 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,7 +20,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	protected HashMap<Feve, LinkedList<Stock>> arbrePlantes;
 	protected HashMap<Feve, Variable> qttTotArbrePlantes;
-	
+
 	protected Variable qttArbreTotalFHBE;
 	protected Variable qttArbreTotalFHE;
 	protected Variable qttArbreTotalFME;
@@ -62,7 +62,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// on remplit les listes
 		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
 		int stepActuel = 0;
-		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE;
+		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE - 2;
 		double step = - stepArbreLePlusVieu;
 		HashMap<Feve, Double> qttdb = new HashMap<Feve, Double>();
 		qttdb.put(listeProd.get(0), ARBRE_DEBUT_HBE/(stepArbreLePlusVieu));
@@ -77,21 +77,21 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			}			
 			step++;
 		}
-		
+
 		qttArbreTotalFHBE = new Variable("qttArbreTotal feve HBE", this, 0);
 		qttArbreTotalFHE = new Variable("qttArbreTotal feve HE", this, 0);
 		qttArbreTotalFME = new Variable("qttArbreTotal feve ME", this, 0);
 		qttArbreTotalFM = new Variable("qttArbreTotal feve M", this, 0);
 		qttArbreTotalFB = new Variable("qttArbreTotal feve B", this, 0);
-		
-		
+
+
 		qttTotArbrePlantes = new HashMap<Feve, Variable>();
 		qttTotArbrePlantes.put(listeProd.get(0), qttArbreTotalFHBE );
 		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
 		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
 		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
 		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
-				
+
 		// ancienne version sans tenir compte de l'age
 		//		this.arbrePlantesHBE = new LinkedList<Stock>();
 		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
@@ -105,7 +105,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 
 	}
-	
+
 	public void majQttArbre(Object produit) {
 		double stock = 0;
 		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
@@ -116,7 +116,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 	public void prod() {		
 		for (Feve p : listeProd) {
-			double qtt = prodParStep(p);
+			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) ; //enelver le facteur
 			// la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
 			addStock(qtt, p); 
 			JournalProd.ajouter(""+ p +" "+qtt);	
@@ -151,6 +151,10 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 
 	public void renouvellement() {
+		//pour faire des test
+		renouvellmentvieu(); // a enlever
+
+
 		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
 		//une longue période sans pouvoir espérer de bénéfice.
@@ -170,8 +174,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			arbrePlantes.get(f).removeAll(aSupprimer);
 			//System.out.println(qttArbreToujoursPlantes(f));
 		}
-		
-		// on remplace les arbres en tenant compte de la demande*
+
+		// on remplace les arbres en tenant compte de la demande
 		// 26 473 arbres à répartir
 		for (Feve f : listeProd) {
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
@@ -182,9 +186,10 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}	
 		// on dépense de l'argent pour remplacer els arbres
 		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
-		
+		System.out.println("perte " +COUT_CHANGEMENT_ARBRE_HBE * nbChangement);
+
 	}
-	
+
 	public void renouvellmentvieu() {
 		int step=0;
 		// ancienne version 
@@ -214,7 +219,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
 			}}
 	}
-	
+
 	/*
 	 * donne la qtt darbre planté pour un type de feve
 	 */
@@ -226,15 +231,15 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		return stock;
 	}
 
-	protected double prodParStep(Object p) {
+	protected double prodParStep(Object p, int step) {
 		// production non constante tout au long de la simulation
 		// 2 mois de prod : fevrier et septembre
 		double qttProd = 0;
-		if ((  (Filiere.LA_FILIERE.getEtape() - 2) % 24 == 0 ) || (  (Filiere.LA_FILIERE.getEtape() - 16) % 24 == 0   )  ) {
+		if ((  (step - 2) % 24 == 0 ) || (  (step - 16) % 24 == 0   )  ) {
 			// les 1er fevrier et 1er septembre uniquement
 			// on boucle sur les arbres pour obtenir la prod totale
 			for (Stock s : arbrePlantes.get((Feve)p)) {
-				double rdm = rendement( Filiere.LA_FILIERE.getEtape() - s.getStep(), (Feve)p);
+				double rdm = rendement( step - s.getStep(), (Feve)p);
 				if (rdm>0) {
 					//System.out.println("yes");
 					qttProd += rdm; // prod de chaque arbre depend de son age
@@ -259,6 +264,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
 	// cela vainfluencer le nombre darbre qui produit effectivement
 	protected double rendement(int step, Object p) {
+		//System.out.println("rdm = " + step);
 		// step correspond à l'age de larbre
 		//Cacaotier durée de vie 40 ans, bonne culture à partir de 3 ans et rendement maximal à partir de 6 ans. 
 		if (step<TPS_BON_RENDEMENT_ARBRE) {
@@ -271,6 +277,18 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		}else {
 			return 0;
 		}
+	}
+
+	protected double qttQuiSeraProduite( int nbEcheance, Object p) {
+		// retourne la qtt de fève que l'on va produire sur un certian nb de step
+		int step = Filiere.LA_FILIERE.getEtape();
+		int stepMax = step+ nbEcheance;
+		double prod = 0;
+		while (step<stepMax) {
+			prod += prodParStep(p, step);
+			step++;
+		}
+		return prod;
 	}
 
 
