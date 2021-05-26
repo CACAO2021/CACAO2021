@@ -133,7 +133,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			} 
 		} else if ((contrat.getProduit() instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE_EQUITABLE)) ) {
 			double duree = contrat.getEcheancier().getStepFin()-contrat.getEcheancier().getStepDebut();
-			if (duree > 8) {
+			if (duree > 8 && contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() > EQUI_QTT_MINI) {
 				if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.55*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.35*this.getStocks().get(contrat.getProduit()).getQuantite()) {
 					double nvlleqte = 0.45*this.getStocks().get(contrat.getProduit()).getQuantite();
 					Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));
@@ -158,7 +158,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			} 
 		} else if (contrat.getProduit() instanceof Chocolat && ((((Chocolat)produit) == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
 			double duree = contrat.getEcheancier().getStepFin()-contrat.getEcheancier().getStepDebut();
-			if (duree > 8) {
+			if (duree > 8 && contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() > EQUI_QTT_MINI) {
 				if (contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() >=  0.30*this.getStocks().get(contrat.getProduit()).getQuantite() || contrat.getEcheancier().getQuantiteTotale()/contrat.getEcheancier().getNbEcheances() <=  0.10 *this.getStocks().get(contrat.getProduit()).getQuantite()) {
 					double nvlleqte = 0.2*this.getStocks().get(contrat.getProduit()).getQuantite();
 					Echeancier e = new Echeancier(contrat.getEcheancier().getStepDebut(), contrat.getEcheancier().getStepFin(), ((double)(nvlleqte/(contrat.getEcheancier().getNbEcheances()))));

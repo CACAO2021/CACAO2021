@@ -8,14 +8,19 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 public abstract class Producteur2Stockage extends Producteur2Journaux {
+	// les liste de feves par type de feve et step de prod
 	private LinkedList<Stock> stockFeveHBE;
 	private LinkedList<Stock> stockFeveHE; 
 	private LinkedList<Stock> stockFeveME;
 	private LinkedList<Stock> stockFeveM;
 	private LinkedList<Stock> stockFeveB; 
 	private LinkedList<Stock> stockPoudreHE;
-	private LinkedList<Stock> stockPoudreM; 
+	private LinkedList<Stock> stockPoudreM;
 	
+	// hashmap des listes de fève
+	protected HashMap<Feve, LinkedList<Stock>> stock_F;
+	
+	// les qtt totales de chaqye type de feve
 	protected Variable stockFHBE;
 	protected Variable stockFHE;
 	protected Variable stockFME;
@@ -24,17 +29,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockPHE;
 	protected Variable stockPM;
 	
-	private LinkedList<Feve> listeProd; 
-	
-	protected HashMap<Feve, LinkedList<Stock>> stock_F;
 
 	// ensemble fait par DIM
 	
 	//Dim
-	/**
-	 * @param stockFeve
-	 * @param stockPoudre
-	 */
 	public Producteur2Stockage() {
 		super();
 		// a modifier en prenant en compte le fait que le stock de depart n'est pas entierement creer au step 0 mais aussi a des steps anterieurs (pour plus tard)
@@ -53,13 +51,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreHE.add(new Stock(QTT_POUDRE_HE_DEPART, 0));
 		this.stockPoudreM = new LinkedList<Stock>();
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
-		
-		this.listeProd = new LinkedList<Feve>();
-		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE);
-		this.listeProd.add(Feve.FEVE_BASSE);			
 		
 		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
 		stockFHE = new Variable("stock feve HE", this, QTT_FEVE_HE_DEPART);
@@ -80,10 +71,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		//stock_FP.put("POUDRE_HE", stockPHE);
 		//stock_FP.put("POUDRE_M", stockPM);
 	}
-	
-	public LinkedList<Feve> getListeProd() {
-		return listeProd;
-	}
+
 
 	//Dim
 	/*
@@ -169,11 +157,11 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	}
 	
 	//Dim
-	public void vente(double qtt, Object produit) {
+	public void vente3(double qtt, Object produit) {
 		return;
 	}
 	
-	public void vente3(double qtt, Object produit) { // tentative de simplification / factorisation
+	public void vente(double qtt, Object produit) { // tentative de simplification / factorisation du code
 		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
 		while (qtt>0) {
 			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
@@ -187,11 +175,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			if ((stock_F.get(produit)).size() == 0) {
 				// quand y a plus de stock on sort de la boucle 
 				System.out.println("y a pb, on a plus de stock");
+				qtt = 0;
 				break;
 			}
 		}
-		//System.out.println("ok");
-		//fonctionnement semble ok
 	}
 	
 	//old version
@@ -325,7 +312,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	 * @author Maxime Boillot
 	 * on retire tous les léléments périmés de la liste 
 	 */
-	public void verifPeremption() {// sans cette fonction le stock augmente indéfiniement
+	public void verifPeremption() {// sans cette fonction le stock augmente indéfiniement si pas d'achat
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
 			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
 			for (Stock st:this.stockFeveHBE) {

@@ -9,7 +9,7 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 //ensemble fait par DIM
 
 public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
-		protected LinkedList<ExemplaireContratCadre> mesContratsCC;
+	protected LinkedList<ExemplaireContratCadre> mesContratsCC;
 
 	/**
 	 * @param mesContrats
@@ -24,7 +24,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		if (estFeve(produit) || estPoudre(produit)) {
 			return true;
 		}else {
-		return false;
+			return false;
 		}
 	}
 
@@ -33,7 +33,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		double stock = qttTotale(produit).getValeur();
 		return stock>0;
 	}
-	
+
 	//Dim
 	/**
 	 * vérifie si le prix proposé pour la premiere reponse est acceptable 
@@ -43,7 +43,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		double dif = difAcceptee(produit);
 		return (i1 > i2 - dif);
 	}
-	
+
 	public static double prixEspere(Object produit) {
 		if(estFeveHBE(produit)) {
 			return PRIX_ESPERE_FEVE_HBE;
@@ -104,7 +104,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return 0;
 		}
 	}
-	
+
 	public double aProduire(Object produit) {
 		double prod = 0;
 		for (ExemplaireContratCadre e: mesContratsCC) {
@@ -114,7 +114,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		}
 		return prod;
 	}
-	
+
 	public double aProduireAuStep(Object produit, int step) { // servira plus tard
 		double prod = 0;
 		for (ExemplaireContratCadre e: mesContratsCC) {
@@ -124,25 +124,71 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		}
 		return prod;
 	}
-	
+
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// cette partie est très basique et tend à être modifiée par la suite
 		Object produit = contrat.getProduit();	
+		int nbEcheance = contrat.getEcheancier().getNbEcheances();
+		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
+		System.out.println(" qtt "+qttDemandee);
+		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
+		double qttQuiSeraProduite = 0 * nbEcheance; // utiliser prodParStep(produit) ?
 		double qttDispo = qttTotale(produit).getValeur();
-		double qttProduiteFutur = prodParStep(produit) * contrat.getEcheancier().getNbEcheances();
-		double contratEnCours = aProduire(produit);
-		double qtt = qttDispo + qttProduiteFutur - contratEnCours;
-		boolean cond = qttDemandee < qtt;
-
-		if(cond) { // on est daccord avec l'échéancier
+		double qttTotaleSurLaPeriode = qttDispo + qttQuiSeraProduite;
+		// la quantite que lon sait devoir depenser sur la periode
+		double qttContratEnCours = aProduire(produit);
+		
+		//condition qui decoule des stocks
+		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
+		// condition sur le fait detre equitable
+		boolean condEquitable=true; //true si ne concerne pas les produits equitable
+		
+		// deux bool utiles que si la feve est equitable
+		boolean equiNbEcheance = contrat.getEcheancier().getNbEcheances() > EQUI_NB_ECHEANCE_MINI; 
+		boolean equiQtt = contrat.getQuantiteRestantALivrer() > EQUI_QTT_MINI; 
+		
+		if (estFeveEquitable(produit)) {
+			//pour que ce soit equitable
+			// il faut une longue période
+			// et une grande qtt
+			condEquitable = condEquitable && equiNbEcheance; 
+			condEquitable = condEquitable && equiQtt;
+		}
+		
+		//les actions qui decoulent de nos conditions
+		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
-		}else { // on propose une nouvelle valeur
+		}else if(condQtt && !(condEquitable)){
+			// la demande ne peut pas etre accepte car pas assez equitable
+			//mais on pourra fournir cette quantité de fève	
+			if(!(equiQtt)) {
+				// la qtt n'est pas assez importante 
+				double qttManquante = contrat.getQuantiteRestantALivrer() - EQUI_QTT_MINI;
+				double repartition = - qttManquante/nbEcheance;
+				Echeancier e = contrat.getEcheancier();
+				int i=contrat.getEcheancier().getStepDebut();
+				while (i< contrat.getEcheancier().getStepFin()) {
+					e.set(i, e.getQuantite(i)*repartition);
+					i++;
+				}
+			}
+			if(!(equiNbEcheance)) {
+				// la durée n'est pas assez importante
+
+			}			
+			return null;
+		}else if(condEquitable && !(condQtt)) {
+			// on  ne peut pas fournir autant de fève sur la période
+			return null;
+		}else {
+			// si la demande ne correspond pas à de l'équitable et que nous ne pouvons pas produire assez de fèves
 			Echeancier e = contrat.getEcheancier();
 			double qdm = qttDemandee;
 			int i =0;
+			int qtt=0;
+			// a revoir la condition
 			while ( qdm < qtt && i< e.getStepFin()) { // on divise par 2 la qtt a fournir à chaque step jusqua pvr fournir
 				e.set(e.getStepDebut()+i, e.getQuantite(e.getStepDebut()+i) / 2);
 				i++;
@@ -152,10 +198,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			if(cond2) {				
 				return e; 
 			} else { //on ne souhaite pas vendeur donc on retourne null
-			return null; 
-		}}
-
+				return null; 
+			}}
 	}
+	
 
 	@Override
 	//Dim
@@ -184,18 +230,18 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				return prix;
 			} else { //on retourne le minimum accepte au cas ou l'acheteur accepte ce prix
 				return minAcceptee(produit);
-		}}
+			}}
 	}
- 
+
 	@Override
 	//Dim
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		// maj var mesContrats
 		this.mesContratsCC.add(contrat);
 		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur().getNom() + " qtt = " +
-		Math.floor(contrat.getQuantiteTotale()) + contrat.getProduit()
-		+ " pour " + contrat.getPrix() + "euro au kg, en " + contrat.getEcheancier().getNbEcheances()
-		+" échéances" );
+				Math.floor(contrat.getQuantiteTotale()) + contrat.getProduit()
+				+ " pour " + contrat.getPrix() + "euro au kg, en " + contrat.getEcheancier().getNbEcheances()
+				+" échéances" );
 	}
 
 	@Override

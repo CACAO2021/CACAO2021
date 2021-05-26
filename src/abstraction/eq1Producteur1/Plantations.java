@@ -62,6 +62,7 @@ public abstract class Plantations extends Stocks{
 		for (Arbre arbre : this.arbresmq) {
 			prod += arbre.getNombre_arbre() * arbre.getRendement();
 		}
+		System.out.println(prod);
 		return prod;
 	}
 	
@@ -70,6 +71,7 @@ public abstract class Plantations extends Stocks{
 		for (Arbre arbre : this.arbresmqe) {
 			prod += arbre.getNombre_arbre() * arbre.getRendement();
 		}
+		System.out.println(prod);
 		return prod;
 	}
 	
