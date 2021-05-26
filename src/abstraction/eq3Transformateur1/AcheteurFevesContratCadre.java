@@ -53,15 +53,11 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		System.out.println("----------------------");
-		System.out.println(this.getSolde()-contrat.getPrix()*contrat.getQuantiteTotale());
+
 		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde()) {
 			return 0;
 		} else {
-			if (contrat.getVendeur().getNom().contains("Baratao")) {
-				System.out.println(contrat.getNumero() + "--" + contrat.getPrix());
-				
-			}
+
 			return contrat.getPrix();
 		}
 	}
@@ -73,13 +69,10 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
 		for  (Feve feve : feveaacheter) {
-			System.out.println(feve);
-			System.out.println(quantiteaacheter.get(feve));
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
 					boolean t = true;
 					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
-						System.out.println(acteur.toString());
-						System.out.println(quantiteaacheter.get(feve));
+
 						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 15, quantiteaacheter.get(feve)), cryptogramme, false);
 						if (contrat != null) {
 					}
@@ -97,7 +90,6 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 	}
 	
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		System.out.println("--" + contrat.getNumero());
 		if (contrat.getAcheteur().getNom() == "Eticao") {
 
 			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
