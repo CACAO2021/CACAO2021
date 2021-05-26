@@ -17,14 +17,14 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	protected Map<ChocolatDeMarque, Double> prixDAchat;
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
-	protected Map<ChocolatDeMarque,Boolean> dernierChangementPrix; //Si le dernier changement du prix du choco est une baisse, c'est true, si c'est une montee, c'est false
+	protected Map<ChocolatDeMarque,Double> quantiteVenduePrec; //Quantite vendue par chocolat au step precedant
 	private Journal journalVentes;
 
 	
 	public Vendeur() {
 		super();
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
-		this.dernierChangementPrix=new HashMap <ChocolatDeMarque,Boolean>();
+		this.quantiteVenduePrec=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
 		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
 
@@ -46,13 +46,8 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 300000.0);
 		}
-
-		/*On initialise l'historique, la quantité totale vendue et 
-		 *Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
-		 */
-
 		for (ChocolatDeMarque choco : this.getCatalogue()) {
-			this.dernierChangementPrix.put(choco, true);
+			this.quantiteVenduePrec.put(choco, 300000.);
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
@@ -232,6 +227,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.ajouterStock((ChocolatDeMarque)choco, (-1)*quantite, false);
 			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
 			this.quantiteTotaleVendue+=quantite;
+			quantiteVenduePrec.put(choco, this.quantiteChocoVendue.get(choco));
 			this.quantiteChocoVendue.put(choco, quantite);
 			journalVentes.ajouter("vente de "+quantite+" "+choco.name()+" a "+client.getNom()+" pour un prix de "+ montant);
 			
@@ -263,30 +259,18 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
-		if ((this.getQuantiteVendue(choco)<0.001 || baissePrixRentable(choco)) && prix.get(choco).getValeur()> this.prixDAchat.get(choco)) {
+		if ((this.getQuantiteVendue(choco)<0.01 || quantiteVenduePrec.get(choco)<this.quantiteChocoVendue.get(choco)*0.1) && prix.get(choco).getValeur()> this.prixDAchat.get(choco)) {
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
 
-		else{
+		else if(quantiteVenduePrec.get(choco)>(this.quantiteChocoVendue.get(choco)*1.1) && stock.get(choco).getValeur()!=0.){
 			if(prix(choco)<10) {
-				this.setPrix(choco, prix(choco)*1.1);}
+				this.setPrix(choco, prix(choco)*1.1);
 			}
-	}
-
-	
-	//Louis
-	/**
-	 * determine si il faut baisser le prix de vente
-	 * @param choco
-	 * @return
-	 */
-	public boolean baissePrixRentable(ChocolatDeMarque choco) {
-		if (this.dernierChangementPrix.get(choco)) {
 			
 		}
-		return true;
 	}
-	
+
 }
 
