@@ -50,6 +50,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IF
 
 	public void initialiser() {
 		transformation = new Transformation();
+		Producteur1Valeurs.init();
 
 	}
 	

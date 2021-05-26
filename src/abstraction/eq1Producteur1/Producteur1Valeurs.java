@@ -22,7 +22,7 @@ public class Producteur1Valeurs extends Producteur2et1ValeursEnCommun{
 	private static double PRIX_PALIER_P_M = 1.5; // prix minimal pour la poudre de moyenne qualité
 	public static HashMap<Object, Double> prix_palier = new HashMap<Object,Double>(); 
 	
-	public static void main(String[] args) {
+	public static void init() {
 		prix_palier.put(Feve.FEVE_MOYENNE_EQUITABLE, PRIX_PALIER_F_M_E);
 		prix_palier.put(Feve.FEVE_MOYENNE, PRIX_PALIER_F_M);
 		prix_palier.put(Feve.FEVE_BASSE, PRIX_PALIER_F_B);
