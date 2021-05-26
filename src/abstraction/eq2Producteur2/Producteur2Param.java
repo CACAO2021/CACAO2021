@@ -21,6 +21,14 @@ public abstract class Producteur2Param extends Producteur2Banque {
 		res.add(stockFME);
 		res.add(stockFM);
 		res.add(stockFB);
+		
+		res.add(qttArbreTotalFHBE);
+		res.add(qttArbreTotalFHE);
+		res.add(qttArbreTotalFME);
+		res.add(qttArbreTotalFM);
+		res.add(qttArbreTotalFB);
+		
+		
 		//res.add(stockPHE);
 		//res.add(stockPM);		
 		return res;
