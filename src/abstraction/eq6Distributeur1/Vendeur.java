@@ -269,7 +269,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	/**
 	 *Permet de baisser le prix de 10% si les ventes du produit ont baissé, et de l'augmenter si elles ont augmenté, 
-	 *avec une limite de 30€ le kg du chocolat en moyenne (le prix moyen dans la réalité est à 20€ le kg).
+	 *avec une limite de 10€ le kg du chocolat
 	 * @param choco
 	 */
 
