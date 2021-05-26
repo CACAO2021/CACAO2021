@@ -89,7 +89,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 					indic.setValeur(this,0);
 				}
 			}
-			if (indic.getNom().equals("Pourcentage Tete de Gondole")) {
+			if (indic.getNom().equals("tgVenteSurStock")) {
 				if (getStockTGTotal() != 0) {
 					indic.setValeur(this, quantiteEnVenteTG()/getStockTGTotal());
 				}
@@ -99,7 +99,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			}
 		}
 		//System.out.println(getStockTGTotal());
-	//	System.out.println(
+		//System.out.println(this.quantiteEnVenteTG());
 		//System.out.println("TG "+quantiteEnVenteTG()+" / pas TG "+quantiteEnVente());
 	}
 
