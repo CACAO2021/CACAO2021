@@ -19,7 +19,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesB;
 
 	protected HashMap<Feve, LinkedList<Stock>> arbrePlantes;
-	protected HashMap<Feve, Double> qttTotArbrePlantes;
+	protected HashMap<Feve, Variable> qttTotArbrePlantes;
 	
 	protected Variable qttArbreTotalFHBE;
 	protected Variable qttArbreTotalFHE;
@@ -84,13 +84,13 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		qttArbreTotalFM = new Variable("qttArbreTotal feve M", this, 0);
 		qttArbreTotalFB = new Variable("qttArbreTotal feve B", this, 0);
 		
-		qttTotArbrePlantes = new HashMap<Feve, Double>();
-		qttTotArbrePlantes.put(listeProd.get(0), qttArbreTotalFHBE.getValeur());
-		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE.getValeur());
-		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME.getValeur());
-		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM.getValeur());
-		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB.getValeur());
 		
+		qttTotArbrePlantes = new HashMap<Feve, Variable>();
+		qttTotArbrePlantes.put(listeProd.get(0), qttArbreTotalFHBE );
+		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
+		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
+		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
 				
 		// ancienne version sans tenir compte de l'age
 		//		this.arbrePlantesHBE = new LinkedList<Stock>();
@@ -110,9 +110,10 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		System.out.println("qtt");
 		double stock = 0;
 		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
-			stock += s.getQtt();			
+			stock += s.getQtt();		
 		}
-		qttTotArbrePlantes.replace((Feve)produit,stock);
+		System.out.println(stock);
+		qttTotArbrePlantes.get((Feve)produit).setValeur(Filiere.LA_FILIERE.getActeur("Baratao"), stock);
 	}
 
 	public void prod() {		
