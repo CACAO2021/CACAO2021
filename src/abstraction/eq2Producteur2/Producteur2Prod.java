@@ -263,7 +263,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		return PROD_ARBRE_AN;
 	}
 
-
+ 
 	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
 	// cela vainfluencer le nombre darbre qui produit effectivement
