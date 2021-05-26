@@ -66,6 +66,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 		if (this.vend(produit)){
 			if (contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1) + contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2) <= this.getChocolats().get(chocolat).getValeur() ) {
 				return contrat.getEcheancier();
+
 			}
 			else { return null;
 			} 
