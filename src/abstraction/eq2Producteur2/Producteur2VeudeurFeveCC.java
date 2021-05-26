@@ -128,7 +128,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		JournalCC.ajouter(contrat.getAcheteur() + " " +contrat.getEcheancier().getQuantiteTotale() + " " + contrat.getProduit());	
+		
 		Object produit = contrat.getProduit();	
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		Echeancier e = contrat.getEcheancier();
@@ -160,6 +160,8 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			condEquitable = condEquitable && equiNbEcheance; 
 			condEquitable = condEquitable && equiQtt;
 		}
+		
+		JournalCC.ajouter(contrat.getAcheteur() + " " +contrat.getEcheancier().getQuantiteTotale() + " " + contrat.getProduit() + condQtt + condEquitable);	
 		
 		//les actions qui decoulent de nos conditions
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
@@ -249,15 +251,17 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	@Override
 	// Dim
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		// reflcechir pour transmettre lage de la feve a lachteur? vrmt utile?
+		double livraison;
 		double stock = qttTotale(produit).getValeur();
 		if (stock >= quantite ) {
 			vente(quantite, produit);
-			return quantite;
+			livraison = quantite;
 		}else {
 			vente(stock, produit);
-			return stock;
+			livraison = stock;
 		}
+		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " + livraison + " / " + quantite + " donc un ratio de " + livraison/quantite );
+		return livraison;			
 	}
 
 }
