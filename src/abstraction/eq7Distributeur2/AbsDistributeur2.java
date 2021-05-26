@@ -40,7 +40,14 @@ public abstract class AbsDistributeur2 {
 		chocolatPropose.add(Chocolat.POUDRE_MOYENNE);
 	}
 	
-	// Couleurs d'arrière-plan pour les messages des journaux
+	/**
+	 * @return the chocolatPropose
+	 */
+	public ArrayList<Chocolat> getChocolatsProposes() {
+		return chocolatPropose;
+	}
+
+		// Couleurs d'arrière-plan pour les messages des journaux
 		public Color titleColor = Color.BLACK;
 		public Color alertColor = Color.RED;
 		public Color descriptionColor = Color.YELLOW;
@@ -56,7 +63,7 @@ public abstract class AbsDistributeur2 {
 		public void initialiserCatalogue() {
 			for(Chocolat nosChocolats : this.chocolatPropose) {
 				for (ChocolatDeMarque chocolatDeLaFiliere : Filiere.LA_FILIERE.getChocolatsProduits()) {
-					if(chocolatDeLaFiliere.getChocolat().toString().equals(nosChocolats.name())) {
+					if(chocolatDeLaFiliere.getChocolat().name().equals(nosChocolats.name())) {
 						catalogue.add(chocolatDeLaFiliere);
 					}
 				}
@@ -69,7 +76,7 @@ public abstract class AbsDistributeur2 {
 	// Nous créons une liste de marge pour chaque type de chocolat proposés dans l'odre de la liste "chocolatPropose" plus haut
 		
 		public void initialiserMarges() {
-			ArrayList<Double> valeurs = new ArrayList<>(Arrays. asList(0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2,0.6, 0.5, 0.3, 0.2));
+			ArrayList<Double> valeurs = new ArrayList<>(Arrays. asList( 0.7, 0.6, 0.4, 0.3, 0.7, 0.6, 0.4, 0.3, 0.7, 0.6, 0.4, 0.3));
 			for(Chocolat noschocos : this.chocolatPropose) {
 				this.marges.put(noschocos,valeurs.get(0));
 				valeurs.remove(0);

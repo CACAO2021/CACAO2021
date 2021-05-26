@@ -86,7 +86,7 @@ public class Stocks extends Distributeur1Acteur{
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			if (!choco.getMarque().equals("Wonka & Sons"))
-			stock.put(choco, new Variable(choco.toString(),this,500000.));
+			stock.put(choco, new Variable(choco.toString(),this,1000000.));
 			stockTG.put(choco, new Variable(choco.toString(),this,0.));
 
 		}
