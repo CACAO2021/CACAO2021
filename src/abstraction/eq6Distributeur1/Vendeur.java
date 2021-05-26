@@ -269,9 +269,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		}
 
 		else{
-			//if(prix(choco)<10) {
+			if(prix(choco)<10) {
 				this.setPrix(choco, prix(choco)*1.1);}
-		//	}
+			}
 	}
 
 	
