@@ -100,7 +100,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		double transfo = feve.getValeur();
 		this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
 		this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*(transfo)*coefficient_transformation.getValeur()/1000); 
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*((transfo)*coefficient_transformation.getValeur()/1000)); 
 	
 		
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
