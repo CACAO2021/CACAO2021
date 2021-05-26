@@ -27,7 +27,7 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 		double quantiteTotale = dernierEcheancier.getQuantiteTotale();
 		
 		if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
-			if ((nbStep>=8) && (nbStep<=18) && (quantiteTotale>=1000)) {
+			if ((nbStep>=8) && (nbStep<=18) && (quantiteTotale >=1000)) {
 				return dernierEcheancier;
 			} else {
 				return null;
