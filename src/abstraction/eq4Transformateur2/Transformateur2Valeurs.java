@@ -35,15 +35,15 @@ public class Transformateur2Valeurs {
 	protected LinkedList<Double> echeancier_moyenne ;
 	protected LinkedList<Double> echeancier_total ; 
 	
-	protected double quantite_totale_demandee_basse = 0;
-	protected double quantite_totale_demandee_moyenne = 0;
-	protected double nombre_step_total_basse = 0;
-	protected double nombre_step_total_moyenne = 0;
+	protected double quantite_totale_demandee_basse = 12000;
+	protected double quantite_totale_demandee_moyenne = 12000;
+	protected double nombre_step_total_basse = 1;
+	protected double nombre_step_total_moyenne = 1;
 	
 	//Variables utilisées pour négocier les prix lors de l'achat 
 	
-	protected static double cout_max_feve_basse = 1.7 ; 
-	protected static double cout_max_feve_moyenne = 2.5;
+	protected static double cout_max_feve_basse = 2.5 ; 
+	protected static double cout_max_feve_moyenne = 3.2;
 	protected static double Prix_max_achat; //A quoi elle sert ?
 	
 	
@@ -51,6 +51,7 @@ public class Transformateur2Valeurs {
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
+	
 	protected double mini_stock_tablette_basse = 15000000.0;
 	protected double mini_stock_tablette_moyenne = 15000000.0;
 	protected double mini_stock_confiserie_basse = 15000000.0;
@@ -58,6 +59,9 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_feve_basse = 10000000.0;
 	protected double mini_stock_feve_moyenne = 10000000.0;
 	
+	/*protected int duree_stockage_max;
+	protected HashMap<Feve,double[]> stock_feve;
+	protected HashMap<Chocolat,double[]> stock_chocolat;*/
 	
 	//Variables de coûts
 	

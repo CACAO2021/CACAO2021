@@ -163,7 +163,7 @@ public class SuperviseurVentesFevesAO implements IActeur {
 							acheteurCourant--;
 						}
 					}
-				}
+				} 
 			}
 		}
 		this.historiqueTransactions.add(transactions);
