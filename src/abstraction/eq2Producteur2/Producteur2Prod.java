@@ -7,6 +7,7 @@ import java.util.List;
 
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
+import abstraction.fourni.Variable;
 
 //Emeline
 
@@ -18,7 +19,15 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesB;
 
 	protected HashMap<Feve, LinkedList<Stock>> arbrePlantes;
+	protected HashMap<Feve, Double> qttTotArbrePlantes;
 	
+	protected Variable qttArbreTotalFHBE;
+	protected Variable qttArbreTotalFHE;
+	protected Variable qttArbreTotalFME;
+	protected Variable qttArbreTotalFM;
+	protected Variable qttArbreTotalFB;
+	protected Variable qttArbreTotalPHE;
+	protected Variable qttArbreTotalPM;
 
 
 
@@ -68,6 +77,21 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			}			
 			step++;
 		}
+		
+		qttArbreTotalFHBE = new Variable("qttArbreTotal feve HBE", this, 0);
+		qttArbreTotalFHE = new Variable("qttArbreTotal feve HE", this, 0);
+		qttArbreTotalFME = new Variable("qttArbreTotal feve ME", this, 0);
+		qttArbreTotalFM = new Variable("qttArbreTotal feve M", this, 0);
+		qttArbreTotalFB = new Variable("qttArbreTotal feve B", this, 0);
+		
+		qttTotArbrePlantes = new HashMap<Feve, Double>();
+		qttTotArbrePlantes.put(listeProd.get(0), qttArbreTotalFHBE.getValeur());
+		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE.getValeur());
+		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME.getValeur());
+		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM.getValeur());
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB.getValeur());
+		
+				
 		// ancienne version sans tenir compte de l'age
 		//		this.arbrePlantesHBE = new LinkedList<Stock>();
 		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
@@ -80,6 +104,45 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//		this.arbrePlantesB = new LinkedList<Stock>();
 		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 
+	}
+	
+	public void majQttArbre(Object produit) {
+		double stock = 0;
+		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
+			stock += s.getQtt();			
+		}
+		qttTotArbrePlantes.replace((Feve)produit,stock);
+		
+		
+		if (estFeveHBE(produit)) {			
+			for (Stock s : this.stockFeveHBE) {
+				stock += s.getQtt();			
+			}stockFHBE.setValeur(this, stock);
+		}else if (estFeveHE(produit)) {			
+			for (Stock s : this.stockFeveHE) {
+				stock += s.getQtt();				
+			}stockFHE.setValeur(this, stock);
+		}else if (estFeveME(produit)) {			
+			for (Stock s : this.stockFeveME) {
+				stock += s.getQtt();				
+			}stockFME.setValeur(this, stock);
+		}else if (estFeveM(produit)) {			
+			for (Stock s : this.stockFeveM) {
+				stock += s.getQtt();				
+			}stockFM.setValeur(this, stock);
+		}else if (estFeveB(produit)) {			
+			for (Stock s : this.stockFeveB) {
+				stock += s.getQtt();
+			}stockFB.setValeur(this, stock);
+		}else if (estPoudreHE(produit)) {
+			for (Stock s : this.stockPoudreHE) {
+				stock += s.getQtt();
+			}stockPHE.setValeur(this, stock);
+		}else if (estPoudreM(produit)) {
+			for (Stock s : this.stockPoudreM) {
+				stock += s.getQtt();
+			}stockPM.setValeur(this, stock);
+		}
 	}
 
 	public void prod() {		
