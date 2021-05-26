@@ -14,6 +14,7 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double COUT_PRODUCTION_FEVE_HBE = 3.;
 	
 	//cout changement arbre
+	// correpsond au cout d'un arbre plante ou enleve
 	public static final double COUT_CHANGEMENT_ARBRE_HBE = 0.1; // pour ne pas mettre 0€
 	public static final double COUT_CHANGEMENT_ARBRE_HE = 0.1;
 	public static final double COUT_CHANGEMENT_ARBRE_ME = 0.1;

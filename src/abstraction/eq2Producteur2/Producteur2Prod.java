@@ -144,10 +144,11 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
 		//une longue période sans pouvoir espérer de bénéfice.
 		int step = Filiere.LA_FILIERE.getEtape();
-		int nbChangement = 0;
 		int nbPlantage = 0;
+		int nbChangementTot = 0;
 		List<Stock> aSupprimer = new ArrayList<Stock>();
 		for (Feve f : listeProd) {
+			int nbChangement = 0;
 			// partie suppression
 			for (Stock s : arbrePlantes.get(f)) {
 				if (step - s.getStep() >= TPS_RENOUVELLEMENT_ARBRE) {
@@ -167,14 +168,28 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
-			int qtt = 0; // réfléchir à la répartition des arbres a replanter
-			nbPlantage += qtt;
+			
+			
+			// partie à modifier
+			// reflexion sur ce que lon plante
+			// réfléchir à la répartition des arbres a replanter
+			
+			int qtt = nbChangement; // pour le moment tjrs la meme répartition 
+			
+			// pour pouvoir perdre de l'argent
+			//on compte le nombre d'arbre que lon plante
+			nbPlantage += qtt; 
+			// et que lon enleve
+			nbChangementTot += nbChangement;
 
 			arbrePlantes.get(f).add(new Stock(qtt, step));
 		}
 
 		// on dépense de l'argent pour remplacer els arbres
+		// pour ceux qu'on plante:
 		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
+		// pour ceux quon supprime:
+		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangementTot);
 
 	}
 
