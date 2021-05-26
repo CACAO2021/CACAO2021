@@ -2,6 +2,8 @@ package abstraction.eq1Producteur1;
 
 import java.util.LinkedList;
 
+import abstraction.eq8Romu.produits.Feve;
+
 public abstract class Plantations extends Stocks{
 	
 	private LinkedList<Arbre> arbresmq; //Création des arbres produisant des fèves moyennes
@@ -62,7 +64,6 @@ public abstract class Plantations extends Stocks{
 		for (Arbre arbre : this.arbresmq) {
 			prod += arbre.getNombre_arbre() * arbre.getRendement();
 		}
-		System.out.println(prod);
 		return prod;
 	}
 	
@@ -71,7 +72,6 @@ public abstract class Plantations extends Stocks{
 		for (Arbre arbre : this.arbresmqe) {
 			prod += arbre.getNombre_arbre() * arbre.getRendement();
 		}
-		System.out.println(prod);
 		return prod;
 	}
 	
@@ -83,5 +83,25 @@ public abstract class Plantations extends Stocks{
 		return prod;
 	}
 	
+	/**
+	 * on définit un rapport entre notre stock et la quantité initiale (plus tard en rapport avec le stock limite
+	 * quand arthur l'aura implementé) pour planter un nombre d'arbres par step qui permettra de plus
+	 * se rapprocher d'un nombre d'arbre qui produirait une quantité plus proche de ce que l'on veut
+	 */
+	
+	public double planter_bq(Stocks s)  {
+		double rapport = s.getStock(Feve.FEVE_BASSE).getQuantite()/66666666;
+		return 2137333/rapport;
+	}
+	
+	public double planter_mq(Stocks s)  {
+		double rapport = s.getStock(Feve.FEVE_MOYENNE).getQuantite()/75000000;
+		return 2404000/rapport;
+	}
+	
+	public double planter_mqe(Stocks s)  {
+		double rapport = s.getStock(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()/25000000;
+		return 801333/rapport;
+	}
 
 }
