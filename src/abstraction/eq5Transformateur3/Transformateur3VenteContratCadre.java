@@ -64,16 +64,25 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 		Object produit = contrat.getProduit();
 		Chocolat chocolat = ((ChocolatDeMarque)produit).getChocolat();
 		if (this.vend(produit)){
-			if (contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1) + contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2) <= this.getChocolats().get(chocolat).getValeur() ) {
+			if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) 
+					&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()>this.stock_min_tablettes_HBE.getValeur()
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()){
+				return contrat.getEcheancier();}
+			if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE) 
+					&& this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur()>this.stock_min_tablettes_moyenne.getValeur()
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur()){
+				return contrat.getEcheancier();}
+			if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE) 
+					&& this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()>this.stock_min_confiserie.getValeur()
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()){
 				return contrat.getEcheancier();
-
 			}
 			else { return null;
 			} 
 		}
 		else { return null;
 		}
-		}
+	}
 		
 	
 	@Override
