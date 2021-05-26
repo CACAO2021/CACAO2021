@@ -139,7 +139,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			nb_OA+=1;
 			return OA;
 			}*/
-		 for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
+		 for(ExemplaireContratCadre contrat : this.getContratsVente().keySet()) {
 			ChocolatDeMarque chocoMarque = ((ChocolatDeMarque)contrat.getProduit());
 			Chocolat choco = chocoMarque.getChocolat();
 			if (choco==Chocolat.TABLETTE_HAUTE_EQUITABLE) {

@@ -18,16 +18,16 @@ import abstraction.fourni.Variable;
 
 public class Transformateur3VenteContratCadre extends Transformateur3Fabricant implements IVendeurContratCadre{
 
-	protected HashMap<ExemplaireContratCadre, Integer> contrats ;
+	protected HashMap<ExemplaireContratCadre, Integer> contratsVente ;
 	
 	public Transformateur3VenteContratCadre() {
-		this.contrats = new HashMap<ExemplaireContratCadre, Integer>();
+		this.contratsVente = new HashMap<ExemplaireContratCadre, Integer>();
 	}
-	public HashMap<ExemplaireContratCadre, Integer> getContrats() {
-		return contrats;
+	public HashMap<ExemplaireContratCadre, Integer> getContratsVente() {
+		return contratsVente;
 	}
 	public int getEtape(ExemplaireContratCadre contrat) {
-		return this.getContrats().get(contrat);
+		return this.getContratsVente().get(contrat);
 	}
 	
 	public boolean peutVendre(Object produit) {
@@ -64,15 +64,15 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 		Object produit = contrat.getProduit();
 		Chocolat chocolat = ((ChocolatDeMarque)produit).getChocolat();
 		if (this.vend(produit)){
-			if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) 
+			if (chocolat.equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) 
 					&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()>this.stock_min_tablettes_HBE.getValeur()
 					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()){
 				return contrat.getEcheancier();}
-			if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE) 
+			if (chocolat.equals(Chocolat.TABLETTE_MOYENNE) 
 					&& this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur()>this.stock_min_tablettes_moyenne.getValeur()
 					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur()){
 				return contrat.getEcheancier();}
-			if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE) 
+			if (chocolat.equals(Chocolat.CONFISERIE_MOYENNE) 
 					&& this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()>this.stock_min_confiserie.getValeur()
 					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()){
 				return contrat.getEcheancier();
@@ -122,7 +122,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		if (contrat.getVendeur() == Filiere.LA_FILIERE.getActeur("EQ5")) {
 			this.JournalVenteContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
-			this.getContrats().put(contrat, Filiere.LA_FILIERE.getEtape());
+			this.getContratsVente().put(contrat, Filiere.LA_FILIERE.getEtape());
 		}
 	}
 	
