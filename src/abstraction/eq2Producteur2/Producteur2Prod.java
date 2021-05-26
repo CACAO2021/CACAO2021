@@ -107,12 +107,10 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 	
 	public void majQttArbre(Object produit) {
-		System.out.println("qtt");
 		double stock = 0;
 		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
 			stock += s.getQtt();		
 		}
-		System.out.println(stock);
 		qttTotArbrePlantes.get((Feve)produit).setValeur(Filiere.LA_FILIERE.getActeur("Baratao"), stock);
 	}
 
