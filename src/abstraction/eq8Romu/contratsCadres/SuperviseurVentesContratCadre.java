@@ -127,8 +127,9 @@ public class SuperviseurVentesContratCadre implements IActeur {
 		}
 		contrat.ajouterPrix(propositionV);
 		double propositionA;
-		numNego=0;
+		numNego=-1;
 		do {
+			numNego++;
 			propositionA = acheteur.contrePropositionPrixAcheteur(new ExemplaireContratCadre(contrat));
 			journal.ajouter("   "+Journal.texteColore(acheteur, acheteur.getNom())+" propose un prix de "+Journal.doubleSur(propositionA,4));
 			if (propositionA<=0.0) {
