@@ -96,7 +96,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		if (this==acteur) {
 		System.out.println("I'll be back... or not... "+this.getNom());
 		} else {
-			System.out.println("Poor "+acteur.getNom()+"... We will miss you. "+this.getNom());
+			System.out.println("Poor "+acteur.getNom()+"RIP "+this.getNom());
 		}
 	}
 	
