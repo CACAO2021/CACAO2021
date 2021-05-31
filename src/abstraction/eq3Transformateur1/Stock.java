@@ -79,18 +79,18 @@ public class Stock {
 	}
 	
 	public void initialiserLeStock() {
-		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 100000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.TABLETTE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.POUDRE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.POUDRE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockChocolat(Chocolat.POUDRE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.TABLETTE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.POUDRE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.POUDRE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.POUDRE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.POUDRE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 10000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), 1000000), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 
@@ -258,13 +258,13 @@ public class Stock {
 			this.getActeur().ecritureJournalStock("On vient d'ajouter || " + chocolat.name() + "   " + String.valueOf(quantite.getValeur()));
 			this.getActeur().ecritureJournalStock(" Le nouveau stock de chocolat  || " + chocolat.name() + " est " + String.valueOf(quantite.getValeur()));
 		} else {
-			System.out.println(" Stock trop faible");
+			throw new IllegalArgumentException(" Stock trop faible");
 		}
 	}
 	
 	
 	public Chocolat equivalentTabletteFeve(Feve feve) {
-		// on retourne le type de tablette avec la meme gamme,les memes caracteristique que la Feve feve
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -274,7 +274,7 @@ public class Stock {
 	}
 	
 	public Chocolat equivalentConfiserieFeve(Feve feve) {
-		// on retourne le type de confiserie avec la meme gamme,les memes caracteristique que la Feve feve 
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -284,7 +284,7 @@ public class Stock {
 	}
 	
 	public Chocolat equivalentPoudreFeve(Feve feve) {
-		// on retourne le type de poudre avec la meme gamme,les memes caracteristique que la Feve feve
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (Chocolat chocolat : this.nosChocolats()) {
 			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -294,7 +294,7 @@ public class Stock {
 	}
 	
 	public ChocolatDeMarque equivalentTabletteFeveMarque(Feve feve) {
-		// on retourne le type de tablette de marque avec la meme gamme,les memes caracteristique que la Feve feve dans le cas de chocolats de marque
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
 			if ( chocolat.getCategorie() == Categorie.TABLETTE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -304,7 +304,7 @@ public class Stock {
 	}
 	
 	public ChocolatDeMarque equivalentConfiserieFeveMarque(Feve feve) {
-		// on retourne le type de confiserie de marque avec la meme gamme,les memes caracteristique que la Feve feve 
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
 			if ( chocolat.getCategorie() == Categorie.CONFISERIE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -314,7 +314,7 @@ public class Stock {
 	}
 	
 	public ChocolatDeMarque equivalentPoudreFeveMarque(Feve feve) {
-		// on retourne le type de poudre de marque avec la meme gamme,les memes caracteristique que la Feve feve
+		// on retour le type de tablette avec la meme gamme,les memes caracteristique si c'est equitable ou bio
 		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
 			if ( chocolat.getCategorie() == Categorie.POUDRE && feve.getGamme() == chocolat.getGamme() && feve.isEquitable() == chocolat.isEquitable() && chocolat.isBio() == feve.isBio()) {
 				return chocolat;
@@ -324,7 +324,6 @@ public class Stock {
 	}
 	
 	public Feve equivalentFeve(Chocolat chocolat) {
-		// on retourne le type de feve qui correspond au Chocolat chocolat (meme gamme,les memes caracteristique que le chocolat en parmètre)
 		for ( Feve feve : this.nosFevesCC()) {
 			if (feve.isEquitable() == chocolat.isEquitable() && feve.isBio() == chocolat.isBio() && feve.getGamme() == chocolat.getGamme()) {
 				return feve;
@@ -334,7 +333,6 @@ public class Stock {
 	}
 	
 	public Feve equivalentFeve(ChocolatDeMarque chocolat) {
-		// on retourne le type de feve qui correspond au ChocolatDeMarque chocolat (meme gamme,les memes caracteristique que le chocolat en parmètre)
 		for ( Feve feve : this.nosFevesCC()) {
 			if (feve.isEquitable() == chocolat.getChocolat().isEquitable() && feve.isBio() == chocolat.getChocolat().isBio() && feve.getGamme() == chocolat.getChocolat().getGamme()) {
 				return feve;
@@ -345,19 +343,17 @@ public class Stock {
 		
 	public double getMarge(Feve feve) {
 		
-		// renvoie les marges qu'on souhaite faire en fonction du type de feve
+		// marge qu'on souhaite faire en fonction du type de feve
 		if (feve.equals(Feve.FEVE_BASSE)) {
 			return 1.4;
 		} else if (feve.equals(Feve.FEVE_MOYENNE)) {
-			return 1.4;
+			return 1.4*1.05;
 		} else if (feve.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			return 1.4+0.1;
+			return 1.4*1.05*1.05;
 		} else if (feve.equals(Feve.FEVE_HAUTE_EQUITABLE)) {
-			return 1.4+0.1;
-			//on prevoit une marge supplémentaire de 10% sur les fèves équitables qui sera redistribuée à la banque (afin de servir comme don ax associations et collectivités locales qui s'assurent du bien être des producteurs)
+			return 1.4*1.1*1.05;
 		} else if (feve.equals(Feve.FEVE_HAUTE_BIO_EQUITABLE)) {
-			return 1.4+0.1+0.1;
-			//on prevoit une marge supplémentaire de 20% sur les fèves bio-équitables qui sera redistribuée à la banque (afin de servir comme don ax associations et collectivités locales qui s'assurent du bien être des producteurs)
+			return 1.4*1.1*1.05*1.1;
 		} else {
 			return 0.0;
 		}
@@ -378,7 +374,7 @@ public class Stock {
 	
 	
 	public double prixDeVenteKG(Chocolat chocolat) {
-	// on cherche a savoir le prix de vente theorique auquel on souhaite vendre au KG
+	// on cherche a savoir le prix de vente theorique au quel on souhaite vendre au KG
 		double compteur = 0.0;
 		double prix = 0.0;
 		ArrayList<ArrayList<Variable>> stockChocolats = this.stockChocolats.get(chocolat);
@@ -585,6 +581,19 @@ public void transformationFeveChocolat() {
 				this.setStockChocolat(tablette, quantitetablette, prix, date);
 				this.setStockChocolat(confiserie, quantiteconfiserie, prix, date);
 				this.setStockChocolat(poudre, quantitepoudre, prix, date);
+				
+				// on transforme de maniere aléatoire en tablette ou poudre ou confiserie
+				/*double p = Math.random();
+				if( p <= 0.3) {
+					Chocolat chocolat = this.equivalentTabletteFeve(feve);
+					this.setStockChocolat(chocolat, quantite, prix);
+				} else if ( p >= 0.6) {
+					Chocolat chocolat = this.equivalentConfiserieFeve(feve);
+					this.setStockChocolat(chocolat, quantite, prix);
+				} else {
+					Chocolat chocolat = this.equivalentPoudreFeve(feve);
+					this.setStockChocolat(chocolat, quantite, prix);
+				}*/
 				
 	
 				this.getActeur().ecritureJournalStock("stock de feve -" + feve.name() + " -" +String.valueOf(this.getStockFeves(feve)));

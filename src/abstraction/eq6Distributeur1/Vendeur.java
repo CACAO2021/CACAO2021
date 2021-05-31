@@ -138,6 +138,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	/**
 	 * Retourne le prix d’un kilo du chocolat «choco».
+
 	 */
 	
 	public double prix(ChocolatDeMarque choco) {
@@ -288,3 +289,4 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	}
 
 }
+
