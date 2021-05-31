@@ -69,17 +69,20 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 		this.getStock().getFinancier().miseAJourContratAcheteur();
 		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
-		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
+		Map<Feve, Couple> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
 		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
 		for  (Feve feve : feveaacheter) {
-			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-					boolean t = true;
-					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t && quantiteaacheter.get(feve)>1000) {
 
-						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 15, quantiteaacheter.get(feve)), cryptogramme, false);
-						if (contrat != null) {
-					}
+			Couple couple = quantiteaacheter.get(feve);
+			int nbEcheances = couple.get2();
+			double quant = couple.get1();
+			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
+				boolean t = true;
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t && quant >1000 && !this.getStock().getFinancier().dejaAcheteur(feve)) {
+
+					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, nbEcheances, quant), cryptogramme, false);
 				}
+				
 			}
 		}
 	}
@@ -96,6 +99,10 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		if (contrat.getAcheteur().getNom() == "Eticao") {
 
 			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
+			ArrayList<ExemplaireContratCadre> contrats = new ArrayList<ExemplaireContratCadre>();
+			contrats.add(this.getStock().getFinancier().equivalenceCC(contrat));
+			 
+			
 		} else if (contrat.getVendeur().getNom() == "Eticao") {
 			Chocolat chocolat = null; 
 			if (contrat.getProduit() instanceof Chocolat) {
@@ -104,6 +111,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 				chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
 				}
 			this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
+			this.getStock().getFinancier().addMesContratEnTantQueVendeurNonGere(contrat);
 			double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
 			double argentPourLesAsso = contrat.getPrix()*(margeAVerser-1.4)*contrat.getQuantiteTotale();
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
