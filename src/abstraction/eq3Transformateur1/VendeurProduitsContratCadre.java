@@ -39,8 +39,17 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		// on accepte toujours la 1ere proposition d'échéancier pour l'instant
-		
-		return contrat.getEcheancier();
+		//return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 16, contrat.getEcheancier().getQuantiteTotale());
+		Chocolat chocolat = null; 
+		if (contrat.getProduit() instanceof Chocolat) {
+			chocolat = (Chocolat)contrat.getProduit();
+		} else if(contrat.getProduit() instanceof ChocolatDeMarque) {
+			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+			}
+		if (contrat.getEcheancier().getQuantiteTotale() > this.getStock().getStockChocolats(chocolat)/5) {
+			return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, contrat.getEcheancier().getNbEcheances(), this.getStock().getStockChocolats(chocolat)/5); 
+		}
+		return contrat.getEcheancier(); 
 	}
 
 	@Override
@@ -115,13 +124,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 				Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
 				Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix, date);
-				
-
-				/*double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve((Chocolat)produit));
-				double argentPourLesAsso = contrat.getPrix*(margeAVerser-1.4);
-				Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
-				this.ecritureJournalTresorie("Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
-				*/return qdisp;
+				return qdisp;
 				
 			}
 		} else {
@@ -132,12 +135,8 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 					Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
 					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix, date);
-					
-					/*double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve(((ChocolatDeMarque)produit)));
-					double argentPourLesAsso = prix.getValeur()*(margeAVerser-1.4);
-					Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
-					this.ecritureJournalTresorie("Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
-					*/return qdisp;
+				
+					return qdisp;
 				}
 			}
 		}

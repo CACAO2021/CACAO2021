@@ -227,6 +227,20 @@ public class Business {
 				stockAAvoir.replace(this.getStock().equivalentFeve((ChocolatDeMarque)contrat.getProduit()), contrat.getQuantiteTotale()/2.5+stock);
 			}
 		}
+		
+		for (ExemplaireContratCadre contrat: this.getMesContractsEnTantQueAcheteur()) {
+			
+			double stock = stockAAvoir.get(contrat.getProduit());
+			if (-contrat.getQuantiteTotale()+stock>0) {
+				stockAAvoir.replace((Feve)contrat.getProduit(), -contrat.getQuantiteTotale()+stock);
+			} else {
+				stockAAvoir.replace((Feve)contrat.getProduit(), 0.0);
+			}
+		}
+		for (Feve feve : this.getStock().nosFevesCC()) {
+			double stock = stockAAvoir.get(feve);
+			stockAAvoir.replace(feve, stock*2); 
+		}
 		return stockAAvoir;
 	}
 	

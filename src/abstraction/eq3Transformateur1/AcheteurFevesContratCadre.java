@@ -1,5 +1,6 @@
 package abstraction.eq3Transformateur1;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,7 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
@@ -49,7 +51,8 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			
 		}
 		return null;*/
-		return contrat.getEcheancier();	
+		//return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 14, contrat.getEcheancier().getQuantiteTotale());
+		return contrat.getEcheancier(); 
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
@@ -94,8 +97,17 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
 		} else if (contrat.getVendeur().getNom() == "Eticao") {
-
+			Chocolat chocolat = null; 
+			if (contrat.getProduit() instanceof Chocolat) {
+				chocolat = (Chocolat)contrat.getProduit();
+			} else if(contrat.getProduit() instanceof ChocolatDeMarque) {
+				chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+				}
 			this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
+			double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
+			double argentPourLesAsso = contrat.getPrix()*(margeAVerser-1.4)*contrat.getQuantiteTotale();
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
+			this.journalTresorie.ajouter(Color.GREEN, Color.BLACK, "Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
 		}
 	}
 }

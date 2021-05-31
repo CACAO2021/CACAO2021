@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
+import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.IDistributeurChocolatDeMarque;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
@@ -13,17 +14,23 @@ import abstraction.fourni.Variable;
 public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 
 
+	
+	protected Map<ChocolatDeMarque, Double> prixDAchat;
 	protected int quantiteTotaleVendue;// Quantite totale vendue en une période
 	protected Map<ChocolatDeMarque,Double> quantiteChocoVendue; //Quantite vendue par chocolat au step en cours
-	protected Map<ChocolatDeMarque,Double> q; //Quantité définie pour chaque produit qu'on vend à partir duquel on considère les ventes convenables
+	protected Map<ChocolatDeMarque,Double> quantiteVenduePrec; //Quantite vendue par chocolat au step precedant
 	private Journal journalVentes;
+	protected Map<ChocolatDeMarque,Double> limitePrix;
 
 	
 	public Vendeur() {
 		super();
 		this.quantiteChocoVendue=new HashMap<ChocolatDeMarque,Double>();
-		this.q=new HashMap <ChocolatDeMarque,Double>();
+		this.quantiteVenduePrec=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
+		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
+		this.limitePrix= new HashMap<ChocolatDeMarque,Double>();
+		
 
 	}
 
@@ -43,18 +50,24 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		for (int i=0; i<this.getCatalogue().size(); i++) {
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 300000.0);
 		}
-
-		/*On initialise l'historique, la quantité totale vendue et 
-		 *Pour chaque type de chocolat on initialise un dictionnaire à quantite vendue =0
-		 */
-
-		for (int i=0; i<this.getCatalogue().size(); i++) {
-			this.q.put(this.getCatalogue().get(i), 0.2*this.quantiteEnVente(this.getCatalogue().get(i)));
+		for (ChocolatDeMarque choco : this.getCatalogue()) {
+			this.quantiteVenduePrec.put(choco, 300000.);
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
 		
 		this.indicateurs.add(new Variable("tgVenteSurStock",this,0));
+		
+		for(ChocolatDeMarque choco : this.getCatalogue()) {
+			double limite=30;
+			if (choco.getGamme()==Gamme.BASSE) {
+				limite=limite*0.75;
+			}
+			if (choco.getGamme()==Gamme.HAUTE) {
+				limite=limite*1.25;
+			}
+			limitePrix.put(choco, limite);
+		}
 
 	}
 
@@ -125,7 +138,6 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	/**
 	 * Retourne le prix d’un kilo du chocolat «choco».
-
 	 */
 	
 	public double prix(ChocolatDeMarque choco) {
@@ -229,6 +241,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.ajouterStock((ChocolatDeMarque)choco, (-1)*quantite, false);
 			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
 			this.quantiteTotaleVendue+=quantite;
+			quantiteVenduePrec.put(choco, this.quantiteChocoVendue.get(choco));
 			this.quantiteChocoVendue.put(choco, quantite);
 			journalVentes.ajouter("vente de "+quantite+" "+choco.name()+" a "+client.getNom()+" pour un prix de "+ montant);
 			
@@ -254,22 +267,24 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	//Thomas
 	
 	/**
-	 *Permet de baisser le prix de 10% si la quantité vendue est inférieur à une quantité q convenable que nous définirons (si le produit ne se vend pas bien).
+	 *Permet de baisser le prix de 10% si les ventes du produit ont baissé, et de l'augmenter si elles ont augmenté, 
+	 *avec une limite de 30€ le kg du chocolat (dans la réalité la moyenne est à 20€)
 	 * @param choco
 	 */
-	
+
 	public void NouveauPrix(ChocolatDeMarque choco) {
 		//prix correspond au prix de vente initial
-		if (this.getQuantiteVendue(choco)==0 || this.getQuantiteVendue(choco)<q.get(choco)) {
+		if ((this.getQuantiteVendue(choco)<0.01 || quantiteVenduePrec.get(choco)<this.quantiteChocoVendue.get(choco)*0.1) && prix.get(choco).getValeur()> this.prixDAchat.get(choco)) {
 			this.setPrix(choco, prix(choco)*0.9); 
 			//Si les ventes ne sont pas convenables, on baisse le prix de vente de 10% pour la prochaine période
 		}
-		else{
-			if(prix(choco)<10) {
-				this.setPrix(choco, prix(choco)*1.1);}
-			this.setPrix(choco, prix(choco));}
 
+		else if(quantiteVenduePrec.get(choco)>(this.quantiteChocoVendue.get(choco)*1.1) && stock.get(choco).getValeur()!=0.){
+			if(prix(choco)<30) {
+				this.setPrix(choco, prix(choco)*1.05);
+			}
+			
+		}
 	}
 
 }
-

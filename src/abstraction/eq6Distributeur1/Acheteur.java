@@ -36,18 +36,18 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	}
 
 	//trucs à faire:
-	//améliorer le prix max ( par le remplissage de la map q dans vendeur)
+	//améliorer le prix de vente max dans NouveauPrix() pour qu'il n'y ait plus besoin de la limite pour que les prix ne s'envolent pas
 	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
 	//au bout d'un moment on achète plus rien à Boni Suci
-	//on peut surement optimiser les quantités en stock (on achete parfois beaucoup trop à eticao par exemple)
-	//a la fin on pourrait peut etre faire quelque chose pour acheter plus cher ce qu'on arrive bien a vendre 
-	//						pour etre plus ethiques (parce que là on s'enrichit vraiment sur le dos des autres)
+	//on peut surement optimiser les quantités en stock (certains chocolats ont des stocks constants c'est bizarre)
+	
+	//truc bizarre: si on augmente un peu la limite des prix de vente on fait faillite
 
-
+	
 	//Louis
 
 	/**
-	 * initialiser les journaux
+	 * s'appelle au lancement du programme, permet d'initialiser les journaux
 	 */
 
 	public void initialiser() {
@@ -145,7 +145,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
 		i=0;
-		//System.out.println("prix");
 		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.75;
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;
@@ -195,6 +194,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		if(max<0) {
 			return 0;
 		}
+		if (this.quantiteChocoVendue.get(choco)+this.stock.get(choco).getValeur()<0.01 && this.getSolde()<10000000000.) {
+			max=superviseur.QUANTITE_MIN_ECHEANCIER*1.2;
+		}
 		List<String> listTypeChoco=new LinkedList<String>();
 		List<Double> listPrixChoco=new LinkedList<Double>();
 		
@@ -215,59 +217,25 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		return max;
 	}
 
-
-
-
+	
 	//Louis
-
-	/**
-	 * Renvoie la liste des chocolats qui sont vendus par les transformateurs durant le step en cours.
-	 * @return
-	 */
-
-	public List<ChocolatDeMarque> chocolatVendu() {
-		ArrayList<ChocolatDeMarque> chocoVendu = new ArrayList<ChocolatDeMarque>();
-		for (ChocolatDeMarque choco : this.getCatalogue()) {
-			for (IVendeurContratCadre transfo : getTransformateurs()) {
-				if (transfo.vend(choco) && !chocoVendu.contains(choco)) {
-					chocoVendu.add(choco);
-				}
-			}
-		}
-		return chocoVendu;
-	}
-
-
-
-	//Louis
-
-	/**
-	 * Renvoie la liste des transformateurs de la filière
-	 * @return
-	 */
-
-	public List<IVendeurContratCadre> getTransformateurs(){
-		LinkedList<IVendeurContratCadre> transf = new LinkedList<IVendeurContratCadre>();
-		for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-			if (acteur!= this && acteur instanceof IVendeurContratCadre) {
-				transf.add((IVendeurContratCadre)acteur);
-			}
-		}
-		return transf;
-	}
-
-
+	
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		//System.out.println("contrat " + contrat.getVendeur());
 		//System.out.println("nouv contrat choco: "+ ((ChocolatDeMarque)contrat.getProduit()).toString() + " tg: "+contrat.getTeteGondole()+" quantite:"+contrat.getEcheancier().getQuantiteTotale());
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		double quantite = contrat.getEcheancier().getQuantiteTotale();
+		double prix = contrat.getPrix();
+		
 		if (!contrat.getTeteGondole() && quantite*0.1>superviseur.QUANTITE_MIN_ECHEANCIER) {
 			if((stockTG.get(choco).getValeur()/stock.get(choco).getValeur())<0.2) {
 				listeTG.put(choco, quantite*0.1);
 			}
 		}
+		
+		this.prixDAchat.put(choco, prix);
+		
 	}
 
 

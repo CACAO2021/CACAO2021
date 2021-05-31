@@ -8,7 +8,7 @@ import java.util.List;
 import abstraction.eq8Romu.clients.ClientFinal;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
-import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadre;
+import abstraction.eq8Romu.contratsCadres.IAcheteurContratCadreNotifie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
@@ -19,7 +19,7 @@ import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque,IFabricantChocolatDeMarque,IMarqueChocolat,IAcheteurContratCadre {
+public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDistributeurChocolatDeMarque,IFabricantChocolatDeMarque,IMarqueChocolat,IAcheteurContratCadreNotifie {
 	
 	protected int cryptogramme;
 	protected Stocks stocks;
@@ -243,8 +243,13 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 
 	@Override
 	public double prix(ChocolatDeMarque choco) {
+		if ((this.marges.keySet().contains(choco.getChocolat()) ? this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat()) : Double.MAX_VALUE)<0.1) {
+			return 2.0;
+		}
+		else {
 		return this.marges.keySet().contains(choco.getChocolat()) ? this.achat.moyennePrixChoco(choco)/this.marges.get(choco.getChocolat()) : Double.MAX_VALUE;
-	}
+		}
+	}	
 
 	//On considere que tout le stock d'un produit est en vente
 	public double quantiteEnVente(ChocolatDeMarque choco) {
@@ -334,5 +339,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 	 */
 	public ChocolatDeMarque getChocoProduit() {
 		return chocoProduit;
+	}
+
+
+	@Override
+	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
+		this.achat.notificationNouveauContratCadre(contrat);
 	}
 }
