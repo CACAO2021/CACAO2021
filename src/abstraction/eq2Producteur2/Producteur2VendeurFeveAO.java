@@ -32,7 +32,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 	//Cette fonction renvoie le prix maximal, l'acheteur et la quantité moyenne. 
 	public ArrayList<Object> acheteLePlusCher(LinkedList<PropositionVenteFevesAO> mesContratsAO) {
 		//Ce dictionnaire fait correspondre un acheteur avec le prix moyen, et la quantité totale achetée
-		HashMap<IAcheteurFevesAO, Pair <Double,Double>> prixMoyenAcheteur = new HashMap<IAcheteurFevesAO, Pair <Double,Double>>(); 
+		HashMap<IAcheteurFevesAO, Pair<Double,Double>> prixMoyenAcheteur = new HashMap<IAcheteurFevesAO, Pair<Double,Double>>(); 
 		//Ce dictionnaire fait correspondre un acheteur avec la quantité moyenne qu'il achète
 		HashMap<IAcheteurFevesAO,Double> quantiteMoyenne=new HashMap<IAcheteurFevesAO, Double>(); 
 		//Ce dictionnaire fait correspondre un acheteur avec le nombre de contrat qu'il a fait
