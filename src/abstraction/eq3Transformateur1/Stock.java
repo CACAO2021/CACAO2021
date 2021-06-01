@@ -35,7 +35,7 @@ public class Stock {
 	private double COUT_TRANSFORMATION = 500; // 500€ pour 1000kg
 	private double COEFFICIENT_COUT_BIO = 1.15;
 	private double RAPPORT_TRANSFORMATION = 2.5;  // 0,04kg de fèves pour 0,1 kg de chocolat
-	private double STOCK_INI = 50000000;
+	private double STOCK_INI = 5000000;
 	private Transformateur1Acteur acteur;
 	
 	
