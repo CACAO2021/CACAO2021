@@ -123,13 +123,8 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	// AJOUTE LA QUANTITE DE CHOCOLAT A LETAPE ACTUELLE ET DANS LE STOCK DE MARQUES
 	
 	public void ajouterChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
-		double limiteDeStocks = limiteStocks;
-		for(Variable var : acteur.getParametres()) {
-			if (var.getNom().equals("limiteStocks")) {
-				limiteDeStocks = var.getValeur();
-			}
-		}
-		if (getQuantiteTotaleStocks()+qte<=limiteDeStocks) {
+		double limiteDeStocks = getParametre("limiteStocks");
+		if (getQuantiteTotaleStocks()+qte<=limiteDeStocks*100) {
 			this.stocksParMarque.get(chocolatDeMarque).ajouter(acteur, qte);
 			acteur.journalStocks.ajouter(Journal.texteColore(addStockColor, Color.BLACK, "[AJOUT] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
 			int etape = Filiere.LA_FILIERE.getEtape();
@@ -145,10 +140,19 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	// vérifie notamment que l'opération est possible avec la méthode verifNouveauChocoEnTG(chocolatDeMarque, qte).
 	
 	public void ajouterChocolatEnTG(ChocolatDeMarque chocolatDeMarque, double qte) { // Caractérise juste une partie du stock de TG
+		double quantitePossibleDAjouter = qtePossibleTG(chocolatDeMarque);
 		if(this.verifNouveauChocoEnTG(chocolatDeMarque, qte)) {
-		this.stocksEnTG.get(chocolatDeMarque).ajouter(acteur, qte);
-		acteur.journalStocks.ajouter(Journal.texteColore(TGColor, Color.BLACK, "[TG] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + "Est passé en TG, [TOTAL] : " + Journal.doubleSur(this.getQuantiteTotaleEnTG()/this.getQuantiteTotaleStocks(),5) + " De Choco en TG"));
+			//System.out.println("OUI c'est possible, qte possible a ajouter "+ quantitePossibleDAjouter +" qte voulue : " + qte);
+			this.stocksEnTG.get(chocolatDeMarque).ajouter(acteur, qte);
+			acteur.journalStocks.ajouter(Journal.texteColore(TGColor, Color.BLACK, "[TG - AJOUT] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + " est passé en TG, [TOTAL] : " + Journal.doubleSur(this.getQuantiteTotaleEnTG()/this.getQuantiteTotaleStocks(),5) + " De Choco en TG"));
+		}else {
+			//System.out.println("NON IMPOSSIBLE, qte possible à ajouter : " + quantitePossibleDAjouter +" voulue : "+qte);
+			this.stocksEnTG.get(chocolatDeMarque).ajouter(acteur,quantitePossibleDAjouter);
+			acteur.journalStocks.ajouter(Journal.texteColore(alertColor, Color.BLACK, "[TG - PROBLEME] l'ajout de "+ Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + " dépasserait la limite de TG,"
+					+ "ajout de "+ Journal.doubleSur(quantitePossibleDAjouter,2) + " en TG et " + Journal.doubleSur(qte-quantitePossibleDAjouter,2) + " dans les stocks classiques"));
+			this.ajouterChocolatDeMarque(chocolatDeMarque, qte-quantitePossibleDAjouter);
 		}
+		
 	}
 	
 	
@@ -181,13 +185,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	// returns yes si on peut mettre une telle quantité d'un tel chocolat en TG
 	
 	public boolean verifNouveauChocoEnTG(ChocolatDeMarque choco, double qte) {
-		double limiteTG = limiteEnTG;
-		for(Variable var : acteur.getParametres()) {
-			if (var.getNom().equals("limiteEnTG")) {
-				limiteTG = var.getValeur();
-			}
-		}
-		return (acteur.quantiteEnVenteTG(choco)+qte)/(acteur.quantiteEnVente(choco)+qte)<limiteTG;
+		return qtePossibleTG(choco)>qte;
 	}
 	
 	
@@ -223,9 +221,9 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	// Renvoie la quantité possible à rajouter en TG, utile lors de la création de contrats d'achat
 	
 	public double qtePossibleTG(ChocolatDeMarque choco){
-		double qteDejaEnTG = this.getQuantiteChocoEnTG(choco);
-		double limiteTG = this.getParametre("limiteEnTG");
-		double qteDeChocoAvant = this.getStockChocolatDeMarque(choco);
+		double qteDejaEnTG = getQuantiteChocoEnTG(choco);
+		double limiteTG = getParametre("limiteEnTG");
+		double qteDeChocoAvant = getStockChocolatDeMarque(choco);
 		return (qteDeChocoAvant*limiteTG/100)-qteDejaEnTG;
 	}
 	
@@ -237,16 +235,15 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	public void majTGSuiteASuppression() {
 		double limiteTG = this.getParametre("limiteEnTG");
 		for(ChocolatDeMarque choco : acteur.getCatalogue()) {
-			if(this.stocksEnTG.containsKey(choco)) {
-
-				double qteTG = acteur.quantiteEnVenteTG(choco);
-				double qteStocksGeneral = acteur.quantiteEnVente(choco);
-				if(qteTG/qteStocksGeneral>=limiteTG) {
-					double qteAEnlever = qteTG-(limiteTG*qteStocksGeneral);
+			if(this.stocksEnTG.keySet().contains(choco)) {
+				double qteTG = getQuantiteChocoEnTG(choco);
+				double qteStocksGeneral = getStockChocolatDeMarque(choco);
+				if(qteTG/qteStocksGeneral>=limiteTG/100) {
+					double qteAEnlever = qteTG-(limiteTG*qteStocksGeneral/100);
 					this.stocksEnTG.get(choco).retirer(acteur, qteAEnlever);
+					ajouterChocolatDeMarque(choco, qteAEnlever);
 					acteur.journalStocks.ajouter(Journal.texteColore(Color.RED, Color.BLACK, "[REAJUSTEMENT TG] " + Journal.doubleSur(qteAEnlever,2) + " de " + choco.name() + "ont été enlevés de TG, [TOTAL] : " + Journal.doubleSur(acteur.quantiteEnVenteTG(choco),2) + " De Choco en TG"));
 				}
-				
 			}
 			
 		}
@@ -262,15 +259,17 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	public void supprimerChocolatDeMarque(ChocolatDeMarque chocolatDeMarque, double qte) {
 		int etape = Filiere.LA_FILIERE.getEtape();
 		if (this.getStockChocolatDeMarque(chocolatDeMarque)>=qte) { //on vérifie déjà que l'action soit possible
-			if(this.stocksEnTG.get(chocolatDeMarque).getValeur()!=0) {
-			this.stocksEnTG.get(chocolatDeMarque).setValeur(acteur, acteur.quantiteEnVente(chocolatDeMarque)*(this.getParametre("limiteEnTG")-0.01)/100);
+			double qteEnTGAvantSuppression = getQuantiteChocoEnTG(chocolatDeMarque);
+			if(qteEnTGAvantSuppression!=0) {
+				acteur.journalStocks.ajouter(Journal.texteColore(removeStockColor, Color.BLACK, "[TG - SUPPRESSION] " + Journal.doubleSur(qteEnTGAvantSuppression,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(getQuantiteChocoEnTG(chocolatDeMarque)/getStockChocolatDeMarque(chocolatDeMarque),4) + " "));
+				this.stocksEnTG.get(chocolatDeMarque).retirer(acteur, qte);
 			}
 			if(this.getQuantiteChocoEnTG(chocolatDeMarque)<0) { // on dit que lorsqu'un chocolat est vendu, c'est qu'il était d'abord en TG
 				this.setQuantiteChocoEnTG(chocolatDeMarque, 0.0);
 			}
-			enleverParEtape(chocolatDeMarque,qte); // voir juste en dessous (boucle sur les étapes pour supprimer petit à petit)
-			this.stocksParMarque.get(chocolatDeMarque).retirer(acteur, qte);
-			acteur.journalStocks.ajouter(Journal.texteColore(removeStockColor, Color.BLACK, "[SUPPRESSION] " + Journal.doubleSur(qte,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
+			enleverParEtape(chocolatDeMarque,qte-qteEnTGAvantSuppression); // voir juste en dessous (boucle sur les étapes pour supprimer petit à petit)
+			this.stocksParMarque.get(chocolatDeMarque).retirer(acteur, qte-qteEnTGAvantSuppression);
+			acteur.journalStocks.ajouter(Journal.texteColore(removeStockColor, Color.BLACK, "[SUPPRESSION] " + Journal.doubleSur(qte-qteEnTGAvantSuppression,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(stocksParMarque.get(chocolatDeMarque).getValeur(),2) + " "));
 			this.majTGSuiteASuppression();
 		}else {
 			acteur.journalStocks.ajouter(Journal.texteColore(alertColor, Color.BLACK, "[PAS ASSEZ DE STOCKS] Impossible de supprimer" + Journal.doubleSur(qte,2) +" de "+ chocolatDeMarque.name()+ " à l'étape " + Journal.entierSur6(etape)));

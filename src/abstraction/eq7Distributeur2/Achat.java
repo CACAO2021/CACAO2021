@@ -162,7 +162,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		}
 		this.majDemande();
 		this.nouveauContrat();
-		//this.nouveauContratEnTG();
+		this.nouveauContratEnTG();
 	}
 
 	//public void init() {
@@ -333,6 +333,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	//Chercher des nouveaux contrats pour des chocolats en tête de gondole
 	public void nouveauContratEnTG() {
 		for(ChocolatDeMarque choco : wonka.getCatalogue()) {
+			//System.out.println(this.quantiteEnRouteTG.get(choco));
 		    double quantiteTG = wonka.stocks.qtePossibleTG(choco) - this.quantiteEnRouteTG.get(choco);
 			LinkedList<IVendeurContratCadre> vendeurs = (LinkedList<IVendeurContratCadre>) this.getSupCCadre().getVendeurs(choco);
 			if (vendeurs.size()!=0 && quantiteTG >SuperviseurVentesContratCadre.QUANTITE_MIN_ECHEANCIER){
