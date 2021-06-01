@@ -1,19 +1,25 @@
 package abstraction.eq3Transformateur1;
 
-public class Couple  {
+public class Triple  {
 	
 	private double q;
 	private int t;
+	private boolean b;
 	
-	public Couple(double q, int t) { 
+	public Triple(double q, int t, boolean b) { 
 		this.q=q;
 		this.t=t;
+		this.b = b;
 	}
 	public double get1() {
 		return this.q; 
 	}
 	public int get2() {
 		return this.t;
+	}
+	
+	public boolean get3() {
+		return this.b;
 	}
 	
 	public void set1(double q) {
@@ -24,8 +30,12 @@ public class Couple  {
 		this.t = t;
 	}
 	
-	public boolean isNot(Couple couple) {
-		if (this.get1() != couple.get1() && this.get2() != couple.get2()) {
+	public void set3(boolean b) {
+		this.b = b; 
+	}
+	
+	public boolean isNot(Triple triple) {
+		if (this.get1() != triple.get1() && this.get2() != triple.get2()) {
 			return true;
 		}
 		return false;

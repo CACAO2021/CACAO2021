@@ -25,6 +25,7 @@ public class Business {
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeur;
 	protected List<ExemplaireContratCadre> mesContratEnTantQueVendeurNonGere;
 	protected List<ExemplaireContratCadre> mesContratEnTantQueAcheteur;
+	protected Map<Feve, Triple> achats;
 
 	
 	
@@ -88,6 +89,11 @@ public class Business {
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
 		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;	
 		this.mesContratEnTantQueVendeurNonGere = new ArrayList<ExemplaireContratCadre>() ;
+		
+		this.achats = new HashMap<Feve, Triple>();
+		for (Feve feve : this.getStock().nosFevesCC()) {
+			this.achats.put(feve, new Triple(0, 1000000, false));
+		}
 	}
 	
 	public Stock getStock() {
@@ -246,6 +252,11 @@ public class Business {
 		return stockAAvoir;
 	}*/
 	
+	
+	
+	//-----------------------
+	/*
+	
 	public List<ExemplaireContratCadre> getMesContratEnTantQueVendeurNonGere() {
 		return this.mesContratEnTantQueVendeur;
 	}
@@ -276,10 +287,10 @@ public class Business {
 	
 	
 	
-	public Map<Feve, Couple> quantiteAPartir() {
-		Map<Feve, Couple> stockAAvoir = new HashMap<Feve, Couple>();
+	public Map<Feve, Triple> quantiteAPartir() {
+		Map<Feve, Triple> stockAAvoir = new HashMap<Feve, Triple>();
 		for (Feve feve : this.getStock().nosFevesCC()) {
-			stockAAvoir.put(feve, new Couple(0, 1000000));
+			stockAAvoir.put(feve, new Triple(0, 1000000, false));
 		}
 		
 		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueVendeurNonGere()) {
@@ -293,18 +304,18 @@ public class Business {
 			Feve feve = this.getStock().equivalentFeve(Chocolat);
 			double stock = stockAAvoir.get(feve).get1();
 			int duree = stockAAvoir.get(feve).get2();
-			Couple couple = new Couple(stock, duree);
+			Triple couple = new Triple(stock, duree, true);
 			if (contrat.getEcheancier().getNbEcheances() < duree) {
 				couple.set2(contrat.getEcheancier().getNbEcheances());
 			}
 			couple.set1(contrat.getQuantiteTotale()/2.5+stock);
 			stockAAvoir.replace(feve, couple);
 		}
-		/*for (Feve feve : this.getStock().nosFevesCC()) {
+		for (Feve feve : this.getStock().nosFevesCC()) {
 			System.out.println(stockAAvoir.get(feve));
 			System.out.println(stockAAvoir.get(feve).get1());
 			System.out.println(stockAAvoir.get(feve).get2());
-		}*/
+		}
 
 		return stockAAvoir;
 	}
@@ -313,7 +324,7 @@ public class Business {
 		// on retourne la liste de toutes les fèves qu'on doit acheter
 		ArrayList<Feve> listefeve = new ArrayList<Feve>();
 		for (Feve feve : this.getStock().nosFevesCC()) {
-			Couple zero = new Couple(0, 0);
+			Triple zero = new Triple(0, 0, false);
 			if (this.quantiteAPartir().get(feve).isNot(zero)) {
 				listefeve.add(feve);
 			} 
@@ -346,116 +357,65 @@ public class Business {
 		return false;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*public Map<Chocolat, Double> stockAFournir(int step) {
-		// on regarde la quantite de toutes les feves à livrer à un certain step
-		Map<Chocolat, Double> stockafournir = new HashMap<Chocolat, Double>();
-		for (Chocolat chocolat : this.getStock().nosChocolats()) {
-			stockafournir.put(chocolat, 0.0);
-		
-		for (ExemplaireContratCadre contrat : this.getMesContratEnTantQueVendeur()) {
-			if (contrat.getProduit() instanceof Chocolat) {
-				Double ancienstock = stockafournir.get((Chocolat) contrat.getProduit());
-				stockafournir.replace((Chocolat)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
-				} 
-			}	
-		}
-		return stockafournir; 
-	}
-	public Map<Feve, Double> stockARecevoir(int step) {
-		// on regarde la quantite de toutes les feves à recevoir à un certain step
-		Map<Feve, Double> stockarecevoir = new HashMap<Feve, Double>();
-		for (Feve feve : this.getStock().nosFeves()) {
-			stockarecevoir.put(feve, 0.0);
-		}
-		for (ExemplaireContratCadre contrat : this.getMesContratEnTantQueAcheteur()){
-			if (contrat.getProduit() instanceof Feve) {
-				Double ancienstock = stockarecevoir.get((Feve) contrat.getProduit());
-				stockarecevoir.replace((Feve)contrat.getProduit(), contrat.getEcheancier().getQuantite(step)+ancienstock);
-			}
-		}
-		return stockarecevoir; 
-	}
-	
-	public double differenceStockArrivePart(Feve feve, int step) {
-		// difference entre ce qui va sortir et ce qui va rentrer pour un type de feve
-		return this.stockARecevoir(step).get(feve) - this.stockAFournir(step).get(this.getStock().equivalentConfiserieFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentTabletteFeve(feve)) - this.stockAFournir(step).get(this.getStock().equivalentPoudreFeve(feve));
-	}
-	
-	public  Map<Feve, Double> listeDifferenceStockArrivePart() {
-		// on regarde sur une période de 10 steps les feves ou on vend plus qu'on achete, et on retour une Map des feves et des différences entre les quantités
-		Map<Feve, Double> listedifstock = new HashMap<Feve, Double>(); 
-		for (Feve feve : this.getStock().nosFeves()) {
-			double difference = 0;
-			for (int i = 1; i < 20; i++) {
-				difference += this.differenceStockArrivePart(feve, i);
-			}
-			listedifstock.put(feve, difference);
-			
-		}
-		return listedifstock;
-	}
-	
-	public Map<Feve, Double> quantitefeveAAcheter() {
-		// si nos différences sont négatives on les ajoute à notre map avec la quantité à acheter (1.5 fois celle qui nous manque)
-		Map<Feve, Double> stockaacheter = new HashMap<Feve, Double>(); 
-		for (Feve feve : this.getStock().nosFeves()) {
-			double diff = this.listeDifferenceStockArrivePart().get(feve);
-			System.out.println(diff);
-			if (diff < 0) {
-				stockaacheter.put(feve,-diff*1.5);
-			} else if (diff == 0) {
-				stockaacheter.put(feve, QUANTITE_INI);
-			}
-		}
-		return stockaacheter;
-	}
-	
-	public ArrayList<Feve> feveAAcheter() {
-		// on retourne la liste de toutes les fèves qu'on doit acheter
-		ArrayList<Feve> listefeve = new ArrayList<Feve>();
-		for (Feve feve : this.getStock().nosFevesCC()) {
-			if (this.listeDifferenceStockArrivePart().get(feve) <= 0) {
-				listefeve.add(feve);
-			} 
-		}
-		return listefeve;
-	}
+	//-----------------------
 	*/
+	
+	public void miseAJourVente(ExemplaireContratCadre contrat) {
+		Chocolat chocolat = null;
+		if (contrat.getProduit() instanceof Chocolat) {
+			chocolat = ((Chocolat)contrat.getProduit());
+		} else {
+			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+		}
+		Feve feve = this.getStock().equivalentFeve(chocolat);
+		
+		Triple triple = this.achats.get(feve);
+		double stock = triple.get1() + contrat.getQuantiteTotale()/2.5; 
+		int duree = Math.min(triple.get2(), contrat.getEcheancier().getNbEcheances()); 
+		if (stock >0 && duree > 0) {
+			triple.set3(true);
+		}
+		else {
+			triple.set3(false);
+		}
+		triple.set1(stock);
+		triple.set2(duree);
+		this.achats.replace(feve, triple);
+		
+	}
+	
+	public void miseAJourAchat(ExemplaireContratCadre contrat) {
+		Feve feve = (Feve)contrat.getProduit();
+		Triple triple = this.achats.get(feve);
+		double stock = triple.get1() - contrat.getQuantiteTotale(); 
+		int duree = Math.max(triple.get2(), contrat.getEcheancier().getNbEcheances()); 
+		if (stock >0 && duree > 0) {
+			triple.set3(true);
+		}
+		else {
+			triple.set3(false);
+		}
+		triple.set1(stock);
+		triple.set2(duree);
+		this.achats.replace(feve, triple);
+	}
+	
+	
+	public Map<Feve, Triple> getAchats() {
+		return this.achats; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }
 
 

@@ -46,8 +46,8 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 		} else if(contrat.getProduit() instanceof ChocolatDeMarque) {
 			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
 			}
-		if (contrat.getEcheancier().getQuantiteTotale() > this.getStock().getStockChocolats(chocolat)/5) {
-			return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, contrat.getEcheancier().getNbEcheances(), this.getStock().getStockChocolats(chocolat)/5); 
+		if (contrat.getEcheancier().getQuantiteTotale() > this.getStock().getStockChocolats(chocolat)/2) {
+			return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, contrat.getEcheancier().getNbEcheances(), this.getStock().getStockChocolats(chocolat)/2); 
 		}
 		return contrat.getEcheancier(); 
 	}
