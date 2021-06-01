@@ -331,7 +331,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	public void CoutStockage() {
 		int etape = Filiere.LA_FILIERE.getEtape();
-		double prixDeStockage = this.getParametre("limiteStocks");
+		double prixDeStockage = this.getParametre("prixStockage");
 		if(etape!=0 && etape!=1) {
 			double cout = this.getQuantiteTotaleStockEtape(etape-1) * prixDeStockage;
 			// PARTIE OU ON ENLEVE DE L'ARGENT DE NOTRE COMPTE BANCAIRE, A CODER Filiere.LA_FILIERE.getBanque();
