@@ -15,7 +15,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	protected static int dureeDePeremption = 6;
 	protected static double limiteStocks = 1000000000;
 	protected static double prixStockage = 0.0000001;
-	protected static double limiteEnTG = 9.5; // en pourcent
+	protected static double limiteEnTG = 9; // en pourcent
 	
 	
 	protected HashMap<ChocolatDeMarque,Variable> stocksEnTG; // Stocks de chocolat en Tête de Gondole STOCK PAS COMPTE DANS LE STOCK GENERAL
