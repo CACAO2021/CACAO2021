@@ -1,5 +1,6 @@
 package abstraction.eq3Transformateur1;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,7 @@ import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
 import abstraction.eq8Romu.contratsCadres.SuperviseurVentesContratCadre;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
 import abstraction.fourni.Variable;
@@ -44,17 +46,21 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		// Si l'echeancier est juste  plus court de 2 step que l'échéancier demandé (10) on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
+		/*if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
 			return contrat.getEcheancier();
 			
 		}
-		return null;
+		return null;*/
+		//return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 14, contrat.getEcheancier().getQuantiteTotale());
+		return contrat.getEcheancier(); 
 	}
 
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
+
 		if( contrat.getPrix()*contrat.getQuantiteTotale() >= this.getSolde()) {
 			return 0;
 		} else {
+
 			return contrat.getPrix();
 		}
 	}
@@ -63,18 +69,21 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		
 		this.getStock().getFinancier().miseAJourContratAcheteur();
 		// Proposition d'un nouveau contrat à tous les vendeurs possibles	
-		Map<Feve, Double> quantiteaacheter = this.getStock().getFinancier().quantiteAPartir();
-		ArrayList<Feve> feveaacheter = this.getStock().getFinancier().feveAAcheter();
-		System.out.println(feveaacheter);
-		for  (Feve feve : feveaacheter) {
-			System.out.println(quantiteaacheter.get(feve));
+		Map<Feve, Triple> quantiteaacheter = this.getStock().getFinancier().getAchats();
+
+		for  (Feve feve : this.getStock().nosFevesCC()) {
+
+			Triple triple = quantiteaacheter.get(feve);
+			int nbEcheances = triple.get2();
+			double quant = triple.get1();
+			boolean achat = triple.get3();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-					boolean t = true;
-					if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t) {
-						ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, quantiteaacheter.get(feve)), cryptogramme, false);
-						if (contrat != null) {
-					}
+				boolean t = true;
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t && quant >1000 && achat) {
+
+					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, nbEcheances, quant), cryptogramme, false);
 				}
+				
 			}
 		}
 	}
@@ -91,9 +100,23 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		if (contrat.getAcheteur().getNom() == "Eticao") {
 
 			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
-		} else if (contrat.getVendeur().getNom() == "Eticao") {
 
+			this.getStock().getFinancier().miseAJourAchat(contrat);
+			 
+			
+		} else if (contrat.getVendeur().getNom() == "Eticao") {
+			Chocolat chocolat = null; 
+			if (contrat.getProduit() instanceof Chocolat) {
+				chocolat = (Chocolat)contrat.getProduit();
+			} else if(contrat.getProduit() instanceof ChocolatDeMarque) {
+				chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+				}
 			this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
+			this.getStock().getFinancier().miseAJourVente(contrat);
+			double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
+			double argentPourLesAsso = contrat.getPrix()*(margeAVerser-1.4)*contrat.getQuantiteTotale();
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
+			this.journalTresorie.ajouter(Color.GREEN, Color.BLACK, "Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
 		}
 	}
 }
