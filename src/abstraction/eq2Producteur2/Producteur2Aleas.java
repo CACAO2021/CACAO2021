@@ -45,10 +45,10 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			JournalRevolte.ajouter(Color.RED, Color.BLACK, "révolution au step " + Filiere.LA_FILIERE.getEtape());
 			// les couts de production augmente (ce qui correspond à un salaire qui augmente pour les producteurs)
 			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
-			COUT_PRODUCTION_FEVE_M *= 1.3;
-			COUT_PRODUCTION_FEVE_ME *= 1.4;
-			COUT_PRODUCTION_FEVE_HE *= 1.5;
-			COUT_PRODUCTION_FEVE_HBE *= 1.6;
+			COUT_PRODUCTION_FEVE_M *= 1.2;
+			COUT_PRODUCTION_FEVE_ME *= 1.3;
+			COUT_PRODUCTION_FEVE_HE *= 1.4;
+			COUT_PRODUCTION_FEVE_HBE *= 1.5;
 			// pdt la révolte, une faible qtt de stock est perdue 
 			// seulement les faible basse et moyenne sont affectées
 			LinkedList<Feve> listeProdRevolte = new LinkedList<Feve>();

@@ -41,14 +41,20 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 	}
 	
 	public void tropDArgent() {
+		/*
 		// si on devient trop riche 
 		// ce qui n'est pas forcement le but de notre acteur qui se veut equitable
 		// on fait des dons dargent et on augmente le salaire de nos producteurs
-		COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
-		COUT_PRODUCTION_FEVE_M *= 1.3;
-		COUT_PRODUCTION_FEVE_ME *= 1.4;
-		COUT_PRODUCTION_FEVE_HE *= 1.5;
-		COUT_PRODUCTION_FEVE_HBE *= 1.6;
+		boolean bol = Filiere.LA_FILIERE.getBanque()
+		if () {
+			// on augmente les salaires
+			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
+			COUT_PRODUCTION_FEVE_M *= 1.2;
+			COUT_PRODUCTION_FEVE_ME *= 1.3;
+			COUT_PRODUCTION_FEVE_HE *= 1.4;
+			COUT_PRODUCTION_FEVE_HBE *= 1.5;
+		}
+		*/
 	}
 
 
