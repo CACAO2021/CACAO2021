@@ -1,5 +1,8 @@
 package abstraction.eq3Transformateur1;
 
+
+
+//Paul GIRAUD
 public class Triple  {
 	
 	private double q;
