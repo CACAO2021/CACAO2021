@@ -12,14 +12,14 @@ public class Producteur2et1ValeursEnCommun {
 	public static double COUT_PRODUCTION_FEVE_ME = 2.;
 	public static double COUT_PRODUCTION_FEVE_HE = 2.5;
 	public static double COUT_PRODUCTION_FEVE_HBE = 3.;
+	// on est donc equitable car on paye bien nos producteurs!
 	
 	//cout changement arbre
 	// correpsond au cout d'un arbre plante ou enleve
-	public static final double COUT_CHANGEMENT_ARBRE_HBE = 0.1; // pour ne pas mettre 0€
-	public static final double COUT_CHANGEMENT_ARBRE_HE = 0.1;
-	public static final double COUT_CHANGEMENT_ARBRE_ME = 0.1;
-	public static final double COUT_CHANGEMENT_ARBRE_M = 0.1;
-	public static final double COUT_CHANGEMENT_ARBRE_B = 0.1;
+	// le même quel que soit le type d'arbre 
+	// la différence de cout apparaitra plus tard dans la vie de larbre
+	// avec le cout de production
+	public static final double COUT_CHANGEMENT_ARBRE = 1.;
 	
 	// production par an arbre
 	public static final int PROD_ARBRE_AN = 6;
