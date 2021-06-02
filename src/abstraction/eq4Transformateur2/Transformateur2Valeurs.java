@@ -22,10 +22,6 @@ public class Transformateur2Valeurs {
 		var_stock_tablette_moyenne = new Variable("stock tablette moyenne", (IActeur) this, quantite_init_tablette_moyenne);
 		var_stock_confiserie_basse = new Variable("stock confiserie basse", (IActeur) this, quantite_init_confiserie_basse);
 		var_stock_confiserie_moyenne = new Variable("stock confiserie moyenne", (IActeur) this, quantite_init_confiserie_moyenne);
-		liste_prix_achat_feve_basse = new LinkedList<Double>();
-		liste_prix_achat_feve_moyenne = new LinkedList<Double>();
-		liste_prix_achat_feve_basse.add(cout_max_feve_basse);
-		liste_prix_achat_feve_moyenne.add(cout_max_feve_moyenne);
 	}
 	
 	//Echéancier
@@ -34,38 +30,29 @@ public class Transformateur2Valeurs {
 	protected LinkedList<Double> echeancier_moyenne ;
 	protected LinkedList<Double> echeancier_total ; 
 	
-	protected double quantite_totale_demandee_basse = 12000;
-	protected double quantite_totale_demandee_moyenne = 12000;
-	protected double nombre_step_total_basse = 1;
-	protected double nombre_step_total_moyenne = 1;
+
 	
 	protected static double Prix_max_achat;
 	
-
-	protected static double cout_max_feve_basse = 1.7 ; 
-	protected static double cout_max_feve_moyenne = 2.5;
-	protected LinkedList<Double> liste_prix_achat_feve_basse;
-	protected LinkedList<Double> liste_prix_achat_feve_moyenne;
-	protected double meilleur_prix_feve_basse = 1.7;
-	protected double meilleur_prix_feve_moyenne = 2.5;
-
+	protected LinkedList<ExemplaireContratCadre> contrats;
 	protected int cryptogramme;
+	protected Journal journal;
 	
 	//Stockage
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
-	
 	protected double mini_stock_tablette_basse = 15000000.0;
 	protected double mini_stock_tablette_moyenne = 15000000.0;
 	protected double mini_stock_confiserie_basse = 15000000.0;
 	protected double mini_stock_confiserie_moyenne = 15000000.0;
 	protected double mini_stock_feve_basse = 10000000.0;
 	protected double mini_stock_feve_moyenne = 10000000.0;
-
-	/*protected int duree_stockage_max;
-	protected HashMap<Feve,double[]> stock_feve;
-	protected HashMap<Chocolat,double[]> stock_chocolat;*/
+	
+	protected double quantite_totale_demandee_basse = 0;
+	protected double quantite_totale_demandee_moyenne = 0;
+	protected double nombre_step_total_basse = 0;
+	protected double nombre_step_total_moyenne = 0;
 	
 	//Coûts fixes
 	
@@ -74,6 +61,11 @@ public class Transformateur2Valeurs {
 	
 	protected static double cout_fixe_entrepot_feve = 1000;
 	protected static double cout_fixe_entrepot_choco = 1000;
+	
+	//Achat 
+	
+	protected static double cout_max_feve_basse = 1.3 ; 
+	protected static double cout_max_feve_moyenne = 1.4;
 
 	//Production
 	
@@ -99,8 +91,8 @@ public class Transformateur2Valeurs {
 	
 	//Quantité intiale dans les entrepôts
 	
-	protected static double quantite_init_feve_basse = /*(1627200000.0+4197600000.0)/48.0;*/ 12000000.0;
-	protected static double quantite_init_feve_moyenne = /*(1627200000.0+4197600000.0)/48.0;*/12000000.0;
+	protected static double quantite_init_feve_basse = (1627200000.0+4197600000.0)/48.0;
+	protected static double quantite_init_feve_moyenne = (1627200000.0+4197600000.0)/48.0;
 	protected static double quantite_init_tablette_basse = 4197600000.0/48;
 	protected static double quantite_init_tablette_moyenne = 4197600000.0/48;
 	protected static double quantite_init_confiserie_basse = 1627200000.0/48;
@@ -112,6 +104,6 @@ public class Transformateur2Valeurs {
 	protected Journal journal_vente;
 	
 	// Test
-	
+
 }
 	
