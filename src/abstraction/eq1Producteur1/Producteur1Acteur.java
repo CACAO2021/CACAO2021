@@ -7,22 +7,38 @@ import java.util.List;
 
 import abstraction.eq2Producteur2.Producteur2Valeurs;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
+import abstraction.fourni.IFabricantChocolatDeMarque;
+import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public abstract class Producteur1Acteur extends Producteur1Valeurs implements IActeur {
+public abstract class Producteur1Acteur extends Producteur1Valeurs implements IFabricantChocolatDeMarque, IMarqueChocolat {
 	private int cryptogramme;
 	private Color couleur = new Color(26, 188, 156);
 	private Transformation transformation;
 	
 	
-
+	public List<String> getMarquesChocolat() {
+	List<String> liste = new ArrayList<String>();
+	liste.add("Ghanao");
+	return liste;
+	}
+	
+	
+	public List<ChocolatDeMarque> getChocolatsProduits() {
+		List<ChocolatDeMarque> liste = new ArrayList<ChocolatDeMarque>();
+		liste.add(new ChocolatDeMarque(Chocolat.POUDRE_MOYENNE, "Ghanao"));
+		liste.add(new ChocolatDeMarque(Chocolat.POUDRE_MOYENNE_EQUITABLE, "Ghanao"));
+		return liste;
+	}
 	
 	public Producteur1Acteur() {
 		this.init_historiques();
+		
 		
 	}
 
@@ -34,6 +50,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 
 	public void initialiser() {
 		transformation = new Transformation();
+		Producteur1Valeurs.init();
 
 	}
 	
