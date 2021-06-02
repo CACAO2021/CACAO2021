@@ -243,7 +243,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			return prodParArbre(p);
 		}else {
 			return 0;
-		}
+		} 
 	}
 
 	protected double qttQuiSeraProduite( int nbEcheance, Object p) {
