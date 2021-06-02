@@ -22,29 +22,22 @@ public class Producteur2et1ValeursEnCommun {
 	public static final double COUT_CHANGEMENT_ARBRE = 1.;
 	
 	// production par an arbre
+	// quel que soit le type darbre
 	public static final int PROD_ARBRE_AN = 6;
 			
 	//production par tour par arbre 
+	// 12 * 2 = 24 steps
 	public static final int PROD_ARBRE = PROD_ARBRE_AN/24;
 	
-	//si on decide de donner des valeurs différentes:
-	public static final double PROD_HBE = 6./24.;
-	public static final double PROD_HE = 6./24.;
-	public static final double PROD_ME = 6./24.; 
-	public static final double PROD_M = 6./24.;
-	public static final double PROD_B = 6./24.; 
-	
 	// partie transformation
+	// finalement utile uniquement a l'équipe 1 
 	public static final double coefHE = 0.4; //(à affiner)
 	public static final double coefM = 0.4;
-	public static final double coefME = 0.4;
-	
+	public static final double coefME = 0.4;	
 	public static final int qteParStepHE = 15000; //quantité que l'on peut transformer en un step (100kg/h, 10h/jour)
 	public static final int qteParStepM = 15000;
-	public static final int qteParStepME = 15000;
-	
+	public static final int qteParStepME = 15000;	
 	public static final double coutMachines = 21; // coût de transformation des fèves en poudre, un seul coût: entretien des machines
-
 	public static final int nbEtapeAvPeremption=14;
 	
 	// cout stockage
