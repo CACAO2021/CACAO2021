@@ -66,15 +66,15 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 		if (this.vend(produit)){
 			if (chocolat.equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) 
 					&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()>this.stock_min_tablettes_HBE.getValeur()
-					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()){
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+3)<this.stock_avant_transfo_HB.getValeur()){
 				return contrat.getEcheancier();}
 			if (chocolat.equals(Chocolat.TABLETTE_MOYENNE) 
 					&& this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur()>this.stock_min_tablettes_moyenne.getValeur()
-					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur()){
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+3)<this.stock_avant_transfo_M.getValeur()){
 				return contrat.getEcheancier();}
 			if (chocolat.equals(Chocolat.CONFISERIE_MOYENNE) 
 					&& this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()>this.stock_min_confiserie.getValeur()
-					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.stock_avant_transfo_C.getValeur()){
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+2)+contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+3)<this.stock_avant_transfo_C.getValeur()){
 				return contrat.getEcheancier();
 			}
 			else { return null;
