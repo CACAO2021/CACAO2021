@@ -420,8 +420,14 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 			//De plus, si notre compte bancaire ne nous permet pas d'acheter ce produit à ce prix : on demande moins cher
 			double ancienPrix = Filiere.LA_FILIERE.prixMoyen(getCorrespProduitChocolat(contrat.getProduit()), Filiere.LA_FILIERE.getEtape()-1);
 			ancienPrix = ancienPrix*wonka.marges.get(getCorrespProduitChocolat(contrat.getProduit()).getChocolat());
-
-
+			if(ancienPrix > 20) {
+				if(contrat.getProduit() instanceof Chocolat) {
+				ancienPrix = prixEtapeZeroC((Chocolat)contrat.getProduit())*wonka.marges.get((Chocolat)contrat.getProduit());
+				}
+				else {
+					ancienPrix = prixEtapeZeroC(getCorrespProduitChocolat(contrat.getProduit()).getChocolat())*wonka.marges.get(getCorrespProduitChocolat(contrat.getProduit()).getChocolat());
+				}
+			}
 			if((ancienPrix * 1.05 < prix && ancienPrix != 0 ) || !wonka.getAutorisationTransaction((prix*contrat.getQuantiteTotale())*wonka.getCatalogue().size() + paiements)) {
 				wonka.journalAchats.ajouter(descriptionColor, Color.BLACK, "Modification prix contrat cadre :" + "Vendeur :"+contrat.getVendeur().getNom()+" | Acheteur : "+wonka.getNom()+" | Produit : "+contrat.getProduit().toString()+" | Prix : "+contrat.getPrix()+" | Echeancier : "+contrat.getEcheancier().toString());
 				return ancienPrix*0.90;
