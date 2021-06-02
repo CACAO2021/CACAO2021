@@ -173,7 +173,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 				rem.add(c);
 			}this.mesContratsAORefusess.removeAll(rem);
 		}
-		*/
+		*/ 
 	}
 }
 
