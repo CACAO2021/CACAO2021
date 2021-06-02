@@ -62,32 +62,32 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 				nombre_step_total_basse = nombre_step_total_basse + contrat.getEcheancier().getNbEcheances();
 				quantite_totale_demandee_basse = quantite_totale_demandee_basse + contrat.getQuantiteTotale();	
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24));
+					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24)); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.CONFISERIE_MOYENNE) {
 				nombre_step_total_moyenne = nombre_step_total_moyenne + contrat.getEcheancier().getNbEcheances();
 				quantite_totale_demandee_moyenne = quantite_totale_demandee_moyenne + contrat.getQuantiteTotale();	
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24));
+					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24)); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_BASSE) {
 				nombre_step_total_basse = nombre_step_total_basse + contrat.getEcheancier().getNbEcheances();
 				quantite_totale_demandee_basse = quantite_totale_demandee_basse + contrat.getQuantiteTotale();	
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24));
+					echeancier_basse.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_basse.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24)); 
 				}
 			}
 			if ((Chocolat) produit == Chocolat.TABLETTE_MOYENNE) {
 				nombre_step_total_moyenne = nombre_step_total_moyenne + contrat.getEcheancier().getNbEcheances();
 				quantite_totale_demandee_moyenne = quantite_totale_demandee_moyenne + contrat.getQuantiteTotale();	
 				for(int i = 0 ; i<contrat.getEcheancier().getNbEcheances(); i++) {
-					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i)%24));
-					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i)%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i)%24)); 
+					echeancier_total.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_total.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24));
+					echeancier_moyenne.set( (contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24  ,contrat.getEcheancier().getQuantite(i)+ echeancier_moyenne.get((contrat.getEcheancier().getStepDebut()+i-Filiere.LA_FILIERE.getEtape())%24)); 
 				}
 			}
 			
@@ -183,6 +183,7 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 		ChocolatDeMarque produit = (ChocolatDeMarque) contrat.getProduit();
 		Chocolat choco = produit.getChocolat();
 			if (24 - contrat.getEcheancier().getStepDebut() + Filiere.LA_FILIERE.getEtape() - contrat.getEcheancier().getNbEcheances() >= 0) {
+				if (contrat.getEcheancier().getStepDebut() == Filiere.LA_FILIERE.getEtape()) {
 					if (get_stock(choco) > contrat.getEcheancier().getQuantite(0)){
 						return contrat.getEcheancier();
 					}	
@@ -208,8 +209,13 @@ public class Transformateur2Vente extends Transformateur2Production implements I
 							
 						}
 						
+						
 					
-					}	
+					}
+				}
+				else {
+					return contrat.getEcheancier();
+				}
 			}
 		 return null ;
 	}	
