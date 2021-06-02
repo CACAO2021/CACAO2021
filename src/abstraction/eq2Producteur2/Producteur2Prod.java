@@ -1,9 +1,13 @@
 package abstraction.eq2Producteur2;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
+import abstraction.fourni.Variable;
 
 //Emeline
 
@@ -13,59 +17,124 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesME;
 	private LinkedList<Stock> arbrePlantesM; 
 	private LinkedList<Stock> arbrePlantesB;
-	private LinkedList<Feve> listeProd; 
-	
+
+	protected HashMap<Feve, LinkedList<Stock>> arbrePlantes;
+	protected HashMap<Feve, Variable> qttTotArbrePlantes;
+
+	protected Variable qttArbreTotalFHBE;
+	protected Variable qttArbreTotalFHE;
+	protected Variable qttArbreTotalFME;
+	protected Variable qttArbreTotalFM;
+	protected Variable qttArbreTotalFB;
+	protected Variable qttArbreTotalPHE;
+	protected Variable qttArbreTotalPM;
+
+
+
 	// ensemble fait par DIM
-	
+
 	public Producteur2Prod() {
 		super();
-		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
-		this.arbrePlantesHBE = new LinkedList<Stock>();
-		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
-		this.arbrePlantesHE = new LinkedList<Stock>();
-		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
-		this.arbrePlantesME = new LinkedList<Stock>();
-		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
-		this.arbrePlantesM = new LinkedList<Stock>();
-		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
-		this.arbrePlantesB = new LinkedList<Stock>();
-		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
-		
-		this.listeProd = new LinkedList<Feve>();
-		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE); 
-		this.listeProd.add(Feve.FEVE_BASSE);
-		}
-	
-	/**
-	 * @return the listeProd
-	 */
-	public LinkedList<Feve> getListeProd() {
-		return listeProd;
+
+		//On plante tous les arbres en respectant l'âge de début
+		planterArbresAuDebut();		
+
 	}
 
-	public void prod() {
-		for (Object p : listeProd) {
-			double qtt = prodParStep(p)*12;
-			if ((Filiere.LA_FILIERE.getMois()=="fevrier") || (Filiere.LA_FILIERE.getMois()=="septembre")  ) {
-				addStock(qtt, p); 
-				JournalProd.ajouter(""+ p +" "+qtt);	
-				coutProd(qtt, p);
-				majStock(p);
-			}
-		}		
+	//Dim
+	public void planterArbresAuDebut() { // fonctionnement à vérif mais je pense que c ok
+
+		// on creer une liste vide pour chaque type de fève
+		this.arbrePlantesHBE = new LinkedList<Stock>();
+		this.arbrePlantesHE = new LinkedList<Stock>();
+		this.arbrePlantesME = new LinkedList<Stock>(); 
+		this.arbrePlantesM = new LinkedList<Stock>();
+		this.arbrePlantesB = new LinkedList<Stock>();
+
+		// création de la hashmap associée
+		arbrePlantes = new HashMap<Feve, LinkedList<Stock>>();
+		arbrePlantes.put(listeProd.get(0), arbrePlantesHBE);
+		arbrePlantes.put(listeProd.get(1), arbrePlantesHE);
+		arbrePlantes.put(listeProd.get(2), arbrePlantesME);
+		arbrePlantes.put(listeProd.get(3), arbrePlantesM);
+		arbrePlantes.put(listeProd.get(4), arbrePlantesB);
+
+		// on remplit les listes
+		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
+		int stepActuel = 0;
+		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE - 2;
+		double step = - stepArbreLePlusVieu;
+		HashMap<Feve, Double> qttdb = new HashMap<Feve, Double>();
+		qttdb.put(listeProd.get(0), ARBRE_DEBUT_HBE/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(1), ARBRE_DEBUT_HE/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(2), ARBRE_DEBUT_ME/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(3), ARBRE_DEBUT_M/(stepArbreLePlusVieu));
+		qttdb.put(listeProd.get(4), ARBRE_DEBUT_B/(stepArbreLePlusVieu));
+
+		while (step != stepActuel) {
+			for (Feve f : listeProd) {
+				arbrePlantes.get(f).add(new Stock(qttdb.get(f), (int)step));
+			}			
+			step++;
 		}
-	
+
+		qttArbreTotalFHBE = new Variable("qttArbreTotal feve HBE", this, 0);
+		qttArbreTotalFHE = new Variable("qttArbreTotal feve HE", this, 0);
+		qttArbreTotalFME = new Variable("qttArbreTotal feve ME", this, 0);
+		qttArbreTotalFM = new Variable("qttArbreTotal feve M", this, 0);
+		qttArbreTotalFB = new Variable("qttArbreTotal feve B", this, 0);
+
+
+		qttTotArbrePlantes = new HashMap<Feve, Variable>();
+		qttTotArbrePlantes.put(listeProd.get(0), qttArbreTotalFHBE );
+		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
+		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
+		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
+
+		// ancienne version sans tenir compte de l'age
+		//		this.arbrePlantesHBE = new LinkedList<Stock>();
+		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
+		//		this.arbrePlantesHE = new LinkedList<Stock>();
+		//		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
+		//		this.arbrePlantesME = new LinkedList<Stock>();
+		//		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
+		//		this.arbrePlantesM = new LinkedList<Stock>();
+		//		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
+		//		this.arbrePlantesB = new LinkedList<Stock>();
+		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
+
+	}
+
+	public void majQttArbre(Object produit) {
+		double stock = 0;
+		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
+			stock += s.getQtt();		
+		}
+		qttTotArbrePlantes.get((Feve)produit).setValeur(Filiere.LA_FILIERE.getActeur("Baratao"), stock);
+	}
+
+	public void prod() {		
+		for (Feve p : listeProd) {
+			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) ; 
+			// la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
+			addStock(qtt, p); 
+			JournalProd.ajouter(""+ p +" "+qtt);	
+			coutProd(qtt, p);
+			majStock(p);
+			majQttArbre(p);
+		}		
+	}
+
 	protected void coutProd(double qtt, Object p) {
 		double cout = coutProdUnitaire(p) * qtt;
 		if (cout>0) {
 			perdreArgent(cout);
 		}
 	}
-	
-	private double coutProdUnitaire(Object p) {  
+
+	private double coutProdUnitaire(Object p) { 
+		// on peut faire une hashmap  
 		if(estFeveHBE(p)) {
 			return COUT_PRODUCTION_FEVE_HBE;
 		} else if(estFeveHE(p)) {
@@ -82,12 +151,55 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 
 	public void renouvellement() {
+		// a utiliser par la suite
+
+		//pour faire des test
+		//renouvellmentvieu(); // a enlever
+
+
 		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
 		//une longue période sans pouvoir espérer de bénéfice.
-		
-		
 		int step = Filiere.LA_FILIERE.getEtape();
+		int nbChangement = 0;
+		int nbPlantage = 0;
+		List<Stock> aSupprimer = new ArrayList<Stock>();
+		for (Feve f : listeProd) {
+			// partie suppression
+			for (Stock s : arbrePlantes.get(f)) {
+				if (step - s.getStep() >= TPS_RENOUVELLEMENT_ARBRE) {
+					nbChangement += s.getQtt();
+					aSupprimer.add(s);					
+				}
+			}
+			// on supprime les arbres trop vieux
+			// System.out.println(nbChangement);
+			// la valeur reste la même à tous les steps 
+			arbrePlantes.get(f).removeAll(aSupprimer);
+			//System.out.println(qttArbreToujoursPlantes(f));
+
+			// partie plantage
+			// on remplace les arbres en tenant compte de la demande
+
+			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
+			int nbArbre = qttArbreToujoursPlantes(f);
+			double nbFeve = (qttTotale(f)).getValeur();
+			int qtt = 0; // réfléchir à la répartition des arbres a replanter
+			nbPlantage += qtt;
+
+			arbrePlantes.get(f).add(new Stock(qtt, step));
+		}
+
+		// on dépense de l'argent pour remplacer els arbres
+		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
+
+	}
+
+	public void renouvellement2() {
+		// a supprimer
+		// quand bug corrige sur prod
+		int step=0;
+		// ancienne version 
 		for (Stock s : arbrePlantesHBE) {
 			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
 				s.setStep(step); // on change le step de l'arbre pour simuler le fait quil soit replanté
@@ -114,85 +226,75 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
 			}}
 	}
-	
-	protected double prodParStep(Object p) {
-		// prod en fonction de la qtt darbre plante
-		//production réfléchie en fct de la demande a faire
-		
-		// a faire production ne va pas être constante tout au 
-		//long de la simulation mais va plutôt varier selon les saisons et des paramètres aléatoires
-		return qttArbre(p) * prodParArbre(p);
-		// pour tenir compte du rnedement changeant
-		// boucle a faire sur chaque arbre
-		//utiliser  rendement (step, p);
+
+	/*
+	 * donne la qtt darbre planté pour un type de feve
+	 */
+	protected int qttArbreToujoursPlantes(Feve f) { 
+		int stock = 0;			
+		for (Stock s : arbrePlantes.get(f)) {
+			stock += s.getQtt();			
+		}
+		return stock; 
 	}
 
-	private double prodParArbre(Object p) {	
-		if(estFeveHBE(p)) {
-			return PROD_HBE;
-		} else if(estFeveHE(p)) {
-			return PROD_HE;
-		} else if(estFeveME(p)) {
-			return PROD_ME;
-		} else if(estFeveM(p)) {
-			return PROD_M;
-		}else if(estFeveB(p)) {
-			return PROD_B;
-		} else { // un produit que l'on ne vend pas
-			System.out.println("pb");
-			return 0;
-		}
+	protected double prodParStep(Object p, int step) {
+		// production non constante tout au long de la simulation
+		// 2 mois de prod : fevrier et septembre
+		double qttProd = 0;
+		if ((  (step - 2) % 24 == 0 ) || (  (step - 16) % 24 == 0   )  ) {
+			// les 1er fevrier et 1er septembre uniquement
+			// on boucle sur les arbres pour obtenir la prod totale
+			for (Stock s : arbrePlantes.get((Feve)p)) {
+				double rdm = rendement( step - s.getStep(), (Feve)p);
+				double nbArbre = s.getQtt();
+				qttProd += rdm * nbArbre; // prod de chaque arbre depend de son age mais plusieurs arbres ont le meme age
+			}
+		}		
+		//System.out.println(qttProd);
+		return qttProd;
+		// ancienne version 
+		// return qttArbreToujoursPlantes((Feve)p) * prodParArbreParStep(p);
 	}
-	
-	
-	// a prendre en compte pour la suite :
-	
+
+	private double prodParArbre(Object p) {
+		// prod par arbre par période de récolte ( 2 par an)
+		// parametre p si on veut faire dependre la valeur du type de feve, ce n'est pour l'instant pas le cas
+		return PROD_ARBRE_AN;
+	}
+ 
+ 
 	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
 	// cela vainfluencer le nombre darbre qui produit effectivement
-	
-	
-	// pas encore utilisé
 	protected double rendement(int step, Object p) {
+		//System.out.println("rdm = " + step);
 		// step correspond à l'age de larbre
+		//Cacaotier durée de vie 40 ans, bonne culture à partir de 3 ans et rendement maximal à partir de 6 ans. 
 		if (step<TPS_BON_RENDEMENT_ARBRE) {
 			return 0;
-		}else if(step < TPS_RENDEMENT_MAX_ARBRE) {
-			return  prodParArbre(p) - ((TPS_RENDEMENT_MAX_ARBRE - step)/(TPS_RENDEMENT_MAX_ARBRE - TPS_BON_RENDEMENT_ARBRE+1) * prodParArbre(p));// fonctionnement OK
-		}else if(step<TPS_RENOUVELLEMENT_ARBRE) {
+		}else if(step < TPS_RENDEMENT_MAX_ARBRE) { // surement un pb ici
+			double qttProd = prodParArbre(p) * ( 1.0 - (((double)(TPS_RENDEMENT_MAX_ARBRE - step))/((double)(TPS_RENDEMENT_MAX_ARBRE - TPS_BON_RENDEMENT_ARBRE) ) ) );
+			return  qttProd;
+		}else if(step<TPS_RENOUVELLEMENT_ARBRE) { // plein rendement
 			return prodParArbre(p);
 		}else {
 			return 0;
 		}
 	}
-	
-	public double qttArbre(Object produit) {		
-		double nb = 0;
-		if (estFeveHBE(produit)) {			 
-			for (Stock s : this.arbrePlantesHBE) {
-				nb += s.getQtt();
-			}
-		}else if (estFeveHE(produit)) {
-			for (Stock s : this.arbrePlantesHE) {
-				nb += s.getQtt();
-			}
-		}else if (estFeveME(produit)) {
-			for (Stock s : this.arbrePlantesME) {
-				nb += s.getQtt();
-			}
-		}else if (estFeveM(produit)) {
-			for (Stock s : this.arbrePlantesM) {
-				nb += s.getQtt();
-			}
-		}else if (estFeveB(produit)) {
-			for (Stock s : this.arbrePlantesB) {
-				nb += s.getQtt();
-			}
-		}		
-		return nb;
+
+	protected double qttQuiSeraProduite( int nbEcheance, Object p) {
+		// retourne la qtt de fève que l'on va produire sur un certian nb de step
+		int step = Filiere.LA_FILIERE.getEtape();
+		int stepMax = step+ nbEcheance;
+		double prod = 0;
+		while (step<stepMax) {
+			prod += prodParStep(p, step);
+			step++;
 		}
-		
-	
-	
+		return prod;
+	}
+
+
 
 }

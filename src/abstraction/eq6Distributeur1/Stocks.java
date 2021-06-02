@@ -15,16 +15,18 @@ public class Stocks extends Distributeur1Acteur{
 
 
 	protected Map<ChocolatDeMarque, Variable> stock; // tout les stocks, y compris le contenu de stockTG
-	protected Map<ChocolatDeMarque, Double> prix;
+	protected Map<ChocolatDeMarque, Variable> prix;
 	protected Map<ChocolatDeMarque,Variable> stockTG;
+
 
 
 	//Louis
 	public Stocks() {
 		super();
 		this.stock=new HashMap<ChocolatDeMarque, Variable>(); 
-		this.prix=new HashMap<ChocolatDeMarque, Double>();
+		this.prix=new HashMap<ChocolatDeMarque, Variable>();
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>(); 
+		
 
 	}
 
@@ -42,7 +44,7 @@ public class Stocks extends Distributeur1Acteur{
 
 	//Louis
 	public void setPrix(ChocolatDeMarque choco, double prix) {
-		this.prix.put(choco, prix);
+		this.prix.put(choco, new Variable("prix"+ choco.toString(), this, prix));
 	}
 
 
@@ -56,6 +58,10 @@ public class Stocks extends Distributeur1Acteur{
 		for (ChocolatDeMarque choco : stock.keySet()) { 
 			this.indicateurs.add(stock.get(choco));
 		}
+		for (ChocolatDeMarque choco : prix.keySet()) {
+			this.indicateurs.add(prix.get(choco));
+			}
+		
 	}
 
 
@@ -68,17 +74,19 @@ public class Stocks extends Distributeur1Acteur{
 				if (indic.equals(stock.get(choco))) {
 					indic.setValeur(this, stock.get(choco).getValeur());
 				}
+				if (indic.getNom().equals("prix " + choco)) {
+					indic.setValeur(this,prix.get(choco).getValeur());
+				}
 			}
 		}
 	}
 
-
-
+	
 	//Louis
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
-
-			stock.put(choco, new Variable(choco.toString(),this,500000.));
+			if (!choco.getMarque().equals("Wonka & Sons"))
+			stock.put(choco, new Variable(choco.toString(),this,1000000.));
 			stockTG.put(choco, new Variable(choco.toString(),this,0.));
 
 		}
@@ -91,54 +99,62 @@ public class Stocks extends Distributeur1Acteur{
 		for(ChocolatDeMarque choco : stock.keySet()) {
 			if(choco.getCategorie()==Categorie.TABLETTE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, 2.0);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.0));
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, 1.5);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.5));
 				}else if (choco.getGamme()==Gamme.BASSE) {
-					prix.put(choco, 1.0);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.0));
 				}
 				if(choco.isEquitable()) {
-					prix.put(choco, prix.get(choco)*1.2);
+					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.2));
 				}
 				if(choco.isBio()) {
-					prix.put(choco, prix.get(choco)*1.3);
+					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.3));
 				}
 
 			}
 			if(choco.getCategorie()==Categorie.POUDRE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, 2.0);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.0));
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, 1.5);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.5));
 				}else if (choco.getGamme()==Gamme.BASSE) {
-					prix.put(choco, 1.0);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.0));
 				}
 				if(choco.isEquitable()) {
-					prix.put(choco, prix.get(choco)*1.2);
+					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.2));
 				}
 				if(choco.isBio()) {
-					prix.put(choco, prix.get(choco)*1.3);
+					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.3));
 				}
 
 			}
 			if(choco.getCategorie()==Categorie.CONFISERIE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, 2.0);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.0));
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, 1.5);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.5));
 				}else if (choco.getGamme()==Gamme.BASSE) {
-					prix.put(choco, 1.0);
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.0));
 				}
 				if(choco.isEquitable()) {
-					prix.put(choco, prix.get(choco)*1.2);
-				}
+					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.2));
+					}
 				if(choco.isBio()) {
-					prix.put(choco, prix.get(choco)*1.3);
+					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.3));
 				}
 
 			}
 		}
 
+	}
+	
+	public double getStockTGTotal() {
+		double total=0;
+		for (ChocolatDeMarque choco : this.stockTG.keySet()) {
+			total+=stockTG.get(choco).getValeur();
+		}
+		return total;
 	}
 
 }

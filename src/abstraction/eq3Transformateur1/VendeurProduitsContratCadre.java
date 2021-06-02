@@ -31,6 +31,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public boolean vend(Object produit) {
+		//System.out.println(this.getStock().getFinancier().sommesNousVendeur(produit));
 		return this.getStock().getFinancier().sommesNousVendeur(produit);
 	}
 	
@@ -38,17 +39,26 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
 		// on accepte toujours la 1ere proposition d'échéancier pour l'instant
-		
-		return contrat.getEcheancier();
+		//return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 16, contrat.getEcheancier().getQuantiteTotale());
+		Chocolat chocolat = null; 
+		if (contrat.getProduit() instanceof Chocolat) {
+			chocolat = (Chocolat)contrat.getProduit();
+		} else if(contrat.getProduit() instanceof ChocolatDeMarque) {
+			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+			}
+		if (contrat.getEcheancier().getQuantiteTotale() > this.getStock().getStockChocolats(chocolat)/2) {
+			return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, contrat.getEcheancier().getNbEcheances(), this.getStock().getStockChocolats(chocolat)/2); 
+		}
+		return contrat.getEcheancier(); 
 	}
 
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		if (contrat.getProduit() instanceof Chocolat) {
-			return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), (Chocolat) contrat.getProduit());
+			return this.getStock().prixDeVenteKG((Chocolat) contrat.getProduit());
 		} else { 
 			if (contrat.getProduit() instanceof ChocolatDeMarque){
-				return this.getStock().getFinancier().prixVente(contrat.getQuantiteTotale(), ((ChocolatDeMarque)contrat.getProduit()).getChocolat());
+				return this.getStock().prixDeVenteKG(((ChocolatDeMarque)contrat.getProduit()).getChocolat());
 			} else {
 				return 0;
 			}
@@ -57,17 +67,52 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	}
 
 	@Override
+	
+	
+	//Paul
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// On accepte la premiere proposition pour l'instant
-		return contrat.getPrix();
-	}
 
+		// On accepte la premiere proposition pour l'instant
+		double prixPropose = contrat.getPrix();
+
+		Chocolat chocolat = null;
+		if( contrat.getProduit() instanceof Chocolat) {
+			chocolat = (Chocolat)contrat.getProduit() ;
+		} else if (contrat.getProduit() instanceof ChocolatDeMarque) {
+			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+		}
+		double margeDeBase = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
+		
+			
+		if (margeDeBase != 0) {
+			double prixSansMarge = contrat.getListePrix().get(0)/margeDeBase;
+			if (prixPropose == contrat.getListePrix().get(0)) {
+
+				return prixPropose;
+			} else {
+				double nouvelleMarge = margeDeBase-0.01*contrat.getListePrix().size();
+					if (nouvelleMarge>1.29) {
+						if (prixPropose>= nouvelleMarge*prixSansMarge) {
+
+							return prixPropose;
+					} else {
+
+						return prixSansMarge*nouvelleMarge;
+					}
+						
+				} else {
+
+					return 1.30*prixSansMarge;
+				}
+			}
+		} else {
+			return 0.0;
+		}
+	}
+ 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		//Ajouter un journal.ajouter(pas d'offre) dans toutes les fonctions si le return est null
-		this.journalVendeur.ajouter("Offre de vente : "+contrat);
-		this.getStock().getFinancier().setMesContratEnTantQueVendeur(contrat);
-		
+
 	}
 	
 	
@@ -82,6 +127,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 				Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 				this.getStock().setStockChocolat((Chocolat)produit, quantitelivre, prix, date);
 				return qdisp;
+				
 			}
 		} else {
 			if (produit instanceof ChocolatDeMarque) {
@@ -91,9 +137,9 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 					Variable date = new Variable(this.getNom(), this, Filiere.LA_FILIERE.getEtape());
 					Variable prix = new Variable (this.getNom()+"prix",this,contrat.getPrix()*qdisp/contrat.getEcheancier().getQuantiteTotale());
 					this.getStock().setStockChocolat(((ChocolatDeMarque)produit).getChocolat(), quantitelivre, prix, date);
+				
 					return qdisp;
 				}
-
 			}
 		}
 		return 0.0;

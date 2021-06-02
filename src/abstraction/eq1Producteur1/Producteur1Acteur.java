@@ -44,12 +44,12 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 	 * @author lebra pour l'ajout dans le journal
 	 */
 	private void produireFeve() {
-		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(1000000);
-		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(48333000);
-		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(48333000);
-		this.getJournal("Ghanao Production").ajouter("Ajout de 1000000 fèves de qualité moyenne équitable");
-		this.getJournal("Ghanao Production").ajouter("Ajout de 48333000 fèves de qualité moyenne ");
-		this.getJournal("Ghanao Production").ajouter("Ajout de 48333000 fèves de qualité basse");
+		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
+		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(this.production_mq());
+		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(this.production_bq());
+		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_mqe()+" fèves de qualité moyenne équitable");
+		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_mq()+" fèves de qualité moyenne");
+		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_bq()+" fèves de qualité basse");
 	}
 	
 	public String getNom() {
@@ -75,6 +75,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 		this.produireFeve();
 		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
 		this.transformation.Transformation_Feve(this);
+		this.maj_plantation(240400, 100000,100000, this);
 	}
 
 	public List<String> getNomsFilieresProposees() {
@@ -119,8 +120,8 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 	 * Pour les coûts fixes et de transformation
 	 */
 	protected void perteargent(double quantite) {
-		if (quantite>0) {
-			Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
+		if (quantite>0 ) {
+				Filiere.LA_FILIERE.getBanque().virer(Filiere.LA_FILIERE.getActeur("EQ1"), this.cryptogramme, Filiere.LA_FILIERE.getBanque(),quantite );
 		}
 	}
 	/**
@@ -133,4 +134,8 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 	public abstract HashMap<Object, Stock> getStocks();
 	protected abstract void init_historiques();
 	protected abstract void majHist_AO();
+	public abstract double production_mq ();
+	public abstract double production_mqe ();
+	public abstract double production_bq ();
+	public abstract void maj_plantation(double new_mq, double new_mqe, double new_bq, Producteur1Acteur a);
 } 

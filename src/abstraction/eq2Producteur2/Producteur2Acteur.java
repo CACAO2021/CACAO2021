@@ -97,6 +97,5 @@ public abstract class Producteur2Acteur extends Producteur2Valeurs implements IA
 	
 	public abstract void perdreArgent(double montant) ;
 	
-	protected abstract LinkedList<Feve> getListeProd();
 
 }

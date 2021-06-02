@@ -186,6 +186,14 @@ public class ClientFinal implements IActeur {
 			historiqueVentes.put(etape-24, ventesEtape);
 		}
 	}
+	public Map<ChocolatDeMarque, Double> getAttractiviteChocolat() {
+		Map<ChocolatDeMarque, Double> res = new HashMap<ChocolatDeMarque, Double>();
+		for (ChocolatDeMarque c : attractiviteChocolat.keySet()) {
+			res.put(c,  attractiviteChocolat.get(c));
+		}
+		return res;
+	}
+
 	public void next() {
 		// Evolution de la distribution annuelle des ventes
 		this.evolutionDistributionAnnuelleDesVentes();

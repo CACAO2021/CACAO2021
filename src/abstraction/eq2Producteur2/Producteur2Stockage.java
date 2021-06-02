@@ -8,14 +8,19 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 public abstract class Producteur2Stockage extends Producteur2Journaux {
+	// les liste de feves par type de feve et step de prod
 	private LinkedList<Stock> stockFeveHBE;
 	private LinkedList<Stock> stockFeveHE; 
 	private LinkedList<Stock> stockFeveME;
 	private LinkedList<Stock> stockFeveM;
 	private LinkedList<Stock> stockFeveB; 
 	private LinkedList<Stock> stockPoudreHE;
-	private LinkedList<Stock> stockPoudreM; 
+	private LinkedList<Stock> stockPoudreM;
 	
+	// hashmap des listes de fève
+	protected HashMap<Feve, LinkedList<Stock>> stock_F;
+	
+	// les qtt totales de chaqye type de feve
 	protected Variable stockFHBE;
 	protected Variable stockFHE;
 	protected Variable stockFME;
@@ -24,17 +29,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockPHE;
 	protected Variable stockPM;
 	
-	private LinkedList<Feve> listeProd; 
-	
-	protected HashMap<Feve, LinkedList<Stock>> stock_F;
 
 	// ensemble fait par DIM
 	
 	//Dim
-	/**
-	 * @param stockFeve
-	 * @param stockPoudre
-	 */
 	public Producteur2Stockage() {
 		super();
 		// a modifier en prenant en compte le fait que le stock de depart n'est pas entierement creer au step 0 mais aussi a des steps anterieurs (pour plus tard)
@@ -54,18 +52,11 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		this.stockPoudreM = new LinkedList<Stock>();
 		this.stockPoudreM.add(new Stock(QTT_POUDRE_M_DEPART, 0));
 		
-		this.listeProd = new LinkedList<Feve>();
-		this.listeProd.add(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_HAUTE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE_EQUITABLE);
-		this.listeProd.add(Feve.FEVE_MOYENNE);
-		this.listeProd.add(Feve.FEVE_BASSE);			
-		
-		stockFHBE = new Variable("stock feve HBE", this, QTT_FEVE_HBE_DEPART);
-		stockFHE = new Variable("stock feve HE", this, QTT_FEVE_HE_DEPART);
-		stockFME = new Variable("stock feve ME", this, QTT_FEVE_ME_DEPART);
-		stockFM = new Variable("stock feve M", this, QTT_FEVE_M_DEPART);
-		stockFB = new Variable("stock feve B", this, QTT_FEVE_B_DEPART);
+		stockFHBE = new Variable("stock feve HBE", this, 0);
+		stockFHE = new Variable("stock feve HE", this, 0);
+		stockFME = new Variable("stock feve ME", this, 0);
+		stockFM = new Variable("stock feve M", this, 0);
+		stockFB = new Variable("stock feve B", this, 0);
 		
 		stockPHE = new Variable("stock poudre HE", this, QTT_POUDRE_HE_DEPART);
 		stockPM = new Variable("stock poudre B", this, QTT_POUDRE_M_DEPART);
@@ -80,10 +71,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		//stock_FP.put("POUDRE_HE", stockPHE);
 		//stock_FP.put("POUDRE_M", stockPM);
 	}
-	
-	public LinkedList<Feve> getListeProd() {
-		return listeProd;
-	}
+
 
 	//Dim
 	/*
@@ -170,10 +158,13 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	
 	//Dim
 	public void vente(double qtt, Object produit) {
+		// utile pour test sans suppr arbre
 		return;
 	}
 	
-	public void vente3(double qtt, Object produit) { // tentative de simplification / factorisation
+	public void vente2(double qtt, Object produit) {
+		// vente fonctionnel
+		// tentative de simplification / factorisation du code
 		double q = (stock_F.get(produit)).get(0).getQtt()  - qtt;
 		while (qtt>0) {
 			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
@@ -187,145 +178,13 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			if ((stock_F.get(produit)).size() == 0) {
 				// quand y a plus de stock on sort de la boucle 
 				System.out.println("y a pb, on a plus de stock");
+				qtt = 0;
 				break;
 			}
 		}
-		//System.out.println("ok");
-		//fonctionnement semble ok
 	}
 	
-	//old version
-	public void vente2(double qtt, Object produit) {
-		// ancienne version, la nvlle à l'air de fonctionner mais on garde au cas ou
-		if (estFeveHBE(produit)) {
-			double q = this.stockFeveHBE.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveHBE.get(0).getQtt() - qtt;
-				if (q>0) {
-					this.stockFeveHBE.get(0).setQtt((this.stockFeveHBE.get(0).getQtt() - qtt )) ;
-					qtt = 0; 
-				} else {
-					qtt -= this.stockFeveHBE.get(0).getQtt() ;
-					this.stockFeveHBE.remove(0);
-				}
-				if (this.stockFeveHBE.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}							
-		} else if (estFeveHE(produit)) {
-			//System.out.println("av"+qttTotale(produit).getValeur());
-			double q = this.stockFeveHE.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveHE.get(0).getQtt() - qtt;
-				if (q>0) {
-					//System.out.println("ok " + this.stockFeveHE.get(0).getQtt());
-					this.stockFeveHE.get(0).setQtt((this.stockFeveHE.get(0).getQtt() - qtt )) ;
-					//System.out.println("ok2 " + this.stockFeveHE.get(0).getQtt());
-					qtt = 0;
-				} else {
-					//System.out.println("pas ok");
-					q = qtt - this.stockFeveHE.get(0).getQtt() ;
-					this.stockFeveHE.remove(0);
-				}
-				if (this.stockFeveHE.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}
-			//System.out.println(qttTotale(produit).getValeur());
-		}else if (estFeveME(produit)) {
-			double q = this.stockFeveME.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveME.get(0).getQtt() - qtt;
-				if (q>0) {
-					this.stockFeveME.get(0).setQtt((this.stockFeveME.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveME.get(0).getQtt() ;
-					this.stockFeveME.remove(0);
-				}
-				if (this.stockFeveME.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}		
-		}else if (estFeveM(produit)) {
-			double q = this.stockFeveM.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveM.get(0).getQtt() - qtt;
-				if (q>0) {
-					this.stockFeveM.get(0).setQtt((this.stockFeveM.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveM.get(0).getQtt() ;
-					this.stockFeveM.remove(0);
-				}
-				if (this.stockFeveM.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}		
-		}else if (estFeveB(produit)) {
-			double q = this.stockFeveB.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveB.get(0).getQtt() - qtt;
-				if (q>0) {
-					this.stockFeveB.get(0).setQtt((this.stockFeveB.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockFeveB.get(0).getQtt() ;
-					this.stockFeveB.remove(0);
-				}
-				if (this.stockFeveB.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}		
-		}else if (estPoudreHE(produit)) {
-			double q = this.stockPoudreHE.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveHE.get(0).getQtt() - qtt;
-				if (q>0) {
-					this.stockPoudreHE.get(0).setQtt((this.stockPoudreHE.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockPoudreHE.get(0).getQtt() ;
-					this.stockPoudreHE.remove(0);
-				}
-				if (this.stockPoudreHE.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}		
-		}else if (estPoudreM(produit)) {
-			double q = this.stockPoudreM.get(0).getQtt() - qtt;
-			while(qtt>0) {
-				q = this.stockFeveM.get(0).getQtt() - qtt;
-				if (q>0) {
-					this.stockPoudreM.get(0).setQtt((this.stockPoudreM.get(0).getQtt() - qtt )) ;
-					qtt = 0;
-				} else {
-					q = qtt - this.stockPoudreM.get(0).getQtt() ;
-					this.stockPoudreM.remove(0);
-				}
-				if (this.stockPoudreM.size() == 0) {
-					System.out.println("y a pb, on a plus de stock");
-					break;
-				}
-			}	
-		}else {
-			System.out.println("erreur");
-		}
-		majStock(produit);
-	}
-	
-	
-	/**
-	 * @author Maxime Boillot
-	 * on retire tous les léléments périmés de la liste 
-	 */
-	public void verifPeremption() {// sans cette fonction le stock augmente indéfiniement
+	public void verifPeremption() {// sans cette fonction le stock augmente indéfiniement si pas d'achat
 		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
 			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
 			for (Stock st:this.stockFeveHBE) {
