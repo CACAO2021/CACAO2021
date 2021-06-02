@@ -16,7 +16,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 			Filiere.LA_FILIERE.getBanque().virer( Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme, Filiere.LA_FILIERE.getBanque(), montant);
 		}		
 	}
-	
+
 	//DIM
 	public void coutStockage() {
 		// calcul cout variable
@@ -37,16 +37,10 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		double fixe = COUT_STOCKAGE_FIXE; // cout fixe a determiner dans les cte
 		perdreArgent(var + fixe + malus);  
 		JournalStock.ajouter("prix " + (var + fixe + malus) );
-		
-	}
-	
-	//DIM
-	//révolution si pas assez d'argent pour payer les prods
-	public void revolte() {
-		//if (plus assez dargent) {
-			//révolte
-		//}
+
 	}
 
-	
+
+
+
 }

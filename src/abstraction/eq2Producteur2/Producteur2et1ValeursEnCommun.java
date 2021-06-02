@@ -7,11 +7,11 @@ public class Producteur2et1ValeursEnCommun {
 	// responsable emeline
 	
 	//cout prod
-	public static final double COUT_PRODUCTION_FEVE_B = 1.1;
-	public static final double COUT_PRODUCTION_FEVE_M = 1.3;
-	public static final double COUT_PRODUCTION_FEVE_ME = 2.;
-	public static final double COUT_PRODUCTION_FEVE_HE = 2.5;
-	public static final double COUT_PRODUCTION_FEVE_HBE = 3.;
+	public static double COUT_PRODUCTION_FEVE_B = 1.1;
+	public static double COUT_PRODUCTION_FEVE_M = 1.3;
+	public static double COUT_PRODUCTION_FEVE_ME = 2.;
+	public static double COUT_PRODUCTION_FEVE_HE = 2.5;
+	public static double COUT_PRODUCTION_FEVE_HBE = 3.;
 	
 	//cout changement arbre
 	// correpsond au cout d'un arbre plante ou enleve

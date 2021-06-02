@@ -1,9 +1,11 @@
 package abstraction.eq2Producteur2;
 
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Map;
 
 import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 
 public abstract class Producteur2Aleas extends Producteur2Param  {
 
@@ -13,6 +15,13 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 
 	public void lesProblemes() {
 		// intempéries -> destruction stock + arbres
+		intemperies();
+		//faire focntion revolte des prod si plus dargent pour les payer
+		revolte();
+		
+	}
+	
+	public void intemperies() {
 		if (Math.random() < PROBA_INTEMPERIE) {
 			// l'intemperie à lieu dans ce cas
 			// on tire un pourcentage sur chaque element stocké
@@ -27,9 +36,26 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			// on tire un pourcentage sur chaque arbre
 			// for (arbre a : ){
 		}
-		//faire focntion revolte des prod si plus dargent pour les payer
-		revolte();
-		
+	}
+
+	//DIM
+	//révolution si pas assez d'argent pour payer les prods
+	public void revolte() {
+		if (Math.random() < PROBA_REVOLTE) {
+			JournalRevolte.ajouter(Color.RED, Color.BLACK, "révolution au step " + Filiere.LA_FILIERE.getEtape());
+			// les couts de production augmente (ce qui correspond à un salaire qui augmente pour les producteurs)
+			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
+			COUT_PRODUCTION_FEVE_M *= 1.3;
+			COUT_PRODUCTION_FEVE_ME *= 1.4;
+			COUT_PRODUCTION_FEVE_HE *= 1.5;
+			COUT_PRODUCTION_FEVE_HBE *= 1.6;
+			for (Feve e : listeProd) {
+				double qtt = qttTotale(e).getValeur() * Math.random();
+				vente(qtt, e);				
+			}
+						
+			PROBA_REVOLTE /= 10; // la proba diminue a chaque fois qu une revolte arrive
+		}
 	}
 	
 	

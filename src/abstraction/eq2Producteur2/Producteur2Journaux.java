@@ -8,7 +8,7 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 public abstract class Producteur2Journaux extends Producteur2Acteur {
-	protected Journal JournalProd, JournalVente, JournalCC,JournalLivraison, JournalStock;
+	protected Journal JournalProd, JournalVente, JournalCC,JournalLivraison, JournalStock, JournalRevolte;
 	
 	// ensemble fait par DIM
 
@@ -18,7 +18,8 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalVente= new Journal(this.getNom()+" ventes", this);
 		this.JournalCC= new Journal(this.getNom()+" contrats", this);
 		this.JournalLivraison= new Journal(this.getNom()+" livraisons", this);
-		this.JournalStock= new Journal(this.getNom()+" stocks", this);		
+		this.JournalStock= new Journal(this.getNom()+" stocks", this);
+		JournalRevolte = new Journal(this.getNom()+" révolution des producteurs", this);
 	}
 	
 	public void initJournaux() {
@@ -27,6 +28,7 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		this.JournalCC.ajouter("=== initialisation du client "+this.getNom()+" ===");
 		this.JournalLivraison.ajouter("=== initialisation du client "+this.getNom()+" ===");
 		this.JournalStock.ajouter("=== initialisation du client "+this.getNom()+" ===");
+		this.JournalRevolte.ajouter("=== initialisation du client "+this.getNom()+" ===");
 	}
 	
 	public void majJournaux() {
@@ -44,6 +46,7 @@ public abstract class Producteur2Journaux extends Producteur2Acteur {
 		res.add(JournalCC);
 		res.add(JournalLivraison);
 		res.add(JournalStock);
+		res.add(JournalRevolte);
 		return res;
 	}
 
