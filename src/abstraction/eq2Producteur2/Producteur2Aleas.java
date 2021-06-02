@@ -63,9 +63,15 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 	}
 
 	//DIM
-	//révolution si pas assez d'argent pour payer les prods
+	
+	// revolte des producteurs
 	public void revolte() {
 		if (Math.random() < PROBA_REVOLTE) {
+			
+			// la révolte a une probabilité de survenir
+			// elle n'est pas lié à un facteur économique
+			// si on a trop dargent on le reverse de toute manière
+			
 			JournalPB.ajouter(Color.RED, Color.BLACK, "révolution au step " + Filiere.LA_FILIERE.getEtape());
 			// les couts de production augmente (ce qui correspond à un salaire qui augmente pour les producteurs)
 			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
@@ -82,7 +88,8 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 				double qtt = qttTotale(e).getValeur() * (Math.random() / 2);
 				vente(qtt, e);				
 			}						
-			PROBA_REVOLTE /= 4; // la proba diminue a chaque fois qu une revolte arrive
+			PROBA_REVOLTE /= 4;
+			// la proba diminue a chaque fois qu une revolte arrive
 		}
 	}
 

@@ -10,6 +10,8 @@ import abstraction.fourni.IActeur;
 public class Producteur2TestDesVentesAO  extends Filiere {
 	
 	// ensemble fait par DIM
+	
+	// a servi au debut pr comprendre le fonctionnement
 
 		public Producteur2TestDesVentesAO() { 
 			super();

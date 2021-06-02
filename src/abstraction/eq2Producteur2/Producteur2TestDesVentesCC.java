@@ -8,6 +8,8 @@ import abstraction.fourni.Filiere;
 public class Producteur2TestDesVentesCC extends Filiere {
 	// ensemble fait par DIM
 	
+	// a servi au debut pr comprendre le fonctionnement
+	
 	private SuperviseurVentesContratCadre superviseurCC;
 	
 	public Producteur2TestDesVentesCC() {
