@@ -146,28 +146,31 @@ public abstract class Transformateur3Acteur implements IActeur {
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre1.getVendeurs(Feve.FEVE_MOYENNE);
 			if(vendeurs.size()>0) {
-				//if (Filiere.LA_FILIERE.getEtape()<=12) {
+				if (Filiere.LA_FILIERE.getEtape()<=12 || this.getListePrixNegocies(this.getContratsAchat()).size()==0) {
 					vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
 					ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, ((this.stock_min_feves_moyenne.getValeur())-feve.getValeur()+1000000)/10), cryptogramme, false); 
 					if (contratCadre!=null){
 						this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
 					}
-				/*} else {
+				} else {
 					ArrayList<Double> listePrixNegocies = this.getListePrixNegocies(this.getContratsAchat());
-					//System.out.println(this.getContratsAchat());
 					Double meilleurPrix = this.getMinListe(listePrixNegocies);
-					vendeur = this.getVendeurAvecCePrix(meilleurPrix);
-					ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, ((this.stock_min_feves_moyenne.getValeur())-feve.getValeur()+1000000)/10), cryptogramme, false); 
-					if (contratCadre!=null){
-						this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
+					vendeur = this.getVendeurAvecCePrix(meilleurPrix); //Vendeur avec le meilleur prix dans les précédents contrats
+					int indexVendeur = vendeurs.indexOf(vendeur);
+					IVendeurContratCadre autreVendeur = vendeurs.get(1-indexVendeur);
+					ArrayList<IVendeurContratCadre> dixDerniersVendeurs = this.getVendeurs(10);
+					if (!dixDerniersVendeurs.contains(autreVendeur)) {
+						ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, autreVendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, ((this.stock_min_feves_moyenne.getValeur())-feve.getValeur()+1000000)/10), cryptogramme, false); 
+						if (contratCadre!=null){
+							this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+autreVendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
+						}
+					} else {
+						ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, ((this.stock_min_feves_moyenne.getValeur())-feve.getValeur()+1000000)/10), cryptogramme, false); 
+						if (contratCadre!=null){
+							this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
+						}
 					}
 				}
-				vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
-				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, (this.stock_min_feves_moyenne.getValeur()-feve.getValeur()+1000000)/10), cryptogramme, false); 
-				if (contratCadre!=null){
-					this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
-				} */
-
 			}
 		}
 
@@ -183,7 +186,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 				}
 			}
 		}
-		
 
 	} 
 
@@ -256,6 +258,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	public abstract ArrayList<Double> getListePrixNegocies(HashMap<ExemplaireContratCadre, Integer> contratsAchat);
 	public abstract Double getMinListe(ArrayList<Double> listePrix);
 	public abstract IVendeurContratCadre getVendeurAvecCePrix (Double prix);
+	public abstract ArrayList<IVendeurContratCadre> getVendeurs(int i);
 
 	public abstract HashMap<Chocolat, Variable> getChocolats();
 
