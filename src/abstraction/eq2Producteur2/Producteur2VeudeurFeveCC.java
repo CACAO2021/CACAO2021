@@ -5,14 +5,11 @@ import java.util.LinkedList;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
-import abstraction.eq8Romu.produits.Feve;
-import abstraction.fourni.Filiere;
 
 //ensemble fait par DIM
 
 public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 	protected LinkedList<ExemplaireContratCadre> mesContratsCC;
-	protected boolean bolVUS;
 
 	/**
 	 * @param mesContrats 
@@ -20,7 +17,6 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	public Producteur2VeudeurFeveCC() {
 		super();
 		this.mesContratsCC = new LinkedList<ExemplaireContratCadre>();
-		bolVUS = true; // voir verifUtiliteStock()
 	}
 
 	@Override
@@ -59,6 +55,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return PRIX_ESPERE_FEVE_M;
 		} else if(estFeveB(produit)) {
 			return PRIX_ESPERE_FEVE_B;
+		} else if(estPoudreHE(produit)) {
+			return PRIX_ESPERE_POUDRE_HE;
+		} else if(estPoudreM(produit)) {
+			return PRIX_ESPERE_POUDRE_M;
 		}
 		else { // un produit que l'on ne vend pas
 			return 0;
@@ -75,6 +75,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return PRIX_MIN_ACCEPTEE_FEVE_M;
 		} else if(estFeveB(produit)) {
 			return PRIX_MIN_ACCEPTEE_FEVE_B;
+		} else if(estPoudreHE(produit)) {
+			return PRIX_MIN_ACCEPTEE_POUDRE_HE;
+		} else if(estPoudreM(produit)) {
+			return PRIX_MIN_ACCEPTEE_POUDRE_M;
 		}
 		else { // un produit que l'on ne vend pas
 			return 0;
@@ -91,6 +95,10 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return DIF_ACCEPTEE_FEVE_M;
 		} else if(estFeveB(produit)) {
 			return DIF_ACCEPTEE_FEVE_B;
+		} else if(estPoudreHE(produit)) {
+			return DIF_ACCEPTEE_POUDRE_HE;
+		} else if(estPoudreM(produit)) {
+			return DIF_ACCEPTEE_POUDRE_M;
 		}
 		else { // un produit que l'on ne vend pas
 			return 0;
@@ -120,48 +128,46 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-
+		
 		Object produit = contrat.getProduit();	
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		Echeancier e = contrat.getEcheancier();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-
+		
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
 		double qttQuiSeraProduite = qttQuiSeraProduite(nbEcheance, produit);		
 		double qttDispo = qttTotale(produit).getValeur();
 		double qttTotaleSurLaPeriode = qttDispo + qttQuiSeraProduite;
-
+		
 		// la quantite que lon sait devoir depenser sur la periode
 		double qttContratEnCours = aProduire(produit);
-
+		
 		//condition qui decoule des stocks
 		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
-		//System.out.println("cond qtt " + condQtt + " avec " + contrat.getAcheteur() + " car "+ qttDemandee + " " + qttContratEnCours + " < " + qttTotaleSurLaPeriode );
-
-
+		
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
-
+		
 		// deux bool utiles que si la feve est equitable
 		boolean equiNbEcheance = nbEcheance > EQUI_NB_ECHEANCE_MINI; 
 		boolean equiQtt = qttDemandee > EQUI_QTT_MINI; 
-
+		
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
 			condEquitable = condEquitable && equiNbEcheance && equiQtt ; 
 		}
-
+		
 		condQtt = true ; //test ! a changer
 		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " " +condQtt + condEquitable);	
-
-
+				
+		
 		//les actions qui decoulent de nos conditions
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
-
+			
 		}else if(condQtt && !(condEquitable)){
 			// la demande ne peut pas etre accepte car pas assez equitable
 			//mais on pourra fournir cette quantité de fève	
@@ -188,7 +194,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			double qdm = qttDemandee;
 			int i =0;
 			int qtt=0;
-			// a revoir la condition: condition= while qdm>qttTotaleSurLaPeriode ?
+			// a revoir la condition
 			while ( qdm < qtt && i< e.getStepFin()) { // on divise par 2 la qtt a fournir à chaque step jusqua pvr fournir
 				e.set(e.getStepDebut()+i, e.getQuantite(e.getStepDebut()+i) / 2);
 				i++;
@@ -201,7 +207,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				return null; 
 			}}
 	}
-
+	
 
 	@Override
 	//Dim
@@ -259,63 +265,5 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " + livraison + " / " + quantite + " donc un ratio de " + livraison/quantite );
 		return livraison;			
 	}
-
-	public double livrer2(Object produit, double quantite, ExemplaireContratCadre contratCC) {
-		double stock = qttTotale(produit).getValeur();
-		double qttDemandee = 0;
-		for (ExemplaireContratCadre contrat: this.mesContratsCC) {
-			qttDemandee = qttDemandee + contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
-		}
-		if (stock >= qttDemandee) {
-			double qtt = contratCC.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
-			vente(qtt, produit);
-			return qtt;
-		}
-		else {
-			double diff = qttDemandee - stock;
-			diff = 100*diff/qttDemandee;
-			double qtt = contratCC.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
-			vente(diff*qtt, produit);
-			return diff*qtt;
-		}
-	}
-
-	public void verifUtiliteStock() {
-		// on gere la partie si on a trop de stock et plus de vente
-		// quand la filiere ne nou sachte plus
-		// on arrete de produire
-		int stepSansVente = 25;
-		if (Filiere.LA_FILIERE.getEtape() > 5) { 
-			// on laisse du temps au début
-			
-			if ( bolVUS ) {
-				// bolVUS true tant que on a pas utiliser cette fonction
-				// devient false ensuite car nos arbres sont déjà supprimés
-				
-				// si on ne vend pas pendant "stepSansVente" etapes,
-				// on ne vendra plus jamais
-				//on supprime donc tous nos arbres
-				// afin de ne pas faire faillite meme à la fin
-				// (aucun valeur réelle)
-				boolean bol = 
-						mesContratsCC.getLast().getEcheancier().getStepFin() + stepSansVente
-						<  Filiere.LA_FILIERE.getEtape()   ;
-				
-				if(bol) {
-					System.out.println("on vend plus rien :/ " +this.getNom());
-					bolVUS = false;
-					// on ne supprime les arbres qu'une seule fois
-					// on supprime tous nos arbres pour ne plus perdre d'argent
-					// (ca na aucun sens en réalité)
-					// sauf si la demande en cacao disparait totalement
-
-					for(Feve e : listeProd) {
-						arbrePlantes.get(e).removeAll(arbrePlantes.get(e));
-					}		 
-				}
-			} 
-		}
-	}
-
 
 }
