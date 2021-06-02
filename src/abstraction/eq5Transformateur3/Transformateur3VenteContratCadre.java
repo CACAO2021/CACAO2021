@@ -11,7 +11,6 @@ import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
-import abstraction.fourni.Variable;
 
 
 //Léna
