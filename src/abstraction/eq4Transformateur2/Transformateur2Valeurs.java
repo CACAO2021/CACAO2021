@@ -68,8 +68,8 @@ public class Transformateur2Valeurs {
 	
 	//Achat 
 	
-	protected static double cout_max_feve_basse = 1.3 ; 
-	protected static double cout_max_feve_moyenne = 1.4;
+	protected static double cout_max_feve_basse = 2.5 ; 
+	protected static double cout_max_feve_moyenne = 2.6;
 
 	//Production
 	
