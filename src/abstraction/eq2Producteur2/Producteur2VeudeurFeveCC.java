@@ -313,7 +313,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 						arbrePlantes.get(e).removeAll(arbrePlantes.get(e));
 					}		 
 				}
-			}
+			} 
 		}
 	}
 
