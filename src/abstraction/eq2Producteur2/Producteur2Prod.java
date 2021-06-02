@@ -90,7 +90,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
 		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
 		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
-		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		 
 
 	}
 
