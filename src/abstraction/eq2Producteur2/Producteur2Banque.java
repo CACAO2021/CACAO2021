@@ -56,7 +56,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		}
 		*/ 
 	}
- 
+  
 
 
 
