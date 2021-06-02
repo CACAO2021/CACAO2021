@@ -67,6 +67,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 
+
 		for (ChocolatDeMarque choco : listeTG.keySet()) {
 			if (listeTG.get(choco)>superviseur.QUANTITE_MIN_ECHEANCIER) {
 				superviseur.demande((IAcheteurContratCadreNotifie)this, (IVendeurContratCadre)Filiere.LA_FILIERE.getProprietaireMarque(choco.getMarque()), choco, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, Filiere.LA_FILIERE.getEtape()+2, listeTG.get(choco)), this.cryptogramme, true);
@@ -75,21 +76,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		listeTG.clear();
 
 		for (ChocolatDeMarque produit : this.getCatalogue()) {
-			List<IActeur> vendeurs = new LinkedList<IActeur>();
-			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-					vendeurs.add(acteur);
-				}
-			}
 
-			if (vendeurs.size()!=0) {
-				int rnd = new Random().nextInt(vendeurs.size());
-				IActeur vendeur = vendeurs.get(rnd);
-				if (maxQuantite(produit)>superviseur.QUANTITE_MIN_ECHEANCIER) {
-					superviseur.demande((IAcheteurContratCadreNotifie)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+2, Filiere.LA_FILIERE.getEtape()+3, maxQuantite(produit)), cryptogramme, false);
-				}
+			if (maxQuantite(produit)>superviseur.QUANTITE_MIN_ECHEANCIER) {
+				superviseur.demande((IAcheteurContratCadreNotifie)this, (IVendeurContratCadre)Filiere.LA_FILIERE.getProprietaireMarque(produit.getMarque()), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+2, Filiere.LA_FILIERE.getEtape()+3, maxQuantite(produit)), cryptogramme, false);
 			}
 		}
+
 
 		super.next();
 	}
@@ -107,12 +99,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println("contre proposition");
+
 		i++;
 		Echeancier e = contrat.getEcheancier();
 		
 		double maxQuantite = maxQuantite((ChocolatDeMarque) contrat.getProduit());
-		
+		System.out.println("notre proposition max: "+ maxQuantite +" leur proposition: "+e.getQuantiteTotale()+" pour: "+contrat.getVendeur());
 		
 		if (e.getQuantite(e.getStepFin())>maxQuantite) {
 			if(maxQuantite*(0.90+i/100)>((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER) {
@@ -123,8 +115,8 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 				e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
 			}
 		}
-		else {
-			
+		else{
+			System.out.println("négo acceptée");
 			e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 		}
 
@@ -149,7 +141,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 			maxPrix=0.9*maxPrix;
 		}
 
-		if (contrat.getPrix()>maxPrix) {
+		if (contrat.getPrix()>maxPrix || contrat.getPrix()==0) {
 			j++;
 			return maxPrix*(0.85+j/100);}
 		else {
