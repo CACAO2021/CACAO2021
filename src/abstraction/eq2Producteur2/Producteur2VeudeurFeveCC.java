@@ -12,6 +12,7 @@ import abstraction.fourni.Filiere;
 
 public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 	protected LinkedList<ExemplaireContratCadre> mesContratsCC;
+	protected boolean bolVUS;
 
 	/**
 	 * @param mesContrats 
@@ -19,6 +20,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	public Producteur2VeudeurFeveCC() {
 		super();
 		this.mesContratsCC = new LinkedList<ExemplaireContratCadre>();
+		bolVUS = true; // voir verifUtiliteStock()
 	}
 
 	@Override
@@ -283,17 +285,18 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		// quand la filiere ne nou sachte plus
 		// on arrete de produire
 		
-		if ( Filiere.LA_FILIERE.getEtape() > 200 ) {
+		if ( Filiere.LA_FILIERE.getEtape() > 200 && bolVUS ) {
 			boolean bol = mesContratsCC.getLast().getEcheancier().getStepFin()  <  Filiere.LA_FILIERE.getEtape()  + 10;
 			if(bol) {
 				System.out.println("on vend plus rien :/ " +this.getNom());
+				bolVUS = false; // on ne supprime les arbres qu'une seule fois
 				// on supprime tous nos arbres pour ne plus perdre d'argent
 				// (ca na aucun sens en réalité)
 				// sauf si la demande en cacao disparait totalement
 
 				for(Feve e : listeProd) {
 					arbrePlantes.get(e).removeAll(arbrePlantes.get(e));
-				}		
+				}		 
 			}
 		}
 	}
