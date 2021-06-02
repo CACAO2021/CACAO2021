@@ -85,7 +85,8 @@ public class Business {
 		this.indicateurs.add(48,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre moyenne qualité equitable", this.getStock().getActeur(), 0));
 		this.indicateurs.add(49,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité equitable", this.getStock().getActeur(), 0));
 		this.indicateurs.add(50,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité équitable et bio", this.getStock().getActeur(), 0));
- 
+		this.indicateurs.add(51, new Variable(this.getStock().getActeur().getNom() + " Total des subventions versées aux associations ", this.getStock().getActeur(), 0));
+		this.indicateurs.add(52, new Variable(this.getStock().getActeur().getNom() + " Proportion des subventions versées aux associations par rapport à nos entrées d'argent (%) ", this.getStock().getActeur(), 0));
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
 		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;	
 		this.mesContratEnTantQueVendeurNonGere = new ArrayList<ExemplaireContratCadre>() ;
@@ -149,8 +150,18 @@ public class Business {
 		for (Chocolat chocolat : this.getStock().nosChocolats()) {
 			compteur +=1;
 
-			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().setStockJete(chocolat));
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockJete(chocolat));
 		}
+		compteur += 1;
+		this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getSubvention());
+		
+		compteur += 1;
+		if (this.getStock().getActeur().getBenefice() != 0) {
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), (this.getStock().getActeur().getSubvention()/this.getStock().getActeur().getBenefice())*100);
+		} else {
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(),0);
+		}
+		
 	}
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {
@@ -388,7 +399,7 @@ public class Business {
 		Feve feve = (Feve)contrat.getProduit();
 		Triple triple = this.achats.get(feve);
 		double stock = triple.get1() - contrat.getQuantiteTotale(); 
-		int duree = Math.max(triple.get2(), contrat.getEcheancier().getNbEcheances()); 
+		int duree = Math.min(triple.get2(), contrat.getEcheancier().getNbEcheances()); 
 		if (stock >0 && duree > 0) {
 			triple.set3(true);
 		}

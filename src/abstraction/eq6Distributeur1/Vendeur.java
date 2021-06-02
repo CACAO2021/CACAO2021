@@ -29,7 +29,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		this.quantiteVenduePrec=new HashMap <ChocolatDeMarque,Double>();
 		this.journalVentes = new Journal("Journal ventes", this);
 		this.prixDAchat=new HashMap<ChocolatDeMarque,Double>();
-		this.limitePrix= new HashMap<ChocolatDeMarque,Double>();
+		
 		
 
 	}
@@ -58,18 +58,9 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 		
 		this.indicateurs.add(new Variable("tgVenteSurStock",this,0));
 		
-		for(ChocolatDeMarque choco : this.getCatalogue()) {
-			double limite=30;
-			if (choco.getGamme()==Gamme.BASSE) {
-				limite=limite*0.75;
-			}
-			if (choco.getGamme()==Gamme.HAUTE) {
-				limite=limite*1.25;
-			}
-			limitePrix.put(choco, limite);
-		}
-
 	}
+
+	
 
 
 
@@ -239,8 +230,13 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<=this.quantiteEnVente(choco)) {
-			this.ajouterStock((ChocolatDeMarque)choco, (-1)*quantite, false);
-			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
+			if (quantiteEnVenteTG(choco)>0) {
+				this.ajouterStock(choco, (-1)*quantite, true);
+			}
+			else {
+				this.ajouterStock(choco, (-1)*quantite, false);
+			}
+			
 			this.quantiteTotaleVendue+=quantite;
 			quantiteVenduePrec.put(choco, this.quantiteChocoVendue.get(choco));
 			this.quantiteChocoVendue.put(choco, quantite);
@@ -259,7 +255,6 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		if (quantiteEnVente(choco)==0) {
-			//	System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
 
