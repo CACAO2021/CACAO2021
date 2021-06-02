@@ -15,12 +15,11 @@ public class Transformateur1 extends AcheteurFevesContratCadre {
 	
 	public void next() {
 		
-		//this.getStock().gestionDesPeremptions();
+		this.getStock().gestionDesPeremptions();
 		this.getStock().getFinancier().setIndicateurs();
 		this.getStock().getFinancier().miseAJourContratVendeur();
 		this.getStock().getFinancier().miseAJourContratAcheteur();
 		this.nosDemandesCC();
-		//this.getStock().transformationFeveChocolat(Filiere.LA_FILIERE.getEtape());
 		this.getStock().transformationFeveChocolat();
 		this.getStock().coutStock();
 

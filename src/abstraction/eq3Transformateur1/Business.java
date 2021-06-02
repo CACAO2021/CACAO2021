@@ -85,7 +85,7 @@ public class Business {
 		this.indicateurs.add(48,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre moyenne qualité equitable", this.getStock().getActeur(), 0));
 		this.indicateurs.add(49,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité equitable", this.getStock().getActeur(), 0));
 		this.indicateurs.add(50,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité équitable et bio", this.getStock().getActeur(), 0));
- 
+		this.indicateurs.add(51, new Variable(this.getStock().getActeur().getNom() + " Total des subventions versées aux associations ", this.getStock().getActeur(), 0));
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
 		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;	
 		this.mesContratEnTantQueVendeurNonGere = new ArrayList<ExemplaireContratCadre>() ;
@@ -149,8 +149,10 @@ public class Business {
 		for (Chocolat chocolat : this.getStock().nosChocolats()) {
 			compteur +=1;
 
-			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().setStockJete(chocolat));
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getStockJete(chocolat));
 		}
+		compteur += 1;
+		this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getSubvention());
 	}
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {

@@ -442,7 +442,7 @@ public class Stock {
 			}
 		}
 	
-	public double setStockJete(Chocolat chocolat) {
+	public double getStockJete(Chocolat chocolat) {
 		double stock = 0;
 		for(ArrayList<Variable> quantiteprixdate : this.stockChocolats.get(chocolat)) {
 			if (quantiteprixdate.get(1).getValeur() == 0) {
@@ -515,9 +515,9 @@ public void transformationFeveChocolat() {
 				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
 				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
 				// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
-				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.7);
-				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
-				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.15);
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.33);
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.33);
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.33);
 				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
 				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.prixAchatKG(feve)*this.getMarge(feve));
 				Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), Filiere.LA_FILIERE.getEtape());

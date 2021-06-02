@@ -26,6 +26,7 @@ public class Transformateur1Acteur implements IActeur {
 
 	
 	public static double STOCK_MAX = 10000000000.0;
+	protected double SUBVENTION = 0.0;
 
 	public Transformateur1Acteur() {
 		
@@ -34,8 +35,13 @@ public class Transformateur1Acteur implements IActeur {
 		this.journalStock = new Journal(this.getNom()+" stock ", this);
 		this.journalTresorie = new Journal(this.getNom()+" trésorie", this);
 		this.stock = new Stock(this);
+		this.SUBVENTION = 0.0;
 
 		
+	}
+	
+	public double getSubvention() {
+		return this.SUBVENTION;
 	}
 
 	public void initialiser() {
