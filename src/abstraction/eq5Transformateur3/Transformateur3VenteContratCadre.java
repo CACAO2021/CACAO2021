@@ -103,17 +103,17 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 		
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE)) {
-			if (contrat.getPrix()>this.prix_min_vente_EQ.getValeur()) {
+			if (contrat.getPrix()>this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale()) {
 				return contrat.getPrix();}
 			else { return this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale(); } }
 		
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE)) {
-			if (contrat.getPrix()>this.prix_min_vente_MG.getValeur()) {
+			if (contrat.getPrix()>this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale()) {
 				return contrat.getPrix(); }
 			else { return this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale();} }
 			
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE)) {
-			if (contrat.getPrix()>this.prix_min_vente_confiserie.getValeur()) {
+			if (contrat.getPrix()>this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale()) {
 				return contrat.getPrix(); }
 		    else { return this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale(); } }
 		
