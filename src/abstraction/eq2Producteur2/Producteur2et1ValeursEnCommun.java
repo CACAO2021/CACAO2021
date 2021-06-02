@@ -30,7 +30,8 @@ public class Producteur2et1ValeursEnCommun {
 	public static final int PROD_ARBRE = PROD_ARBRE_AN/24;
 	
 	// partie transformation
-	// finalement utile uniquement a l'équipe 1 
+	// finalement utile uniquement a l'équipe 1
+	// l'équipe 2 ayant finalement choisi de ne plus transformer
 	public static final double coefHE = 0.4; //(à affiner)
 	public static final double coefM = 0.4;
 	public static final double coefME = 0.4;	
@@ -48,11 +49,14 @@ public class Producteur2et1ValeursEnCommun {
 	
 	//cout renouvellment arbre
 	//Cacaotier durée de vie 40 ans, bonne culture à partir de 3 ans et rendement maximal à partir de 6 ans. 
+	// on utilise dans le code une focntion pour déterminer le rendement de chaque arbre pour un step donné
 	public static final int TPS_RENOUVELLEMENT_ARBRE=40*24;
 	public static final int TPS_BON_RENDEMENT_ARBRE=3*24;
 	public static final int TPS_RENDEMENT_MAX_ARBRE=6*24;
 	
 	//partie vente
+	// pour accepter un contrat qui se veut equitable
+	// il y a deux conditions mini : 
 	protected double EQUI_NB_ECHEANCE_MINI = 8;
 	protected double EQUI_QTT_MINI = 1000000; 
 	
