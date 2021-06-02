@@ -24,7 +24,10 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 	private double paiements; //variable servant à connaître réellement l'état du compte en banque
 	private HashMap<ChocolatDeMarque, LinkedList<Double>> prixParChocolat; //pour avoir une moyenne du prix d'achat par chocolat
 	private LinkedList<Double> prixChocolat; //idem 
-	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on a pas encore en stock alors qu'il arrive dans x étapes selon l'échéancier d'un contrat déjà signé
+	private HashMap<ChocolatDeMarque, Double> quantiteARecevoir; // pour ne pas acheter du chocolat qu'on 
+	                                                             //a pas encore en stock alors qu'il arrive dans x étapes selon 
+	                                                             //l'échéancier d'un contrat déjà signé
+	
 	private HashMap<ChocolatDeMarque,Double> quantiteEnRouteTG; // quantité de choco à mettre en tete de gondole en cours de livraison
 	
 	public Color titleColor = Color.BLACK;
@@ -338,6 +341,7 @@ public class Achat extends Distributeur2Acteur implements IAcheteurContratCadre 
 		LinkedList<Double> liste = this.prixParChocolat.get(choco);
 		return liste == null ? 0.0 : this.getMoyenne(liste);
 	}
+
 	
 
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
