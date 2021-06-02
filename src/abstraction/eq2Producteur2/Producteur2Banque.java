@@ -54,7 +54,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 			COUT_PRODUCTION_FEVE_HE *= 1.4;
 			COUT_PRODUCTION_FEVE_HBE *= 1.5;
 		}
-		*/
+		*/ 
 	}
  
 
