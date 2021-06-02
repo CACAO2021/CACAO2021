@@ -126,4 +126,6 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		
 	}
 	
+	// Test
+	
 }

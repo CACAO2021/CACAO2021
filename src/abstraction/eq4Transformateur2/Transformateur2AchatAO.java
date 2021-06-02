@@ -88,4 +88,7 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 		this.journal_achat.ajouter("On reçoit "+quantite+" de "+proposition.getOffreAchateFeves().getFeve()+ " par "+proposition.getVendeur()+" lors d'un appel d'offre.");
 
 	}
+	
+	// Test
+	
 }

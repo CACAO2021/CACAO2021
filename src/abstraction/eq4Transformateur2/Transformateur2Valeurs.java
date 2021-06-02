@@ -111,5 +111,7 @@ public class Transformateur2Valeurs {
 	protected Journal journal_stock;
 	protected Journal journal_vente;
 	
+	// Test
+	
 }
 	

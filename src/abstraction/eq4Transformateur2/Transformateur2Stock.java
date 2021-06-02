@@ -204,4 +204,6 @@ public class Transformateur2Stock extends Transformateur2Acteur {
 		return Stock_tablette_total()+Stock_confiserie_total();
 	}
 	
+	// Test
+	
 }
