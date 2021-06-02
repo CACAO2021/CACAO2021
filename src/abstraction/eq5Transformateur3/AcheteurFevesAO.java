@@ -145,7 +145,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			if (choco==Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
 				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)
-						&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
+						/*&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)*/) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 		            nb_OA+=1;
 					return OA;
