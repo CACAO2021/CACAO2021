@@ -50,16 +50,16 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 1000000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 1000000);
 		
-		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 1.5);
-	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 2.3);
-	    this.prix_min_vente_confiserie = new Variable("Prix min de vente confiserie", this, 1.8);
+		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 1);
+	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 1.2);
+	    this.prix_min_vente_confiserie = new Variable("Prix min de vente confiserie", this, 1.1);
 	    
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
 		
-		this.prix_tablette = new Variable("Prix tablette moyenne", this, 6);
-		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 8);
-		this.prix_confiserie = new Variable("Prix confiserie", this, 7);
+		this.prix_tablette = new Variable("Prix tablette moyenne", this, 2);
+		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 4);
+		this.prix_confiserie = new Variable("Prix confiserie", this, 3);
 		
 		this.stock_avant_transfo_C= new Variable("stock confiserie avant ajout de la transformation ", this, 10000000);
 		this.stock_avant_transfo_HB = new Variable ("stock tablette haute bio et équitable avant ajout de la transformation", this, 10000000);
@@ -102,6 +102,8 @@ public abstract class Transformateur3Acteur implements IActeur {
 	    stock_avant_transfo_C.setValeur(this, this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur());
 	    stock_avant_transfo_HB.setValeur(this, this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur());
 	    stock_avant_transfo_M.setValeur(this, this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur());
+	    
+	    
 	    
 		Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		if(feve.getValeur()- 500>0) { //garder au minimum 500kg*/

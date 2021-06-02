@@ -105,19 +105,23 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE)) {
 			if (contrat.getPrix()>this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale()) {
 				return contrat.getPrix();}
-			else { return this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale(); } }
+			else if(contrat.getPrix()*0.8>this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale()) {
+				return contrat.getPrix()*0.8; } }
 		
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE)) {
 			if (contrat.getPrix()>this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale()) {
 				return contrat.getPrix(); }
-			else { return this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale();} }
+			else if(contrat.getPrix()*0.8>this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale()) {
+				return contrat.getPrix()*0.8;} }
 			
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE)) {
 			if (contrat.getPrix()>this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale()) {
 				return contrat.getPrix(); }
-		    else { return this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale(); } }
+		    else if(contrat.getPrix()*0.8>this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale()) {
+		    	return contrat.getPrix()*0.8; }
+		    else { return -1;/*this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale();*/} }
 		
-		else { return -1;} 
+		else { return -1;}
 	}
 
 	@Override
