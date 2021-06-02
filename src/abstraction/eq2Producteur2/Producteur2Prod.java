@@ -142,7 +142,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
-		//une longue période sans pouvoir espérer de bénéfice.
+		//une longue période sans pouvoir espérer de bénéfices.
+		
 		int step = Filiere.LA_FILIERE.getEtape();
 		int nbPlantage = 0;
 		int nbChangementTot = 0;
@@ -153,14 +154,11 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			for (Stock s : arbrePlantes.get(f)) {
 				if (step - s.getStep() >= TPS_RENOUVELLEMENT_ARBRE) {
 					nbChangement += s.getQtt();
-					aSupprimer.add(s);	// normalement un seul stock est à supprimer		
+					aSupprimer.add(s);	// normalement un seul stock est à supprimer a chaque step		
 				}
 			}
 			// on supprime les arbres trop vieux
-			// System.out.println(nbChangement);
-			// la valeur reste la même à tous les steps 
 			arbrePlantes.get(f).removeAll(aSupprimer);
-			//System.out.println(qttArbreToujoursPlantes(f));
 
 			// partie plantage
 			// on remplace les arbres en tenant compte de la demande
