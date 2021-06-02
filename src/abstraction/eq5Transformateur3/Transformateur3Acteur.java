@@ -145,7 +145,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 				}
 			}
 		}
-		System.out.println(stock_avant_transfo_HB.getValeur());
 		
 
 	} 
