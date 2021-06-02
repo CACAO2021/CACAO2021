@@ -75,23 +75,12 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		listeTG.clear();
 
 		for (ChocolatDeMarque produit : this.getCatalogue()) {
-			List<IActeur> vendeurs = new LinkedList<IActeur>();
-			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				if (acteur!= this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(produit)) {
-					vendeurs.add(acteur);
-				}
-			}
-
-			if (vendeurs.size()!=0) {
-				int rnd = new Random().nextInt(vendeurs.size());
-				IActeur vendeur = vendeurs.get(rnd);
-				if (maxQuantite(produit)>superviseur.QUANTITE_MIN_ECHEANCIER) {
-					superviseur.demande((IAcheteurContratCadreNotifie)this, ((IVendeurContratCadre)vendeur), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+2, Filiere.LA_FILIERE.getEtape()+3, maxQuantite(produit)), cryptogramme, false);
-				}
-			}
+			if (maxQuantite(produit)>superviseur.QUANTITE_MIN_ECHEANCIER) {
+				superviseur.demande((IAcheteurContratCadreNotifie)this, (IVendeurContratCadre)Filiere.LA_FILIERE.getProprietaireMarque(produit.getMarque()), produit, new Echeancier(Filiere.LA_FILIERE.getEtape()+2, Filiere.LA_FILIERE.getEtape()+3, maxQuantite(produit)), cryptogramme, false);
 		}
 
 		super.next();
+		}
 	}
 
 
@@ -149,7 +138,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 			maxPrix=0.9*maxPrix;
 		}
 
-		if (contrat.getPrix()>maxPrix) {
+		if (contrat.getPrix()>maxPrix || contrat.getPrix()==0) {
 			j++;
 			
 			return maxPrix*(0.85+j/100);}
