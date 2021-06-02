@@ -136,7 +136,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		}
 		
 		//Coût de l'entrepôt
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500);
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 1000);
 		
 		SuperviseurVentesContratCadre SupCCadre1 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
