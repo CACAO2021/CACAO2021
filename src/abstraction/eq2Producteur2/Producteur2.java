@@ -17,7 +17,7 @@ public class Producteur2 extends Producteur2Aleas  {
 		majJournaux();
 		lesProblemes();
 		prod();
-		transfo(); // vide pour le moment
+		//transfo(); // vide pour le moment
 		renouvellement();
 		verifPeremption();
 		coutStockage();
