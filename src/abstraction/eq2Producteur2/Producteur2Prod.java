@@ -184,9 +184,9 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 		// on dépense de l'argent pour remplacer els arbres
 		// pour ceux qu'on plante:
-		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
+		perdreArgent(COUT_CHANGEMENT_ARBRE * nbPlantage);
 		// pour ceux quon supprime:
-		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbChangementTot);
+		perdreArgent(COUT_CHANGEMENT_ARBRE * nbChangementTot);
 
 	}
 
