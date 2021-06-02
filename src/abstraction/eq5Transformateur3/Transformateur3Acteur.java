@@ -127,7 +127,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, (this.stock_min_feves_moyenne.getValeur()-feve.getValeur()+1000000)/10), cryptogramme, false); 
 				if (contratCadre!=null){
 					this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
-				}
+				} 
 			}
 		}
 
