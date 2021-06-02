@@ -99,7 +99,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-
 		i++;
 		Echeancier e = contrat.getEcheancier();
 		
