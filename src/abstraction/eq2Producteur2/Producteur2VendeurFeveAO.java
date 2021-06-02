@@ -11,7 +11,7 @@ import com.sun.tools.javac.util.Pair;
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
-import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO; 
 
 public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 	
@@ -27,7 +27,43 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		this.mesContratsAORefusess = new LinkedList<PropositionVenteFevesAO>();
 	}
 	
-	//Emeline
+
+	
+	public double besoinQuantiteContrat() {
+		double qtt=0;
+		for (PropositionVenteFevesAO pvao: this.mesContratsAO) {
+			qtt+=pvao.getQuantiteKg();
+		}
+		return qtt;
+	}
+
+	/**	@author Maxime Boillot
+
+	 */
+	public double proposerPrix(OffreAchatFeves oa) {
+		double stock = qttTotale(oa.getFeve()).getValeur();
+		//if (!(meilleurAcheteur.get(1).equals(oa.getAcheteur())) && meilleurAcheteur.get(0)<oa.get) {
+		if (stock >= oa.getQuantiteKG()-this.besoinQuantiteContrat() ) {
+			double p = 0;
+			double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve()); 
+			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
+				if (c.getAcheteur() == oa.getAcheteur() && c.getFeve()==oa.getFeve()) {
+					p = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
+				}
+			}if (p>0) {
+				if (p >= min) {return p;}
+				else {return min;}
+			}else{
+				return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
+			}
+		}else {
+			return 0.0;
+		}
+	}
+	
+	//A changer 
+	
+	//Emeline 
 	 
 	//Cette fonction renvoie le prix maximal, l'acheteur et la quantité moyenne. 
 	public ArrayList<Object> acheteLePlusCher(LinkedList<PropositionVenteFevesAO> mesContratsAO) {
@@ -89,32 +125,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		}
 		
 	}
-
-	/**	@author Maxime Boillot
-
-	 */
-	public double proposerPrix(OffreAchatFeves oa) {
-		double stock = qttTotale(oa.getFeve()).getValeur();
-		//if (!(meilleurAcheteur.get(1).equals(oa.getAcheteur())) && meilleurAcheteur.get(0)<oa.get) {
-		if (stock >= oa.getQuantiteKG() ) {
-			double p = 0;
-			double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve()); 
-			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
-				if (c.getAcheteur() == oa.getAcheteur() && c.getFeve()==oa.getFeve()) {
-					p = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
-				}
-			}if (p>0) {
-				if (p >= min) {return p;}
-				else {return min;}
-			}else{
-				return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
-			}
-		}else {
-			return 0.0;
-		}
-	}
 	
-	//A changer 
 	//Dans le cas où la liste des contrats ao n'est pas vide
 	public double proposerPrix2(OffreAchatFeves oa) {
 		double stock = qttTotale(oa.getFeve()).getValeur();
