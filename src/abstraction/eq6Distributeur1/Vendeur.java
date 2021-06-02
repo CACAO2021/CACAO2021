@@ -230,12 +230,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	public void vendre(ClientFinal client, ChocolatDeMarque choco, double quantite, double montant) {
 		if(choco!=null && quantite>0 && quantite<=this.quantiteEnVente(choco)) {
-			if (quantiteEnVenteTG(choco)>0) {
-				this.ajouterStock(choco, (-1)*quantite, true);
-			}
-			else {
-				this.ajouterStock(choco, (-1)*quantite, false);
-			}
+			this.ajouterStock((ChocolatDeMarque)choco, (-1)*quantite, false);
 			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
 			this.quantiteTotaleVendue+=quantite;
 			quantiteVenduePrec.put(choco, this.quantiteChocoVendue.get(choco));
