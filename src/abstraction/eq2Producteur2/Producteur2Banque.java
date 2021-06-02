@@ -29,7 +29,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		JournalStock.ajouter("stock total " + sum );
 		if (sum>QTT_STOCKAGE_MAX) {
 			JournalStock.ajouter("on stocke trop");
-			// si on depasse le stockage max, on paye bien plus cher
+			// si on depasse le stockage max, on paye plus cher
 			malus = (sum - QTT_STOCKAGE_MAX) * COUT_STOCKAGE_FEVE_DEPASSEMENT;
 			sum = QTT_STOCKAGE_MAX; // on stocke le maximum avec les moyens normaux
 		}

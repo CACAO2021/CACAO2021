@@ -20,6 +20,7 @@ public class Producteur2 extends Producteur2Aleas  {
 		//transfo(); // vide pour le moment
 		renouvellement();
 		verifPeremption();
+		verifUtiliteStock();
 		coutStockage();
 	}
 

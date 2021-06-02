@@ -227,6 +227,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			}this.stockFeveB = stockFeveB2;
 		}
 		
+		
 	}
 	
 
