@@ -11,7 +11,7 @@ import com.sun.tools.javac.util.Pair;
 import abstraction.eq8Romu.fevesAO.IAcheteurFevesAO;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
-import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO; 
 
 public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
 	
