@@ -37,4 +37,8 @@ public class Stock {
 	public void removeQuantite(double d) {
 		this.quantite.setValeur(acteur, this.quantite.getValeur()-d);
 	}
+	
+	public void setQuantite(IActeur a,double qte) {
+		this.quantite.setValeur(a, qte);
+	}
 }
