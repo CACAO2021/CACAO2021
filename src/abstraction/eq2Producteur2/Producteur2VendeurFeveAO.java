@@ -23,7 +23,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 	public Producteur2VendeurFeveAO() {
 		super(); 
 		this.mesContratsAO = new LinkedList<PropositionVenteFevesAO>();
-		this.mesContratsAORefusess = new LinkedList<PropositionVenteFevesAO>();
+		this.mesContratsAORefusess = new LinkedList<PropositionVenteFevesAO>(); 
 	}
 	
 
