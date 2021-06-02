@@ -43,12 +43,13 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 	}
 
 	public void tropDArgent() {
+		//dim
 
 
 		// si on devient trop riche 
 		// ce qui n'est pas forcement le but de notre acteur qui se veut equitable
 		// on fait des dons dargent et on augmente le salaire de nos producteurs
-		double montantMax = 1e11;
+		double montantMax = 1e10 * 10;
 		// 1e11 : 10 fois plus d'argent qu'au départ -> pas le but de gagner autant
 		boolean bol = Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme) > montantMax ;
 		if (bol) {
@@ -65,9 +66,9 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		} else {
 			// si on devient plus modéremment trop riche
 			// on se contente d'augmenter les salaires
-			double montantAugmentationSalaire = 1e11;
+			double montantAugmentationSalaire = 1e10 * 3; 
+			// 3 fois plus qu'au départ
 			boolean bol2 = Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme) > montantAugmentationSalaire ;
-			// 1e11 : 10 fois plus d'argent qu'au départ -> pas le but de gagner autant
 			if (bol2) {
 				System.out.println("trop riche " + this.getNom());
 				JournalRevolte.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
