@@ -107,6 +107,6 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	public static boolean estFeveEquitable(Object produit) {  return estFeveHBE(produit) || estFeveHE(produit) || estFeveME(produit);}
 	
 	//partie sur les aléas
-	protected double PROBA_INTEMPERIE = 0.0 ; // valeur entre 0 et 1 : probabilité qu'une partie du stock soit détruit
+	protected double PROBA_INTEMPERIE = 0.2 ; // valeur entre 0 et 1 : probabilité qu'une partie du stock soit détruit
 
 }
