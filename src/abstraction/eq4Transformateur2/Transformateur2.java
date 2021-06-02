@@ -17,6 +17,7 @@ public class Transformateur2 extends Transformateur2AchatAO {
 	public String toString() {
 		return this.getNom();
 	}
+	
 	public void next() {
 		/*this.supCCadre = (SuperviseurVentesContratCadre )(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		CCimportant();*/
@@ -42,4 +43,7 @@ public class Transformateur2 extends Transformateur2AchatAO {
 		// à mettre à la toute fin
 		this.update_echeanciers();
 	}
+	
+	// Test
+	
 }

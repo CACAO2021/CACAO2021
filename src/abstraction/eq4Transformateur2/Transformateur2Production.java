@@ -38,5 +38,6 @@ public class Transformateur2Production extends Transformateur2Stock {
 		}
 	}
 	
-		
+	// Test
+	
 }

@@ -74,4 +74,7 @@ public class Transformateur2AchatCC extends Transformateur2Vente implements IAch
 		}
 	}
 	*/
+	
+	// Test
+	
 }
