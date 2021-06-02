@@ -138,7 +138,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		
 		SuperviseurVentesContratCadre SupCCadre1 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
-		if(feve.getValeur()<this.stock_min_feves_moyenne.getValeur()) {
+		if(feve.getValeur()<this.stock_min_feves_moyenne.getValeur()){
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre1.getVendeurs(Feve.FEVE_MOYENNE);
 			if(vendeurs.size()>0) {
