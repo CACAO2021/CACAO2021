@@ -38,7 +38,9 @@ public class Transformateur2Valeurs {
 	protected int cryptogramme;
 	protected Journal journal;
 	
-	//Stockage
+	
+	//Variables utilisées pour le stockage
+
 	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
@@ -49,6 +51,8 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_feve_basse = 10000000.0;
 	protected double mini_stock_feve_moyenne = 10000000.0;
 	
+	//Variables de coûts
+
 	protected double quantite_totale_demandee_basse = 0;
 	protected double quantite_totale_demandee_moyenne = 0;
 	protected double nombre_step_total_basse = 0;
@@ -84,6 +88,7 @@ public class Transformateur2Valeurs {
 	
 	protected Variable var_stock_feve_basse;
 	protected Variable var_stock_feve_moyenne;
+	
 	protected Variable var_stock_tablette_basse;
 	protected Variable var_stock_tablette_moyenne;
 	protected Variable var_stock_confiserie_basse;
