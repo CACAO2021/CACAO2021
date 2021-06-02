@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import abstraction.eq8Romu.contratsCadres.Echeancier;
 import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.contratsCadres.IVendeurContratCadre;
+import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
 //ensemble fait par DIM
@@ -117,48 +118,48 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		
+
 		Object produit = contrat.getProduit();	
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		Echeancier e = contrat.getEcheancier();
 		// la quantite totale demande
 		double qttDemandee = contrat.getEcheancier().getQuantiteTotale();
-		
+
 		// la quantite que lon peut produire sur la meme duree + la qtt que lon possède
 		double qttQuiSeraProduite = qttQuiSeraProduite(nbEcheance, produit);		
 		double qttDispo = qttTotale(produit).getValeur();
 		double qttTotaleSurLaPeriode = qttDispo + qttQuiSeraProduite;
-		
+
 		// la quantite que lon sait devoir depenser sur la periode
 		double qttContratEnCours = aProduire(produit);
-		
+
 		//condition qui decoule des stocks
 		boolean condQtt = qttDemandee + qttContratEnCours < qttTotaleSurLaPeriode; 
 		//System.out.println("cond qtt " + condQtt + " avec " + contrat.getAcheteur() + " car "+ qttDemandee + " " + qttContratEnCours + " < " + qttTotaleSurLaPeriode );
-		
-		
+
+
 		// condition sur le fait detre equitable
 		boolean condEquitable=true; //true si ne concerne pas les produits equitable
-		
+
 		// deux bool utiles que si la feve est equitable
 		boolean equiNbEcheance = nbEcheance > EQUI_NB_ECHEANCE_MINI; 
 		boolean equiQtt = qttDemandee > EQUI_QTT_MINI; 
-		
+
 		if (estFeveEquitable(produit)) {
 			//pour que ce soit equitable
 			// il faut une longue période
 			// et une grande qtt
 			condEquitable = condEquitable && equiNbEcheance && equiQtt ; 
 		}
-		
+
 		condQtt = true ; //test ! a changer
 		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " " +condQtt + condEquitable);	
-				
-		
+
+
 		//les actions qui decoulent de nos conditions
 		if(condQtt && condEquitable) { // on est daccord avec l'échéancier
 			return contrat.getEcheancier();
-			
+
 		}else if(condQtt && !(condEquitable)){
 			// la demande ne peut pas etre accepte car pas assez equitable
 			//mais on pourra fournir cette quantité de fève	
@@ -198,7 +199,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				return null; 
 			}}
 	}
-	
+
 
 	@Override
 	//Dim
@@ -256,7 +257,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " + livraison + " / " + quantite + " donc un ratio de " + livraison/quantite );
 		return livraison;			
 	}
-	
+
 	public double livrer2(Object produit, double quantite, ExemplaireContratCadre contratCC) {
 		double stock = qttTotale(produit).getValeur();
 		double qttDemandee = 0;
@@ -276,5 +277,26 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			return diff*qtt;
 		}
 	}
+
+	public void verifUtiliteStock() {
+		// on gere la partie si on a trop de stock et plus de vente
+		// quand la filiere ne nou sachte plus
+		// on arrete de produire
+		
+		if ( Filiere.LA_FILIERE.getEtape() > 200 ) {
+			boolean bol = mesContratsCC.getLast().getEcheancier().getStepFin()  <  Filiere.LA_FILIERE.getEtape()  + 10;
+			if(bol) {
+				System.out.println("on vend plus rien :/ " +this.getNom());
+				// on supprime tous nos arbres pour ne plus perdre d'argent
+				// (ca na aucun sens en réalité)
+				// sauf si la demande en cacao disparait totalement
+
+				for(Feve e : listeProd) {
+					arbrePlantes.get(e).removeAll(arbrePlantes.get(e));
+				}		
+			}
+		}
+	}
+
 
 }
