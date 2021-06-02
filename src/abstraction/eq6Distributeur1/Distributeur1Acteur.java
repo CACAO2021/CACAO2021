@@ -70,9 +70,6 @@ public class Distributeur1Acteur implements IActeur {
 
 	// Renvoie les journaux
 	public List<Journal> getJournaux() {
-		//journaux.add(journalVentes);
-		//journaux.add(journalStocks);
-		//journaux.add(journalAchats);
 		return journaux;
 	}
 
