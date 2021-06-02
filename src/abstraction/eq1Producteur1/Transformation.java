@@ -19,7 +19,7 @@ public class Transformation {
 	
 	public void Transformation_Feve_Quantite (Feve f,double quantite,Producteur1Acteur producteur1Acteur) {
 		if (f.equals(Feve.FEVE_MOYENNE)) {
-			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).getQuantite()+quantite <= 100000000) {
+			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).getQuantite()+quantite <= 50000000) {
 				producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 				producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
 				producteur1Acteur.perteargent(0.5*quantite);
@@ -38,7 +38,7 @@ public class Transformation {
 			producteur1Acteur.getJournal("Ghanao Transformation").ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
 			}*/
 		if (f.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite()+quantite <= 100000000) {
+			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite()+quantite <= 50000000) {
 				producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 				producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).addQuantite(quantite);
 				producteur1Acteur.perteargent(0.5*quantite);

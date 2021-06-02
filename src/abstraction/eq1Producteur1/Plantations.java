@@ -90,17 +90,17 @@ public abstract class Plantations extends Stocks{
 	 */
 	
 	public double planter_bq(Stocks s)  {
-		double rapport = s.getStock(Feve.FEVE_BASSE).getQuantite()/66666666;
+		double rapport = s.getStock(Feve.FEVE_BASSE).getQuantite()/25000000;
 		return 2137333/rapport;
 	}
 	
 	public double planter_mq(Stocks s)  {
-		double rapport = s.getStock(Feve.FEVE_MOYENNE).getQuantite()/75000000;
+		double rapport = s.getStock(Feve.FEVE_MOYENNE).getQuantite()/50000000;
 		return 2404000/rapport;
 	}
 	
 	public double planter_mqe(Stocks s)  {
-		double rapport = s.getStock(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()/25000000;
+		double rapport = s.getStock(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()/50000000;
 		return 801333/rapport;
 	}
 

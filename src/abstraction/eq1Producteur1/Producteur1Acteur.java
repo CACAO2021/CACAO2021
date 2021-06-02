@@ -46,20 +46,20 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 	private void produireFeve() {
 		IActeur a = Filiere.LA_FILIERE.getActeur("EQ1");
 		//this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
-		if (this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()+this.production_mqe()<=75000000) {
+		if (this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()+this.production_mqe()<=25000000) {
 			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
 		} else {
-			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).setQuantite(a, 75000000);
+			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).setQuantite(a, 25000000);
 		}
-		if (this.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()+this.production_mq()<=150000000) {
+		if (this.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()+this.production_mq()<=50000000) {
 			this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(this.production_mq());
 		} else {
-			this.getStocks().get(Feve.FEVE_MOYENNE).setQuantite(a, 150000000);	
+			this.getStocks().get(Feve.FEVE_MOYENNE).setQuantite(a, 50000000);	
 		}
-		if (this.getStocks().get(Feve.FEVE_BASSE).getQuantite()+this.production_bq() <= 150000000){
+		if (this.getStocks().get(Feve.FEVE_BASSE).getQuantite()+this.production_bq() <= 50000000){
 			this.getStocks().get(Feve.FEVE_BASSE).addQuantite(this.production_bq());
 		} else {
-			this.getStocks().get(Feve.FEVE_BASSE).setQuantite(a, 150000000);
+			this.getStocks().get(Feve.FEVE_BASSE).setQuantite(a, 50000000);
 		}
 		
 		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_mqe()+" fèves de qualité moyenne équitable");
