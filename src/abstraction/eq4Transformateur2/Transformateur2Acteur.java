@@ -19,13 +19,8 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 
 	
 	public Transformateur2Acteur() {
-		
 		super();
-		journal_achat = new Journal("Journal des achats de Boni Suci", this);
-		journal_transformation = new Journal("Journal de production de Boni Suci", this);
-		journal_vente = new Journal("Journal des ventes de Boni Suci", this);
-		journal_stock = new Journal("Journal du stockage de Boni Suci", this);
-
+		this.journal = new Journal(this.getNom(), this);
 		echeancier_basse = new LinkedList<Double>();
 		echeancier_moyenne = new LinkedList<Double>();
 		echeancier_total = new LinkedList<Double>();
@@ -85,10 +80,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 	public List<Journal> getJournaux() {
 		// pas très utile à notre stade
 		List<Journal> res=new ArrayList<Journal>();
-		res.add(journal_achat);
-		res.add(journal_transformation);
-		res.add(journal_stock);
-		res.add(journal_vente);
+		res.add(journal);
 		return res;
 	}
 
@@ -125,5 +117,7 @@ public class Transformateur2Acteur extends Transformateur2Valeurs implements IAc
 		// TODO Auto-generated method stub
 		
 	}
+	
+	// Test
 	
 }

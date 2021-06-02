@@ -7,7 +7,6 @@ import java.util.List;
 
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
-import abstraction.fourni.Variable;
 
 //Emeline
 
@@ -19,15 +18,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private LinkedList<Stock> arbrePlantesB;
 
 	protected HashMap<Feve, LinkedList<Stock>> arbrePlantes;
-	protected HashMap<Feve, Variable> qttTotArbrePlantes;
 	
-	protected Variable qttArbreTotalFHBE;
-	protected Variable qttArbreTotalFHE;
-	protected Variable qttArbreTotalFME;
-	protected Variable qttArbreTotalFM;
-	protected Variable qttArbreTotalFB;
-	protected Variable qttArbreTotalPHE;
-	protected Variable qttArbreTotalPM;
 
 
 
@@ -77,21 +68,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			}			
 			step++;
 		}
-		
-		qttArbreTotalFHBE = new Variable("qttArbreTotal feve HBE", this, 0);
-		qttArbreTotalFHE = new Variable("qttArbreTotal feve HE", this, 0);
-		qttArbreTotalFME = new Variable("qttArbreTotal feve ME", this, 0);
-		qttArbreTotalFM = new Variable("qttArbreTotal feve M", this, 0);
-		qttArbreTotalFB = new Variable("qttArbreTotal feve B", this, 0);
-		
-		
-		qttTotArbrePlantes = new HashMap<Feve, Variable>();
-		qttTotArbrePlantes.put(listeProd.get(0), qttArbreTotalFHBE );
-		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
-		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
-		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
-		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
-				
 		// ancienne version sans tenir compte de l'age
 		//		this.arbrePlantesHBE = new LinkedList<Stock>();
 		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
@@ -105,14 +81,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
 
 	}
-	
-	public void majQttArbre(Object produit) {
-		double stock = 0;
-		for (Stock s : this.arbrePlantes.get((Feve)produit)) {
-			stock += s.getQtt();		
-		}
-		qttTotArbrePlantes.get((Feve)produit).setValeur(Filiere.LA_FILIERE.getActeur("Baratao"), stock);
-	}
 
 	public void prod() {		
 		for (Feve p : listeProd) {
@@ -122,7 +90,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			JournalProd.ajouter(""+ p +" "+qtt);	
 			coutProd(qtt, p);
 			majStock(p);
-			majQttArbre(p);
 		}		
 	}
 

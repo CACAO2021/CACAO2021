@@ -40,8 +40,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
 	//au bout d'un moment on achète plus rien à Boni Suci
 	//on peut surement optimiser les quantités en stock (on achete parfois beaucoup trop à eticao par exemple)
-	//a la fin on pourrait peut etre faire quelque chose pour acheter plus cher ce qu'on arrive bien a vendre 
-	//						pour etre plus ethiques (parce que là on s'enrichit vraiment sur le dos des autres)
 	
 
 	//Louis
@@ -108,7 +106,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println("contre proposition");
+		System.out.println("contre proposition");
 		i++;
 		Echeancier e = contrat.getEcheancier();
 		
