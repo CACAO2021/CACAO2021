@@ -38,9 +38,10 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 		return listeContrats;
 	}
 	
-	public ArrayList<IVendeurContratCadre> getVendeurs(ArrayList<ExemplaireContratCadre> listeContrats){
+	public ArrayList<IVendeurContratCadre> getVendeurs(int i){
 		ArrayList<IVendeurContratCadre> listeVendeurs = new ArrayList<IVendeurContratCadre>();
-		for (ExemplaireContratCadre contrat : listeContrats) {
+		for (int index=i; index<this.getListeContrats().size(); index++) {
+			ExemplaireContratCadre contrat = this.getListeContrats().get(index);
 			listeVendeurs.add(contrat.getVendeur());
 		}
 		return listeVendeurs;

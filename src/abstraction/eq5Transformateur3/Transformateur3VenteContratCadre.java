@@ -76,7 +76,7 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 				return contrat.getEcheancier();}
 			if (chocolat.equals(Chocolat.CONFISERIE_MOYENNE) 
 					&& this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()>this.stock_min_confiserie.getValeur()
-					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.stock_avant_transfo_C.getValeur()){
+					&& contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)<this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur()){
 				return contrat.getEcheancier();
 			}
 			else { return null;
