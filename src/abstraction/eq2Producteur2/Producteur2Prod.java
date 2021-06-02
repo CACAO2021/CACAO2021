@@ -90,19 +90,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
 		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
 		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
-		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
-
-		// ancienne version sans tenir compte de l'age
-		//		this.arbrePlantesHBE = new LinkedList<Stock>();
-		//		this.arbrePlantesHBE.add(new Stock(ARBRE_DEBUT_HBE, 0)); 
-		//		this.arbrePlantesHE = new LinkedList<Stock>();
-		//		this.arbrePlantesHE.add(new Stock(ARBRE_DEBUT_HE, 0));
-		//		this.arbrePlantesME = new LinkedList<Stock>();
-		//		this.arbrePlantesME.add(new Stock(ARBRE_DEBUT_ME, 0));
-		//		this.arbrePlantesM = new LinkedList<Stock>();
-		//		this.arbrePlantesM.add(new Stock(ARBRE_DEBUT_M, 0));
-		//		this.arbrePlantesB = new LinkedList<Stock>();
-		//		this.arbrePlantesB.add(new Stock(ARBRE_DEBUT_B, 0));
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		 
 
 	}
 
@@ -151,80 +139,55 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	}
 
 	public void renouvellement() {
-		// a utiliser par la suite
-
-		//pour faire des test
-		//renouvellmentvieu(); // a enlever
-
 
 		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
-		//une longue période sans pouvoir espérer de bénéfice.
+		//une longue période sans pouvoir espérer de bénéfices.
+		
 		int step = Filiere.LA_FILIERE.getEtape();
-		int nbChangement = 0;
 		int nbPlantage = 0;
+		int nbChangementTot = 0;
 		List<Stock> aSupprimer = new ArrayList<Stock>();
 		for (Feve f : listeProd) {
+			int nbChangement = 0;
 			// partie suppression
 			for (Stock s : arbrePlantes.get(f)) {
 				if (step - s.getStep() >= TPS_RENOUVELLEMENT_ARBRE) {
 					nbChangement += s.getQtt();
-					aSupprimer.add(s);					
+					aSupprimer.add(s);	// normalement un seul stock est à supprimer a chaque step		
 				}
 			}
 			// on supprime les arbres trop vieux
-			// System.out.println(nbChangement);
-			// la valeur reste la même à tous les steps 
 			arbrePlantes.get(f).removeAll(aSupprimer);
-			//System.out.println(qttArbreToujoursPlantes(f));
 
 			// partie plantage
 			// on remplace les arbres en tenant compte de la demande
+			
+			// partie à modifier
+			// reflexion sur ce que lon plante
+			// réfléchir à la répartition des arbres a replanter
 
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
-			int qtt = 0; // réfléchir à la répartition des arbres a replanter
-			nbPlantage += qtt;
+			
+			int qtt = nbChangement; // pour le moment tjrs la meme répartition 
+			
+			// pour pouvoir perdre de l'argent
+			//on compte le nombre d'arbre que lon plante
+			nbPlantage += qtt; 
+			// et que lon enleve
+			nbChangementTot += nbChangement;
 
 			arbrePlantes.get(f).add(new Stock(qtt, step));
 		}
 
 		// on dépense de l'argent pour remplacer els arbres
-		perdreArgent(COUT_CHANGEMENT_ARBRE_HBE * nbPlantage);
+		// pour ceux qu'on plante:
+		perdreArgent(COUT_CHANGEMENT_ARBRE * nbPlantage);
+		// pour ceux quon supprime:
+		perdreArgent(COUT_CHANGEMENT_ARBRE * nbChangementTot);
 
-	}
-
-	public void renouvellement2() {
-		// a supprimer
-		// quand bug corrige sur prod
-		int step=0;
-		// ancienne version 
-		for (Stock s : arbrePlantesHBE) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step); // on change le step de l'arbre pour simuler le fait quil soit replanté
-				perdreArgent(COUT_CHANGEMENT_ARBRE_HBE);
-			}}
-		for (Stock s : arbrePlantesHE) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_HE);
-			}}
-		for (Stock s : arbrePlantesME) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_ME);
-			}}
-		for (Stock s : arbrePlantesM) {
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_M);
-			}}
-		for (Stock s : arbrePlantesB) { 
-			if (step - s.getStep() == TPS_RENOUVELLEMENT_ARBRE) {
-				s.setStep(step);
-				perdreArgent(COUT_CHANGEMENT_ARBRE_B);
-			}}
 	}
 
 	/*
@@ -280,7 +243,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			return prodParArbre(p);
 		}else {
 			return 0;
-		}
+		} 
 	}
 
 	protected double qttQuiSeraProduite( int nbEcheance, Object p) {
