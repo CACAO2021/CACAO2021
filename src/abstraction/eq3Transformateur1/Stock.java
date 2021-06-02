@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import abstraction.eq8Romu.clients.ClientFinal;
+import abstraction.eq8Romu.contratsCadres.ExemplaireContratCadre;
 import abstraction.eq8Romu.produits.Categorie;
 import abstraction.eq8Romu.produits.Chocolat;
 import abstraction.eq8Romu.produits.ChocolatDeMarque;
@@ -507,7 +508,7 @@ public class Stock {
 	}
 
 	
-public void transformationFeveChocolat() {
+	public void transformationFeveChocolat() {
 		
 		// on prend chaque feve
 		for (Feve feve : this.nosFeves()) {
@@ -515,9 +516,9 @@ public void transformationFeveChocolat() {
 				// on prend la quantite de feve qu'on a de ce type et on le multiplie par le rapport de transformation
 				double quant = this.getStockFeves(feve)*this.getRapportTransformation().getValeur();
 				// on transforme les feves selon les proportions suivantes : 70% de tablettes, 15% de confiserie, 15% de poudre
-				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.33);
-				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.33);
-				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*0.33);
+				Variable quantitetablette = new Variable(this.getActeur().getNom(),this.getActeur(),quant*this.proportionNecessaire(Categorie.TABLETTE));
+				Variable quantiteconfiserie = new Variable(this.getActeur().getNom(),this.getActeur(),quant*this.proportionNecessaire(Categorie.CONFISERIE));
+				Variable quantitepoudre = new Variable(this.getActeur().getNom(),this.getActeur(),quant*this.proportionNecessaire(Categorie.POUDRE));
 				// on prend le prix moyen de nos feves qu'on multiplie par la marge que l'on souhaiterai se faire pour obtenir le prix de vente de cette quantite
 				Variable prix = new Variable(this.getActeur().getNom(),this.getActeur(), this.prixAchatKG(feve)*this.getMarge(feve));
 				Variable date = new Variable(this.getActeur().getNom(), this.getActeur(), Filiere.LA_FILIERE.getEtape());
@@ -544,4 +545,57 @@ public void transformationFeveChocolat() {
 			}
 		}
 	}
+	
+	public double proportionNecessaire(Categorie categorie) {
+		double quantiteTotale = 0.0;
+		double quantiteTablette = 0.0;
+		double quantitePoudre = 0.0;
+		double quantiteConfiserie = 0.0;
+		for (ExemplaireContratCadre contrat: this.getFinancier().getMesContratEnTantQueVendeur()) {
+			Chocolat produit = null;
+			if (contrat.getProduit() instanceof Chocolat) {
+				produit = (Chocolat)contrat.getProduit();
+			} else if (contrat.getProduit() instanceof ChocolatDeMarque) {
+				produit = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
+			}
+			if (produit.getCategorie() == Categorie.CONFISERIE) {
+				quantiteConfiserie += contrat.getQuantiteALivrerAuStep();
+				quantiteTotale += contrat.getQuantiteALivrerAuStep();
+			} else if (produit.getCategorie() == Categorie.TABLETTE) {
+				quantiteTablette += contrat.getQuantiteALivrerAuStep();
+				quantiteTotale += contrat.getQuantiteALivrerAuStep();
+			} else if (produit.getCategorie() == Categorie.POUDRE) {
+				quantitePoudre += contrat.getQuantiteALivrerAuStep();
+				quantiteTotale += contrat.getQuantiteALivrerAuStep();
+			}
+		}
+		if (categorie == Categorie.CONFISERIE) {
+			if (quantiteTotale != 0) {
+				return quantiteConfiserie/quantiteTotale;
+			} else {
+				return 0.33;
+			}
+			
+		} else if (categorie== Categorie.TABLETTE) {
+			if (quantiteTotale != 0) {
+				return quantiteTablette/quantiteTotale;
+			} else {
+				return 0.33;
+			}
+		} else if (categorie == Categorie.POUDRE) {
+			if (quantiteTotale != 0) {
+				return quantitePoudre/quantiteTotale;
+			} else {
+				return 0.33;
+			}
+		} else {
+			return 0.33;
+		}
+		
+		
+	}
+	
+
+
+
 }

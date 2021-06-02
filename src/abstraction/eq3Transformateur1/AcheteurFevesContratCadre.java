@@ -114,6 +114,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			if (argentPourLesAsso != Double.POSITIVE_INFINITY && argentPourLesAsso != Double.NEGATIVE_INFINITY) {
 				this.SUBVENTION += argentPourLesAsso;
 			}
+			this.BENEFICE += contrat.getPrix()*contrat.getQuantiteTotale();
 			
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
 			this.journalTresorie.ajouter(Color.GREEN, Color.BLACK, "Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
