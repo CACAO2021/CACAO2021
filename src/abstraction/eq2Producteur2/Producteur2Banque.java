@@ -54,7 +54,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		boolean bol = Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme) > montantMax ;
 		if (bol) {
 			System.out.println("trop riche " + this.getNom());
-			JournalRevolte.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
+			JournalPB.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
 			// on augmente les salaires
 			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
 			COUT_PRODUCTION_FEVE_M *= 1.2;
@@ -71,7 +71,7 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 			boolean bol2 = Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme) > montantAugmentationSalaire ;
 			if (bol2) {
 				System.out.println("trop riche " + this.getNom());
-				JournalRevolte.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
+				JournalPB.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
 				// on augmente les salaires
 				COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
 				COUT_PRODUCTION_FEVE_M *= 1.2;
