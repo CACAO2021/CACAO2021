@@ -46,7 +46,6 @@ public class Transformateur2Valeurs {
 	protected static double cout_max_feve_moyenne = 1.4;
 	protected static double Prix_max_achat; //A quoi elle sert ?
 	
-	
 	//Variables utilisées pour le stockage
 	
 	protected HashMap<Feve,Double> stock_feve;
@@ -57,7 +56,6 @@ public class Transformateur2Valeurs {
 	protected double mini_stock_confiserie_moyenne = 15000000.0;
 	protected double mini_stock_feve_basse = 10000000.0;
 	protected double mini_stock_feve_moyenne = 10000000.0;
-	
 	
 	//Variables de coûts
 	
@@ -87,6 +85,7 @@ public class Transformateur2Valeurs {
 	
 	protected Variable var_stock_feve_basse;
 	protected Variable var_stock_feve_moyenne;
+	
 	protected Variable var_stock_tablette_basse;
 	protected Variable var_stock_tablette_moyenne;
 	protected Variable var_stock_confiserie_basse;
