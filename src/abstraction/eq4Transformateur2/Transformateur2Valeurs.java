@@ -72,7 +72,7 @@ public class Transformateur2Valeurs {
 
 	//Production
 	
-	protected static double charges_fixes = 0.0 ;
+	protected static double charges_fixes = 1000 ;
 	protected static double capacite_production = 100000000000000000.0 ;
 	protected static double cout_transformation = 0.5;
 	
