@@ -35,12 +35,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		this.listeTG=new HashMap<ChocolatDeMarque, Double>();
 	}
 
-	//trucs à faire:
-	//améliorer le prix de vente max dans NouveauPrix() pour qu'il n'y ait plus besoin de la limite pour que les prix ne s'envolent pas
-	//quand les transformateurs auront mis la négo, vérifier que contrePropositionDelAcheteur fonctionne
-	//au bout d'un moment on achète plus rien à Boni Suci
-	//on peut surement optimiser les quantités en stock (certains chocolats ont des stocks constants c'est bizarre)
-
 
 	
 	//Louis
@@ -96,7 +90,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println("contre proposition");
 		i++;
 		Echeancier e = contrat.getEcheancier();
 		
@@ -162,7 +155,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public void receptionner(Object produit, double quantite, ExemplaireContratCadre contrat) {
-		//System.out.println("reception choco: "+ ((ChocolatDeMarque)produit).toString() +"  tg: "+contrat.getTeteGondole()+" quantite contrat: "+contrat.getQuantiteTotale()+" quantite livree: "+ quantite);
 		this.superviseur=(SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre");
 		ajouterStock((ChocolatDeMarque)produit, quantite,contrat.getTeteGondole());
 		journalAchats.ajouter("achat de "+quantite+" "+produit.toString()+" a "+contrat.getVendeur().toString()+" pour un prix de "+contrat.getPrix());
@@ -215,8 +207,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 	
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		//System.out.println("contrat " + contrat.getVendeur());
-		//System.out.println("nouv contrat choco: "+ ((ChocolatDeMarque)contrat.getProduit()).toString() + " tg: "+contrat.getTeteGondole()+" quantite:"+contrat.getEcheancier().getQuantiteTotale());
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		double quantite = contrat.getEcheancier().getQuantiteTotale();
 		double prix = contrat.getPrix();

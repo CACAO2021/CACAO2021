@@ -237,7 +237,6 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 				this.ajouterStock(choco, (-1)*quantite, false);
 			}
 			
-			//System.out.println(stock.get(choco).getValeur()+" "+choco.toString());
 			this.quantiteTotaleVendue+=quantite;
 			quantiteVenduePrec.put(choco, this.quantiteChocoVendue.get(choco));
 			this.quantiteChocoVendue.put(choco, quantite);
@@ -256,7 +255,6 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 	
 	public void notificationRayonVide(ChocolatDeMarque choco) {
 		if (quantiteEnVente(choco)==0) {
-			//	System.out.println("Plus de : "+ choco.getMarque()+" en rayon");
 		}
 	}	
 
