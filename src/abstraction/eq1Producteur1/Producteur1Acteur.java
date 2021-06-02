@@ -63,20 +63,20 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IF
 	private void produireFeve() {
 		IActeur a = Filiere.LA_FILIERE.getActeur("EQ1");
 		//this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
-		if (this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()+this.production_mqe()<=25000000) {
+		if (this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()+this.production_mqe()<=5000000) {
 			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
 		} else {
-			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).setQuantite(a, 25000000);
+			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).setQuantite(a, 5000000);
 		}
 		if (this.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()+this.production_mq()<=50000000) {
 			this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(this.production_mq());
 		} else {
 			this.getStocks().get(Feve.FEVE_MOYENNE).setQuantite(a, 50000000);	
 		}
-		if (this.getStocks().get(Feve.FEVE_BASSE).getQuantite()+this.production_bq() <= 50000000){
+		if (this.getStocks().get(Feve.FEVE_BASSE).getQuantite()+this.production_bq() <= 10000000){
 			this.getStocks().get(Feve.FEVE_BASSE).addQuantite(this.production_bq());
 		} else {
-			this.getStocks().get(Feve.FEVE_BASSE).setQuantite(a, 50000000);
+			this.getStocks().get(Feve.FEVE_BASSE).setQuantite(a, 10000000);
 		}
 		
 		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_mqe()+" fèves de qualité moyenne équitable");
@@ -107,7 +107,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IF
 		this.produireFeve();
 		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
 		this.transformation.Transformation_Feve(this);
-		this.maj_plantation(240400, 100000,100000, this);
+		this.maj_plantation(this.getStocks2(), this);
 	}
 
 	public List<String> getNomsFilieresProposees() {
@@ -169,5 +169,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IF
 	public abstract double production_mq ();
 	public abstract double production_mqe ();
 	public abstract double production_bq ();
-	public abstract void maj_plantation(double new_mq, double new_mqe, double new_bq, Producteur1Acteur a);
+	public abstract void maj_plantation(Stocks s, Producteur1Acteur a);
+	public abstract Stocks getStocks2();
+
 } 
