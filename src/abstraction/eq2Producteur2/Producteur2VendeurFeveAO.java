@@ -61,6 +61,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		}
 	}
 	
+	/*
 	//A changer 
 	
 	//Emeline 
@@ -126,6 +127,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		
 	}
 	
+	
 	//Dans le cas où la liste des contrats ao n'est pas vide
 	public double proposerPrix2(OffreAchatFeves oa) {
 		double stock = qttTotale(oa.getFeve()).getValeur();
@@ -146,6 +148,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 			return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
 		}
 	}
+	*/
 
 	/**	@author Maxime Boillot
 
