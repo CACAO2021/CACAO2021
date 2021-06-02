@@ -23,9 +23,11 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	public Transformateur3VenteContratCadre() {
 		this.contratsVente = new HashMap<ExemplaireContratCadre, Integer>();
 	}
+	
 	public HashMap<ExemplaireContratCadre, Integer> getContratsVente() {
 		return contratsVente;
 	}
+	
 	public int getEtape(ExemplaireContratCadre contrat) {
 		return this.getContratsVente().get(contrat);
 	}
