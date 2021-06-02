@@ -284,19 +284,35 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		// on gere la partie si on a trop de stock et plus de vente
 		// quand la filiere ne nou sachte plus
 		// on arrete de produire
-		
-		if ( Filiere.LA_FILIERE.getEtape() > 200 && bolVUS ) {
-			boolean bol = mesContratsCC.getLast().getEcheancier().getStepFin()  <  Filiere.LA_FILIERE.getEtape()  + 10;
-			if(bol) {
-				System.out.println("on vend plus rien :/ " +this.getNom());
-				bolVUS = false; // on ne supprime les arbres qu'une seule fois
-				// on supprime tous nos arbres pour ne plus perdre d'argent
-				// (ca na aucun sens en réalité)
-				// sauf si la demande en cacao disparait totalement
+		int stepSansVente = 25;
+		if (Filiere.LA_FILIERE.getEtape() > 5) { 
+			// on laisse du temps au début
+			
+			if ( bolVUS ) {
+				// bolVUS true tant que on a pas utiliser cette fonction
+				// devient false ensuite car nos arbres sont déjà supprimés
+				
+				// si on ne vend pas pendant "stepSansVente" etapes,
+				// on ne vendra plus jamais
+				//on supprime donc tous nos arbres
+				// afin de ne pas faire faillite meme à la fin
+				// (aucun valeur réelle)
+				boolean bol = 
+						mesContratsCC.getLast().getEcheancier().getStepFin() + stepSansVente
+						<  Filiere.LA_FILIERE.getEtape()   ;
+				
+				if(bol) {
+					System.out.println("on vend plus rien :/ " +this.getNom());
+					bolVUS = false;
+					// on ne supprime les arbres qu'une seule fois
+					// on supprime tous nos arbres pour ne plus perdre d'argent
+					// (ca na aucun sens en réalité)
+					// sauf si la demande en cacao disparait totalement
 
-				for(Feve e : listeProd) {
-					arbrePlantes.get(e).removeAll(arbrePlantes.get(e));
-				}		 
+					for(Feve e : listeProd) {
+						arbrePlantes.get(e).removeAll(arbrePlantes.get(e));
+					}		 
+				}
 			}
 		}
 	}

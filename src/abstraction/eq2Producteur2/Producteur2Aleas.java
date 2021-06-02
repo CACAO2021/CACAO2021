@@ -55,6 +55,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 				for (Stock st : toAdd) {
 					arbrePlantes.get(f).add(st);
 				}
+				toAdd.clear();
 			}
 			double coutPerte = COUT_CHANGEMENT_ARBRE * sum;
 			perdreArgent(coutPerte);
