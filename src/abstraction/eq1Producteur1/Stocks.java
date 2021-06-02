@@ -49,4 +49,5 @@ public abstract class Stocks extends VendeurContratCadre1{
 	public HashMap<Object, Stock> getStocks() {
 		return stocks;
 	}
+
 }
