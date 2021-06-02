@@ -1,5 +1,7 @@
 package abstraction.eq2Producteur2;
 
+import java.awt.Color;
+
 import abstraction.fourni.Filiere;
 
 //  DIM
@@ -39,24 +41,48 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 		JournalStock.ajouter("prix " + (var + fixe + malus) );
 
 	}
-	
+
 	public void tropDArgent() {
-		/*
+
+
 		// si on devient trop riche 
 		// ce qui n'est pas forcement le but de notre acteur qui se veut equitable
 		// on fait des dons dargent et on augmente le salaire de nos producteurs
-		boolean bol = Filiere.LA_FILIERE.getBanque()
-		if () {
+		double montantMax = 1e11;
+		// 1e11 : 10 fois plus d'argent qu'au départ -> pas le but de gagner autant
+		boolean bol = Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme) > montantMax ;
+		if (bol) {
+			System.out.println("trop riche " + this.getNom());
+			JournalRevolte.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
 			// on augmente les salaires
 			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
 			COUT_PRODUCTION_FEVE_M *= 1.2;
 			COUT_PRODUCTION_FEVE_ME *= 1.3;
 			COUT_PRODUCTION_FEVE_HE *= 1.4;
 			COUT_PRODUCTION_FEVE_HBE *= 1.5;
+			// on fait un don 
+			perdreArgent(montantMax/2);
+		} else {
+			// si on devient plus modéremment trop riche
+			// on se contente d'augmenter les salaires
+			double montantAugmentationSalaire = 1e11;
+			boolean bol2 = Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme) > montantAugmentationSalaire ;
+			// 1e11 : 10 fois plus d'argent qu'au départ -> pas le but de gagner autant
+			if (bol2) {
+				System.out.println("trop riche " + this.getNom());
+				JournalRevolte.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
+				// on augmente les salaires
+				COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
+				COUT_PRODUCTION_FEVE_M *= 1.2;
+				COUT_PRODUCTION_FEVE_ME *= 1.3;
+				COUT_PRODUCTION_FEVE_HE *= 1.4;
+				COUT_PRODUCTION_FEVE_HBE *= 1.5;
+				// on ne fait pas de don 
+			}
 		}
-		*/ 
+
 	}
-   
+
 
 
 
