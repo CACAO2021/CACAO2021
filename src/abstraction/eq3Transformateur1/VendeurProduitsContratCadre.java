@@ -16,6 +16,7 @@ import abstraction.fourni.Variable;
 public class VendeurProduitsContratCadre extends Transformateur1Marque implements IVendeurContratCadre {
 	
 
+	
 	//test si le produit désiré est dans notre catalogue
 	public boolean peutVendre(Object produit) {
 		if ((produit instanceof Chocolat)) {

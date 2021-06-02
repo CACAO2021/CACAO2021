@@ -45,13 +45,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 
 
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		// Si l'echeancier est juste  plus court de 2 step que l'échéancier demandé (10) on accepte et on s'occupera du stock pour assurer les ventes du prochains steps
-		/*if (contrat.getEcheanciers().get(0).getNbEcheances() >= 3 || contrat.getEcheanciers().get(0).getNbEcheances()  - 2 <= contrat.getEcheancier().getNbEcheances()) {
-			return contrat.getEcheancier();
-			
-		}
-		return null;*/
-		//return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 14, contrat.getEcheancier().getQuantiteTotale());
+
 		return contrat.getEcheancier(); 
 	}
 
@@ -78,10 +72,12 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			double quant = triple.get1();
 			boolean achat = triple.get3();
 			for (IActeur acteur : Filiere.LA_FILIERE.getActeurs()) {
-				boolean t = true;
-				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && t && quant >1000 && achat) {
-
+				int i = 0;
+				if (acteur!=this && acteur instanceof IVendeurContratCadre && ((IVendeurContratCadre)acteur).vend(feve) && i == 0 && quant >1000 && achat) {
 					ExemplaireContratCadre contrat = supCCadre.demande((IAcheteurContratCadre)this, ((IVendeurContratCadre)acteur), feve, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, nbEcheances, quant), cryptogramme, false);
+					if (contrat != null) {
+						i = 1;
+					}
 				}
 				
 			}
@@ -115,6 +111,11 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			this.getStock().getFinancier().miseAJourVente(contrat);
 			double margeAVerser = this.getStock().getMarge(this.getStock().equivalentFeve(chocolat));
 			double argentPourLesAsso = contrat.getPrix()*(margeAVerser-1.4)*contrat.getQuantiteTotale();
+			if (argentPourLesAsso != Double.POSITIVE_INFINITY && argentPourLesAsso != Double.NEGATIVE_INFINITY) {
+				this.SUBVENTION += argentPourLesAsso;
+			}
+			this.BENEFICE += contrat.getPrix()*contrat.getQuantiteTotale();
+			
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
 			this.journalTresorie.ajouter(Color.GREEN, Color.BLACK, "Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
 		}
