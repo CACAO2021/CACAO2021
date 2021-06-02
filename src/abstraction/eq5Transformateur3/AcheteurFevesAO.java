@@ -14,6 +14,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 
 public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implements IAcheteurFevesAO {
 	private Feve feve;
@@ -126,7 +127,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	
 	public OffreAchatFeves getOffreAchat(){
 		int nb_OA = 0;
-		if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
+		/*if (this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()< this.stock_min_feves_moyenne.getValeur()) {
 			OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, this.stock_min_feves_moyenne.getValeur()-this.getFeves().get(Feve.FEVE_MOYENNE).getValeur());
 			this.JournalOA.ajouter("offre d'achat =" + OA);
 			nb_OA+=1;
@@ -137,24 +138,31 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			this.JournalOA.ajouter("offre d'achat =" + OA);
 			nb_OA+=1;
 			return OA;
-			}
-		for(ExemplaireContratCadre contrat : this.getContrats().keySet()) {
-			if (contrat.getProduit()==Chocolat.TABLETTE_HAUTE_EQUITABLE) {
+			}*/
+		 for(ExemplaireContratCadre contrat : this.getContratsVente().keySet()) {
+			ChocolatDeMarque chocoMarque = ((ChocolatDeMarque)contrat.getProduit());
+			Chocolat choco = chocoMarque.getChocolat();
+			if (choco==Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
 				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
+				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)
+						/*&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)*/) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 		            nb_OA+=1;
-					return OA;}}
-			if (contrat.getProduit()==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
+					return OA;
+				}
+			}
+			if (choco==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
 				Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
 				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 		            nb_OA+=1;
-					return OA;}}
+					return OA;
 				}
+			}
+		 }
 				
-				
-			/*	quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
+				/*
+				quantite.ajouter(this, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 			if(contrat.getProduit() instanceof Chocolat) {
 				feve = getFeve((Chocolat) (contrat.getProduit()));
 				if(quantite.getValeur()!=0){
@@ -163,12 +171,11 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 
 					return OA; */
 
-		if(nb_OA ==0){
-			this.JournalOA.ajouter("pas d'offre d'achat");
-			return  null;
-			}
 		return null;
 	}
+		 
+	
+	
 		
 
 
@@ -214,7 +221,7 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 
 			return propositions_interessantes_HBE.get(index);}
 		
-		else if(propositions_interessantes_M.size()!=0) {
+		if(propositions_interessantes_M.size()!=0) {
 			double prix_interessant=1e13;
 			int i=-1;
 			int index=0;
@@ -241,7 +248,8 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		Feve feve = proposition.getFeve();
 		this.ajouter(feve, proposition.getQuantiteKg());
-		this.JournalOA.ajouter("--> le stock de feve passe a "+Journal.doubleSur(this.getFeves().get(feve).getValeur(), 4));
+		this.JournalOA.ajouter("Achat de " + proposition.getQuantiteKg() + " kg de " + feve + " pour un montant de " + proposition.getMontant() + " euros ");
+		this.JournalOA.ajouter("--> le stock de feve passe à " +Journal.doubleSur(this.getFeves().get(feve).getValeur(), 4));
 	}
 	
 }
