@@ -63,7 +63,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 	
 	//A changer 
 	
-	//Emeline
+	//Emeline 
 	 
 	//Cette fonction renvoie le prix maximal, l'acheteur et la quantité moyenne. 
 	public ArrayList<Object> acheteLePlusCher(LinkedList<PropositionVenteFevesAO> mesContratsAO) {
