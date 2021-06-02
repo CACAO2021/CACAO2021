@@ -20,7 +20,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	}
 
 	@Override
-	public boolean peutVendre(Object produit) {
+	public boolean peutVendre(Object produit) { 
 		if (estFeve(produit) || estPoudre(produit)) {
 			return true;
 		}else {
