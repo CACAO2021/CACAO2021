@@ -34,7 +34,7 @@ public class Stocks extends Distributeur1Acteur{
 	//Louis
 	public void ajouterStock(ChocolatDeMarque produit, double quantite, boolean tg) {
 		if (tg) {
-			stockTG.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
+			stockTG.put(produit, new Variable((produit).toString(), this, Math.max(stockTG.get(produit).getValeur()+quantite,0)));
 		}
 		stock.put(produit, new Variable((produit).toString(), this, stock.get(produit).getValeur()+quantite));
 
@@ -158,8 +158,4 @@ public class Stocks extends Distributeur1Acteur{
 	}
 
 }
-
-
-
-
 
