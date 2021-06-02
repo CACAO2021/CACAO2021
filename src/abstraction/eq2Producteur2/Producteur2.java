@@ -22,6 +22,7 @@ public class Producteur2 extends Producteur2Aleas  {
 		verifPeremption();
 		verifUtiliteStock();
 		coutStockage();
+		tropDArgent();
 	}
 
 

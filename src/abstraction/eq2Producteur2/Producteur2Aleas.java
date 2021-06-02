@@ -49,12 +49,17 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			COUT_PRODUCTION_FEVE_ME *= 1.4;
 			COUT_PRODUCTION_FEVE_HE *= 1.5;
 			COUT_PRODUCTION_FEVE_HBE *= 1.6;
-			for (Feve e : listeProd) {
-				double qtt = qttTotale(e).getValeur() * Math.random();
+			// pdt la révolte, une faible qtt de stock est perdue 
+			// seulement les faible basse et moyenne sont affectées
+			LinkedList<Feve> listeProdRevolte = new LinkedList<Feve>();
+			this.listeProd.add(Feve.FEVE_MOYENNE); 
+			this.listeProd.add(Feve.FEVE_BASSE);
+			for (Feve e : listeProdRevolte) {
+				double qtt = qttTotale(e).getValeur() * (Math.random() / 2);
 				vente(qtt, e);				
 			}
 						
-			PROBA_REVOLTE /= 10; // la proba diminue a chaque fois qu une revolte arrive
+			PROBA_REVOLTE /= 4; // la proba diminue a chaque fois qu une revolte arrive
 		}
 	}
 	
