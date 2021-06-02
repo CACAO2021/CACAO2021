@@ -19,12 +19,14 @@ public class Stocks extends Distributeur1Acteur{
 	protected Map<ChocolatDeMarque,Variable> stockTG;
 
 
+
 	//Louis
 	public Stocks() {
 		super();
 		this.stock=new HashMap<ChocolatDeMarque, Variable>(); 
 		this.prix=new HashMap<ChocolatDeMarque, Variable>();
 		this.stockTG=new HashMap<ChocolatDeMarque, Variable>(); 
+		
 
 	}
 
@@ -59,6 +61,7 @@ public class Stocks extends Distributeur1Acteur{
 		for (ChocolatDeMarque choco : prix.keySet()) {
 			this.indicateurs.add(prix.get(choco));
 			}
+		
 	}
 
 
@@ -83,7 +86,7 @@ public class Stocks extends Distributeur1Acteur{
 	public void initCatalogue() {
 		for (ChocolatDeMarque choco : Filiere.LA_FILIERE.getChocolatsProduits()) {
 			if (!choco.getMarque().equals("Wonka & Sons"))
-			stock.put(choco, new Variable(choco.toString(),this,500000.));
+			stock.put(choco, new Variable(choco.toString(),this,1000000.));
 			stockTG.put(choco, new Variable(choco.toString(),this,0.));
 
 		}
@@ -144,6 +147,14 @@ public class Stocks extends Distributeur1Acteur{
 			}
 		}
 
+	}
+	
+	public double getStockTGTotal() {
+		double total=0;
+		for (ChocolatDeMarque choco : this.stockTG.keySet()) {
+			total+=stockTG.get(choco).getValeur();
+		}
+		return total;
 	}
 
 }
