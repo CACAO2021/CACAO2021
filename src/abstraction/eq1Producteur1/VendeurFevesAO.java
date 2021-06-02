@@ -56,13 +56,13 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 		double res = 0;
 		Feve feve = oa.getFeve();
 		double q = oa.getQuantiteKG();		
-		if ((feve==Feve.FEVE_BASSE || feve==Feve.FEVE_MOYENNE)  //On ne veut que 2 types de fèves par AO.
+		if ((feve==Feve.FEVE_BASSE || feve==Feve.FEVE_MOYENNE)  //On ne veut vendre que 2 types de fèves par AO.
 				&& (this.getStocks().get(feve).getQuantite()>q)) { //Si on a la quantité de fève demandée alors on étudie l'oa.
 			if(this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-1).etatVente()) {  //Si au step précédent la vente a été conclue alors on repropose le prix initial.
-				res = feve==Feve.FEVE_MOYENNE ? PRIX_I_F_M*q : PRIX_I_F_B*q;
+				res = feve==Feve.FEVE_MOYENNE ? PRIX_I_F_M : PRIX_I_F_B;
 			}
 			else {
-				double nouveau_prix = this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-1).prixVente()-PAS_DE_NEGO*q;
+				double nouveau_prix = this.historiques.get(feve).get(Filiere.LA_FILIERE.getEtape()-1).prixVente()-PAS_DE_NEGO;
 				if(nouveau_prix>(feve==Feve.FEVE_MOYENNE ? PRIX_P_F_M : PRIX_P_F_B)) {// Si le précedent prix moins le pas de négo est toujours supérieur au pris palier alors on propose ce prix.
 					res = nouveau_prix;
 				}
@@ -71,6 +71,7 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 				}
 			}
 		}
+		// on retourne un prix au kilo !
 		return res;
 	}
 
@@ -95,7 +96,7 @@ public abstract class VendeurFevesAO extends Producteur1Acteur implements IVende
 		hist.get(hist.size()-1).set_prixVente(proposition.getMontant());
 
 		this.getStocks().get(proposition.getFeve()).removeQuantite(proposition.getQuantiteKg());//on retire les fèves vendues de notre stock.
-		this.getJournal("Ghanao VenteAO").ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() );
+		this.getJournal("Ghanao VenteAO").ajouter("Vente de " + proposition.getQuantiteKg() + "kg de " + proposition.getFeve() +" a un prix de " + proposition.getPrixKG()+"€/kg");
 	}
 
 }

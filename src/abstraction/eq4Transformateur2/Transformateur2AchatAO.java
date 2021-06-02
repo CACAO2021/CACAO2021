@@ -21,10 +21,13 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 	
 	@Override
 	public OffreAchatFeves getOffreAchat() {
+		
 		if (get_stock(Feve.FEVE_BASSE) < quantite_totale_demandee_basse / nombre_step_total_basse + mini_stock_feve_basse) {
+			this.journal_achat.ajouter("On envoie une offre d'achat pour "+(quantite_totale_demandee_basse / nombre_step_total_basse + mini_stock_feve_basse - get_stock(Feve.FEVE_BASSE))+" de FEVE_BASSE");
 			return new OffreAchatFeves(this, Feve.FEVE_BASSE,quantite_totale_demandee_basse / nombre_step_total_basse + mini_stock_feve_basse - get_stock(Feve.FEVE_BASSE));
 		}
 		if (get_stock(Feve.FEVE_MOYENNE) < quantite_totale_demandee_moyenne / nombre_step_total_moyenne + mini_stock_feve_moyenne) {
+			this.journal_achat.ajouter("On envoie une offre d'achat pour "+(quantite_totale_demandee_moyenne / nombre_step_total_moyenne + mini_stock_feve_moyenne - get_stock(Feve.FEVE_MOYENNE))+" de FEVE_MOYENNE");
 			return new OffreAchatFeves(this, Feve.FEVE_MOYENNE, quantite_totale_demandee_moyenne / nombre_step_total_moyenne + mini_stock_feve_moyenne - get_stock(Feve.FEVE_MOYENNE));
 		}
 		else {
@@ -34,7 +37,7 @@ public class Transformateur2AchatAO extends Transformateur2AchatCC implements IA
 
 	@Override
 	public void notifierAucuneProposition(OffreAchatFeves oa) {
-		this.journal.ajouter("--> aucune proposition de vente pour l'offre "+oa);
+		this.journal_achat.ajouter("--> aucune proposition de vente pour l'offre "+oa);
 	}
 
 	@Override
