@@ -13,7 +13,6 @@ public abstract class Transformateur3MarqueChocolat extends AcheteurFevesAO impl
 	public Transformateur3MarqueChocolat() {
 	}
 	
-	
 	public List<String> getMarquesChocolat() {
 		List<String> touteslesmarques = new LinkedList<String>();
 		touteslesmarques.add("Côte d'IMT");

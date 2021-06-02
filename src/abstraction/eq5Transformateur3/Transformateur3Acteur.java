@@ -28,7 +28,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	private String description;
 
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
-	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ, prix_min_vente_confiserie, prix_tablette, prix_tablette_equi, prix_confiserie;
+	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ, prix_min_vente_confiserie, prix_tablette, prix_tablette_equi, prix_confiserie, stock_avant_transfo_HB, stock_avant_transfo_C;
 
 
 	public Transformateur3Acteur() {
@@ -60,6 +60,9 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.prix_tablette = new Variable("Prix tablette moyenne", this, 2);
 		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 2);
 		this.prix_confiserie = new Variable("Prix confiserie", this, 2);
+		
+		this.stock_avant_transfo_C= new Variable("stock confiserie avant ajout de la transformation ", this, 10000000);
+		
 		
 		
 	}
@@ -95,25 +98,43 @@ public abstract class Transformateur3Acteur implements IActeur {
 	public void next() {
 		this.actualiserJournaux();
 		
+	    stock_avant_transfo_C=this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE);
+	    System.out.println(stock_avant_transfo_C.getValeur());
+		
 		Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		if(feve.getValeur()- 500>0) { //garder au minimum 500kg*/
 			double transfo = feve.getValeur()-500;
+			Variable choco = this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE);
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			
+			//Coût de transformation
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*((transfo)*coefficient_transformation.getValeur()/1000)); 
+			//Coûts de stockage
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(feve.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(choco.getValeur()));
+			
 		}
 		
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
-
 		if(feve.getValeur()-500>0) { //garder au minimum 500kg*/
 			double transfo = feve.getValeur()-500; 
+			Variable tablette = this.getChocolats().get(Chocolat.TABLETTE_MOYENNE);
+			Variable confiserie = this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE);
 			this.retirer(Feve.FEVE_MOYENNE, transfo); //retirer le surplus de fèves 
 			this.ajouter(Chocolat.TABLETTE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); 
+			
+			//Coût de transformation
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*((transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur())/1000);
+			//Coûts de stockage
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(feve.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(tablette.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(confiserie.getValeur()));
 		}
+		
+		//Coût de l'entrepôt
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500);
 		
 		SuperviseurVentesContratCadre SupCCadre1 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
@@ -136,7 +157,13 @@ public abstract class Transformateur3Acteur implements IActeur {
 					if (contratCadre!=null){
 						this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
 					}
-				}*/
+				}
+				vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
+				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_MOYENNE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, (this.stock_min_feves_moyenne.getValeur()-feve.getValeur()+1000000)/10), cryptogramme, false); 
+				if (contratCadre!=null){
+					this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + this + " et "+vendeur+" d'une quantité " + contratCadre.getQuantiteTotale() + "kg de " + contratCadre.getProduit() + " pendant " + contratCadre.getEcheancier() + " pour " + contratCadre.getPrix() +" euros le kilo");
+				} */
+
 			}
 		}
 
@@ -144,10 +171,9 @@ public abstract class Transformateur3Acteur implements IActeur {
 		if(feve.getValeur()<this.stock_min_feves_HBE.getValeur()) {
 			IVendeurContratCadre vendeur = null;
 			List<IVendeurContratCadre> vendeurs = SupCCadre1.getVendeurs(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-
 			if(vendeurs.size()>0) {
 				vendeur=vendeurs.get((int)( Math.random()*vendeurs.size())); //prend un vendeur aléatoirement
-				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, 1E7/10), cryptogramme, false);
+				ExemplaireContratCadre contratCadre = SupCCadre1.demande((IAcheteurContratCadre)this, vendeur, Feve.FEVE_HAUTE_BIO_EQUITABLE, new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 10, (this.stock_min_feves_HBE.getValeur()-feve.getValeur()+1000000)/10), cryptogramme, false);
 				if (contratCadre!=null) {
 					this.JournalAchatContratCadre.ajouter(contratCadre.toString());
 				}
@@ -220,10 +246,14 @@ public abstract class Transformateur3Acteur implements IActeur {
 	public abstract void retirer(Feve feve, double delta);
 	public abstract void ajouter(Chocolat chocolat, double delta);
 	public abstract HashMap<Feve, Variable> getFeves();
+
 	public abstract HashMap<ExemplaireContratCadre, Integer> getContratsAchat();
 	public abstract ArrayList<Double> getListePrixNegocies(HashMap<ExemplaireContratCadre, Integer> contratsAchat);
 	public abstract Double getMinListe(ArrayList<Double> listePrix);
 	public abstract IVendeurContratCadre getVendeurAvecCePrix (Double prix);
+
+	public abstract HashMap<Chocolat, Variable> getChocolats();
+
 
 }
 
