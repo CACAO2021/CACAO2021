@@ -128,6 +128,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		for (Variable var : this.stocks.stocksParMarque.values()) { //On ajoute les valeurs des stocks.
 			res.add(var);
 		}
+		for (ChocolatDeMarque choco : this.stocks.stocksEnTG.keySet()) { //On ajoute les valeurs des stocks de TG.
+			res.add(new Variable("[W&S] % en TG de " +choco.name(),this,0.0));
+		}
+		
+		
 		this.indicateurs.addAll(res);
 		this.indicateurs.add(new Variable("Pourcentage de TG",this, this.stocks.getQuantiteTotaleEnTG()/this.stocks.getQuantiteTotaleStocks()));
 	}
@@ -299,6 +304,11 @@ public class Distributeur2Acteur extends AbsDistributeur2 implements IActeur,IDi
 		for (Variable indic : this.getIndicateurs()) {
 			if (indic.getNom().equals("Pourcentage de TG")) {
 				indic.setValeur(this, this.stocks.getQuantiteTotaleEnTG()/this.stocks.getQuantiteTotaleStocks());
+			}
+			for (ChocolatDeMarque choco : this.stocks.stocksEnTG.keySet()) {
+				if(indic.getNom().equals("[W&S] % en TG de " +choco.name()) && this.catalogue.contains(choco) ) {
+					indic.setValeur(this, this.stocks.getQuantiteChocoEnTG(choco)/this.stocks.getStockChocolatDeMarque(choco));
+				}
 			}
 		}
 	}

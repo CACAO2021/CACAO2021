@@ -1,6 +1,8 @@
 package abstraction.eq5Transformateur3;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +20,63 @@ import abstraction.fourni.Variable;
 
 //Manuelo
 public class Transformateur3AchatContratCadre extends Transformateur3Stock implements IAcheteurContratCadreNotifie {
+	protected HashMap<ExemplaireContratCadre, Integer> contratsAchat ;
+	
+	public Transformateur3AchatContratCadre() {
+		this.contratsAchat = new HashMap<ExemplaireContratCadre, Integer>();
+	}
+	
+	public HashMap<ExemplaireContratCadre, Integer> getContratsAchat() {
+		return contratsAchat;
+	}
+	
+	public ArrayList<ExemplaireContratCadre> getListeContrats(){
+		ArrayList<ExemplaireContratCadre> listeContrats = new ArrayList<ExemplaireContratCadre>();
+		for (ExemplaireContratCadre contrat : this.getContratsAchat().keySet()) {
+			listeContrats.add(contrat);
+		}
+		return listeContrats;
+	}
+	
+	public ArrayList<IVendeurContratCadre> getVendeurs(int i){
+		ArrayList<IVendeurContratCadre> listeVendeurs = new ArrayList<IVendeurContratCadre>();
+		for (int index=i; index<this.getListeContrats().size(); index++) {
+			ExemplaireContratCadre contrat = this.getListeContrats().get(index);
+			listeVendeurs.add(contrat.getVendeur());
+		}
+		return listeVendeurs;
+	}
+	
+	public ArrayList<Double> getListePrixNegocies(HashMap<ExemplaireContratCadre, Integer> contratsAchat){
+		ArrayList<Double> listePrix = new ArrayList<Double>();
+		for (ExemplaireContratCadre contrat : this.getContratsAchat().keySet()) {
+			listePrix.add(contrat.getPrix());
+		}
+		return listePrix;
+	}
+	
+	public Double getMinListe(ArrayList<Double> listePrix) {
+		Double m = listePrix.get(0);
+		for (int i=1; i<listePrix.size(); i++) {
+			if (listePrix.get(i)<m) {
+				m = listePrix.get(i);
+			}
+		}
+		return m;
+	}
+	
+	public IVendeurContratCadre getVendeurAvecCePrix (Double prix) {
+		for (ExemplaireContratCadre contrat : this.getContratsAchat().keySet()) {
+			if (contrat.getPrix() == prix) {
+				return contrat.getVendeur();
+			}
+		}
+		return null;
+	}
+	
+	public int getEtape(ExemplaireContratCadre contrat) {
+		return this.getContratsAchat().get(contrat);
+	}
 	
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
 		Object produit = contrat.getProduit();
@@ -27,7 +86,7 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 		double quantiteTotale = dernierEcheancier.getQuantiteTotale();
 		
 		if (feve == Feve.FEVE_HAUTE_BIO_EQUITABLE) {
-			if ((nbStep>=8) && (nbStep<=18) && (quantiteTotale>=1000)) {
+			if ((nbStep>=8) && (nbStep<=18) && (quantiteTotale >=1E7)) {
 				return dernierEcheancier;
 			} else {
 				return null;
@@ -80,8 +139,11 @@ public class Transformateur3AchatContratCadre extends Transformateur3Stock imple
 
 	@Override
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
-		this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
-	}
+		if (contrat.getAcheteur() == Filiere.LA_FILIERE.getActeur("EQ5")) {
+			this.JournalAchatContratCadre.ajouter("nouveau contrat cadre entre " + contrat.getAcheteur() + " et "+contrat.getVendeur()+" d'une quantité " + contrat.getQuantiteTotale() + "kg de " + contrat.getProduit() + " pendant " + contrat.getEcheancier() + " pour " + contrat.getPrix() +" euros le kilo");
+			this.contratsAchat.put(contrat, Filiere.LA_FILIERE.getEtape());
+		}	
+	}	
 	
 }
 
