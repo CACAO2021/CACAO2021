@@ -28,7 +28,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 	private String description;
 
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
-	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_min_vente_MG, prix_min_vente_EQ, prix_min_vente_confiserie, prix_tablette, prix_tablette_equi, prix_confiserie, stock_avant_transfo_HB, stock_avant_transfo_C, stock_avant_transfo_M;
+	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_tablette, prix_tablette_equi, prix_confiserie, stock_avant_transfo_HB, stock_avant_transfo_C, stock_avant_transfo_M, cout_stockage, cout_transfo_M, cout_transfo_HBE, cout_variable_M, cout_variable_HBE, cout_fixe ;
 
 
 	public Transformateur3Acteur() {
@@ -41,29 +41,32 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
 		this.JournalOA = new Journal(this.getNom()+ "Offre d'achat", this);
 
-		this.prix_max_fèves_HBE = new Variable("Prix max d'achat de fèves HBE", this, 1000);
-		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 800);
+		this.prix_max_fèves_HBE = new Variable("Prix max d'achat de fèves HBE", this, 5.1);
+		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 3.5);
 		
 		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 1000000);
 		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 1000000);
 		this.stock_min_confiserie = new Variable("Stock minimal de confiseries", this, 1000000);
 		this.stock_min_tablettes_HBE = new Variable("Stock minimal de tablettes haute bio équitable", this, 1000000);
 		this.stock_min_tablettes_moyenne = new Variable("Stock minimal de tablettes moyenne", this, 1000000);
-		
-		this.prix_min_vente_MG = new Variable("Prix min vente de chocolat moyenne gamme", this, 1);
-	    this.prix_min_vente_EQ = new Variable("Prix min vente de chocolat equitable", this, 1.2);
-	    this.prix_min_vente_confiserie = new Variable("Prix min de vente confiserie", this, 1.1);
 	    
 		this.coefficient_transformation =  new Variable("Coefficient de transformation de fèves en chocolat (40g de fèves pour 100g de chocolat)", this, 2.5);
 		this.pourcentage_confiserie = new Variable("Pourcentage de fèves de gamme moyenne transformées en confiseries", this, 0.2);
 		
-		this.prix_tablette = new Variable("Prix tablette moyenne", this, 2);
-		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, 4);
-		this.prix_confiserie = new Variable("Prix confiserie", this, 3);
-		
 		this.stock_avant_transfo_C= new Variable("stock confiserie avant ajout de la transformation ", this, 10000000);
 		this.stock_avant_transfo_HB = new Variable ("stock tablette haute bio et équitable avant ajout de la transformation", this, 10000000);
 		this.stock_avant_transfo_M = new Variable ("stock de tablette moyenne avant ajout de la transformation", this, 10000000);
+		
+		this.cout_fixe = new Variable ("coût de l'entrepot de stockage des fèves et des chocolats", this, 1000);
+		this.cout_stockage = new Variable("coût de stockage par kilogramme de fèves ou de chocolats stockés", this, 0.006);
+		this.cout_transfo_M = new Variable ("coût de transformation fèves moyenne qualité", this, 0.5);
+		this.cout_transfo_HBE = new Variable ("coût de transformation fèves haute qualité, bio et équitable", this, 0.5*1.15);
+		this.cout_variable_M = new Variable("coût variable lié à la fabrication de chocolat (fèves moyennes qualité)",this, this.cout_transfo_M.getValeur() + this.prix_max_fèves_HBE.getValeur() + this.cout_stockage.getValeur());
+		this.cout_variable_HBE = new Variable("coût variable lié à la fabrication de chocolat (fèves haute qualité, bio et équitables", this, this.cout_transfo_HBE.getValeur() + this.prix_max_fèves_HBE.getValeur() + this.cout_stockage.getValeur()+ this.cout_transfo_HBE.getValeur());
+		
+		this.prix_tablette = new Variable("Prix tablette moyenne", this, this.cout_variable_M.getValeur()*1.3);
+		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, this.cout_variable_HBE.getValeur()*1.1);
+		this.prix_confiserie = new Variable("Prix confiserie", this, this.cout_variable_M.getValeur()*1.2);
 		
 		
 	}
@@ -113,10 +116,10 @@ public abstract class Transformateur3Acteur implements IActeur {
 			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
 			
 			//Coût de transformation
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*1.15*((transfo)*coefficient_transformation.getValeur()/1000)); 
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_transfo_HBE.getValeur()*((transfo)*coefficient_transformation.getValeur())); 
 			//Coûts de stockage
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(feve.getValeur()));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(choco.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(feve.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(choco.getValeur()));
 			
 		}
 		
@@ -130,15 +133,15 @@ public abstract class Transformateur3Acteur implements IActeur {
 			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); 
 			
 			//Coût de transformation
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 500*((transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur())/1000);
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_transfo_M.getValeur()*((transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()));
 			//Coûts de stockage
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(feve.getValeur()));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(tablette.getValeur()));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 0.006*(confiserie.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(feve.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(tablette.getValeur()));
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(confiserie.getValeur()));
 		}
 		
 		//Coût de l'entrepôt
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), 1000);
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_fixe.getValeur());
 		
 		SuperviseurVentesContratCadre SupCCadre1 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
@@ -218,8 +221,6 @@ public abstract class Transformateur3Acteur implements IActeur {
 		res.add(this.stock_min_confiserie);
 		res.add(this.stock_min_tablettes_HBE);
 		res.add(this.stock_min_tablettes_moyenne);
-		res.add(this.prix_min_vente_MG);
-		res.add(this.prix_min_vente_EQ);
 
 		return res;
 	}
