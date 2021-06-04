@@ -18,19 +18,22 @@ public abstract class Plantations extends Stocks{
 	public Plantations() {
 		this.arbresmq = new LinkedList<Arbre>();
 		for (int i=40*24; i>=0; i--) {
-			arbresmq.add(new Arbre(i,2404000));
+			arbresmq.add(new Arbre(i,1153800));
 		}
 		this.arbresmqe = new LinkedList<Arbre>();
 		for (int i=40*24; i>=0; i--) {
-			arbresmqe.add(new Arbre(i,801333));
+			arbresmqe.add(new Arbre(i,115380));
 		}
 		this.arbresbq = new LinkedList<Arbre>();
 		for (int i=40*24; i>=0; i--) {
-			arbresbq.add(new Arbre(i,2137333));
+			arbresbq.add(new Arbre(i,269230));
 		}
 			}
 	
-	public void maj_plantation(double new_mq, double new_mqe, double new_bq, Producteur1Acteur a) {
+	public void maj_plantation(Stocks s, Producteur1Acteur a) {
+		double new_mq = this.planter_mq(s);
+		double new_mqe = this.planter_mqe(s);
+		double new_bq = this.planter_bq(s);
 		if (new_mq!=0) {
 			this.arbresmq.add(new Arbre(0,new_mq));
 			a.getJournal("Ghanao Plantation").ajouter("On a planté "+new_mq+" arbres de moyenne qualité");
@@ -89,18 +92,18 @@ public abstract class Plantations extends Stocks{
 	 */
 	
 	public double planter_bq(Stocks s)  {
-		double rapport = s.getStock(Feve.FEVE_BASSE).getQuantite()/(25000000*0.666);
-		return 533799/rapport;
+		double rapport = s.getStock(Feve.FEVE_BASSE).getQuantite()/(10000000*0.666);
+		return 213462/rapport;
 	}
 	
 	public double planter_mq(Stocks s)  {
 		double rapport = s.getStock(Feve.FEVE_MOYENNE).getQuantite()/(50000000*0.666);
-		return 1067376/rapport;
+		return 1067307/rapport;
 	}
 	
 	public double planter_mqe(Stocks s)  {
-		double rapport = s.getStock(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()/(50000000*0.666);
-		return 1067376/rapport;
+		double rapport = s.getStock(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()/(5000000*0.666);
+		return 106731/rapport;
 	}
 
 }
