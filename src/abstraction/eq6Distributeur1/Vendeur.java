@@ -51,7 +51,7 @@ public class Vendeur extends Stocks implements IDistributeurChocolatDeMarque{
 			this.quantiteChocoVendue.put(this.getCatalogue().get(i), 300000.0);
 		}
 		for (ChocolatDeMarque choco : this.getCatalogue()) {
-			this.quantiteVenduePrec.put(choco, 300000.);
+			this.quantiteVenduePrec.put(choco, 300000.0);
 		}
 		//Si les ventes sont inférieures à 20% du stock on diminue le prix de vente.
 		this.indicateurs.add(new Variable("Pourcentage Tete de Gondole",this, quantiteEnVenteTG()/quantiteEnVente()));
