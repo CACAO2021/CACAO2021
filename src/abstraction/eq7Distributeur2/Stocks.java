@@ -12,7 +12,7 @@ import abstraction.fourni.Variable;
 public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
-	protected static int dureeDePeremption = 6;
+	protected static int dureeDePeremption = 10;
 	protected static double limiteStocks = 1000000000;
 	protected static double prixStockage = 0.0000001;
 	protected static double limiteEnTG = 9; // en pourcent
@@ -260,7 +260,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 		int etape = Filiere.LA_FILIERE.getEtape();
 		if (this.getStockChocolatDeMarque(chocolatDeMarque)>=qte) { //on vérifie déjà que l'action soit possible
 			double qteEnTGAvantSuppression = getQuantiteChocoEnTG(chocolatDeMarque);
-			if(qteEnTGAvantSuppression!=0) {
+			if(qteEnTGAvantSuppression!=0) { // on regarde la quantité de ce produit présente avant l'action de suppresion
 				acteur.journalStocks.ajouter(Journal.texteColore(removeStockColor, Color.BLACK, "[TG - SUPPRESSION] " + Journal.doubleSur(qteEnTGAvantSuppression,2) + " de " + chocolatDeMarque.name() + ", [TOTAL] : " + Journal.doubleSur(getQuantiteChocoEnTG(chocolatDeMarque)/getStockChocolatDeMarque(chocolatDeMarque),4) + " "));
 				this.stocksEnTG.get(chocolatDeMarque).retirer(acteur, qte);
 			}
@@ -278,7 +278,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
 	
-	// fait par Elio Granger
+	// fait par Elio Granger et Arnaud Berger
 	// Parcourt toutes les étapes dans l'ordre croissant pour supprimer une quantité de chocolat donnée
 	
 	public void enleverParEtape(ChocolatDeMarque chocolatDeMarque,double qte ) {
@@ -298,8 +298,8 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 
 
 	
-	// fait par Elio Granger
-	// méthode qui supprime le chocolat périmé 
+	// fait par Elio Granger et Arnaud Berger
+	// méthode qui supprime le chocolat périmé s
 	
 	public void jeterChocolatPerime() {
 		int etape = Filiere.LA_FILIERE.getEtape();
@@ -312,7 +312,11 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 					if(valeurRecue!=0.0) {
 						acteur.journalStocks.ajouter(Journal.texteColore(peremptionColor,Color.BLACK,"[PEREMPTION] " + Journal.doubleSur(valeurRecue,2) + " de " + chocoDM.name() +" datants de l'étape " + Journal.entierSur6(etapeImpactee) + " ont été jetés"));
 						this.nouveauChocoParEtape.get(etapeImpactee).get(chocoDM).retirer(acteur, valeurRecue);
+						if(this.stocksParMarque.get(chocoDM).getValeur()>valeurRecue) {
 						this.stocksParMarque.get(chocoDM).retirer(acteur, valeurRecue);
+						}else {
+							this.stocksParMarque.get(chocoDM).setValeur(acteur, 0.0);
+						}
 						if(this.getQuantiteChocoEnTG(chocoDM)>this.getStockChocolatDeMarque(chocoDM)) {
 							this.setQuantiteChocoEnTG(chocoDM, this.getStockChocolatDeMarque(chocoDM));
 						}
@@ -326,7 +330,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
 	
-	// fait par Elio Granger
+	// fait par Elio Granger et Arnaud Berger
 	// méthode qui calcule et demande une déduction du coût de stockage du compte bancaire
 	
 	public void CoutStockage() {
