@@ -18,15 +18,15 @@ public abstract class Plantations extends Stocks{
 	public Plantations() {
 		this.arbresmq = new LinkedList<Arbre>();
 		for (int i=40*24; i>=0; i--) {
-			arbresmq.add(new Arbre(i,115380));
+			arbresmq.add(new Arbre(i,1153800));
 		}
 		this.arbresmqe = new LinkedList<Arbre>();
 		for (int i=40*24; i>=0; i--) {
-			arbresmqe.add(new Arbre(i,11538));
+			arbresmqe.add(new Arbre(i,115380));
 		}
 		this.arbresbq = new LinkedList<Arbre>();
 		for (int i=40*24; i>=0; i--) {
-			arbresbq.add(new Arbre(i,26923));
+			arbresbq.add(new Arbre(i,269230));
 		}
 			}
 	
