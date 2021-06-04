@@ -41,6 +41,7 @@ public class Transformateur2Valeurs {
 	
 	//Variables utilisées pour le stockage
 
+	
 	protected HashMap<Feve,Double> stock_feve;
 	protected HashMap<Chocolat,Double> stock_chocolat;
 	protected double mini_stock_tablette_basse = 15000000.0;
@@ -54,8 +55,8 @@ public class Transformateur2Valeurs {
 
 	protected double quantite_totale_demandee_basse = 0;
 	protected double quantite_totale_demandee_moyenne = 0;
-	protected double nombre_step_total_basse = 1;
-	protected double nombre_step_total_moyenne = 1;
+	protected double nombre_step_total_basse = 0;
+	protected double nombre_step_total_moyenne = 0;
 	
 	//Coûts fixes
 	
@@ -67,12 +68,12 @@ public class Transformateur2Valeurs {
 	
 	//Achat 
 	
-	protected static double cout_max_feve_basse = 2.5 ; 
-	protected static double cout_max_feve_moyenne = 2.6;
+	protected static double cout_max_feve_basse = 1.3 ; 
+	protected static double cout_max_feve_moyenne = 1.4;
 
 	//Production
 	
-	protected static double charges_fixes = 1000 ;
+	protected static double charges_fixes = 0.0 ;
 	protected static double capacite_production = 100000000000000000.0 ;
 	protected static double cout_transformation = 0.5;
 	
