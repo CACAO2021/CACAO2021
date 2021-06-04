@@ -92,7 +92,8 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println(contrat.getProduit());
+		//System.out.println(contrat.getProduit()+" proposition Eticao: "+contrat.getEcheancier().getQuantiteTotale() );
+		//System.out.println(contrat.getProduit()+" proposition cacaocaisse: "+contrat.getEcheanciers().get(contrat.getEcheanciers().size()-2).getQuantiteTotale() );
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		if (this.chocoprecquant!=choco) {
 			i=0;
