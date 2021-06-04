@@ -1,6 +1,6 @@
 package abstraction.eq5Transformateur3;
 
-//Manuelo et Rémi
+//Manuelo, Rémi, Léna
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -28,21 +28,26 @@ public abstract class Transformateur3Acteur implements IActeur {
 	private String description;
 
 	protected Journal JournalRetraitStock, JournalAjoutStock, JournalAchatContratCadre, JournalVenteContratCadre, JournalOA;
-	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, prix_tablette, prix_tablette_equi, prix_confiserie, stock_avant_transfo_HB, stock_avant_transfo_C, stock_avant_transfo_M, cout_stockage, cout_transfo_M, cout_transfo_HBE, cout_variable_M, cout_variable_HBE, cout_fixe ;
+	protected Variable prix_max_fèves_HBE, prix_max_fèves_moyenne, stock_min_feves_HBE, stock_min_feves_moyenne, stock_min_confiserie, stock_min_tablettes_HBE, stock_min_tablettes_moyenne, coefficient_transformation, pourcentage_confiserie, pourcentage_tablette_moyenne, 
+	prix_tablette, prix_tablette_equi, prix_confiserie, stock_avant_transfo_HB, stock_avant_transfo_C, stock_avant_transfo_M, cout_stockage, cout_transfo_M, cout_transfo_HBE, cout_variable_M, cout_variable_HBE, cout_fixe, prix_min_tablette, prix_min_tablette_equi, prix_min_confiserie ;
 
 
 	public Transformateur3Acteur() {
 		this.nom = "EQ5";
 		this.description = "Côte d'IMT, chocolatier de qualité";
 		
+		//Création des journaux
+		
 		this.JournalAjoutStock = new Journal(this.getNom()+" ajout dans le stock", this);
 		this.JournalRetraitStock = new Journal(this.getNom()+" retrait dans le stock", this);
 		this.JournalAchatContratCadre = new Journal(this.getNom()+" achat d'un contrat cadre", this);
 		this.JournalVenteContratCadre = new Journal(this.getNom()+" vente d'un contrat cadre", this);
 		this.JournalOA = new Journal(this.getNom()+ "Offre d'achat", this);
+		
+		//Création des variables :
 
 		this.prix_max_fèves_HBE = new Variable("Prix max d'achat de fèves HBE", this, 5.1);
-		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 3.5);
+		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 3.6);
 		
 		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 1000000);
 		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 1000000);
@@ -67,6 +72,10 @@ public abstract class Transformateur3Acteur implements IActeur {
 		this.prix_tablette = new Variable("Prix tablette moyenne", this, this.cout_variable_M.getValeur()*1.3);
 		this.prix_tablette_equi = new Variable("Prix tablette équitable", this, this.cout_variable_HBE.getValeur()*1.1);
 		this.prix_confiserie = new Variable("Prix confiserie", this, this.cout_variable_M.getValeur()*1.2);
+		
+		this.prix_min_tablette = new Variable("Prix min tablette moyenne", this, this.cout_variable_M.getValeur()*0.5);
+		this.prix_min_tablette_equi = new Variable("Prix min tablette équitable", this, this.cout_variable_HBE.getValeur()*0.5);
+		this.prix_min_confiserie = new Variable("Prix min tablette moyenne", this, this.cout_variable_M.getValeur()*0.5);
 		
 		
 	}
@@ -102,47 +111,45 @@ public abstract class Transformateur3Acteur implements IActeur {
 	public void next() {
 		this.actualiserJournaux();
 		
+		
+		// Mémorisation du stock de chocolat avant la transformation des fèves :
 	    stock_avant_transfo_C.setValeur(this, this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur());
 	    stock_avant_transfo_HB.setValeur(this, this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur());
 	    stock_avant_transfo_M.setValeur(this, this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur());
 	    
-	    
-	    
+	    //Transformation des fèves de haute qualité
 		Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
 		if(feve.getValeur()- 500>0) { //garder au minimum 500kg*/
 			double transfo = feve.getValeur()-500;
 			Variable choco = this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE);
 			this.retirer(Feve.FEVE_HAUTE_BIO_EQUITABLE, transfo ); //retirer le surplus de fèves 
-			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
+			this.ajouter(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE, (transfo)*coefficient_transformation.getValeur()); //pour transformer les fèves en tablettes de haute qualité (multiplié par le coef de transformation)
 			
-			//Coût de transformation
+			//Payement des coûts de transformation
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_transfo_HBE.getValeur()*((transfo)*coefficient_transformation.getValeur())); 
-			//Coûts de stockage
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(feve.getValeur()));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(choco.getValeur()));
-			
 		}
 		
+		//Transformation des fèves de moyenne qualité
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
 		if(feve.getValeur()-500>0) { //garder au minimum 500kg*/
 			double transfo = feve.getValeur()-500; 
-			Variable tablette = this.getChocolats().get(Chocolat.TABLETTE_MOYENNE);
-			Variable confiserie = this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE);
 			this.retirer(Feve.FEVE_MOYENNE, transfo); //retirer le surplus de fèves 
-			this.ajouter(Chocolat.TABLETTE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour le transformer en tablette haute qualité (multiplié par le coef de transformation)
-			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); 
+			this.ajouter(Chocolat.TABLETTE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())); //pour transformer les fèves en tablettes de moyenne qualité (multiplié par le coef de transformation)
+			this.ajouter(Chocolat.CONFISERIE_MOYENNE, (transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()); //pour transformer les fèves en confiserie de moyenne qualité
 			
-			//Coût de transformation
+			//Payement des coûts de transformation
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_transfo_M.getValeur()*((transfo)*coefficient_transformation.getValeur()*(1-pourcentage_confiserie.getValeur())+(transfo)*coefficient_transformation.getValeur()*pourcentage_confiserie.getValeur()));
-			//Coûts de stockage
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(feve.getValeur()));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(tablette.getValeur()));
-			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(confiserie.getValeur()));
+			
 		}
 		
-		//Coût de l'entrepôt
+		//Payement du coût fixe (coût de l'entrepot)
 		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_fixe.getValeur());
 		
+		//Payement des coûts de stockage
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur() + this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()));
+		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()));
+		
+		//Création contrat cadre pour acheter des fèves
 		SuperviseurVentesContratCadre SupCCadre1 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
 		feve = this.getFeves().get(Feve.FEVE_MOYENNE);
 		if(feve.getValeur()<this.stock_min_feves_moyenne.getValeur()){
