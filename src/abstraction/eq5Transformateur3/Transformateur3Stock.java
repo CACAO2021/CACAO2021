@@ -9,7 +9,7 @@ import abstraction.fourni.Variable;
 
 //Manuelo
 
-public class Transformateur3Stock extends Transformateur3Acteur {
+public abstract class Transformateur3Stock extends Transformateur3Acteur {
 	protected HashMap<Chocolat, Variable> chocolats;
 	protected HashMap<Feve, Variable> feves;
 	

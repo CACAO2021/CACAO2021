@@ -92,6 +92,7 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 		}
 	}
 	
+	
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		if (contrat.getAcheteur().getNom() == "Eticao") {
 

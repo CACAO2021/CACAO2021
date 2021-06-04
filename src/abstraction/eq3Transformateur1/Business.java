@@ -231,146 +231,7 @@ public class Business {
 		return false;
 	}
 
-	
-	/*public Map<Feve, Double> quantiteAPartir() {
-		Map<Feve, Double> stockAAvoir = new HashMap<Feve, Double>(); 
-		for (Feve feve : this.getStock().nosFevesCC()) {
-			stockAAvoir.put(feve, 0.0);
-		}
-		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueVendeur()) {
-			if (contrat.getProduit() instanceof Chocolat) {
-				double stock = stockAAvoir.get(this.getStock().equivalentFeve((Chocolat)contrat.getProduit()));
-				stockAAvoir.replace(this.getStock().equivalentFeve((Chocolat)contrat.getProduit()), contrat.getQuantiteTotale()/2.5+stock);
-			} else if (contrat.getProduit() instanceof ChocolatDeMarque){
-				double stock = stockAAvoir.get(this.getStock().equivalentFeve((ChocolatDeMarque)contrat.getProduit()));
-				stockAAvoir.replace(this.getStock().equivalentFeve((ChocolatDeMarque)contrat.getProduit()), contrat.getQuantiteTotale()/2.5+stock);
-			}
-		}
-		
-		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueAcheteur()) {
-			
-			double stock = stockAAvoir.get(contrat.getProduit());
-			if (-contrat.getQuantiteTotale()+stock>0) {
-				stockAAvoir.replace((Feve)contrat.getProduit(), -contrat.getQuantiteTotale()+stock);
-			} else {
-				stockAAvoir.replace((Feve)contrat.getProduit(), 0.0);
-			}
-		}
-		for (Feve feve : this.getStock().nosFevesCC()) {
-			double stock = stockAAvoir.get(feve);
-			stockAAvoir.replace(feve, stock*2); 
-		}
-		return stockAAvoir;
-	}*/
-	
-	
-	
-	//-----------------------
-	/*
-	
-	public List<ExemplaireContratCadre> getMesContratEnTantQueVendeurNonGere() {
-		return this.mesContratEnTantQueVendeur;
-	}
-	
-	public void supMesContratEnTantQueVendeurNonGere() {
-		// on supprime nos contrats obseletes (tout a été payé et tout a été livré)
-		ArrayList<ExemplaireContratCadre> contratsObsoletes = new ArrayList<ExemplaireContratCadre>() ;
-		for(ExemplaireContratCadre contrat : this.mesContratEnTantQueVendeurNonGere) {
-			for (ExemplaireContratCadre contrata : this.mesContratEnTantQueAcheteur) {
-				Chocolat chocolat = null;
-				if (contrat.getProduit() instanceof Chocolat) {
-					chocolat = ((Chocolat)contrat.getProduit());
-				} else {
-					chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
-				}
-				Feve feve = this.getStock().equivalentFeve(chocolat);
-				if (((Feve)contrata.getProduit()).equals(feve) ) {
-					contratsObsoletes.add(contrat);
-				}
-			}
-		}
-		this.mesContratEnTantQueVendeurNonGere.removeAll(contratsObsoletes);
-	}
-	
-	public void addMesContratEnTantQueVendeurNonGere(ExemplaireContratCadre contrat) {
-		this.mesContratEnTantQueVendeurNonGere.add(contrat);
-	}
-	
-	
-	
-	public Map<Feve, Triple> quantiteAPartir() {
-		Map<Feve, Triple> stockAAvoir = new HashMap<Feve, Triple>();
-		for (Feve feve : this.getStock().nosFevesCC()) {
-			stockAAvoir.put(feve, new Triple(0, 1000000, false));
-		}
-		
-		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueVendeurNonGere()) {
-			//System.out.println(contrat.getProduit());
-			Chocolat Chocolat = null;
-			if (contrat.getProduit() instanceof Chocolat) {
-				Chocolat = ((Chocolat)contrat.getProduit());
-			} else {
-				Chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
-			}
-			Feve feve = this.getStock().equivalentFeve(Chocolat);
-			double stock = stockAAvoir.get(feve).get1();
-			int duree = stockAAvoir.get(feve).get2();
-			Triple couple = new Triple(stock, duree, true);
-			if (contrat.getEcheancier().getNbEcheances() < duree) {
-				couple.set2(contrat.getEcheancier().getNbEcheances());
-			}
-			couple.set1(contrat.getQuantiteTotale()/2.5+stock);
-			stockAAvoir.replace(feve, couple);
-		}
-		for (Feve feve : this.getStock().nosFevesCC()) {
-			System.out.println(stockAAvoir.get(feve));
-			System.out.println(stockAAvoir.get(feve).get1());
-			System.out.println(stockAAvoir.get(feve).get2());
-		}
-
-		return stockAAvoir;
-	}
-	
-	public ArrayList<Feve> feveAAcheter() {
-		// on retourne la liste de toutes les fèves qu'on doit acheter
-		ArrayList<Feve> listefeve = new ArrayList<Feve>();
-		for (Feve feve : this.getStock().nosFevesCC()) {
-			Triple zero = new Triple(0, 0, false);
-			if (this.quantiteAPartir().get(feve).isNot(zero)) {
-				listefeve.add(feve);
-			} 
-		}
-		return listefeve;
-	}
-	
-	public ExemplaireContratCadre equivalenceCC(ExemplaireContratCadre contrat) {
-		for (ExemplaireContratCadre contratv : this.mesContratEnTantQueVendeurNonGere) {
-			Chocolat chocolat = null;
-			if (contrat.getProduit() instanceof Chocolat) {
-				chocolat = ((Chocolat)contratv.getProduit());
-			} else {
-				chocolat = ((ChocolatDeMarque)contratv.getProduit()).getChocolat();
-			}
-			Feve feve = this.getStock().equivalentFeve(chocolat);
-			if (((Feve)contrat.getProduit()).equals(feve) ) {
-				return contratv;
-			}
-		}
-		return contrat;
-	}
-	
-	public boolean dejaAcheteur(Feve feve) {
-		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueAcheteur()) {
-			if (contrat.getProduit().equals(feve)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	//-----------------------
-	*/
-	
+	// si on a un stock positif a acheter on passe le boolean sur true, et on ajoute au stock a acheter le stock qu'on va recevoir avec le nouveau contrat
 	public void miseAJourVente(ExemplaireContratCadre contrat) {
 		Chocolat chocolat = null;
 		if (contrat.getProduit() instanceof Chocolat) {
@@ -395,6 +256,7 @@ public class Business {
 		
 	}
 	
+	// si on a un stock positif a acheter on passe le boolean sur true, et on retire du stock a acheter le stock qu'on va recevoir avec le nouveau contrat
 	public void miseAJourAchat(ExemplaireContratCadre contrat) {
 		Feve feve = (Feve)contrat.getProduit();
 		Triple triple = this.achats.get(feve);
@@ -411,20 +273,10 @@ public class Business {
 		this.achats.replace(feve, triple);
 	}
 	
-	
+	//retourne un triple pour chaque feve contenant la qantité à acheter, le nbDecheance qu'on aimerait bien avoir et un boolean qui dit si on doit acheter ou pas
 	public Map<Feve, Triple> getAchats() {
 		return this.achats; 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

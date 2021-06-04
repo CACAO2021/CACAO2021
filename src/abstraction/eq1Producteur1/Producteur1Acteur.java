@@ -7,22 +7,38 @@ import java.util.List;
 
 import abstraction.eq2Producteur2.Producteur2Valeurs;
 import abstraction.eq8Romu.produits.Chocolat;
+import abstraction.eq8Romu.produits.ChocolatDeMarque;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.IActeur;
+import abstraction.fourni.IFabricantChocolatDeMarque;
+import abstraction.fourni.IMarqueChocolat;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
-public abstract class Producteur1Acteur extends Producteur1Valeurs implements IActeur {
+public abstract class Producteur1Acteur extends Producteur1Valeurs implements IFabricantChocolatDeMarque, IMarqueChocolat {
 	private int cryptogramme;
 	private Color couleur = new Color(26, 188, 156);
 	private Transformation transformation;
 	
 	
-
+	public List<String> getMarquesChocolat() {
+	List<String> liste = new ArrayList<String>();
+	liste.add("Ghanao");
+	return liste;
+	}
+	
+	
+	public List<ChocolatDeMarque> getChocolatsProduits() {
+		List<ChocolatDeMarque> liste = new ArrayList<ChocolatDeMarque>();
+		liste.add(new ChocolatDeMarque(Chocolat.POUDRE_MOYENNE, "Ghanao"));
+		liste.add(new ChocolatDeMarque(Chocolat.POUDRE_MOYENNE_EQUITABLE, "Ghanao"));
+		return liste;
+	}
 	
 	public Producteur1Acteur() {
 		this.init_historiques();
+		
 		
 	}
 
@@ -34,6 +50,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 
 	public void initialiser() {
 		transformation = new Transformation();
+		Producteur1Valeurs.init();
 
 	}
 	
@@ -44,9 +61,24 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 	 * @author lebra pour l'ajout dans le journal
 	 */
 	private void produireFeve() {
-		this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
-		this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(this.production_mq());
-		this.getStocks().get(Feve.FEVE_BASSE).addQuantite(this.production_bq());
+		IActeur a = Filiere.LA_FILIERE.getActeur("EQ1");
+		//this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
+		if (this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite()+this.production_mqe()<=10000000) {
+			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).addQuantite(this.production_mqe());
+		} else {
+			this.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).setQuantite(a, 10000000);
+		}
+		if (this.getStocks().get(Feve.FEVE_MOYENNE).getQuantite()+this.production_mq()<=50000000) {
+			this.getStocks().get(Feve.FEVE_MOYENNE).addQuantite(this.production_mq());
+		} else {
+			this.getStocks().get(Feve.FEVE_MOYENNE).setQuantite(a, 50000000);	
+		}
+		if (this.getStocks().get(Feve.FEVE_BASSE).getQuantite()+this.production_bq() <= 20000000){
+			this.getStocks().get(Feve.FEVE_BASSE).addQuantite(this.production_bq());
+		} else {
+			this.getStocks().get(Feve.FEVE_BASSE).setQuantite(a, 20000000);
+		}
+		
 		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_mqe()+" fèves de qualité moyenne équitable");
 		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_mq()+" fèves de qualité moyenne");
 		this.getJournal("Ghanao Production").ajouter("Ajout de "+this.production_bq()+" fèves de qualité basse");
@@ -75,7 +107,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 		this.produireFeve();
 		Cout.cout(this); // coût proportionel à la qualité et à la quantité de fèves produites
 		this.transformation.Transformation_Feve(this);
-		this.maj_plantation(240400, 100000,100000, this);
+		this.maj_plantation(this.getStocks2(), this);
 	}
 
 	public List<String> getNomsFilieresProposees() {
@@ -137,5 +169,7 @@ public abstract class Producteur1Acteur extends Producteur1Valeurs implements IA
 	public abstract double production_mq ();
 	public abstract double production_mqe ();
 	public abstract double production_bq ();
-	public abstract void maj_plantation(double new_mq, double new_mqe, double new_bq, Producteur1Acteur a);
+	public abstract void maj_plantation(Stocks s, Producteur1Acteur a);
+	public abstract Stocks getStocks2();
+
 } 
