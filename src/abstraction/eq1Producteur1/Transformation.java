@@ -20,7 +20,7 @@ public class Transformation {
 	
 	public void Transformation_Feve_Quantite (Feve f,double quantite,Producteur1Acteur producteur1Acteur) {
 		if (f.equals(Feve.FEVE_MOYENNE)) {
-			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).getQuantite()+quantite <= 50000000) {
+			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).getQuantite()+quantite <= 25000000) {
 				producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 				producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE).addQuantite(quantite);
 				producteur1Acteur.perteargent(0.5*quantite);
@@ -39,7 +39,7 @@ public class Transformation {
 			producteur1Acteur.getJournal("Ghanao Transformation").ajouter(quantite + " kg de fèves de moyenne qualité ont été transformés en " + quantite + "kg de poudre de moyenne qualité ");
 			}*/
 		if (f.equals(Feve.FEVE_MOYENNE_EQUITABLE)) {
-			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite()+quantite <= 50000000) {
+			if (producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).getQuantite()+quantite <= 10000000) {
 				producteur1Acteur.getStocks().get(f).removeQuantite(quantite);
 				producteur1Acteur.getStocks().get(Chocolat.POUDRE_MOYENNE_EQUITABLE).addQuantite(quantite);
 				producteur1Acteur.perteargent(0.5*quantite);
@@ -60,13 +60,14 @@ public class Transformation {
 	}
 	
 	/**
-	 * on impose toujours la proportion de 80-20 dans les quantités de poudre
+	 * on impose toujours la proportion de 80-20 dans les quantités de poudre (80 poudre moyenne / 20 moyenne equitable)
+	 * on change ce qui était prévu, on transforme 50% de notre stock de feve en poudre
 	 */
 	
 	public void Transformation_Feve(Producteur1Acteur producteur1Acteur) {
 		double q_f_m = producteur1Acteur.getStocks().get(Feve.FEVE_MOYENNE).getQuantite();
 		double q_f_m_e = producteur1Acteur.getStocks().get(Feve.FEVE_MOYENNE_EQUITABLE).getQuantite();
-		double q_p_m_e = 0.1*q_f_m;
+		double q_p_m_e = 0.3*q_f_m;
 		double m_q_p_m = Math.min(q_p_m_e*4,q_f_m_e);
 		if (m_q_p_m == q_f_m_e) {
 			q_p_m_e = m_q_p_m/4;
