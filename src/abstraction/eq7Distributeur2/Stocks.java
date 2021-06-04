@@ -278,7 +278,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
 	
-	// fait par Elio Granger
+	// fait par Elio Granger et Arnaud Berger
 	// Parcourt toutes les étapes dans l'ordre croissant pour supprimer une quantité de chocolat donnée
 	
 	public void enleverParEtape(ChocolatDeMarque chocolatDeMarque,double qte ) {
@@ -298,8 +298,8 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 
 
 	
-	// fait par Elio Granger
-	// méthode qui supprime le chocolat périmé 
+	// fait par Elio Granger et Arnaud Berger
+	// méthode qui supprime le chocolat périmé s
 	
 	public void jeterChocolatPerime() {
 		int etape = Filiere.LA_FILIERE.getEtape();
@@ -326,7 +326,7 @@ public class Stocks extends Distributeur2Acteur implements IStocks{
 	
 	
 	
-	// fait par Elio Granger
+	// fait par Elio Granger et Arnaud Berger
 	// méthode qui calcule et demande une déduction du coût de stockage du compte bancaire
 	
 	public void CoutStockage() {
