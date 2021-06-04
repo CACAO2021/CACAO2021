@@ -52,10 +52,10 @@ public class Transformateur2Valeurs {
 	
 	//Variables de coûts
 
-	protected double quantite_totale_demandee_basse = 0;
-	protected double quantite_totale_demandee_moyenne = 0;
-	protected double nombre_step_total_basse = 0;
-	protected double nombre_step_total_moyenne = 0;
+	protected double quantite_totale_demandee_basse = 1000000;
+	protected double quantite_totale_demandee_moyenne = 1000000;
+	protected double nombre_step_total_basse = 1;
+	protected double nombre_step_total_moyenne = 1;
 	
 	//Coûts fixes
 	
