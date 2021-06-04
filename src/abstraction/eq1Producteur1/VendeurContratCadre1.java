@@ -58,7 +58,7 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 		}
 		else if ((produit instanceof ChocolatDeMarque)
 				&& ((((ChocolatDeMarque)produit).getChocolat() == Chocolat.POUDRE_MOYENNE_EQUITABLE)
-					||(((ChocolatDeMarque)produit).getChocolat() == Chocolat.POUDRE_MOYENNE))) {
+					||(((ChocolatDeMarque)produit).getChocolat() == Chocolat.POUDRE_MOYENNE))){
 			return (true); 
 		}
 		else {
@@ -268,11 +268,9 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
 				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
-				this.getJournal("Ghanao VenteContratCadre").ajouter("stock : "+ this.getStock(produit).getQuantite());
 				}
 			return livre;
 		} else if ((produit instanceof Feve) && ((((Feve)produit) == Feve.FEVE_MOYENNE))) {
-			this.getJournal("Ghanao VenteContratCadre").ajouter("stock : "+ this.getStock(produit).getQuantite());
 			double livre = Math.min(this.getStocks().get(contrat.getProduit()).getQuantite(), quantite);
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
@@ -284,7 +282,6 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			if (livre>0) {
 				this.getStocks().get(produit).removeQuantite(livre);
 				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
-				this.getJournal("Ghanao VenteContratCadre").ajouter("stock : "+ this.getStock(produit).getQuantite());
 			}
 			return livre;
 		} else if ((produit instanceof ChocolatDeMarque) && ((((ChocolatDeMarque)produit).getChocolat() == Chocolat.POUDRE_MOYENNE_EQUITABLE))) {
@@ -292,7 +289,6 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			if (livre>0) {
 				this.getStocks().get(((ChocolatDeMarque)produit).getChocolat()).removeQuantite(livre);
 				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
-				this.getJournal("Ghanao VenteContratCadre").ajouter("stock : "+ this.getStock(((ChocolatDeMarque)produit).getChocolat()).getQuantite());
 			}
 			return livre;
 		} else if ((produit instanceof ChocolatDeMarque) && ((((ChocolatDeMarque)produit).getChocolat() == Chocolat.POUDRE_MOYENNE))) {
@@ -300,7 +296,6 @@ public abstract class VendeurContratCadre1 extends VendeurFevesAO implements IVe
 			if (livre>0) {
 				this.getStocks().get(((ChocolatDeMarque)produit).getChocolat()).removeQuantite(livre);
 				this.getJournal("Ghanao VenteContratCadre").ajouter("Livraison de " + livre + "kg de " + produit + "au prix de " + contrat.getPrix());
-				this.getJournal("Ghanao VenteContratCadre").ajouter("stock : "+ this.getStock(((ChocolatDeMarque)produit).getChocolat()).getQuantite());
 			}
 			return livre;
 		}
