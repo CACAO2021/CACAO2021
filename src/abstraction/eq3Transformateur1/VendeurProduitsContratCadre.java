@@ -70,7 +70,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 	@Override
 	
 	
-	//Paul
+	//Paul GIRAUD
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 
 		// On accepte la premiere proposition pour l'instant
@@ -103,7 +103,7 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 						
 				} else {
 
-					return 1.30*prixSansMarge;
+					return 1.30*prixSansMarge; // on veut au minimum une marge de 30%
 				}
 			}
 		} else {
