@@ -14,7 +14,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
-// Paul GIRAUD
+// Paul GIRAUD (À part méthode ou il y a un autre prénom)
 public class Business {
 	
 	
@@ -87,6 +87,11 @@ public class Business {
 		this.indicateurs.add(50,new Variable(this.getStock().getActeur().getNom() + " Stock Jeté de poudre haute qualité équitable et bio", this.getStock().getActeur(), 0));
 		this.indicateurs.add(51, new Variable(this.getStock().getActeur().getNom() + " Total des subventions versées aux associations ", this.getStock().getActeur(), 0));
 		this.indicateurs.add(52, new Variable(this.getStock().getActeur().getNom() + " Proportion des subventions versées aux associations par rapport à nos entrées d'argent (%) ", this.getStock().getActeur(), 0));
+		this.indicateurs.add(53, new Variable(this.getStock().getActeur().getNom() + " nb d'échéances moyen par contrat d'achat ", this.getStock().getActeur(), 0));
+		this.indicateurs.add(54, new Variable(this.getStock().getActeur().getNom() + " nb d'échéances moyen par contrat de vente ", this.getStock().getActeur(), 0));
+		this.indicateurs.add(55, new Variable(this.getStock().getActeur().getNom() + " proportion de vente de Bio", this.getStock().getActeur(), 0));
+		this.indicateurs.add(56, new Variable(this.getStock().getActeur().getNom() + " proportion de vente de equitable", this.getStock().getActeur(), 0));
+		this.indicateurs.add(57, new Variable(this.getStock().getActeur().getNom() + " proportion de vente de produit sans label ", this.getStock().getActeur(), 0));
 		this.mesContratEnTantQueVendeur = new ArrayList<ExemplaireContratCadre>() ;
 		this.mesContratEnTantQueAcheteur = new ArrayList<ExemplaireContratCadre>() ;	
 		this.mesContratEnTantQueVendeurNonGere = new ArrayList<ExemplaireContratCadre>() ;
@@ -161,7 +166,26 @@ public class Business {
 		} else {
 			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(),0);
 		}
-		
+		compteur += 1;
+		this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getEcheancierAchatMoy());
+		compteur += 1;
+		this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getEcheancierVenteMoy());
+		compteur += 1;
+		if (this.getStock().getActeur().getQuantiteClassique() + this.getStock().getActeur().getQuantiteBio() + this.getStock().getActeur().getQuantiteEquitable() != 0) {
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getQuantiteBio()/(this.getStock().getActeur().getQuantiteClassique() + this.getStock().getActeur().getQuantiteBio() + this.getStock().getActeur().getQuantiteEquitable()));
+			compteur += 1;
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getQuantiteEquitable()/(this.getStock().getActeur().getQuantiteClassique() + this.getStock().getActeur().getQuantiteBio() + this.getStock().getActeur().getQuantiteEquitable()));
+			compteur += 1;
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), this.getStock().getActeur().getQuantiteClassique()/(this.getStock().getActeur().getQuantiteClassique() + this.getStock().getActeur().getQuantiteBio() + this.getStock().getActeur().getQuantiteEquitable()));
+			
+		} else {
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), 0);
+			compteur += 1;
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), 0);
+			compteur += 1;
+			this.getIndicateurs().get(compteur).setValeur(this.getStock().getActeur(), 0);			
+		}
+
 	}
 	
 	public void setMesContratEnTantQueVendeur(ExemplaireContratCadre contrat) {
@@ -215,7 +239,7 @@ public class Business {
 		}
 	}
 	
-//Chloe Jo Pa
+	//Chloe Jo Paul
 	public boolean dejaContrat(Chocolat chocolat) {
 		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueVendeur()) {
 			if (contrat.getProduit() instanceof Chocolat) {
