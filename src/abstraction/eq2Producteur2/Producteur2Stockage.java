@@ -35,7 +35,8 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	//Dim
 	public Producteur2Stockage() {
 		super();
-		// a modifier en prenant en compte le fait que le stock de depart n'est pas entierement creer au step 0 mais aussi a des steps anterieurs (pour plus tard)
+		// a modifier en prenant en compte le fait que le stock de depart n'est pas entierement
+		// creer au step 0 mais aussi a des steps anterieurs (pour plus tard)
 		this.stockFeveHBE = new LinkedList<Stock>();
 		this.stockFeveHBE.add(new Stock(QTT_FEVE_HBE_DEPART, 0));
 		this.stockFeveHE = new LinkedList<Stock>();
@@ -225,6 +226,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				}
 			}this.stockFeveB = stockFeveB2;
 		}
+		
 		
 	}
 	
