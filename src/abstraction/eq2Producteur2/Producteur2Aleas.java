@@ -18,7 +18,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 	public void lesProblemes() {
 		// intempéries -> destruction stock + arbres
 		intemperies();
-		//faire focntion revolte des prod si plus dargent pour les payer
+		// focntion revolte des prod si plus dargent pour les payer
 		revolte();
 
 	}
@@ -80,6 +80,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			COUT_PRODUCTION_FEVE_ME *= 1.3;
 			COUT_PRODUCTION_FEVE_HE *= 1.4;
 			COUT_PRODUCTION_FEVE_HBE *= 1.5;
+			
 			// pdt la révolte, une faible qtt de stock est perdue 
 			// seulement les faible basse et moyenne sont affectées
 			LinkedList<Feve> listeProdRevolte = new LinkedList<Feve>();

@@ -60,7 +60,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		arbrePlantes.put(listeProd.get(4), arbrePlantesB);
 
 		// on remplit les listes
-		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
 		int stepActuel = 0;
 		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE - 2;
 		double step = - stepArbreLePlusVieu;
@@ -171,6 +170,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
 			
+			// partie reflexion pas encore faite
 			int qtt = nbChangement; // pour le moment tjrs la meme répartition 
 			
 			// pour pouvoir perdre de l'argent
