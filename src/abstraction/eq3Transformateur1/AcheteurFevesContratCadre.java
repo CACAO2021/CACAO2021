@@ -21,7 +21,7 @@ import abstraction.fourni.Variable;
 
 
 
-// Jonathan
+// Jonathan (À part méthode ou il y a un autre prénom)
 public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadreNotifie {
 
 	

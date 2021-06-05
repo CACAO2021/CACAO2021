@@ -14,7 +14,7 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 
-// Gaspart
+// Gaspart (À part méthode ou il y a un autre prénom)
 public class Transformateur1Acteur implements IActeur {
 	
 	protected Stock stock;

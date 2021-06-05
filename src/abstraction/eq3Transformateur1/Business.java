@@ -14,7 +14,7 @@ import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
 
-// Paul GIRAUD
+// Paul GIRAUD (À part méthode ou il y a un autre prénom)
 public class Business {
 	
 	
@@ -239,7 +239,7 @@ public class Business {
 		}
 	}
 	
-//Chloe Jo Pa
+	//Chloe Jo Paul
 	public boolean dejaContrat(Chocolat chocolat) {
 		for (ExemplaireContratCadre contrat: this.getMesContratEnTantQueVendeur()) {
 			if (contrat.getProduit() instanceof Chocolat) {
