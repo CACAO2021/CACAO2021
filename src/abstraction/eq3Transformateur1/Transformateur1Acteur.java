@@ -14,7 +14,7 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Variable;
 
 
-// Gaspart
+// Gaspart (À part méthode ou il y a un autre prénom)
 public class Transformateur1Acteur implements IActeur {
 	
 	protected Stock stock;
@@ -26,8 +26,15 @@ public class Transformateur1Acteur implements IActeur {
 
 	
 	public static double STOCK_MAX = 10000000000.0;
-	protected double SUBVENTION = 0.0;
-	protected double BENEFICE = 0.0;
+	protected double SUBVENTION;
+	protected double BENEFICE;
+	protected double ECHEANCIERMOYACHAT;
+	protected double ECHEANCIERMOYVENTE;
+	protected double nbContratAchat;
+	protected double nbContratVente;
+	protected double quantiteBio;
+	protected double quantiteEquitable;
+	protected double quantiteClassique;
 
 	public Transformateur1Acteur() {
 		
@@ -38,8 +45,30 @@ public class Transformateur1Acteur implements IActeur {
 		this.stock = new Stock(this);
 		this.SUBVENTION = 0.0;
 		this.BENEFICE = 0.0;
+		this.ECHEANCIERMOYACHAT = 0.0;
+		this.ECHEANCIERMOYVENTE = 0.0;
+		this.quantiteBio = 0.0;
+		this.quantiteClassique = 0.0;
+		this.quantiteEquitable = 0.0;
 
 		
+	}
+	public double getQuantiteBio() {
+		return this.quantiteBio;
+	}
+	public double getQuantiteEquitable() {
+		return this.quantiteEquitable;
+	}
+	public double getQuantiteClassique() {
+		return this.quantiteClassique;
+	}
+	
+	public double getEcheancierAchatMoy() {
+		return this.ECHEANCIERMOYACHAT;
+	}
+	
+	public double getEcheancierVenteMoy() {
+		return this.ECHEANCIERMOYVENTE;
 	}
 	
 	public double getSubvention() {
