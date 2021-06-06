@@ -12,7 +12,7 @@ import abstraction.eq8Romu.produits.Gamme;
 import abstraction.fourni.Filiere;
 import abstraction.fourni.Variable;
 
-// Gaspard
+// Gaspard (À part méthode ou il y a un autre prénom)
 public class VendeurProduitsContratCadre extends Transformateur1Marque implements IVendeurContratCadre {
 	
 
@@ -39,17 +39,6 @@ public class VendeurProduitsContratCadre extends Transformateur1Marque implement
 
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-		// on accepte toujours la 1ere proposition d'échéancier pour l'instant
-		//return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, 16, contrat.getEcheancier().getQuantiteTotale());
-		Chocolat chocolat = null; 
-		if (contrat.getProduit() instanceof Chocolat) {
-			chocolat = (Chocolat)contrat.getProduit();
-		} else if(contrat.getProduit() instanceof ChocolatDeMarque) {
-			chocolat = ((ChocolatDeMarque)contrat.getProduit()).getChocolat();
-			}
-		if (contrat.getEcheancier().getQuantiteTotale() > this.getStock().getStockChocolats(chocolat)/2) {
-			return new Echeancier(Filiere.LA_FILIERE.getEtape()+1, contrat.getEcheancier().getNbEcheances(), this.getStock().getStockChocolats(chocolat)/2); 
-		}
 		return contrat.getEcheancier(); 
 	}
 
