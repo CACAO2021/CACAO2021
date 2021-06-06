@@ -73,6 +73,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	 * retourne la quantité de stock disponible totale d'un produit 
 	 */
 	public Variable qttTotale(Object produit) {
+		majStock(produit);
 		if (estFeveHBE(produit)) {			
 			return stockFHBE;
 		} else if (estFeveHE(produit)) {			
@@ -115,9 +116,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 
 	//Dim
 	public void addStock(double qtt, Object produit) {
-		if (qtt<=0) {
-			return;
-		}
 		int step = Filiere.LA_FILIERE.getEtape();
 		Stock s = new Stock(qtt, step);
 		if (estFeveHBE(produit)) {
@@ -149,16 +147,19 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		// tentative de simplification / factorisation du code
 		majStock(produit);
 		double q = 0;
-		while (qtt>0 && (stock_F.get(produit)).size() > 0) {
+		while (qtt>0) {
 			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
 			if (q>=0) {
-				System.out.println("df");
-				System.out.println((stock_F.get(produit)).get(0).getQtt());
+				//System.out.println("df");
+				//System.out.println((stock_F.get(produit)).get(0).getQtt());
 				(stock_F.get(produit)).get(0).setQtt(q) ;
-				System.out.println((stock_F.get(produit)).get(0).getQtt());
+				//System.out.println((stock_F.get(produit)).get(0).getQtt());
 				qtt = 0; 
 				return; // on sort de la boucle
 			} else {
+				//System.out.println("pb?");
+				//System.out.println(qtt);
+				//System.out.println(produit);
 				qtt -= (stock_F.get(produit)).get(0).getQtt();
 				(stock_F.get(produit)).remove(0);
 			}

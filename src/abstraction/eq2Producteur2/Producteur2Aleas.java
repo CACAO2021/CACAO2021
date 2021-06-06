@@ -28,6 +28,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			// l'intemperie à lieu dans ce cas
 			// on tire un pourcentage sur chaque element stocké
 			for (Feve e : listeProd) {
+				majStock(e);
 				double pourcentageStockADetruire = Math.random() / 2. ;
 				double stockActuel = qttTotale(e).getValeur();
 				// pourcentage du stock qui sera détruit lors de l'intempérie 

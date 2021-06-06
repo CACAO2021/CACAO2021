@@ -108,7 +108,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		return prod;
 	}
 
-	public double aProduireAuStep(Object produit, int step) { // servira plus tard
+	public double aProduireAuStep(Object produit, int step) { 
 		double prod = 0;
 		for (ExemplaireContratCadre e: mesContratsCC) {
 			if (e.getProduit() == produit) {
@@ -121,7 +121,6 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	//DIM
 	@Override
 	public Echeancier contrePropositionDuVendeur(ExemplaireContratCadre contrat) {
-
 		Object produit = contrat.getProduit();	
 		int nbEcheance = contrat.getEcheancier().getNbEcheances();
 		Echeancier e = contrat.getEcheancier();
@@ -156,7 +155,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		}
 
 		condQtt = true ; //test ! a changer
-		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " " +condQtt + condEquitable);	
+		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " avec nos conditions: " +condQtt + condEquitable);	
 
 
 		//les actions qui decoulent de nos conditions
@@ -289,11 +288,11 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		int stepSansVente = 25;
 		if (Filiere.LA_FILIERE.getEtape() > 5) { 
 			// on laisse du temps au début
-			
+
 			if ( bolVUS ) {
 				// bolVUS true tant que on a pas utiliser cette fonction
 				// devient false ensuite car nos arbres sont déjà supprimés
-				
+
 				// si on ne vend pas pendant "stepSansVente" etapes,
 				// on ne vendra plus jamais
 				//on supprime donc tous nos arbres
@@ -302,7 +301,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 				boolean bol = 
 						mesContratsCC.getLast().getEcheancier().getStepFin() + stepSansVente
 						<  Filiere.LA_FILIERE.getEtape()   ;
-				
+
 				if(bol) {
 					System.out.println(this.getNom() + "on vend plus rien :/ on supprime tous nos arbres pour ne pas faire faillite " +this.getNom());
 					bolVUS = false;

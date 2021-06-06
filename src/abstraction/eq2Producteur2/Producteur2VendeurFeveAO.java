@@ -5,10 +5,74 @@ import java.util.LinkedList;
 import abstraction.eq8Romu.fevesAO.IVendeurFevesAO;
 import abstraction.eq8Romu.fevesAO.OffreAchatFeves;
 import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
+import abstraction.eq8Romu.produits.Feve;
+import abstraction.fourni.Filiere;
 
 public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
-	
+
 	// ensemble fait par max
+
+
+	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
+	public LinkedList<PropositionVenteFevesAO> mesContratsAORefusess;
+
+	public Producteur2VendeurFeveAO() {
+		super(); 
+		this.mesContratsAO = new LinkedList<PropositionVenteFevesAO>();
+		this.mesContratsAORefusess = new LinkedList<PropositionVenteFevesAO>();
+	}
+
+	/**	@author Maxime Boillot
+	 */
+	public double proposerPrix(OffreAchatFeves oa) {
+		majStock(oa.getFeve());
+		double stock = qttTotale(oa.getFeve()).getValeur();
+		double qttAProd = aProduireAuStep(oa.getFeve(), Filiere.LA_FILIERE.getEtape());	
+		if (stock > oa.getQuantiteKG() + qttAProd) {// * 1.2 pour prendre de la marge
+			double p = Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;		// *4 pck AO			
+			double min = Producteur2VeudeurFeveCC.minAcceptee(oa.getFeve()); 
+			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
+				if (c.getAcheteur() == oa.getAcheteur() && c.getFeve()==oa.getFeve()) {
+					double pp = c.getPrixKG() - Producteur2VeudeurFeveCC.difAcceptee(oa.getFeve());
+					if(pp<p) {
+						p = pp;
+					}
+				}
+			}
+			if (p >= min*2) {return p;} //*2 pck AO
+			else {return min*2;}
+		}else {
+			return 0.0;
+		}
+	}
+
+
+	protected abstract double aProduireAuStep(Object produit, int step);
+
+	/**	@author Maxime Boillot
+	 */
+	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
+		this.mesContratsAORefusess.add(proposition);
+	}
+
+	/**	@author Maxime Boillot
+	 */
+	public void notifierVente(PropositionVenteFevesAO proposition) {
+		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur().getNom() + " qtt = " + Math.floor(proposition.getQuantiteKg()) + proposition.getFeve()
+		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );
+		this.mesContratsAO.add(proposition);
+		vente(proposition.getQuantiteKg(), proposition.getFeve());
+		LinkedList<PropositionVenteFevesAO> rem = new LinkedList<PropositionVenteFevesAO>();
+		if(mesContratsAORefusess.size()>0) {
+			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
+				if (c.getAcheteur() == proposition.getAcheteur()) {
+					rem.add(c);
+				}this.mesContratsAORefusess.removeAll(rem);
+			}
+		}
+	}
+}
+/*
 
 
 	protected LinkedList<PropositionVenteFevesAO> mesContratsAO;
@@ -19,9 +83,9 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		this.mesContratsAO = new LinkedList<PropositionVenteFevesAO>();
 		this.mesContratsAORefusess = new LinkedList<PropositionVenteFevesAO>(); 
 	}
-	
 
-	
+
+
 	public double besoinQuantiteContrat() {
 		double qtt=0;
 		for (PropositionVenteFevesAO pvao: this.mesContratsAO) {
@@ -31,7 +95,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 	}
 
 	/**	@author Maxime Boillot
-	 */
+
 	public double proposerPrix(OffreAchatFeves oa) {
 		double stock = qttTotale(oa.getFeve()).getValeur();
 		//if (!(meilleurAcheteur.get(1).equals(oa.getAcheteur())) && meilleurAcheteur.get(0)<oa.get) {
@@ -52,12 +116,12 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 			return 0.0;
 		}
 	}
-	
-	/*
+
+
 	//A changer 
-	
+
 	//Emeline 
-	 
+
 	//Cette fonction renvoie le prix maximal, l'acheteur et la quantité moyenne. 
 	public ArrayList<Object> acheteLePlusCher(LinkedList<PropositionVenteFevesAO> mesContratsAO) {
 		//Ce dictionnaire fait correspondre un acheteur avec le prix moyen, et la quantité totale achetée
@@ -66,9 +130,9 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		HashMap<IAcheteurFevesAO,Double> quantiteMoyenne=new HashMap<IAcheteurFevesAO, Double>(); 
 		//Ce dictionnaire fait correspondre un acheteur avec le nombre de contrat qu'il a fait
 		HashMap<IAcheteurFevesAO,Integer> nombreDeContrat=new HashMap<IAcheteurFevesAO, Integer>(); 
-		
+
 		if (!mesContratsAO.isEmpty()) {
-			
+
 			//ici on regarde qui nous a acheté le plus cher (le dico ne sert pas à grand chose au final)
 			for (PropositionVenteFevesAO contrats : mesContratsAO) {
 				double p=contrats.getPrixKG();
@@ -89,7 +153,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 					nombreDeContrat.put(acheteur,1);
 					quantiteMoyenne.put(acheteur, contrats.getQuantiteKg());
 				}
-				
+
 			}
 			//ici on cherche le prix maximum
 			double pmax=0;
@@ -100,7 +164,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 					pmax=possibleprice;
 					acheteur=mapentry.getKey();
 				}
-				
+
 			}
 			if (pmax!=0) {
 				ArrayList<Object> l =new ArrayList<Object>();
@@ -116,10 +180,10 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		else {
 			return new ArrayList<Object>();
 		}
-		
+
 	}
-	
-	
+
+
 	//Dans le cas où la liste des contrats ao n'est pas vide
 	public double proposerPrix2(OffreAchatFeves oa) {
 		double stock = qttTotale(oa.getFeve()).getValeur();
@@ -140,16 +204,16 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 			return Producteur2VeudeurFeveCC.prixEspere(oa.getFeve()) * 4;	
 		}
 	}
-	*/
+
 
 	/**	@author Maxime Boillot
-	 */
+
 	public void notifierPropositionRefusee(PropositionVenteFevesAO proposition) {
 		this.mesContratsAORefusess.add(proposition);
 	}
 
 	/**	@author Maxime Boillot
-	 */
+
 	public void notifierVente(PropositionVenteFevesAO proposition) {
 		this.JournalVente.ajouter("nouvelle vente AO avec " + proposition.getAcheteur().getNom() + " qtt = " + Math.floor(proposition.getQuantiteKg()) + proposition.getFeve()
 		+ " pour " + proposition.getPrixKG() + "euro au kg, soit " + Math.floor(proposition.getPrixKG()*proposition.getQuantiteKg()) );
@@ -163,6 +227,6 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 				rem.add(c);
 			}this.mesContratsAORefusess.removeAll(rem);
 		}
-		*/ 
+
 	}
-}
+}*/
