@@ -17,10 +17,13 @@ public class Producteur2 extends Producteur2Aleas  {
 		majJournaux();
 		lesProblemes();
 		prod();
-		transfo(); // vide pour le moment
+		//transfo();
+		// on ne fait plus de transformation
 		renouvellement();
 		verifPeremption();
+		verifUtiliteStock();
 		coutStockage();
+		tropDArgent();
 	}
 
 
