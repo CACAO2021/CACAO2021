@@ -1,6 +1,6 @@
 package abstraction.eq5Transformateur3;
 
-//Manuelo, Rémi, Léna
+//Manuelo,  Rémi,  Léna
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public abstract class Transformateur3Acteur implements IActeur {
 		//Création des variables :
 
 		this.prix_max_fèves_HBE = new Variable("Prix max d'achat de fèves HBE", this, 5.1);
-		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 3.6);
+		this.prix_max_fèves_moyenne = new Variable("Prix max d'achat de fèves de gamme moyenne", this, 3.5);
 		
 		this.stock_min_feves_HBE = new Variable("Stock minimal de fèves haute bio équitable", this, 1000000);
 		this.stock_min_feves_moyenne = new Variable("Stock minimal de fèves de moyenne gamme", this, 1000000);

@@ -144,14 +144,13 @@ public class  AcheteurFevesAO extends Transformateur3VenteContratCadre implement
 			Chocolat choco = chocoMarque.getChocolat();
 			if (choco==Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) {
 				Variable feve = this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE);
-				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)
-						/*&& this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)*/) {
+				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_HAUTE_BIO_EQUITABLE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
 		            nb_OA+=1;
 					return OA;
 				}
 			}
-			if (choco==Chocolat.CONFISERIE_MOYENNE || contrat.getProduit()==Chocolat.TABLETTE_MOYENNE) {
+			if (choco==Chocolat.CONFISERIE_MOYENNE || choco==Chocolat.TABLETTE_MOYENNE) {
 				Variable feve=this.getFeves().get(Feve.FEVE_MOYENNE);
 				if (feve.getValeur()<contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1)) {
 					OffreAchatFeves OA = new OffreAchatFeves(this, Feve.FEVE_MOYENNE, contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape()+1));
