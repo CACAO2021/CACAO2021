@@ -65,7 +65,7 @@ public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implem
 		LinkedList<PropositionVenteFevesAO> rem = new LinkedList<PropositionVenteFevesAO>();
 		if(mesContratsAORefusess.size()>0) {
 			for (PropositionVenteFevesAO c : this.mesContratsAORefusess) {
-				if (c.getAcheteur() == proposition.getAcheteur()) {
+				if (c.getAcheteur() == proposition.getAcheteur() && c.getFeve()== proposition.getFeve()) {
 					rem.add(c);
 				}this.mesContratsAORefusess.removeAll(rem);
 			}
