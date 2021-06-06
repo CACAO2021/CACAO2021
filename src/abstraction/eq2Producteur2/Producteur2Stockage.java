@@ -26,8 +26,6 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	protected Variable stockFME;
 	protected Variable stockFM;
 	protected Variable stockFB;
-	protected Variable stockPHE;
-	protected Variable stockPM;
 
 
 	// ensemble fait par DIM
@@ -84,11 +82,7 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		}else if (estFeveM(produit)) {			
 			return stockFM;
 		}else if (estFeveB(produit)) {			
-			return stockFB;			
-		}else if (estPoudreHE(produit)) {
-			return stockPHE;
-		}else if (estPoudreM(produit)) {
-			return stockPM;
+			return stockFB;	
 		} else {
 			return new Variable("?", this, 0);
 		}
@@ -116,19 +110,14 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 			for (Stock s : this.stockFeveB) {
 				stock += s.getQtt();
 			}stockFB.setValeur(this, stock);
-		}else if (estPoudreHE(produit)) {
-			for (Stock s : this.stockPoudreHE) {
-				stock += s.getQtt();
-			}stockPHE.setValeur(this, stock);
-		}else if (estPoudreM(produit)) {
-			for (Stock s : this.stockPoudreM) {
-				stock += s.getQtt();
-			}stockPM.setValeur(this, stock);
 		}
 	}
 
 	//Dim
 	public void addStock(double qtt, Object produit) {
+		if (qtt<=0) {
+			return;
+		}
 		int step = Filiere.LA_FILIERE.getEtape();
 		Stock s = new Stock(qtt, step);
 		if (estFeveHBE(produit)) {
@@ -163,7 +152,10 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 		while (qtt>0 && (stock_F.get(produit)).size() > 0) {
 			q = (stock_F.get(produit)).get(0).getQtt() - qtt;
 			if (q>=0) {
+				System.out.println("df");
+				System.out.println((stock_F.get(produit)).get(0).getQtt());
 				(stock_F.get(produit)).get(0).setQtt(q) ;
+				System.out.println((stock_F.get(produit)).get(0).getQtt());
 				qtt = 0; 
 				return; // on sort de la boucle
 			} else {
@@ -171,53 +163,55 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 				(stock_F.get(produit)).remove(0);
 			}
 		}
+		majStock(produit);
 	}
 
 	public void verifPeremption() {
-		// sans cette fonction le stock augmente indéfiniement si pas d'achat
-		// supprime les stock trop vieux
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
-			for (Stock st:this.stockFeveHBE) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveHBE2.remove(st);
-				}
-			}this.stockFeveHBE = stockFeveHBE2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveHE2 = new LinkedList<Stock>(this.stockFeveHE);
-			for (Stock st:this.stockFeveHE) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveHE2.remove(st);
-				}
-			}this.stockFeveHE = stockFeveHE2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveME.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveME2 = new LinkedList<Stock>(this.stockFeveME);
-			for (Stock st:this.stockFeveME) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveME2.remove(st);
-				}
-			}this.stockFeveME = stockFeveME2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveM.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveM2 = new LinkedList<Stock>(this.stockFeveM);
-			for (Stock st:this.stockFeveM) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveM2.remove(st);
-				}
-			}this.stockFeveM = stockFeveM2;
-		}
-		if (Filiere.LA_FILIERE.getEtape()-this.stockFeveB.get(0).getStep()>nbEtapeAvPeremption) {
-			LinkedList<Stock> stockFeveB2 = new LinkedList<Stock>(this.stockFeveB);
-			for (Stock st:this.stockFeveB) {
-				if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
-					stockFeveB2.remove(st);
-				}
-			}this.stockFeveB = stockFeveB2;
-		}
+		if(Producteur2VeudeurFeveCC.bolVUS) {
+			// sans cette fonction le stock augmente indéfiniement si pas d'achat
+			// supprime les stock trop vieux
+			if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHBE.get(0).getStep()>nbEtapeAvPeremption) {
+				LinkedList<Stock> stockFeveHBE2 = new LinkedList<Stock>(this.stockFeveHBE); 
+				for (Stock st:this.stockFeveHBE) {
+					if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
+						stockFeveHBE2.remove(st);
+					}
+				}this.stockFeveHBE = stockFeveHBE2;
+			}
+			if (Filiere.LA_FILIERE.getEtape()-this.stockFeveHE.get(0).getStep()>nbEtapeAvPeremption) {
+				LinkedList<Stock> stockFeveHE2 = new LinkedList<Stock>(this.stockFeveHE);
+				for (Stock st:this.stockFeveHE) {
+					if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
+						stockFeveHE2.remove(st);
+					}
+				}this.stockFeveHE = stockFeveHE2;
+			}
+			if (Filiere.LA_FILIERE.getEtape()-this.stockFeveME.get(0).getStep()>nbEtapeAvPeremption) {
+				LinkedList<Stock> stockFeveME2 = new LinkedList<Stock>(this.stockFeveME);
+				for (Stock st:this.stockFeveME) {
+					if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
+						stockFeveME2.remove(st);
+					}
+				}this.stockFeveME = stockFeveME2;
+			}
+			if (Filiere.LA_FILIERE.getEtape()-this.stockFeveM.get(0).getStep()>nbEtapeAvPeremption) {
+				LinkedList<Stock> stockFeveM2 = new LinkedList<Stock>(this.stockFeveM);
+				for (Stock st:this.stockFeveM) {
+					if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
+						stockFeveM2.remove(st);
+					}
+				}this.stockFeveM = stockFeveM2;
+			}
+			if (Filiere.LA_FILIERE.getEtape()-this.stockFeveB.get(0).getStep()>nbEtapeAvPeremption) {
+				LinkedList<Stock> stockFeveB2 = new LinkedList<Stock>(this.stockFeveB);
+				for (Stock st:this.stockFeveB) {
+					if (Filiere.LA_FILIERE.getEtape()-st.getStep()>nbEtapeAvPeremption) {
+						stockFeveB2.remove(st);
+					}
+				}this.stockFeveB = stockFeveB2;
+			}
 
-
+		}
 	}
 
 

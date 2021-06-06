@@ -29,12 +29,12 @@ public class Producteur2Valeurs extends Producteur2et1ValeursEnCommun {
 	
 	// partie stockage
 	
-	protected static double QTT_FEVE_TOTALE = 8*Math.pow(10,9)/48;
+	protected static double QTT_FEVE_TOTALE = 7.5*Math.pow(10,9)/48;
 	
 	protected static double QTT_FEVE_HBE_DEPART = QTT_FEVE_TOTALE*0.4;
 	protected static double QTT_FEVE_HE_DEPART = QTT_FEVE_TOTALE*0.1;
-	protected static double QTT_FEVE_ME_DEPART = QTT_FEVE_TOTALE*0.01;
-	protected static double QTT_FEVE_M_DEPART = QTT_FEVE_TOTALE*0.3;
+	protected static double QTT_FEVE_ME_DEPART = QTT_FEVE_TOTALE*0.1;
+	protected static double QTT_FEVE_M_DEPART = QTT_FEVE_TOTALE*0.2;
 	protected static double QTT_FEVE_B_DEPART = QTT_FEVE_TOTALE*0.2;
 	
 	protected static double QTT_STOCKAGE_MAX = 3E8;

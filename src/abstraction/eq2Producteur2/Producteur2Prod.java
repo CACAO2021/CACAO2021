@@ -28,6 +28,12 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	protected Variable qttArbreTotalFB;
 	protected Variable qttArbreTotalPHE;
 	protected Variable qttArbreTotalPM;
+	
+	public double COUT_PRODUCTION_FEVE_HBE_;
+	public double COUT_PRODUCTION_FEVE_HE_;
+	public double COUT_PRODUCTION_FEVE_ME_;
+	public double COUT_PRODUCTION_FEVE_M_;
+	public double COUT_PRODUCTION_FEVE_B_;
 
 
 
@@ -89,7 +95,15 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
 		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
 		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
-		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		 
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
+		
+		
+		// utile pour augmenter les salaires independemment de lautre equipe de producteurs
+		COUT_PRODUCTION_FEVE_HBE_ = COUT_PRODUCTION_FEVE_HBE;
+		COUT_PRODUCTION_FEVE_HE_ = COUT_PRODUCTION_FEVE_HE;
+		COUT_PRODUCTION_FEVE_ME_ = COUT_PRODUCTION_FEVE_ME;
+		COUT_PRODUCTION_FEVE_M_ = COUT_PRODUCTION_FEVE_M;
+		COUT_PRODUCTION_FEVE_B_ = COUT_PRODUCTION_FEVE_B;
 
 	}
 
@@ -123,15 +137,15 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private double coutProdUnitaire(Object p) { 
 		// on peut faire une hashmap  
 		if(estFeveHBE(p)) {
-			return COUT_PRODUCTION_FEVE_HBE;
+			return COUT_PRODUCTION_FEVE_HBE_;
 		} else if(estFeveHE(p)) {
-			return COUT_PRODUCTION_FEVE_HE;
+			return COUT_PRODUCTION_FEVE_HE_;
 		} else if(estFeveME(p)) {
-			return COUT_PRODUCTION_FEVE_ME;
+			return COUT_PRODUCTION_FEVE_ME_;
 		} else if(estFeveM(p)) {
-			return COUT_PRODUCTION_FEVE_M;
+			return COUT_PRODUCTION_FEVE_M_;
 		}else if(estFeveB(p)) {
-			return COUT_PRODUCTION_FEVE_B;
+			return COUT_PRODUCTION_FEVE_B_;
 		} else { // un produit que l'on ne vend pas
 			return 0;
 		}

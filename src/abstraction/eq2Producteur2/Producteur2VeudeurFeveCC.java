@@ -12,7 +12,7 @@ import abstraction.fourni.Filiere;
 
 public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO implements IVendeurContratCadre {
 	protected LinkedList<ExemplaireContratCadre> mesContratsCC;
-	protected boolean bolVUS;
+	public static boolean bolVUS;
 
 	/**
 	 * @param mesContrats 
