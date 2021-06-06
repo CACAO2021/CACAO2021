@@ -1,6 +1,6 @@
 package abstraction.eq5Transformateur3;
 
-//Manuelo, Rémi, Léna
+//Manuelo,  Rémi,  Léna
 
 import java.awt.Color;
 import java.util.ArrayList;
