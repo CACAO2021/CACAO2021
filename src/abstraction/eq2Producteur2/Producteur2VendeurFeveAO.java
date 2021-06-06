@@ -8,7 +8,7 @@ import abstraction.eq8Romu.fevesAO.PropositionVenteFevesAO;
 import abstraction.eq8Romu.produits.Feve;
 import abstraction.fourni.Filiere;
 
-public abstract class Producteur2VendeurFeveAO extends Producteur2Transfo implements IVendeurFevesAO {
+public abstract class Producteur2VendeurFeveAO extends Producteur2Prod implements IVendeurFevesAO {
 
 	// ensemble fait par max
 
