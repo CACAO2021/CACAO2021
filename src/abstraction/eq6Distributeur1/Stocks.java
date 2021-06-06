@@ -115,9 +115,19 @@ public class Stocks extends Distributeur1Acteur{
 			}
 			if(choco.getCategorie()==Categorie.POUDRE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
+					if(choco.getMarque().toString()=="Eticao") {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 5.5));
+					}
+					else {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
+					}
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 4.0));
+					if(choco.getMarque().toString()=="Eticao") {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
+					}
+					else {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 4.0));
+					}
 				}else if (choco.getGamme()==Gamme.BASSE) {
 					prix.put(choco, new Variable("prix "+choco.toString(),this, 3.5));
 				}
