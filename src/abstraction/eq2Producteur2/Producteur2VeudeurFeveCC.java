@@ -25,7 +25,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 
 	@Override
 	public boolean peutVendre(Object produit) {
-		if (estFeve(produit) || estPoudre(produit)) {
+		if (estFeve(produit)) { //  || estPoudre(produit) // on ne vend pas de poudre finalement
 			return true;
 		}else {
 			return false;
@@ -34,6 +34,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 
 	@Override
 	public boolean vend(Object produit) {
+		majStock(produit);
 		double stock = qttTotale(produit).getValeur();
 		return stock>0;
 	}
@@ -247,8 +248,9 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	@Override
 	// Dim
 	public double livrer(Object produit, double quantite, ExemplaireContratCadre contrat) {
+		majStock(produit);
 		double livraison;
-		double stock = qttTotale(produit).getValeur();
+		double stock = qttTotale(produit).getValeur();		
 		if (stock >= quantite ) {
 			vente(quantite, produit);
 			livraison = quantite;
@@ -302,7 +304,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 						<  Filiere.LA_FILIERE.getEtape()   ;
 				
 				if(bol) {
-					System.out.println("on vend plus rien :/ " +this.getNom());
+					System.out.println(this.getNom() + "on vend plus rien :/ on supprime tous nos arbres pour ne pas faire faillite " +this.getNom());
 					bolVUS = false;
 					// on ne supprime les arbres qu'une seule fois
 					// on supprime tous nos arbres pour ne plus perdre d'argent
