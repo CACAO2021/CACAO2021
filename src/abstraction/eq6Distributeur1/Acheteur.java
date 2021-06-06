@@ -92,7 +92,8 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println(contrat.getProduit()+" proposition Eticao: "+contrat.getEcheancier().getQuantiteTotale() );
+		
+		//System.out.println(contrat.getProduit()+" proposition vendeur: "+contrat.getEcheancier().getQuantiteTotale() );
 		//System.out.println(contrat.getProduit()+" proposition cacaocaisse: "+contrat.getEcheanciers().get(contrat.getEcheanciers().size()-2).getQuantiteTotale() );
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		if (this.chocoprecquant!=choco) {
@@ -101,7 +102,7 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		this.chocoprecquant=choco;
 		i++;
 		Echeancier e = contrat.getEcheancier();
-		
+		//System.out.println(choco+"  "+e);
 		double maxQuantite = maxQuantite(choco);
 		
 		
@@ -115,8 +116,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 				e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
 			}
 		}
-		else if(e.getQuantiteTotale()>superviseur.QUANTITE_MIN_ECHEANCIER){
+		else if(e.getQuantiteTotale()>=superviseur.QUANTITE_MIN_ECHEANCIER){
 			
+			//System.out.println("marché conclu");
 			e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 		}
 		else {
