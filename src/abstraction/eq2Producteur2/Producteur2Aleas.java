@@ -29,11 +29,14 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			// on tire un pourcentage sur chaque element stocké
 			for (Feve e : listeProd) {
 				majStock(e);
-				double pourcentageStockADetruire = Math.random() / 2. ;
-				double stockActuel = qttTotale(e).getValeur();
+				double pourcentageStockADetruire = Math.random() / 4. ;
+				double stockActuel =  0.0;
+				if ((stock_F.get(e)).size() != 0) {
+					stockActuel = (stock_F.get(e)).get(0).getQtt();
+				}	
 				// pourcentage du stock qui sera détruit lors de l'intempérie 
-				// il n'est pas possible que plus de la moitie du stock soit détruite
-				// le nombre obtenu est contenu entre 0 et 0.5
+				// il n'est pas possible que plus de le quart du stock soit détruite
+				// le nombre obtenu est contenu entre 0 et 0.25
 				vente(pourcentageStockADetruire * stockActuel, e);
 			}
 			// on fait la meme chose pour les arbres
@@ -50,6 +53,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 				for (Stock s : arbrePlantes.get(f)) {
 					double qttDetruite = s.getQtt() * (Math.random() / 4);
 					sum +=  qttDetruite;
+					//System.out.println(sum);
 					s.setQtt(s.getQtt() - qttDetruite);
 					toAdd.add(new Stock(qttDetruite, Filiere.LA_FILIERE.getEtape()));
 				}
@@ -58,7 +62,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 				}
 				toAdd.clear();
 			}
-			double coutPerte = COUT_CHANGEMENT_ARBRE * sum;
+			double coutPerte = COUT_CHANGEMENT_ARBRE * sum * 2;
 			perdreArgent(coutPerte);
 			JournalPB.ajouter(Color.PINK, Color.BLACK, "intempéries, perte de " +coutPerte);
 		}

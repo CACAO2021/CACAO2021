@@ -143,28 +143,29 @@ public abstract class Producteur2Stockage extends Producteur2Journaux {
 	//Dim
 
 	public void vente(double qtt, Object produit) {
+		System.out.println("nvlle vente");
 		// vente fonctionnel
 		// tentative de simplification / factorisation du code
 		majStock(produit);
 		if (qttTotale(produit).getValeur() < qtt) {
-			System.out.println("wtf");
+			System.out.println("on a un pb");
 		}
 		double q = 0;
-		while (qtt>0) {			
-			for ( Stock e : (stock_F.get(produit)) ) {
-				q = e.getQtt() - qtt;
-				if (q>=0) {
-					e.setQtt(q);
-					return;
-				}else {
-					e.setQtt(0);
-					qtt = Math.abs(q);
-				}
+		for ( Stock e : (stock_F.get(produit)) ) {
+			q = e.getQtt() - qtt;
+			System.out.println(q);
+			if (q>=0) {
+				e.setQtt(q);
+				return;
+			}else {
+				e.setQtt(0);
+				qtt = Math.abs(q);
 			}
+
 			LinkedList<Stock> stockrem = new LinkedList<Stock>(); 
-			for ( Stock e : (stock_F.get(produit)) ) {
-				if (e.getQtt()==0) {
-					stockrem.add(e);					
+			for ( Stock ee : (stock_F.get(produit)) ) {
+				if (ee.getQtt()==0) {
+					stockrem.add(ee);	
 				}
 			}
 			stock_F.get(produit).removeAll(stockrem);
