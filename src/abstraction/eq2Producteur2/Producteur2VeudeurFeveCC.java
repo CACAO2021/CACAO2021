@@ -250,43 +250,24 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		majStock(produit);
 		double livraison;
 		double stock = qttTotale(produit).getValeur();		
-		if (stock >= quantite ) {
+		if (stock >= quantite ) { // on appelle vente que si on peut assumer la vente
 			vente(quantite, produit);
 			livraison = quantite;
 		}else {
 			vente(stock, produit);
 			livraison = stock;
 		}
-		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " + livraison + " / " + quantite + " donc un ratio de " + livraison/quantite );
+		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " +  " avec un ratio de " + livraison/quantite );
 		return livraison;			
 	}
 
-	public double livrer2(Object produit, double quantite, ExemplaireContratCadre contratCC) {
-		double stock = qttTotale(produit).getValeur();
-		double qttDemandee = 0;
-		for (ExemplaireContratCadre contrat: this.mesContratsCC) {
-			qttDemandee = qttDemandee + contrat.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
-		}
-		if (stock >= qttDemandee) {
-			double qtt = contratCC.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
-			vente(qtt, produit);
-			return qtt;
-		}
-		else {
-			double diff = qttDemandee - stock;
-			diff = 100*diff/qttDemandee;
-			double qtt = contratCC.getEcheancier().getQuantite(Filiere.LA_FILIERE.getEtape());
-			vente(diff*qtt, produit);
-			return diff*qtt;
-		}
-	}
 
 	public void verifUtiliteStock() {
 		// on gere la partie si on a trop de stock et plus de vente
 		// quand la filiere ne nou sachte plus
 		// on arrete de produire
-		int stepSansVente = 25;
-		if (Filiere.LA_FILIERE.getEtape() > 5) { 
+		int stepSansVente = 35;
+		if (Filiere.LA_FILIERE.getEtape() > 35) { 
 			// on laisse du temps au début
 
 			if ( bolVUS ) {
