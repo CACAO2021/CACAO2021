@@ -17,8 +17,7 @@ public class Producteur2 extends Producteur2Aleas  {
 		majJournaux();
 		lesProblemes();
 		prod();
-		//transfo();
-		// on ne fait plus de transformation
+		//transfo(); 		// on ne fait finalement pas de transformation
 		renouvellement();
 		verifPeremption();
 		verifUtiliteStock();

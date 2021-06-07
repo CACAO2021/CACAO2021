@@ -18,7 +18,8 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 	public void lesProblemes() {
 		// intempéries -> destruction stock + arbres
 		intemperies();
-		// focntion revolte des prod si plus dargent pour les payer
+		// focntion revolte des producteurs
+		// pas de facteur eco pr causer la fct
 		revolte();
 
 	}
@@ -75,6 +76,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 		if (Math.random() < PROBA_REVOLTE) {
 			
 			// la révolte a une probabilité de survenir
+			// survient à nimporte que moment
 			// elle n'est pas lié à un facteur économique
 			// si on a trop dargent on le reverse de toute manière
 			

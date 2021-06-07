@@ -1,5 +1,6 @@
 package abstraction.eq2Producteur2;
 
+import java.awt.Color;
 import java.util.LinkedList;
 
 import abstraction.eq8Romu.contratsCadres.Echeancier;
@@ -154,7 +155,6 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			condEquitable = condEquitable && equiNbEcheance && equiQtt ; 
 		}
 
-		condQtt = true ; //test ! a changer
 		JournalCC.ajouter(contrat.getAcheteur() + " " + qttDemandee + " " + produit + "en " + nbEcheance + " avec nos conditions: " +condQtt + condEquitable);	
 
 
@@ -177,29 +177,42 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 			}
 			if(!(equiNbEcheance)) {
 				// la durée n'est pas assez importante
-
+				int i = e.getStepDebut();
+				double qttStep = qttDemandee/EQUI_NB_ECHEANCE_MINI;
+				while(i <= e.getStepDebut() + EQUI_NB_ECHEANCE_MINI) {
+					e.set(i, qttStep);
+					i++;
+				}
 			}			
-			return e;
+			return e;			
 		}else if(condEquitable && !(condQtt)) {
 			// on  ne peut pas fournir autant de fève sur la période
-			return null;
+			double qttStep = qttDispo/nbEcheance;				
+			int i=contrat.getEcheancier().getStepDebut();
+			while (i< contrat.getEcheancier().getStepFin()) {
+				e.set(i, qttStep);
+				i++;
+			}			
+			if (qttDispo>EQUI_QTT_MINI) {
+				return e;
+			}else {
+				return null;
+			}
+
 		}else {
 			// si la demande ne correspond pas à de l'équitable et que nous ne pouvons pas produire assez de fèves
-			double qdm = qttDemandee;
-			int i =0;
-			int qtt=0;
-			// a revoir la condition: condition= while qdm>qttTotaleSurLaPeriode ?
-			while ( qdm < qtt && i< e.getStepFin()) { // on divise par 2 la qtt a fournir à chaque step jusqua pvr fournir
-				e.set(e.getStepDebut()+i, e.getQuantite(e.getStepDebut()+i) / 2);
-				i++;
-				qdm = e.getQuantiteTotale();
-			}		
-			boolean cond2 = e.getQuantiteTotale() < qtt;
-			if(cond2) {				
+			if(qttDispo<EQUI_QTT_MINI) {
+				return null;
+			}else {
+				double qttStep = qttDispo/EQUI_NB_ECHEANCE_MINI;				
+				int i=e.getStepDebut();
+				while (i< e.getStepDebut() + EQUI_NB_ECHEANCE_MINI) {
+					e.set(i, qttStep);
+					i++;
+				}		
 				return e; 
-			} else { //on ne souhaite pas vendeur donc on retourne null
-				return null; 
-			}}
+			}
+		}
 	}
 
 
@@ -213,24 +226,31 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	@Override
 	//Dim
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
-		// cette partie est très basique et tend à être modifiée par la suite
 		Object produit = contrat.getProduit();		
 		double prixPropose = contrat.getPrix();
 		boolean cond = estAcceptable(prixPropose , produit);
 		if(cond) { // on est daccord avec l'échéancier
 			return prixPropose;
 		}else { // on propose une nouvelle valeur
-			// comparer au cout de production des ressources vendues ( ne pas vendre a perte + payer correctement les producteurs)
+			// comparer au cout de production des ressources vendues ( ne pas vendre a perte + payer correctement les producteurs) 
+			// donc, prendre en compte le prix minima accepte
 			// prendre en compte le nombre de step ou lon na pas vendu et notre tresorerie
-			// prendre en compte le prix minima accepte
-			double prix = contrat.getListePrix().get(contrat.getListePrix().size() - 2) - difAcceptee(produit); 
+
+			double prix = contrat.getListePrix().get(contrat.getListePrix().size() - 2) * 0.8;
+			// on descend le prix petit a petit ( *0.8 )
+			if (prix < prixPropose ) {
+				prix = prixPropose;
+			}
 			double min = minAcceptee(produit);					
 			boolean cond2 = min<prix;
 			if(cond2) {				
 				return prix;
-			} else { //on retourne le minimum accepte au cas ou l'acheteur accepte ce prix
+			} else {
+				//on retourne le minimum accepté dans tous les cas
+				// au cas ou l'acheteur accepte ce prix malgré tout
 				return minAcceptee(produit);
-			}}
+			}
+		}
 	}
 
 	@Override
@@ -238,7 +258,7 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 	public void notificationNouveauContratCadre(ExemplaireContratCadre contrat) {
 		// maj var mesContrats
 		this.mesContratsCC.add(contrat);
-		this.JournalVente.ajouter("nouvelle vente CC avec " + contrat.getAcheteur().getNom() + " qtt = " +
+		this.JournalVente.ajouter(Color.yellow, Color.black,"nouvelle vente CC avec " + contrat.getAcheteur().getNom() + " qtt = " +
 				Math.floor(contrat.getQuantiteTotale()) + contrat.getProduit()
 				+ " pour " + contrat.getPrix() + "euro au kg, en " + contrat.getEcheancier().getNbEcheances()
 				+" échéances" );
@@ -253,11 +273,13 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		if (stock >= quantite ) { // on appelle vente que si on peut assumer la vente
 			vente(quantite, produit);
 			livraison = quantite;
+			JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " +  " avec un ratio de " + livraison/quantite );
 		}else {
 			vente(stock, produit);
 			livraison = stock;
+			JournalLivraison.ajouter(Color.red,Color.black, contrat.getAcheteur() +" "+ produit + " " +  " avec un ratio de " + livraison/quantite );
 		}
-		JournalLivraison.ajouter( contrat.getAcheteur() +" "+ produit + " " +  " avec un ratio de " + livraison/quantite );
+		// journaux dif ( color = red) pr voir qd on assume pas
 		return livraison;			
 	}
 
@@ -266,8 +288,8 @@ public abstract class Producteur2VeudeurFeveCC extends Producteur2VendeurFeveAO 
 		// on gere la partie si on a trop de stock et plus de vente
 		// quand la filiere ne nou sachte plus
 		// on arrete de produire
-		int stepSansVente = 35;
-		if (Filiere.LA_FILIERE.getEtape() > 35) { 
+		int stepSansVente = 55;
+		if (Filiere.LA_FILIERE.getEtape() > stepSansVente) { 
 			// on laisse du temps au début
 
 			if ( bolVUS ) {

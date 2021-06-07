@@ -178,7 +178,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			// partie plantage
 			// on remplace les arbres en tenant compte de la demande
 
-			// partie à modifier
+			// partie complexe car les changements ont lieux sur le long terme
 			// reflexion sur ce que lon plante
 			// réfléchir à la répartition des arbres a replanter
 
@@ -186,8 +186,14 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
 
-			// partie reflexion pas encore faite
+			// partie reflexion pas complète 
 			int qtt = nbChangement; // pour le moment tjrs la meme répartition 
+			
+			// on a un nb min d'arbre a avoir 			
+			double valComp = nbArbre + nbFeve +  qtt - NB_SEUIL_ARBRE;			
+			if (valComp<0) {
+				qtt += Math.abs(valComp);
+			}
 
 			// pour pouvoir perdre de l'argent
 			//on compte le nombre d'arbre que lon plante
