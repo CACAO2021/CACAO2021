@@ -146,8 +146,14 @@ public abstract class Transformateur3Acteur implements IActeur {
 		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_fixe.getValeur());
 		
 		//Payement des coûts de stockage
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur() + this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()));
-		Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()));
+		if (this.cout_stockage.getValeur()*(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur() + this.getFeves().get(Feve.FEVE_MOYENNE).getValeur())>0) {
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(this.getFeves().get(Feve.FEVE_HAUTE_BIO_EQUITABLE).getValeur() + this.getFeves().get(Feve.FEVE_MOYENNE).getValeur()));
+		}
+		
+		if (this.cout_stockage.getValeur()*(this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur())>0) {
+			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), this.cout_stockage.getValeur()*(this.getChocolats().get(Chocolat.CONFISERIE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_MOYENNE).getValeur() + this.getChocolats().get(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE).getValeur()));
+		}
+		
 		
 		//Création contrat cadre pour acheter des fèves
 		SuperviseurVentesContratCadre SupCCadre1 = (SuperviseurVentesContratCadre)(Filiere.LA_FILIERE.getActeur("Sup.CCadre"));
