@@ -29,6 +29,12 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	protected Variable qttArbreTotalPHE;
 	protected Variable qttArbreTotalPM;
 
+	public double COUT_PRODUCTION_FEVE_HBE_;
+	public double COUT_PRODUCTION_FEVE_HE_;
+	public double COUT_PRODUCTION_FEVE_ME_;
+	public double COUT_PRODUCTION_FEVE_M_;
+	public double COUT_PRODUCTION_FEVE_B_;
+
 
 
 	// ensemble fait par DIM
@@ -60,7 +66,6 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		arbrePlantes.put(listeProd.get(4), arbrePlantesB);
 
 		// on remplit les listes
-		// il faudra tenir compte du fait que les arbres nont pas tous le meme age au début
 		int stepActuel = 0;
 		double stepArbreLePlusVieu = TPS_RENOUVELLEMENT_ARBRE - 2;
 		double step = - stepArbreLePlusVieu;
@@ -90,7 +95,15 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		qttTotArbrePlantes.put(listeProd.get(1), qttArbreTotalFHE );
 		qttTotArbrePlantes.put(listeProd.get(2), qttArbreTotalFME );
 		qttTotArbrePlantes.put(listeProd.get(3), qttArbreTotalFM );
-		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		 
+		qttTotArbrePlantes.put(listeProd.get(4), qttArbreTotalFB );		
+
+
+		// utile pour augmenter les salaires independemment de lautre equipe de producteurs
+		COUT_PRODUCTION_FEVE_HBE_ = COUT_PRODUCTION_FEVE_HBE;
+		COUT_PRODUCTION_FEVE_HE_ = COUT_PRODUCTION_FEVE_HE;
+		COUT_PRODUCTION_FEVE_ME_ = COUT_PRODUCTION_FEVE_ME;
+		COUT_PRODUCTION_FEVE_M_ = COUT_PRODUCTION_FEVE_M;
+		COUT_PRODUCTION_FEVE_B_ = COUT_PRODUCTION_FEVE_B;
 
 	}
 
@@ -106,11 +119,13 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		for (Feve p : listeProd) {
 			double qtt = prodParStep(p, Filiere.LA_FILIERE.getEtape()) ; 
 			// la production a desormais lieu non pas tous les mois de l'année, mais seulement en février et en septembre
-			addStock(qtt, p); 
-			JournalProd.ajouter(""+ p +" "+qtt);	
-			coutProd(qtt, p);
-			majStock(p);
-			majQttArbre(p);
+			if(qtt>0) {
+				addStock(qtt, p); 
+				JournalProd.ajouter(""+ p +" "+qtt);	
+				coutProd(qtt, p);
+				majStock(p);
+				majQttArbre(p);
+			}
 		}		
 	}
 
@@ -124,15 +139,15 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 	private double coutProdUnitaire(Object p) { 
 		// on peut faire une hashmap  
 		if(estFeveHBE(p)) {
-			return COUT_PRODUCTION_FEVE_HBE;
+			return COUT_PRODUCTION_FEVE_HBE_;
 		} else if(estFeveHE(p)) {
-			return COUT_PRODUCTION_FEVE_HE;
+			return COUT_PRODUCTION_FEVE_HE_;
 		} else if(estFeveME(p)) {
-			return COUT_PRODUCTION_FEVE_ME;
+			return COUT_PRODUCTION_FEVE_ME_;
 		} else if(estFeveM(p)) {
-			return COUT_PRODUCTION_FEVE_M;
+			return COUT_PRODUCTION_FEVE_M_;
 		}else if(estFeveB(p)) {
-			return COUT_PRODUCTION_FEVE_B;
+			return COUT_PRODUCTION_FEVE_B_;
 		} else { // un produit que l'on ne vend pas
 			return 0;
 		}
@@ -143,7 +158,7 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		//Il va falloir s’adapter au marché afin de ne pas perdre de temps et d’argent à
 		//produire des ressources dont personne ne veut et que nous allons devoir stocker pendant
 		//une longue période sans pouvoir espérer de bénéfices.
-		
+
 		int step = Filiere.LA_FILIERE.getEtape();
 		int nbPlantage = 0;
 		int nbChangementTot = 0;
@@ -162,17 +177,24 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 
 			// partie plantage
 			// on remplace les arbres en tenant compte de la demande
-			
-			// partie à modifier
+
+			// partie complexe car les changements ont lieux sur le long terme
 			// reflexion sur ce que lon plante
 			// réfléchir à la répartition des arbres a replanter
 
 			// on récupère le nb d'arbre et de fève déjà ramassée pour chaque type de feve
 			int nbArbre = qttArbreToujoursPlantes(f);
 			double nbFeve = (qttTotale(f)).getValeur();
-			
+
+			// partie reflexion pas complète 
 			int qtt = nbChangement; // pour le moment tjrs la meme répartition 
 			
+			// on a un nb min d'arbre a avoir 			
+			double valComp = nbArbre + nbFeve +  qtt - NB_SEUIL_ARBRE;			
+			if (valComp<0) {
+				qtt += Math.abs(valComp);
+			}
+
 			// pour pouvoir perdre de l'argent
 			//on compte le nombre d'arbre que lon plante
 			nbPlantage += qtt; 
@@ -225,8 +247,8 @@ public abstract class Producteur2Prod extends Producteur2Stockage {
 		// parametre p si on veut faire dependre la valeur du type de feve, ce n'est pour l'instant pas le cas
 		return PROD_ARBRE_AN;
 	}
- 
- 
+
+
 	//il faut du temps avant que le nouvel arbre pousse et produise des fèves
 	//car l’arbre ne produit pas immédiatement de cabosse et son rendement évolue au cours du temps
 	// cela vainfluencer le nombre darbre qui produit effectivement

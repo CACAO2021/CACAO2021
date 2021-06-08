@@ -56,13 +56,14 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 			System.out.println("trop riche " + this.getNom());
 			JournalPB.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
 			// on augmente les salaires
-			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
-			COUT_PRODUCTION_FEVE_M *= 1.2;
-			COUT_PRODUCTION_FEVE_ME *= 1.3;
-			COUT_PRODUCTION_FEVE_HE *= 1.4;
-			COUT_PRODUCTION_FEVE_HBE *= 1.5;
+			// on augemente les salirs pour nous mais pas pour lautre equipe
+			COUT_PRODUCTION_FEVE_B_ *=  1.2; // cout de prod multiplier par 1.2
+			COUT_PRODUCTION_FEVE_M_ *= 1.2;
+			COUT_PRODUCTION_FEVE_ME_ *= 1.2;
+			COUT_PRODUCTION_FEVE_HE_ *= 1.3;
+			COUT_PRODUCTION_FEVE_HBE_ *= 1.4;
 			// on fait un don 
-			perdreArgent(montantMax/2);
+			perdreArgent(montantMax/4);
 		} else {
 			// si on devient plus modéremment trop riche
 			// on se contente d'augmenter les salaires
@@ -73,11 +74,12 @@ public abstract class Producteur2Banque extends Producteur2VeudeurFeveCC {
 				System.out.println("trop riche " + this.getNom());
 				JournalPB.ajouter(Color.GREEN, Color.BLACK, "trop riche " + Filiere.LA_FILIERE.getBanque().getSolde(Filiere.LA_FILIERE.getActeur("Baratao") , cryptogramme));
 				// on augmente les salaires
-				COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
-				COUT_PRODUCTION_FEVE_M *= 1.2;
-				COUT_PRODUCTION_FEVE_ME *= 1.3;
-				COUT_PRODUCTION_FEVE_HE *= 1.4;
-				COUT_PRODUCTION_FEVE_HBE *= 1.5;
+				// on augemente les salirs pour nous mais pas pour lautre equipe
+				COUT_PRODUCTION_FEVE_B_ *=  1.2; // cout de prod multiplier par 1.2
+				COUT_PRODUCTION_FEVE_M_ *= 1.2;
+				COUT_PRODUCTION_FEVE_ME_ *= 1.2;
+				COUT_PRODUCTION_FEVE_HE_ *= 1.3;
+				COUT_PRODUCTION_FEVE_HBE_ *= 1.4;
 				// on ne fait pas de don 
 			}
 		}

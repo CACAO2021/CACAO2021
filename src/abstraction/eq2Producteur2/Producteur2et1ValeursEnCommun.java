@@ -19,7 +19,7 @@ public class Producteur2et1ValeursEnCommun {
 		// le même quel que soit le type d'arbre 
 		// la différence de cout apparaitra plus tard dans la vie de larbre
 		// avec le cout de production
-		public static final double COUT_CHANGEMENT_ARBRE = 1.;
+		public static final double COUT_CHANGEMENT_ARBRE = 3.;
 		
 		// production par an arbre
 		// quel que soit le type darbre

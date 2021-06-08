@@ -18,7 +18,8 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 	public void lesProblemes() {
 		// intempéries -> destruction stock + arbres
 		intemperies();
-		//faire focntion revolte des prod si plus dargent pour les payer
+		// focntion revolte des producteurs
+		// pas de facteur eco pr causer la fct
 		revolte();
 
 	}
@@ -28,11 +29,15 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 			// l'intemperie à lieu dans ce cas
 			// on tire un pourcentage sur chaque element stocké
 			for (Feve e : listeProd) {
-				double pourcentageStockADetruire = Math.random() / 2. ;
-				double stockActuel = qttTotale(e).getValeur();
+				majStock(e);
+				double pourcentageStockADetruire = Math.random() / 4. ;
+				double stockActuel =  0.0;
+				if ((stock_F.get(e)).size() != 0) {
+					stockActuel = (stock_F.get(e)).get(0).getQtt();
+				}	
 				// pourcentage du stock qui sera détruit lors de l'intempérie 
-				// il n'est pas possible que plus de la moitie du stock soit détruite
-				// le nombre obtenu est contenu entre 0 et 0.5
+				// il n'est pas possible que plus de le quart du stock soit détruite
+				// le nombre obtenu est contenu entre 0 et 0.25
 				vente(pourcentageStockADetruire * stockActuel, e);
 			}
 			// on fait la meme chose pour les arbres
@@ -49,6 +54,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 				for (Stock s : arbrePlantes.get(f)) {
 					double qttDetruite = s.getQtt() * (Math.random() / 4);
 					sum +=  qttDetruite;
+					//System.out.println(sum);
 					s.setQtt(s.getQtt() - qttDetruite);
 					toAdd.add(new Stock(qttDetruite, Filiere.LA_FILIERE.getEtape()));
 				}
@@ -57,7 +63,7 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 				}
 				toAdd.clear();
 			}
-			double coutPerte = COUT_CHANGEMENT_ARBRE * sum;
+			double coutPerte = COUT_CHANGEMENT_ARBRE * sum * 2;
 			perdreArgent(coutPerte);
 			JournalPB.ajouter(Color.PINK, Color.BLACK, "intempéries, perte de " +coutPerte);
 		}
@@ -70,16 +76,19 @@ public abstract class Producteur2Aleas extends Producteur2Param  {
 		if (Math.random() < PROBA_REVOLTE) {
 			
 			// la révolte a une probabilité de survenir
+			// survient à nimporte que moment
 			// elle n'est pas lié à un facteur économique
 			// si on a trop dargent on le reverse de toute manière
 			
 			JournalPB.ajouter(Color.RED, Color.BLACK, "révolution au step " + Filiere.LA_FILIERE.getEtape());
 			// les couts de production augmente (ce qui correspond à un salaire qui augmente pour les producteurs)
-			COUT_PRODUCTION_FEVE_B *=  1.2; // cout de prod multiplier par 1.2
-			COUT_PRODUCTION_FEVE_M *= 1.2;
-			COUT_PRODUCTION_FEVE_ME *= 1.3;
-			COUT_PRODUCTION_FEVE_HE *= 1.4;
-			COUT_PRODUCTION_FEVE_HBE *= 1.5;
+			// on augemente les salaires pour nous mais pas pour lautre equipe
+			COUT_PRODUCTION_FEVE_B_ *=  1.2; // cout de prod multiplier par 1.2
+			COUT_PRODUCTION_FEVE_M_ *= 1.2;
+			COUT_PRODUCTION_FEVE_ME_ *= 1.3;
+			COUT_PRODUCTION_FEVE_HE_ *= 1.4;
+			COUT_PRODUCTION_FEVE_HBE_ *= 1.5;
+			
 			// pdt la révolte, une faible qtt de stock est perdue 
 			// seulement les faible basse et moyenne sont affectées
 			LinkedList<Feve> listeProdRevolte = new LinkedList<Feve>();
