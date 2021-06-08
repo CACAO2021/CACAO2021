@@ -92,8 +92,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println(contrat.getProduit()+" proposition Eticao: "+contrat.getEcheancier().getQuantiteTotale() );
-		//System.out.println(contrat.getProduit()+" proposition cacaocaisse: "+contrat.getEcheanciers().get(contrat.getEcheanciers().size()-2).getQuantiteTotale() );
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		if (this.chocoprecquant!=choco) {
 			i=0;
@@ -101,12 +99,10 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 		this.chocoprecquant=choco;
 		i++;
 		Echeancier e = contrat.getEcheancier();
-		
 		double maxQuantite = maxQuantite(choco);
 		
 		
 		if (e.getQuantiteTotale()>maxQuantite) {
-			//System.out.println(choco);
 			if(maxQuantite*(0.90+i/100)>((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER) {
 				e.set(e.getStepDebut(), maxQuantite*(0.90+i/100));
 				}
@@ -115,8 +111,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 				e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
 			}
 		}
-		else if(e.getQuantiteTotale()>superviseur.QUANTITE_MIN_ECHEANCIER){
+		else if(e.getQuantiteTotale()>=superviseur.QUANTITE_MIN_ECHEANCIER){
 			
+			//marché conclu
 			e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 		}
 		else {
@@ -139,7 +136,6 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		//System.out.println(contrat.getProduit()+ "  "+contrat.getListePrix());
 		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
 		if (this.chocoprecprix!=choco) {
 			j=0;
@@ -154,11 +150,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 		if (contrat.getPrix()>maxPrix || contrat.getPrix()==0) {
 			j++;
-			//System.out.println(choco+"  nego");
 			return maxPrix*(0.85+(j/100));
 			}
 		else {
-			//System.out.println(choco+"  accepte");
 			return contrat.getPrix(); 
 		}
 		

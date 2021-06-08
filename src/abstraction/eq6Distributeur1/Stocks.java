@@ -99,11 +99,11 @@ public class Stocks extends Distributeur1Acteur{
 		for(ChocolatDeMarque choco : stock.keySet()) {
 			if(choco.getCategorie()==Categorie.TABLETTE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 3.0));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 5.0));
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.5));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
 				}else if (choco.getGamme()==Gamme.BASSE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.0));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 4.0));
 				}
 				if(choco.isEquitable()) {
 					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.2));
@@ -115,11 +115,21 @@ public class Stocks extends Distributeur1Acteur{
 			}
 			if(choco.getCategorie()==Categorie.POUDRE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.5));
+					if(choco.getMarque().toString()=="Eticao") {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 5.5));
+					}
+					else {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
+					}
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.0));
+					if(choco.getMarque().toString()=="Eticao") {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
+					}
+					else {
+						prix.put(choco, new Variable("prix "+choco.toString(),this, 4.0));
+					}
 				}else if (choco.getGamme()==Gamme.BASSE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.5));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 3.5));
 				}
 				if(choco.isEquitable()) {
 					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.2));
@@ -131,11 +141,11 @@ public class Stocks extends Distributeur1Acteur{
 			}
 			if(choco.getCategorie()==Categorie.CONFISERIE) {
 				if(choco.getGamme()==Gamme.HAUTE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.5));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 4.5));
 				} else if (choco.getGamme()==Gamme.MOYENNE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 2.0));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 4.0));
 				}else if (choco.getGamme()==Gamme.BASSE) {
-					prix.put(choco, new Variable("prix "+choco.toString(),this, 1.5));
+					prix.put(choco, new Variable("prix "+choco.toString(),this, 3.5));
 				}
 				if(choco.isEquitable()) {
 					prix.put(choco, new Variable("prix "+choco.toString(),this,prix.get(choco).getValeur()*1.2));
