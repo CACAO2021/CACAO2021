@@ -32,9 +32,6 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	}
 	
 	public boolean peutVendre(Object produit) {
-		/*if (produit == Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE || produit == Chocolat.TABLETTE_MOYENNE || produit == Chocolat.CONFISERIE_MOYENNE) {
-			return true; }
-		else { return false; }*/
 		if (this.getChocolatsProduits().contains(produit)) {
 			return true;
 		} else {
@@ -96,11 +93,11 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	@Override
 	public double propositionPrix(ExemplaireContratCadre contrat) {
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE)) {
-			return this.prix_tablette_equi.getValeur()*contrat.getQuantiteTotale();	}
+			return this.prix_tablette_equi.getValeur();	}
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE)) {
-			return this.prix_tablette.getValeur()*contrat.getQuantiteTotale(); }
+			return this.prix_tablette.getValeur(); }
 		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE)) {
-			return this.prix_confiserie.getValeur()*contrat.getQuantiteTotale(); }
+			return this.prix_confiserie.getValeur(); }
 		else { return -1; }
 		
 	}
@@ -109,27 +106,33 @@ public class Transformateur3VenteContratCadre extends Transformateur3Fabricant i
 	public double contrePropositionPrixVendeur(ExemplaireContratCadre contrat) {
 		Double coeff = 0.9; //coefficient du prix en cas de TG
 		
-		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) && contrat.getTeteGondole() == false) {
-			if (contrat.getPrix() > this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale()) {
+		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) && contrat.getTeteGondole() == false && contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85>this.prix_min_tablette_equi.getValeur()) {
+			if (contrat.getPrix() > contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85) {
 				return contrat.getPrix();}
-			else { return this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale(); } }
+			else {
+				return contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85; } } //Retourne 85% de la valeur du dernier prix proposé par notre acteur
 		
-		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) && contrat.getTeteGondole() == true) {
-			if (contrat.getPrix() > coeff*this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale()) {
+		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_HAUTE_BIO_EQUITABLE) && contrat.getTeteGondole() == true && contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85>0.9*this.prix_min_confiserie.getValeur()) {
+			if (contrat.getPrix() > coeff*contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85) {
 				return contrat.getPrix();}
-			else { return coeff*this.prix_min_vente_EQ.getValeur()*contrat.getQuantiteTotale(); } }
+			else { return coeff*contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85; } }
 		
-		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE)) {
-			if (contrat.getPrix()>this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale()) {
+		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.TABLETTE_MOYENNE) && contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85>this.prix_min_tablette.getValeur()) {
+			if (contrat.getPrix()> contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85) {
 				return contrat.getPrix(); }
-			else { return this.prix_min_vente_MG.getValeur()*contrat.getQuantiteTotale();} }
+			else {
+				return contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85; }
+		}
 			
-		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE)) {
-			if (contrat.getPrix()>this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale()) {
+		if (((ChocolatDeMarque)contrat.getProduit()).getChocolat().equals(Chocolat.CONFISERIE_MOYENNE) && contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85>this.prix_min_confiserie.getValeur()) {
+			if (contrat.getPrix()> contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85) {
 				return contrat.getPrix(); }
-		    else { return this.prix_min_vente_confiserie.getValeur()*contrat.getQuantiteTotale(); } }
+		    else {
+		    	return contrat.getListePrix().get(contrat.getListePrix().size()-2)*0.85; }
+		}
+	
 		
-		else { return -1;} 
+		else { return -1;}
 	}
 
 	@Override

@@ -21,7 +21,7 @@ import abstraction.fourni.Variable;
 
 
 
-// Jonathan
+// Jonathan (À part méthode ou il y a un autre prénom)
 public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre implements IAcheteurContratCadreNotifie {
 
 	
@@ -99,6 +99,8 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 			this.getStock().getFinancier().setMesContratEnTantQueAcheteur(contrat);
 
 			this.getStock().getFinancier().miseAJourAchat(contrat);
+			this.nbContratAchat +=1;
+			this.ECHEANCIERMOYACHAT += contrat.getEcheancier().getNbEcheances()/this.nbContratAchat;
 			 
 			
 		} else if (contrat.getVendeur().getNom() == "Eticao") {
@@ -116,9 +118,20 @@ public class AcheteurFevesContratCadre extends VendeurProduitsContratCadre imple
 				this.SUBVENTION += argentPourLesAsso;
 			}
 			this.BENEFICE += contrat.getPrix()*contrat.getQuantiteTotale();
+			this.nbContratVente += 1;
+			this.ECHEANCIERMOYVENTE += contrat.getEcheancier().getNbEcheances()/this.nbContratVente;
 			
 			Filiere.LA_FILIERE.getBanque().virer(this, this.cryptogramme, Filiere.LA_FILIERE.getBanque(), argentPourLesAsso);
 			this.journalTresorie.ajouter(Color.GREEN, Color.BLACK, "Virement à la banque pour les associations d'un montant de " + String.valueOf(argentPourLesAsso));
+			
+			
+			if (chocolat.isBio()) {
+				this.quantiteBio += contrat.getQuantiteTotale();
+			} else if ( chocolat.isEquitable()){
+				this.quantiteEquitable += contrat.getQuantiteTotale();
+			} else {
+				this.quantiteClassique += contrat.getQuantiteTotale();
+			}
 		}
 	}
 }

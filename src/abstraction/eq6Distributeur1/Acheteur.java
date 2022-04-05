@@ -22,10 +22,12 @@ import abstraction.fourni.Journal;
 public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	protected SuperviseurVentesContratCadre superviseur;
-	protected int i;
-	protected int j;
+	protected double i;
+	protected double j;
 	protected Map<ChocolatDeMarque, Double> listeTG;
 	private Journal journalAchats;
+	private ChocolatDeMarque chocoprecquant;
+	private ChocolatDeMarque chocoprecprix;
 
 	//Elsa
 
@@ -90,10 +92,14 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	@Override
 	public Echeancier contrePropositionDeLAcheteur(ExemplaireContratCadre contrat) {
+		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+		if (this.chocoprecquant!=choco) {
+			i=0;
+		}
+		this.chocoprecquant=choco;
 		i++;
 		Echeancier e = contrat.getEcheancier();
-		
-		double maxQuantite = maxQuantite((ChocolatDeMarque) contrat.getProduit());
+		double maxQuantite = maxQuantite(choco);
 		
 		
 		if (e.getQuantiteTotale()>maxQuantite) {
@@ -105,8 +111,9 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 				e.set(e.getStepDebut(), ((SuperviseurVentesContratCadre)Filiere.LA_FILIERE.getActeur("Sup.CCadre")).QUANTITE_MIN_ECHEANCIER);
 			}
 		}
-		else if(e.getQuantiteTotale()>superviseur.QUANTITE_MIN_ECHEANCIER){
+		else if(e.getQuantiteTotale()>=superviseur.QUANTITE_MIN_ECHEANCIER){
 			
+			//marché conclu
 			e.set(e.getStepDebut(), e.getQuantite(e.getStepFin()));
 		}
 		else {
@@ -122,26 +129,33 @@ public class Acheteur extends Vendeur implements IAcheteurContratCadreNotifie {
 
 	/**
 	 * Permet de négocier le prix d’achat des produits avec les transformateurs. 
-	 * Nous allons fixer un prix maximal d’achat qui est de 75% de notre prix de vente. 
+	 * Nous allons fixer un prix maximal d’achat qui est de 80% de notre prix de vente. 
 	 * Si le produit est en tête de gondole, nous allons chercher à l’acheter à 70% de notre prix de vente (car plus attractif). 
 	 * Ensuite à chaque tour de négociation nous allons augmenter le prix jusqu’à obtenir une entente avec le transformateur ou arrêter si il dépasse notre prix maximal.
 	 */
 
 	@Override
 	public double contrePropositionPrixAcheteur(ExemplaireContratCadre contrat) {
-		i=0;
-		double maxPrix= this.prix.get((ChocolatDeMarque)contrat.getProduit()).getValeur()*0.75;
+		ChocolatDeMarque choco = (ChocolatDeMarque)contrat.getProduit();
+		if (this.chocoprecprix!=choco) {
+			j=0;
+		}
+		this.chocoprecprix=choco;
+		double maxPrix= this.prix.get(choco).getValeur()*0.80;
+		
 		if (contrat.getTeteGondole()) {
 			maxPrix=0.9*maxPrix;
 		}
+		
 
 		if (contrat.getPrix()>maxPrix || contrat.getPrix()==0) {
 			j++;
-			
-			return maxPrix*(0.85+j/100);}
+			return maxPrix*(0.85+(j/100));
+			}
 		else {
 			return contrat.getPrix(); 
 		}
+		
 	}
 
 

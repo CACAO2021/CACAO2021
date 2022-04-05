@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-// Paul GIRAUD
+// Paul GIRAUD (À part méthode ou il y a un autre prénom)
 
 public class Stock {
 	
@@ -36,7 +36,7 @@ public class Stock {
 	private double COUT_TRANSFORMATION = 500; // 500€ pour 1000kg
 	private double COEFFICIENT_COUT_BIO = 1.15;
 	private double RAPPORT_TRANSFORMATION = 2.5;  // 0,04kg de fèves pour 0,1 kg de chocolat
-	private double STOCK_INI = 4000000;
+	private double STOCK_INI = 5000000;
 	private Transformateur1Acteur acteur;
 	
 	
@@ -81,7 +81,7 @@ public class Stock {
 	}
 	
 	public void initialiserLeStock() {
-		/*this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
+		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.CONFISERIE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.CONFISERIE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
@@ -95,11 +95,8 @@ public class Stock {
 		this.setStockChocolat(Chocolat.POUDRE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
 		this.setStockChocolat(Chocolat.TABLETTE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5), new Variable(this.getActeur().getNom(), this.getActeur(),0));
-		this.setStockFeve(Feve.FEVE_BASSE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5));*/
-		this.setStockFeve(Feve.FEVE_HAUTE_BIO_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5));
-		this.setStockFeve(Feve.FEVE_HAUTE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5));
-		this.setStockFeve(Feve.FEVE_MOYENNE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5));
-		this.setStockFeve(Feve.FEVE_MOYENNE_EQUITABLE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5));
+		this.setStockFeve(Feve.FEVE_BASSE, new Variable(this.getActeur().getNom(), this.getActeur(), STOCK_INI), new Variable(this.getActeur().getNom(), this.getActeur(),5));
+
 	}
 	
 	public Business getFinancier() {
@@ -254,6 +251,8 @@ public class Stock {
 		}
 	}
 	
+	
+	//Chloe
 	public void setStockChocolat(Chocolat chocolat, Variable quantite, Variable prix, Variable date) {
 		ArrayList<Variable> quantiteprixdate = new ArrayList<>();
 		if (quantite.getValeur()+this.getStockChocolats(chocolat) >= 0) {
@@ -472,45 +471,6 @@ public class Stock {
 		return chocolats;
 	}
 	
-	public Map<ChocolatDeMarque, Double> proportionDeTransformationMarque(int step) {
-		
-		Map<ChocolatDeMarque, Double> proportion = new HashMap<ChocolatDeMarque, Double>();
-		double totalventemoyenneequitable = 0.0;
-		double totalventehauteequitable = 0.0;
-		double totalventebio = 0.0;
-		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
-			if (chocolat.isBio() == true) {
-				totalventebio += Filiere.LA_FILIERE.getVentes(chocolat, step);
-			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.HAUTE) {
-				totalventehauteequitable += Filiere.LA_FILIERE.getVentes(chocolat, step);
-			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.MOYENNE) {
-				totalventemoyenneequitable += Filiere.LA_FILIERE.getVentes(chocolat, step);
-			}
-		}
-		for (ChocolatDeMarque chocolat : this.getChocolatsProduits()) {
-			if (chocolat.isBio() == true) {
-				if (totalventebio != 0) {
-					proportion.put(chocolat, Filiere.LA_FILIERE.getVentes(chocolat, step)/totalventebio);	
-				} else {
-					proportion.put(chocolat, 0.0);
-				}
-			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.HAUTE) {
-				if (totalventebio != 0) {
-					proportion.put(chocolat, Filiere.LA_FILIERE.getVentes(chocolat, step)/totalventehauteequitable);
-				} else {
-					proportion.put(chocolat, 0.0);
-				}
-			} else if (chocolat.isEquitable() == true && chocolat.getGamme() == Gamme.MOYENNE) {
-				if (totalventebio != 0) {
-					proportion.put(chocolat, Filiere.LA_FILIERE.getVentes(chocolat, step)/totalventemoyenneequitable);
-				} else {
-					proportion.put(chocolat, 0.0);
-				}
-			}
-		}
-		return proportion;
-	}
-
 	
 	public void transformationFeveChocolat() {
 		
@@ -549,6 +509,9 @@ public class Stock {
 			}
 		}
 	}
+	
+	
+	//Chloe
 	// gestion des proportions de transformation pour chaque categorie
 	public double proportionNecessaire(Categorie categorie) {
 		double quantiteTotale = 0.0;
